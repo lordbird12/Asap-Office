@@ -2,58 +2,81 @@
 <fuse-loading-bar></fuse-loading-bar>
 
 <!-- Navigation -->
-<fuse-vertical-navigation class="dark print:hidden items-center justify-center" style="justify-content:center !important;" [mode]="isScreenSmall ? 'over' : 'side'" [name]="'mainNavigation'" [navigation]="navigation.default" [opened]="!isScreenSmall">
+<fuse-vertical-navigation class="dark bg-gray-900 print:hidden" [mode]="isScreenSmall ? 'over' : 'side'" [name]="'mainNavigation'" [navigation]="navigation.default" [opened]="!isScreenSmall">
     <!-- Navigation header hook -->
-    <ng-container fuseVerticalNavigationContentHeader style="justify-content: center;">
-        <!-- Logo -->
-        <div class="flex items-center p-6 pb-0 " style="justify-content: center;">
-            <!-- Light version -->
-            <img class="dark:hidden w-50 h-40 pt-10" style="justify-content: center;" src="assets/images/logo/logo.png" alt="Logo image">
-            <!-- Dark version -->
-            <a href="/dashboards/project">
-                <img class="hidden dark:flex w-50 h-30 pt-5 pb-5 cursor-pointer" src="assets/images/logo/logo-laong.png" alt="Logo image">
-            </a>
-
+    <ng-container fuseVerticalNavigationContentHeader>
+        <div class="flex items-center w-full p-4 pl-6">
+            <!-- Logo -->
+            <div class="flex items-center justify-center">
+                <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
+                    <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
+                </button>
+            </div>
+            <!-- Components -->
+            <div class="flex items-center mr-auto p-5">
+                <img class="w-full h-full object-cover" src="assets/images/logo/asap logo.png">
+            </div>
+        </div>
+        <!-- User -->
+        <div class=" flex flex-col items-center w-full p-4 ">
+            <div class="flex flex-auto items-center min-w-0 ">
+                <div class="flex-0 w-16 h-16 rounded-full overflow-hidden ">
+                    <img class="w-full h-full object-cover " src="assets/images/avatars/brian-hughes.jpg ">
+                </div>
+                <div class="flex flex-col min-w-0 ml-4 ">
+                    <ng-container>
+                        <div class="text-2xl md:text-3xl font-semibold tracking-tight leading-7 md:leading-snug truncate ">
+                            John Doe</div>
+                    </ng-container>
+                    <div class="flex items-center ">
+                        <div class="ml-1.5 leading-6 truncate text-secondary ">admin@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <!-- Navigation footer hook -->
+    <ng-container fuseVerticalNavigationContentFooter>
+        <div class="flex flex-0 items-center justify-center h-16 pr-6 pl-2 mt-2 mb-4 opacity-12 ">
+            <img class="max-w-36 " src="assets/images/logo/logo-text-on-dark.svg ">
         </div>
     </ng-container>
 </fuse-vertical-navigation>
 
+
 <!-- Wrapper -->
-<div class="flex flex-col flex-auto w-full min-w-0">
+<div class="flex flex-col flex-auto w-full min-w-0 ">
 
     <!-- Header -->
-    <div class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden">
+    <div class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden ">
         <!-- Navigation toggle button -->
-        <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
-            <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
+        <button mat-icon-button (click)="toggleNavigation( 'mainNavigation') ">
+            <mat-icon [svgIcon]=" 'heroicons_outline:bars-3' "></mat-icon>
         </button>
         <!-- Components -->
-        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
+        <!-- <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2 ">
             <languages></languages>
-            <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
-            <search [appearance]="'bar'"></search>
+            <fuse-fullscreen class="hidden md:block "></fuse-fullscreen>
+            <search [appearance]=" 'bar' "></search>
             <shortcuts></shortcuts>
             <messages></messages>
             <notifications></notifications>
-            <button class="lg:hidden" mat-icon-button (click)="quickChat.toggle()">
-                <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
+            <button class="lg:hidden " mat-icon-button (click)="quickChat.toggle() ">
+                <mat-icon [svgIcon]=" 'heroicons_outline:chat-bubble-left-right' "></mat-icon>
             </button>
             <user>
-                <mat-icon [svgIcon]="'heroicons_outline:chat-bubble-left-right'"></mat-icon>
+                <mat-icon [svgIcon]=" 'heroicons_outline:chat-bubble-left-right' "></mat-icon>
             </user>
-        </div>
+        </div> -->
     </div>
 
     <!-- Content -->
-    <div class="flex flex-col flex-auto">
-        <router-outlet *ngIf="true"></router-outlet>
+    <div class="flex flex-col flex-auto ">
+        <router-outlet *ngIf="true "></router-outlet>
     </div>
 
     <!-- Footer -->
-    <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
+    <div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden ">
+        <span class="font-medium text-secondary ">Fuse &copy; {{currentYear}}</span>
     </div>
 </div>
-
-<!-- Quick chat -->
-<quick-chat #quickChat="quickChat"></quick-chat>
