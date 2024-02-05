@@ -4,33 +4,38 @@
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between items-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-2xl md:text-2xl font-light tracking-tight leading-7 sm:leading-10 truncate">
                     ศูนย์บริการ
                 </h2>
-            
+
                 <div class="flex">
-                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
+                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                        style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
                         <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
                             <mat-icon>description</mat-icon>
                             &nbsp;
                             อัปโหลด CSV
                         </button>
                     </div>
-            
-                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate ml-3">
+
+                    <div
+                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate ml-3">
                         <button class="px-6" mat-flat-button [color]="'primary'" (click)="addElement()">
                             <mat-icon>add_circle_outline</mat-icon>
-                            &nbsp;
-                            เพิ่มศูนย์บริการ
+                            <div class="font-light">
+                                เพิ่มศูนย์บริการ
+                            </div>
                         </button>
+
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 
@@ -79,7 +84,7 @@
                             </button>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <td>Toyota Bangkok สาขาเจริญราษฎร์</td>
                         <td>02-322-1111</td>
@@ -91,7 +96,7 @@
                         </td>
                     </tr>
                 </tbody>
-                
+
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>
                         <td colspan="15" class="no-data-available text-center">ไม่มีข้อมูล !</td>
