@@ -111,7 +111,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         // this._router.navigate(['admin/employee/form']);
         const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '1000px',
-            height: '600px', // กำหนดความกว้างของ Dialog
+            height: '850px', // กำหนดความกว้างของ Dialog
         });
 
         dialogRef.afterClosed().subscribe((result) => {
