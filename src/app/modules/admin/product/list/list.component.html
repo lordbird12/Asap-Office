@@ -40,56 +40,58 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="w-[100px]">จัดการ</th>
-                        <th class="w-[10px]">ลำดับ</th>
-                        <th>สาขา</th>
-                        <th>ยี่ห้อ</th>
-                        <th>รุ่น</th>
                         <th>ชื่อ</th>
-                        <th>เลขถัง</th>
-                        <th>เลขเครือง</th>
-                        <th>สี</th>
-                        <th>ซีซี</th>
-                        <th>ประเภท</th>
-                        <th>สถานะ</th>
-                        <th>รูป</th>
-                        <th>สร้างโดย</th>
-                        <th>วันที่สร้าง</th>
+                        <th>เบอร์ติดต่อ</th>
+                        <th>ที่อยู่</th>
+                        <th class="w-[100px]"> </th>
                     </tr>
                 </thead>
-                <tbody *ngIf="dataRow?.length != 0">
+                <!-- <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
+                        <td> TOYOTA วรจักร์ยนต์ </td>
+                        <td> 5</td>
+                        <td>5 </td>
                         <td>
                             <button mat-icon-button color="accent" (click)="editElement(item.id)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button color="accent" (click)="viewElement(item.id)">
-                                <mat-icon svgIcon="heroicons_solid:eye"></mat-icon>
-                            </button>
-                            <button mat-icon-button color="accent" (click)="deleteElement(item)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
                         </td>
-                        <td>{{ pages.begin + (i + 1) }}</td>
-                        <td>{{ item.area ? item.area.name : "-" }}</td>
-                        <td>{{ item.brand ? item.brand.name : "-" }}</td>
-                        <td>{{ item.brand_model ? item.brand_model.name : "-" }}</td>
-                        <td>{{ item.name ? item.name : "-" }}</td>
-                        <td>{{ item.tank_no ? item.tank_no : "-" }}</td>
-                        <td>{{ item.engine_no ? item.engine_no : "-" }}</td>
-                        <td>{{ item.color ? item.color.name : "-" }}</td>
-                        <td>{{ item.cc ? item.cc.name : "-" }}</td>
-                        <td>{{ item.type ? item.type : "-" }}</td>
-                        <td>{{ item.status ? item.status : "-" }}</td>
+                    </tr>
+                </tbody> -->
+                <tbody *ngIf="dataRow && dataRow.length > 0">
+                    <tr>
+                        <td>TOYOTA วรจักร์ยนต์</td>
+                        <td>02-123-2112</td>
+                        <td>48 ถนน เจริญราษฎร์ แขวงบางโคล่ เขตบางคอแหลม กรุงเทพมหานคร...</td>
                         <td>
-                            <button mat-button (click)="showPicture(item.image)">
-                                <mat-icon>image</mat-icon>
+                            <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
+                                <mat-icon>edit</mat-icon>
                             </button>
                         </td>
-                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
-                        <td>{{ item.created_at !== null ? item.created_at: "-"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Toyota Bangkok สาขาเจริญราษฎร์</td>
+                        <td>02-322-1111</td>
+                        <td>48 ถนน เจริญราษฎร์ แขวงบางโคล่ เขตบางคอแหลม กรุงเทพมหานคร...</td>
+                        <td>
+                            <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Toyota Bangkok สาขาเจริญราษฎร์</td>
+                        <td>02-322-1111</td>
+                        <td>48 ถนน เจริญราษฎร์ แขวงบางโคล่ เขตบางคอแหลม กรุงเทพมหานคร...</td>
+                        <td>
+                            <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
+                
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>
                         <td colspan="15" class="no-data-available text-center">ไม่มีข้อมูล !</td>
