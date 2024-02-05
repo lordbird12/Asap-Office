@@ -149,15 +149,15 @@ export class ListComponent implements OnInit, AfterViewInit {
                         this._changeDetectorRef.markForCheck();
                     });
             },
-            columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
-                { data: 'create_by' },
-                { data: 'created_at' },
-            ],
+            // columns: [
+            //     { data: 'action', orderable: false },
+            //     { data: 'No' },
+            //     { data: 'name' },
+            //     { data: 'email' },
+            //     { data: 'tel' },
+            //     { data: 'create_by' },
+            //     { data: 'created_at' },
+            // ],
         };
     }
 
