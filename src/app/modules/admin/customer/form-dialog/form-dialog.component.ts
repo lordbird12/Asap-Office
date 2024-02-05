@@ -6,7 +6,11 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogRef,
+} from '@angular/material/dialog';
 import {
     FormBuilder,
     FormGroup,
@@ -30,6 +34,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { SelectCarComponent } from '../select-car/select-car.component';
 
 @Component({
     selector: 'app-select-car',
@@ -67,6 +72,7 @@ export class FormDialogComponent implements OnInit {
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
+        private dialog: MatDialog,
         private dialogRef: MatDialogRef<FormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
@@ -183,7 +189,19 @@ export class FormDialogComponent implements OnInit {
 
         // แสดง Snackbar ข้อความ "complete"
     }
+    Selectcar() {
+        // this._router.navigate(['admin/employee/form']);
+        const dialogRef = this.dialog.open(SelectCarComponent, {
+            width: '600px',
+            height: '800px', // กำหนดความกว้างของ Dialog
+        });
 
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                //    console.log(result,'result')
+            }
+        });
+    }
     onCancelClick(): void {
         this.dialogRef.close();
     }

@@ -1,0 +1,63 @@
+<div
+    class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-1 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent w-auto min-w-200 max-h-screen">
+    <div class="flex-1 min-w-0">
+        <!-- Title -->
+        <div class="mt-2">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                เลือกรถ
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="flex-auto p-3 sm:p-2">
+    <form [formGroup]="addForm">
+        <div class="flex-wrap">
+            <div class="w-full">
+                <div class="flex p-5">
+                    <mat-form-field class="w-full">
+                        <input matInput [formControlName]="'filter'" placeholder="ค้นหาชื่อรุ่นรถ หรือ ทะเบียนรถ">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead
+                                    class="text-lg text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
+                                    <tr>
+                                        <th scope="col" class="py-3 px-6">
+
+                                        </th>
+                                        <th scope="col" class="py-3 px-6">
+                                            รูป
+                                        </th>
+                                        <th scope="col" class="py-3 px-6 text-left">
+                                            Honda Accord
+                                            <br>
+                                            <div class="font-light"> กท-5342 กรุงเทพมหานคร</div>
+
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    &nbsp;
+                </div>
+                <button class="px-6 ml-3 font-light " mat-flat-button [color]="'primary'">
+
+                    <div class="font-light">
+                        ตกลง
+                    </div>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

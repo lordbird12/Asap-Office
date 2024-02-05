@@ -33,8 +33,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @Component({
     selector: 'app-select-car',
-    templateUrl: './form-dialog.component.html',
-    styleUrls: ['./form-dialog.component.scss'],
+    templateUrl: './select-car.component.html',
+    styleUrls: ['./select-car.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -58,7 +58,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         NgxDropzoneModule,
     ],
 })
-export class FormDialogComponent implements OnInit {
+export class SelectCarComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     isLoading: boolean = false;
@@ -67,7 +67,7 @@ export class FormDialogComponent implements OnInit {
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
-        private dialogRef: MatDialogRef<FormDialogComponent>,
+        private dialogRef: MatDialogRef<SelectCarComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
         private _service: PageService,

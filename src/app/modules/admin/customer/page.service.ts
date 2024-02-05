@@ -72,10 +72,18 @@ export class PageService {
             { headers: this.httpOptionsFormdata.headers }
         );
     }
-
+    getDepartment(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_department')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     getPosition(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/positions')
+            .get<any>(environment.baseURL + '/api/get_position')
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -105,7 +113,7 @@ export class PageService {
     getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
         return this._httpClient
             .post(
-                environment.baseURL + '/api/client_page',
+                environment.baseURL + '/api/user_page',
                 dataTablesParameters,
                 this.httpOptionsFormdata
             )

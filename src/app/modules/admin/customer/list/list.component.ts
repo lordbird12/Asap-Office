@@ -1,9 +1,21 @@
-
-
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FormControl,
+    FormsModule,
+    ReactiveFormsModule,
+    UntypedFormBuilder,
+    Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -15,15 +27,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
+import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
-import { FuseConfirmationService } from '@fuse/services/confirmation';
-
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 @Component({
-    selector: 'list',
+    selector: 'car-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -33,6 +48,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
         FormsModule,
         MatFormFieldModule,
         NgClass,
+        MatTabsModule,
         MatInputModule,
         TextFieldModule,
         ReactiveFormsModule,
@@ -47,47 +63,82 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
         DataTablesModule,
     ],
 })
-
 export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
-    dataRow: any[] = [];
+    selectedTabLabel: string;
+    public dataRow: any[];
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router,
-        private _fuseConfirmationService: FuseConfirmationService,
-    ) {
-
-    }
+        private _router: Router
+    ) {}
 
     ngOnInit() {
         this.loadTable();
+        // this._service.getPosition().subscribe((resp: any)=>{
+        //     this.positions = resp.data
+        // })
     }
 
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
 
+    // เพิ่มเมธอด editElement(element) และ deleteElement(element)
+    editElement(element: any) {
+        const dialogRef = this.dialog.open(EditDialogComponent, {
+            width: '400px', // กำหนดความกว้างของ Dialog
+            data: {
+                data: element,
+                position: this.positions,
+            }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                // เมื่อ Dialog ถูกปิด ดำเนินการตามผลลัพธ์ที่คุณได้รับจาก Dialog
+            }
+        });
+    }
+    onTabChange(event: MatTabChangeEvent): void {
+        this.selectedTabLabel = event.tab.textLabel;
+    }
+    addElement() {
+        // this._router.navigate(['admin/employee/form']);
+        const dialogRef = this.dialog.open(FormDialogComponent, {
+            width: '1000px',
+            height: '850px', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                //    console.log(result,'result')
+            }
+        });
+    }
+
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
         const that = this;
         this.dtOptions = {
-            pagingType: "full_numbers",
+            pagingType: 'full_numbers',
             pageLength: 25,
             serverSide: true,
             processing: true,
             language: {
-                url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json",
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
-                that._service.getPage(dataTablesParameters).subscribe((resp: any) => {
-                    this.dataRow = resp.data;
-                    this.pages.current_page = resp.current_page;
+                that._service
+                    .getPage(dataTablesParameters)
+                    .subscribe((resp: any) => {
+                        this.dataRow = resp.data;
+                        this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
                         if (resp.current_page > 1) {
@@ -103,58 +154,23 @@ export class ListComponent implements OnInit, AfterViewInit {
                             data: [],
                         });
                         this._changeDetectorRef.markForCheck();
-                });
+                    });
             },
             columns: [
                 { data: 'action', orderable: false },
                 { data: 'No' },
                 { data: 'name' },
-                { data: 'create_by' },
-                { data: 'created_at' },
-
+                { data: 'email' },
+                { data: 'tel' },
             ],
         };
     }
 
-    deleteElement(): void {
-        const dialogRef = this._fuseConfirmationService.open({
-            "title": "ลบข้อมูล",
-            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
-            "icon": {
-                "show": true,
-                "name": "heroicons_outline:exclamation-triangle",
-                "color": "warn"
-            },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ตกลง",
-                    "color": "warn"
-                },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
-            },
-            "dismissible": true
-        });
-        // Subscribe to afterClosed from the dialog reference
-        dialogRef.afterClosed().subscribe((result) => {
-            if(result === 'confirmed') {
-                console.log('delete complete')
-            } else {
-                console.log('cancel');
+    deleteElement() {
+        // เขียนโค้ดสำหรับการลบออกองคุณ
+    }
 
-            }
-        });
-
-    }
-    addElement() {
-        this._router.navigate(['/admin/customer/form'])
-    }
-    editElement(data: any) {
-        this._router.navigate(['/admin/customer/edit/' + data.id])
-    }
+    // handlePageEvent(event) {
+    //     this.loadData(event.pageIndex + 1, event.pageSize);
+    // }
 }
-
-
