@@ -13,14 +13,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'admin.comp',
                 title: 'พนักงาน',
                 type: 'basic',
-                icon: 'heroicons_outline:list-bullet',
+                icon: 'heroicons_outline:user-group',
                 link: '/admin/employee/list',
             },
             {
                 id: 'admin.department',
                 title: 'ศูนย์บริการ',
                 type: 'basic',
-                icon: 'heroicons_outline:list-bullet',
+                icon: 'heroicons_outline:building-storefront',
                 link: '#',
             },
             {
@@ -34,8 +34,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'admin.employee',
                 title: 'บัญชีลูกค้า',
                 type: 'basic',
-                icon: 'heroicons_outline:list-bullet',
-                link: '/admin/client/list',
+                icon: 'heroicons_outline:user-circle',
+                link: '/admin/customer/list',
             },
             {
                 id: 'admin.permission',

@@ -9,14 +9,17 @@
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    รายการพนักงาน
+                <h2 class="text-2xl md:text-2xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+                    จัดการรถ
                 </h2>
-                <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="addElement()">
-                        <mat-icon>person_add</mat-icon>
-                        &nbsp;
-                        เพิ่มพนักงาน
+                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+                    <button class="px-6 ml-3 font-light " mat-flat-button [color]="'primary'" (click)="addElement()">
+
+                        <mat-icon>add_circle_outline</mat-icon>
+
+                        <div class="font-light">
+                            เพิ่มรถ
+                        </div>
                     </button>
                 </div>
             </div>
@@ -29,31 +32,29 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="w-[100px]">จัดการ</th>
-                        <th class="w-[10px]">ลำดับ</th>
-                        <th>ชื่อ - นามสกุล</th>
-                        <th>อีเมล</th>
-                        <th>เบอร์ติดต่อ</th>
-                        <th>สร้างโดย</th>
-                        <th>วันที่สร้าง</th>
+                        <th class="font-light">รุ่นรถยนต์</th>
+                        <th class="font-light">ป้ายทะเบียน</th>
+                        <th class="font-light">สถานะ</th>
+                        <th class="font-light ">บริษัทลูกค้า/เบอร์โทรติดต่อ</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
+                        <td class="font-light">Honda Accord</td>
+                        <td class="font-light">1กย 3468</td>
                         <td>
-                            <button mat-icon-button color="accent" (click)="editElement(item)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                            <button mat-icon-button color="accent" (click)="deleteElement(item)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
+                            <div
+                                class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                เปิดใช้งาน
+                            </div>
                         </td>
-                        <td>{{ pages.begin + (i + 1) }}</td>
-                        <td>{{ item?.name }}</td>
-                        <td>{{ item?.email }}</td>
-                        <td>{{ item?.tel ? item.tel : "-" }}</td>
-                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
-                        <td>{{ item.created_at !== null ? (item.created_at | date : "dd-MM-yy, HH:mm"): "-"}}</td>
+                        <td class="font-light">Grab<br>096-031-4565</td>
+                        <td> <button mat-icon-button>
+                                <mat-icon>border_color</mat-icon>
+                            </button>
+
+                        </td>
                     </tr>
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">
