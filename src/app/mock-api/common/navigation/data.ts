@@ -28,7 +28,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'รถ',
                 type: 'basic',
                 icon: 'heroicons_outline:list-bullet',
-                link: '#',
+                link: '/admin/car/list',
             },
             {
                 id: 'admin.employee',
