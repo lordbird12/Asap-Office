@@ -6,7 +6,11 @@ import {
     OnInit,
     ViewEncapsulation,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogRef,
+} from '@angular/material/dialog';
 import {
     FormBuilder,
     FormGroup,
@@ -30,11 +34,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { Router } from '@angular/router';
+import { SelectCarComponent } from '../select-car/select-car.component';
 
 @Component({
-    selector: 'form-employee',
-    templateUrl: './form.component.html',
+    selector: 'app-select-car',
+    templateUrl: './form-dialog.component.html',
+    styleUrls: ['./form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -58,132 +63,65 @@ import { Router } from '@angular/router';
         NgxDropzoneModule,
     ],
 })
-export class FormComponent implements OnInit {
-    /**
-     * Constructor
-     */
+export class FormDialogComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
-    addForm2: FormGroup;
     isLoading: boolean = false;
     positions: any[];
-    departments: any[];
     permissions: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
+        private dialog: MatDialog,
+        private dialogRef: MatDialogRef<FormDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this._service.getPermission().subscribe((resp: any) => {
             this.permissions = resp.data;
         });
-
-        this._service.getDepartment().subscribe((resp: any) => {
-            this.departments = resp.data;
-        });
-
-        this._service.getPosition().subscribe((resp: any) => {
-            this.positions = resp.data;
-        });
-    }
-    ngOnInit(): void {
         this.addForm = this.formBuilder.group({
-            permission_id: [],
-            department_id: [],
-            position_id: [],
-            username: [],
-            password: [],
-            name: [],
-            email: [],
-            phone: null,
-            image: null,
-            user_no: [],
-            ot: [],
-        });
-
-        this.addForm2 = this.formBuilder.group({
-            permission_id: [],
-            department_id: [],
-            position_id: [],
-            username: [],
-            password: [],
-            name: [],
-            email: [],
-            phone: null,
-            image: null,
-            user_no: [],
-            ot: [],
+            brand_model_id: [null],
+            license: [null],
+            status: [null],
+            date: [null],
+            company: [null],
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Get the form field helpers as string
-     */
-    getFormFieldHelpersAsString(): string {
-        return this.formFieldHelpers.join(' ');
-    }
-
-    showFlashMessage(type: 'success' | 'error'): void {
-        // Show the message
-        this.flashMessage = type;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
-        setTimeout(() => {
-            this.flashMessage = null;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        }, 3000);
-    }
+    ngOnInit(): void {}
 
     onSaveClick(): void {
         this.flashMessage = null;
-        // if (this.addForm.value!) {
-        //     this.addForm.enable();
-        //     this._fuseConfirmationService.open({
-        //         title: 'กรุณาระบุข้อมูล',
-        //         message: 'กรุณาระบุข้อมูลให้ครบถ้วน',
-        //         icon: {
-        //             show: true,
-        //             name: 'heroicons_outline:exclamation',
-        //             color: 'warning',
-        //         },
-        //         actions: {
-        //             confirm: {
-        //                 show: false,
-        //                 label: 'ยืนยัน',
-        //                 color: 'primary',
-        //             },
-        //             cancel: {
-        //                 show: false,
-        //                 label: 'ยกเลิก',
-        //             },
-        //         },
-        //         dismissible: true,
-        //     });
+        if (this.addForm.value!) {
+            this.addForm.enable();
+            this._fuseConfirmationService.open({
+                title: 'กรุณาระบุข้อมูล',
+                message: 'กรุณาระบุข้อมูลให้ครบถ้วน',
+                icon: {
+                    show: true,
+                    name: 'heroicons_outline:exclamation',
+                    color: 'warning',
+                },
+                actions: {
+                    confirm: {
+                        show: false,
+                        label: 'ยืนยัน',
+                        color: 'primary',
+                    },
+                    cancel: {
+                        show: false,
+                        label: 'ยกเลิก',
+                    },
+                },
+                dismissible: true,
+            });
 
-        //     return;
-        // }
-
-        this.addForm.patchValue({
-            user_no: this.addForm2.value.user_no,
-            name: this.addForm2.value.name,
-            username: this.addForm2.value.username,
-            password: this.addForm2.value.password,
-            ot: this.addForm2.value.ot,
-        });
-
+            return;
+        }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูล',
@@ -219,9 +157,7 @@ export class FormComponent implements OnInit {
                 this._service.create(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-               
-                        this._router.navigate(['admin/employee/list'])
-
+                        this.dialogRef.close(resp);
                     },
                     error: (err: any) => {
                         this.addForm.enable();
@@ -252,6 +188,38 @@ export class FormComponent implements OnInit {
         });
 
         // แสดง Snackbar ข้อความ "complete"
+    }
+    Selectcar() {
+        // this._router.navigate(['admin/employee/form']);
+        const dialogRef = this.dialog.open(SelectCarComponent, {
+            width: '600px',
+            height: '800px', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                //    console.log(result,'result')
+            }
+        });
+    }
+    onCancelClick(): void {
+        this.dialogRef.close();
+    }
+
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
     }
 
     files: File[] = [];

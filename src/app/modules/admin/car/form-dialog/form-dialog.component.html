@@ -1,0 +1,99 @@
+<div class="md:max-w-lg mx-auto">
+    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-center">เพิ่มข้อมูลรถในระบบ</h1>
+    <div mat-dialog-content class="max-h-96 md:max-h-180">
+        <form [formGroup]="addForm">
+
+            <div class="flex flex-row">
+
+                <div class="flex flex-col mx-3 md:flex mb-4 w-full">
+                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">รายละเอียดรถ</h1>
+                    <div class="grid grid-rows-3 grid-flow-col gap-4 ">
+                        <div class="row-span-3 "> <ngx-dropzone (change)="onSelect($event)">
+                                <ngx-dropzone-label>อัปโหลดรูปรถ</ngx-dropzone-label>
+                                <div *ngFor="let f of files">
+                                    <ngx-dropzone-image-preview [file]="f" [removable]="true"
+                                        (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                </div>
+                            </ngx-dropzone>
+                            <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png, <br>
+                                สูงสุดไม่เกิน 3.1 MB</div>
+                        </div>
+
+                        <div class="md:w-full px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label class=" font-light">รุ่นรถยนต์</mat-label>
+                                <mat-select formControlName="brand_model_id">
+                                    <mat-option *ngFor="let item of this.permissions;" value="{{item.id}}">
+                                        {{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-full px-3">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label class=" font-light">ป้ายทะเบียนรถ</mat-label>
+                                <input matInput formControlName="license" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="md:w-full px-3 mb-6 md:mb-0">
+                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-label class=" font-light">จังหวัดตามป้ายทะเบียน</mat-label>
+                                <mat-select formControlName="brand_model_id">
+                                    <mat-option *ngFor="let item of this.permissions;" value="{{item.id}}">
+                                        {{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">สถานะการเช่ารถ</h1>
+            <div><mat-radio-group aria-label="Select an option" formControlName="status">
+                    <mat-radio-button value="1">
+                        <div class="font-light">ใช้งานอยู่</div>
+                    </mat-radio-button>
+                    <mat-radio-button value="2">
+                        <div class="font-light">ว่าง</div>
+                    </mat-radio-button>
+                </mat-radio-group></div>
+            <div *ngIf="this.addForm.value.status === '1'">
+                <div class="md:w-full px-3">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label class=" font-light">บริษัท</mat-label>
+                        <mat-select formControlName="company">
+                            <mat-option *ngFor="let item of this.permissions;" value="{{item.id}}">
+                                {{item.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="md:w-full px-3">
+                    <mat-label class=" font-light">วันหมดสัญญา</mat-label>
+                    <mat-form-field class="w-full">
+                        <input readonly [formControlName]="'date'" matInput placeholder="วันหมดสัญญา"
+                            [matDatepicker]="picker_start_date">
+                        <mat-datepicker-toggle matSuffix [for]="picker_start_date"></mat-datepicker-toggle>
+                        <mat-datepicker #picker_start_date></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions class="flex justify-end mt-4">
+        <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
+            <div class="font-light">
+                ยกเลิก
+            </div>
+        </button>
+        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+            <div class="font-light">
+                บันทึก
+            </div>
+        </button>
+
+    </div>
+</div>

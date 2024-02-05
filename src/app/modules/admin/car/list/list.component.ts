@@ -35,7 +35,6 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 @Component({
     selector: 'car-list',
@@ -48,7 +47,6 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
         FormsModule,
         MatFormFieldModule,
         NgClass,
-        MatTabsModule,
         MatInputModule,
         TextFieldModule,
         ReactiveFormsModule,
@@ -67,7 +65,6 @@ export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
-    selectedTabLabel: string;
     public dataRow: any[];
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
@@ -104,14 +101,11 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         });
     }
-    onTabChange(event: MatTabChangeEvent): void {
-        this.selectedTabLabel = event.tab.textLabel;
-    }
     addElement() {
         // this._router.navigate(['admin/employee/form']);
         const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '1000px',
-            height: '850px', // กำหนดความกว้างของ Dialog
+            height: '600px', // กำหนดความกว้างของ Dialog
         });
 
         dialogRef.afterClosed().subscribe((result) => {
