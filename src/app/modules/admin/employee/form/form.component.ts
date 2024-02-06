@@ -30,7 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'form-employee',
@@ -69,6 +69,8 @@ export class FormComponent implements OnInit {
     positions: any[];
     departments: any[];
     permissions: any[];
+    id: any;
+    item: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -76,7 +78,8 @@ export class FormComponent implements OnInit {
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router
+        private _router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
         // this._service.getPermission().subscribe((resp: any) => {
         //     this.permissions = resp.data;
@@ -92,6 +95,7 @@ export class FormComponent implements OnInit {
             phone: [''],
             password: 555555,
         });
+        this.id = +this.activatedRoute.snapshot.params.id;
     }
     ngOnInit(): void {
         this._service.getDepartment().subscribe((resp: any) => {
@@ -101,6 +105,31 @@ export class FormComponent implements OnInit {
         this._service.getPosition().subscribe((resp: any) => {
             this.positions = resp.data;
         });
+
+        this.activatedRoute.params.subscribe((params) => {
+            // console.log(params);
+            this.id = params.id;
+            this._service.getById(this.id).subscribe((resp: any) => {
+              this.item = resp;
+              console.log("getbyid", resp);
+              this.addForm.patchValue({
+                ...this.item,
+              });
+              // this.formGroup.value.plan_plan_budget_budgets = resp.plan_plan_budget_budgets;
+              // this.formGroup.value.user_approve = resp.plan_plan_budget_approves;
+      
+              //ความเสี่ยง
+            //   for (const item of resp.plan_plan_budget_approves) {
+            //     this.addapproves(item);
+            //   }
+              //ความเสี่ยง
+            //   for (const item of resp.plan_plan_budget_budgets) {
+            //     this.addbudgets(item);
+            //   }
+              // console.log("this.formGroup.value2", this.formGroup.value);
+              
+            });
+          });
     }
 
     // -----------------------------------------------------------------------------------------------------
