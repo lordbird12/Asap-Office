@@ -12,6 +12,7 @@ import {
     MatDialogRef,
 } from '@angular/material/dialog';
 import {
+    FormArray,
     FormBuilder,
     FormGroup,
     FormsModule,
@@ -37,7 +38,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { SelectCarComponent } from '../select-car/select-car.component';
 
 @Component({
-    selector: 'app-select-car',
+    selector: 'app-form-car',
     templateUrl: './form-dialog.component.html',
     styleUrls: ['./form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -66,13 +67,16 @@ import { SelectCarComponent } from '../select-car/select-car.component';
 export class FormDialogComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
+    newcar: FormGroup;
     isLoading: boolean = false;
     positions: any[];
     permissions: any[];
+    itemitem: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
         private dialog: MatDialog,
+        private _formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<FormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
@@ -93,9 +97,21 @@ export class FormDialogComponent implements OnInit {
             cars: this.formBuilder.array([]),
         });
     }
-
+    car(): FormArray {
+        return this.addForm.get('cars') as FormArray;
+    }
     ngOnInit(): void {}
 
+    NewCar(item): FormGroup {
+        console.log('itemsdmasdsads', item);
+
+        return (this.newcar = this.formBuilder.group({
+            car_id: [item.id],
+            name: [item.brand_model?.name],
+            license: [item.license],
+            province: [item.province.name],
+        }));
+    }
     onSaveClick(): void {
         this.flashMessage = null;
         if (this.addForm.value!) {
@@ -202,6 +218,38 @@ export class FormDialogComponent implements OnInit {
             if (result) {
                 console.log(result, 'result');
             }
+        });
+    }
+    openDialog() {
+        console.log();
+        let itemData = this.addForm.value.cars;
+        // console.log(this.depositsForm.value.deposit[i]);
+        const dialogRef = this.dialog.open(SelectCarComponent, {
+            width: '600px',
+            height: '800px',
+        });
+
+        // ปิด Dialog พร้อมรับค่า result
+        dialogRef.afterClosed().subscribe((item) => {
+            for (const items of item) {
+                this.car().push(this.NewCar(items));
+            }
+
+            // this.addForm.value.cars.push(this.NewCar(item));
+            // console.log('sdsdsds', item);
+            // itemData = {
+            //     car_id: item.id,
+            //     name: item.name,
+            //     license: item.license,
+            //     province: item.province,
+            // };
+
+            // if (item) {
+            //     this.addForm.controls.cars.patchValue(itemData);
+            // }
+
+            console.log('Data', this.addForm.value);
+            this._changeDetectorRef.markForCheck();
         });
     }
     onCancelClick(): void {

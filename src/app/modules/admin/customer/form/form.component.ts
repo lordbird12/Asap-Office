@@ -33,7 +33,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'form-employee',
+    selector: 'form-form-car',
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -219,9 +219,8 @@ export class FormComponent implements OnInit {
                 this._service.create(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-               
-                        this._router.navigate(['admin/employee/list'])
 
+                        this._router.navigate(['admin/employee/list']);
                     },
                     error: (err: any) => {
                         this.addForm.enable();

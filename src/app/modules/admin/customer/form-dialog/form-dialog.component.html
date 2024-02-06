@@ -62,7 +62,7 @@
                                 </h1>
                             </div>
                             <div class="md:w-full px-3 mt-3">
-                                <button class="px-6 ml-3 font-light " mat-flat-button (click)="Selectcar()"
+                                <button class="px-6 ml-3 font-light " mat-flat-button (click)="openDialog()"
                                     [color]="'primary'">
 
                                     <mat-icon>add_circle_outline</mat-icon>
@@ -75,64 +75,32 @@
                         </div>
 
                     </div>
-                    <div class="flex mx-4">
-                        <div class="flex-none h-12 w-32">
 
-                        </div>
-                    </div>
                     <div>
+
                         <div class="flex flex-col" formArrayName="cars">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                                     <div class="overflow-hidden">
-                                        <table class="min-w-full">
-                                            <thead class=" border-b bg-gray-100">
-                                                <tr>
-                                                    <th scope="col"
-                                                        class="text-l font-extrabold text-gray-900 px-6 py-4 text-left">
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="text-l font-extrabold text-gray-900 px-6 py-4 text-left">
+                                        <div class="card" style="background-color: rgb(248 250 252);"
+                                            *ngFor="let depo; of: car().controls; let i = index" [formGroupName]="i">
+                                            <div class="grid formgrid">
 
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="text-l font-extrabold text-gray-900 px-6 py-4 text-left">
+                                                <div class="field col-3">
 
-                                                    </th>
-                                                    <th scope="col"
-                                                        class="text-l font-extraboldtext-gray-900 px-6 py-4 text-left">
+                                                    <div class="pl-4"> {{i + 1}} {{this.newcar.value.name}} </div>
+                                                </div>
 
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="border-b" *ngFor="" [formGroupName]="i">
-                                                    <td
-                                                        class="px-6 py-4 whitespace-nowrap text-l font-medium text-gray-900">
-                                                        1</td>
-                                                    <td
-                                                        class="text-l text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                                <div class="flex align-items-center col-1">
+                                                    <button pButton pRipple type="button" icon="pi pi-trash"
+                                                        class="p-button-danger mt-2 w-4"></button>
+                                                </div>
 
-                                                    </td>
+                                            </div>
 
-                                                    <td
-                                                        class="text-l text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                        <mat-form-field class="w-60 pr-2">
-                                                            <input matInput [formControlName]="'qty'"
-                                                                (keyup)="onchangeTotal($event, i)">
-                                                        </mat-form-field>
-                                                    </td>
-                                                    <td
-                                                        class="text-l text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                        <button class="px-6 ml-3" mat-flat-button
-                                                            (click)="removeItem(i)">
-                                                            <mat-icon svgIcon="heroicons_solid:trash"> </mat-icon>&nbsp;
-                                                            ลบ
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -146,17 +114,18 @@
 
         </form>
     </div>
-    <div mat-dialog-actions class="flex justify-end mt-4">
-        <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
-            <div class="font-light">
-                ยกเลิก
-            </div>
-        </button>
-        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-            <div class="font-light">
-                บันทึก
-            </div>
-        </button>
 
-    </div>
+</div>
+<div class="flex justify-end mt-4">
+    <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
+        <div class="font-light">
+            ยกเลิก
+        </div>
+    </button>
+    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+        <div class="font-light">
+            บันทึก
+        </div>
+    </button>
+
 </div>

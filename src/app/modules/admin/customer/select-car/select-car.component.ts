@@ -30,6 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-select-car',
@@ -55,6 +56,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         MatTableModule,
         MatRadioModule,
         CommonModule,
+        MatCheckboxModule,
         NgxDropzoneModule,
     ],
 })
@@ -65,6 +67,13 @@ export class SelectCarComponent implements OnInit {
     positions: any[];
     permissions: any[];
     car: any[];
+    columns = [
+        {
+            name: 'name',
+        },
+    ];
+    filterData = [];
+    rawDataFilter: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -75,17 +84,9 @@ export class SelectCarComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this._service.getPermission().subscribe((resp: any) => {
-            this.permissions = resp.data;
-        });
         this.addForm = this.formBuilder.group({
             filter: [null],
-            car_id: [null],
-            brand_model_id: [null],
-            license: [null],
-            status: [null],
-            date: [null],
-            company: [null],
+            car_id: [],
         });
     }
 
@@ -94,148 +95,55 @@ export class SelectCarComponent implements OnInit {
             this.car = resp;
         });
     }
-    addcar(): void {
-        console.log('carid', this.addForm.value.car_id);
-        this.dialogRef.close(this.addForm.value.car_id);
-    }
-    onSaveClick(): void {
-        this.flashMessage = null;
-        if (this.addForm.value!) {
-            this.addForm.enable();
-            this._fuseConfirmationService.open({
-                title: 'กรุณาระบุข้อมูล',
-                message: 'กรุณาระบุข้อมูลให้ครบถ้วน',
-                icon: {
-                    show: true,
-                    name: 'heroicons_outline:exclamation',
-                    color: 'warning',
-                },
-                actions: {
-                    confirm: {
-                        show: false,
-                        label: 'ยืนยัน',
-                        color: 'primary',
-                    },
-                    cancel: {
-                        show: false,
-                        label: 'ยกเลิก',
-                    },
-                },
-                dismissible: true,
-            });
+    check(event: any, item: any) {
+        console.log(event);
 
-            return;
+        if (event.checked == true) {
+            if (!this.addForm.value.car_id) {
+                // ถ้า work_telesate ยังไม่มีอยู่ก่อนให้สร้างอาร์เรย์เปล่า
+                this.addForm.value.car_id = [];
+            }
+
+            this.addForm.value.car_id.push(item);
+            console.log(this.addForm.value, 'formData');
+        } else {
+            if (this.addForm.value.car_id) {
+                const index = this.addForm.value.car_id.indexOf(item);
+                if (index !== -1) {
+                    this.addForm.value.car_id.splice(index, 1);
+                    console.log(this.addForm.value, 'formData');
+                }
+            }
         }
-        // Open the confirmation dialog
-        const confirmation = this._fuseConfirmationService.open({
-            title: 'เพิ่มข้อมูล',
-            message: 'คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ',
-            icon: {
-                show: false,
-                name: 'heroicons_outline:exclamation',
-                color: 'warning',
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: 'ยืนยัน',
-                    color: 'primary',
-                },
-                cancel: {
-                    show: true,
-                    label: 'ยกเลิก',
-                },
-            },
-            dismissible: true,
-        });
-
-        // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                const formData = new FormData();
-                Object.entries(this.addForm.value).forEach(
-                    ([key, value]: any[]) => {
-                        formData.append(key, value);
+    }
+    onFilter(event) {
+        //  console.log('event',event.target.value);
+        // ตัวให้เป็นตัวเล็กให้หมด
+        let val = event.target.value.toLowerCase();
+        // หา ชื่อ คอลัมน์
+        let keys = Object.keys(this.columns[0]);
+        // หาจำนวนคอลัม
+        let colsAmt = keys.length;
+        // console.log('keys', keys);
+        this.car = this.rawDataFilter.filter(function (item) {
+            // console.log('item',item);
+            for (let i = 0; i < colsAmt; i++) {
+                //console.log(colsAmt);
+                if (item[keys[i]]) {
+                    if (
+                        item[keys[i]].toString().toLowerCase().indexOf(val) !==
+                            -1 ||
+                        !val
+                    ) {
+                        // ส่งคืนตัวที่เจอ
+                        return true;
                     }
-                );
-                this._service.create(formData).subscribe({
-                    next: (resp: any) => {
-                        this.showFlashMessage('success');
-                        this.dialogRef.close(resp);
-                    },
-                    error: (err: any) => {
-                        this.addForm.enable();
-                        this._fuseConfirmationService.open({
-                            title: 'กรุณาระบุข้อมูล',
-                            message: err.error.message,
-                            icon: {
-                                show: true,
-                                name: 'heroicons_outline:exclamation',
-                                color: 'warning',
-                            },
-                            actions: {
-                                confirm: {
-                                    show: false,
-                                    label: 'ยืนยัน',
-                                    color: 'primary',
-                                },
-                                cancel: {
-                                    show: false,
-                                    label: 'ยกเลิก',
-                                },
-                            },
-                            dismissible: true,
-                        });
-                    },
-                });
+                }
             }
         });
-
-        // แสดง Snackbar ข้อความ "complete"
+        // console.log('this.BomData', this.BomData);
     }
-
-    onCancelClick(): void {
-        this.dialogRef.close();
-    }
-
-    showFlashMessage(type: 'success' | 'error'): void {
-        // Show the message
-        this.flashMessage = type;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
-        setTimeout(() => {
-            this.flashMessage = null;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        }, 3000);
-    }
-
-    files: File[] = [];
-    url_logo: string;
-    onSelect(event: { addedFiles: File[] }): void {
-        this.files.push(...event.addedFiles);
-
-        // this.addForm.patchValue({
-        //     image: this.files[0]
-        // })
-
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.onload = (e: any) => (this.url_logo = e.target.result);
-        const file = this.files[0];
-        this.addForm.patchValue({
-            image: file,
-        });
-    }
-
-    onRemove(file: File): void {
-        const index = this.files.indexOf(file);
-        if (index >= 0) {
-            this.files.splice(index, 1);
-        }
+    addcar(): void {
+        this.dialogRef.close(this.addForm.value.car_id);
     }
 }
