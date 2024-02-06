@@ -55,7 +55,15 @@ export class PageService {
                 })
             );
     }
-
+    updatecar(data: FormData): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_car', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     update(data: any, id: any): Observable<any> {
         return this._httpClient
             .put<any>(environment.baseURL + '/api/employees/' + id, data)
@@ -78,6 +86,16 @@ export class PageService {
             .pipe(
                 tap((result) => {
                     this._data.next(result);
+                })
+            );
+    }
+    getById(Id: any): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + `/api/car/${Id}`)
+            .pipe(
+                switchMap((response: any) => {
+                    console.log(response);
+                    return of(response.data);
                 })
             );
     }

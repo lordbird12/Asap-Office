@@ -72,7 +72,8 @@
                                 </td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date }}
                                 </td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
+                                        (click)="edit(item.id)">
                                         <mat-icon svgIcon="feather:edit-3"></mat-icon>
                                     </button>
 

@@ -86,6 +86,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
+    edit(Id: any) {
+        this._router.navigate(['admin/car/edit/' + Id]);
+    }
     editElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
             width: '400px', // กำหนดความกว้างของ Dialog
