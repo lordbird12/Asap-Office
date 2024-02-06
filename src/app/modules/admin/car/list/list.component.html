@@ -63,7 +63,7 @@
                             </div>
                         </td>
                         <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
-                        <td> <button mat-icon-button>
+                        <td> <button mat-icon-button (click)="edit(item.id)">
                                 <mat-icon svgIcon="feather:edit-3"></mat-icon>
                             </button>
 

@@ -87,7 +87,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
-
+    edit(Id: any) {
+        this._router.navigate(['admin/customer/edit/' + Id]);
+    }
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
