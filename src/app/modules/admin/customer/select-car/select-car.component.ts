@@ -67,13 +67,13 @@ export class SelectCarComponent implements OnInit {
     positions: any[];
     selectedcar: any[];
     permissions: any[];
-    car: any[];
+    car: any[] = [];
     columns = [
         {
             name: 'name',
         },
     ];
-    filterData = [];
+    filtercar: any[] = [];
     rawDataFilter: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
@@ -97,6 +97,24 @@ export class SelectCarComponent implements OnInit {
     ngOnInit(): void {
         this._service.getCar().subscribe((resp: any) => {
             this.car = resp;
+            console.log('image', typeof this.car[0].image);
+            this.filtercar = resp;
+        });
+
+        this.addForm.get('filter').valueChanges.subscribe((resp: any) => {
+            console.log('Resp', resp);
+            console.log('car', this.car);
+            this.filtercar = this.car.filter(
+                (e) =>
+                    e.brand_model?.name
+                        .toLowerCase()
+                        .includes(resp.toLowerCase()) ||
+                    e.license.toLowerCase().includes(resp.toLowerCase())
+            );
+            if (resp == '') {
+                console.log('test');
+                this.filtercar = this.car;
+            }
         });
     }
     check(event: any, item: any) {
@@ -118,6 +136,11 @@ export class SelectCarComponent implements OnInit {
                 }
             }
         }
+    }
+    isNoImg(img: any): boolean {
+        const typeimage = typeof img;
+        console.log('typeimage', typeimage);
+        return typeimage == 'object';
     }
     onFilter(event) {
         //  console.log('event',event.target.value);
