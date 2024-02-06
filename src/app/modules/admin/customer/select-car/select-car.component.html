@@ -28,17 +28,18 @@
                             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     class="text-lg text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
-                                    <tr>
+                                    <tr *ngFor="let item of car; let i = index">
                                         <th scope="col" class="py-3 px-6">
-
+                                            <mat-checkbox [checked]="allComplete_all"
+                                                (change)="tick(item.id)"></mat-checkbox>
                                         </th>
                                         <th scope="col" class="py-3 px-6">
                                             รูป
                                         </th>
                                         <th scope="col" class="py-3 px-6 text-left">
-                                            Honda Accord
+                                            {{item.brand_model?.name}}
                                             <br>
-                                            <div class="font-light"> กท-5342 กรุงเทพมหานคร</div>
+                                            <div class="font-light"> {{item.license}} กรุงเทพมหานคร</div>
 
                                         </th>
 
@@ -51,7 +52,7 @@
                     </div>
                     &nbsp;
                 </div>
-                <button class="px-6 ml-3 font-light " mat-flat-button [color]="'primary'">
+                <button class="px-6 ml-3 font-light " mat-flat-button [color]="'primary'" (click)="addcar()">
 
                     <div class="font-light">
                         ตกลง

@@ -15,7 +15,7 @@
                 <div class="flex">
                     <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                         style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
-                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
+                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'">
                             <mat-icon>description</mat-icon>
                             &nbsp;
                             อัปโหลด CSV
@@ -54,17 +54,17 @@
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
-                        <td class="font-light">Honda Accord</td>
-                        <td class="font-light">1กย 3468</td>
+                        <td class="font-light">{{item.brand_model?.name}}</td>
+                        <td class="font-light">{{item?.license}}</td>
                         <td>
-                            <div
+                            <div *ngIf="item.status == 'Available'"
                                 class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                 เปิดใช้งาน
                             </div>
                         </td>
-                        <td class="font-light">Grab<br>096-031-4565</td>
+                        <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
                         <td> <button mat-icon-button>
-                                <mat-icon>border_color</mat-icon>
+                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
                             </button>
 
                         </td>

@@ -63,7 +63,9 @@ export class FormDialogComponent implements OnInit {
     addForm: FormGroup;
     isLoading: boolean = false;
     positions: any[];
-    permissions: any[];
+    brandmodel: any[];
+    province: any[];
+    company: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -74,48 +76,32 @@ export class FormDialogComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this._service.getPermission().subscribe((resp: any) => {
-            this.permissions = resp.data;
-        });
         this.addForm = this.formBuilder.group({
-            brand_model_id: [null],
             license: [null],
+            brand_model_id: [null],
+            province_id: [null],
+            expire_date: [null],
+            client_id: [null],
+            image: [null],
             status: [null],
-            date: [null],
-            company: [null],
         });
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this._service.getBrandModel().subscribe((resp: any) => {
+            this.brandmodel = resp;
+        });
+        this._service.getProvince().subscribe((resp: any) => {
+            this.province = resp;
+        });
+        this._service.getCompany().subscribe((resp: any) => {
+            this.company = resp;
+        });
+    }
 
     onSaveClick(): void {
         this.flashMessage = null;
-        if (this.addForm.value!) {
-            this.addForm.enable();
-            this._fuseConfirmationService.open({
-                title: 'กรุณาระบุข้อมูล',
-                message: 'กรุณาระบุข้อมูลให้ครบถ้วน',
-                icon: {
-                    show: true,
-                    name: 'heroicons_outline:exclamation',
-                    color: 'warning',
-                },
-                actions: {
-                    confirm: {
-                        show: false,
-                        label: 'ยืนยัน',
-                        color: 'primary',
-                    },
-                    cancel: {
-                        show: false,
-                        label: 'ยกเลิก',
-                    },
-                },
-                dismissible: true,
-            });
 
-            return;
-        }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูล',
@@ -145,7 +131,16 @@ export class FormDialogComponent implements OnInit {
                 const formData = new FormData();
                 Object.entries(this.addForm.value).forEach(
                     ([key, value]: any[]) => {
-                        formData.append(key, value);
+                        if (
+                            value !== '' &&
+                            value !== 'null' &&
+                            value !== null
+                        ) {
+                            formData.append(key, value);
+                        }
+                        if (key === 'image') {
+                            formData.append(key, this.selectedFile);
+                        }
                     }
                 );
                 this._service.create(formData).subscribe({

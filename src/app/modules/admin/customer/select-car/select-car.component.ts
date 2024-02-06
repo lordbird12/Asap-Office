@@ -64,6 +64,7 @@ export class SelectCarComponent implements OnInit {
     isLoading: boolean = false;
     positions: any[];
     permissions: any[];
+    car: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -78,6 +79,8 @@ export class SelectCarComponent implements OnInit {
             this.permissions = resp.data;
         });
         this.addForm = this.formBuilder.group({
+            filter: [null],
+            car_id: [null],
             brand_model_id: [null],
             license: [null],
             status: [null],
@@ -86,8 +89,15 @@ export class SelectCarComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {}
-
+    ngOnInit(): void {
+        this._service.getCar().subscribe((resp: any) => {
+            this.car = resp;
+        });
+    }
+    addcar(): void {
+        console.log('carid', this.addForm.value.car_id);
+        this.dialogRef.close(this.addForm.value.car_id);
+    }
     onSaveClick(): void {
         this.flashMessage = null;
         if (this.addForm.value!) {

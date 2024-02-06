@@ -11,35 +11,35 @@
                         <div class="md:w-full px-3">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label class=" font-light">ชื่อบริษัท</mat-label>
-                                <input matInput formControlName="license">
+                                <input matInput formControlName="company">
                             </mat-form-field>
                         </div>
                         <div class="md:w-full px-3">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label class=" font-light">ชื่อลูกค้า</mat-label>
-                                <input matInput formControlName="license" readonly>
+                                <input matInput formControlName="name">
                             </mat-form-field>
                         </div>
                         <div class="flex">
                             <div class="md:w-full px-3">
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                     <mat-label class=" font-light">เบอร์โทรศัพท์ติดต่อ</mat-label>
-                                    <input matInput formControlName="license" readonly>
+                                    <input matInput formControlName="phone">
                                 </mat-form-field>
                             </div>
                             <div class="md:w-full px-3">
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                     <mat-label class=" font-light">Email</mat-label>
-                                    <input matInput formControlName="license" readonly>
+                                    <input matInput formControlName="email">
                                 </mat-form-field>
                             </div>
                         </div>
                         <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">สถานะบัญชี</h1>
                         <div><mat-radio-group aria-label="Select an option" formControlName="status">
-                                <mat-radio-button value="1">
+                                <mat-radio-button value="Active">
                                     <div class="font-light">ใช้งานอยู่</div>
                                 </mat-radio-button>
-                                <mat-radio-button value="2">
+                                <mat-radio-button value="Expire">
                                     <div class="font-light">หมดอายุ</div>
                                 </mat-radio-button>
                                 <mat-radio-button value="3">
@@ -50,7 +50,7 @@
                         <div class="md:w-full px-3 pt-4">
                             <mat-label class=" font-light">วันหมดสัญญา</mat-label>
                             <mat-form-field class="w-full">
-                                <input readonly [formControlName]="'date'" matInput placeholder="วันหมดสัญญา"
+                                <input readonly [formControlName]="'expire_date'" matInput placeholder="วันหมดสัญญา"
                                     [matDatepicker]="picker_start_date">
                                 <mat-datepicker-toggle matSuffix [for]="picker_start_date"></mat-datepicker-toggle>
                                 <mat-datepicker #picker_start_date></mat-datepicker>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="flex flex-col" formArrayName="main_product">
+                        <div class="flex flex-col" formArrayName="cars">
                             <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                                     <div class="overflow-hidden">

@@ -84,11 +84,13 @@ export class FormDialogComponent implements OnInit {
             this.permissions = resp.data;
         });
         this.addForm = this.formBuilder.group({
-            brand_model_id: [null],
-            license: [null],
-            status: [null],
-            date: [null],
             company: [null],
+            name: [null],
+            phone: [null],
+            email: [null],
+            status: [null],
+            expire_date: [null],
+            cars: this.formBuilder.array([]),
         });
     }
 
@@ -198,7 +200,7 @@ export class FormDialogComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                //    console.log(result,'result')
+                console.log(result, 'result');
             }
         });
     }
