@@ -248,6 +248,20 @@ export const appRoutes: Route[] = [
                                 'app/modules/admin/report-stock-card/page.routes'
                             ),
                     },
+                    {
+                        path: 'ticket',
+                        loadChildren: () =>
+                            import(
+                                'app/modules/admin/ticket/page.routes'
+                            ),
+                    },
+                    {
+                        path: 'booking',
+                        loadChildren: () =>
+                            import(
+                                'app/modules/admin/booking/page.routes'
+                            ),
+                    },
                 ],
             },
         ],
