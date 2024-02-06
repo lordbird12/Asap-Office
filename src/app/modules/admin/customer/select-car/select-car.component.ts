@@ -65,6 +65,7 @@ export class SelectCarComponent implements OnInit {
     addForm: FormGroup;
     isLoading: boolean = false;
     positions: any[];
+    selectedcar: any[];
     permissions: any[];
     car: any[];
     columns = [
@@ -84,6 +85,9 @@ export class SelectCarComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
+        this._service.getPermission().subscribe((resp: any) => {
+            this.permissions = resp.data;
+        });
         this.addForm = this.formBuilder.group({
             filter: [null],
             car_id: [],
@@ -99,19 +103,18 @@ export class SelectCarComponent implements OnInit {
         console.log(event);
 
         if (event.checked == true) {
-            if (!this.addForm.value.car_id) {
-                // ถ้า work_telesate ยังไม่มีอยู่ก่อนให้สร้างอาร์เรย์เปล่า
-                this.addForm.value.car_id = [];
+            if (!this.selectedcar) {
+                this.selectedcar = [];
             }
 
-            this.addForm.value.car_id.push(item);
-            console.log(this.addForm.value, 'formData');
+            this.selectedcar.push(item);
+            console.log(this.selectedcar, 'formData');
         } else {
-            if (this.addForm.value.car_id) {
-                const index = this.addForm.value.car_id.indexOf(item);
+            if (this.selectedcar) {
+                const index = this.selectedcar.indexOf(item);
                 if (index !== -1) {
-                    this.addForm.value.car_id.splice(index, 1);
-                    console.log(this.addForm.value, 'formData');
+                    this.selectedcar.splice(index, 1);
+                    console.log(this.selectedcar, 'formData');
                 }
             }
         }
@@ -144,6 +147,146 @@ export class SelectCarComponent implements OnInit {
         // console.log('this.BomData', this.BomData);
     }
     addcar(): void {
-        this.dialogRef.close(this.addForm.value.car_id);
+        this.dialogRef.close(this.selectedcar);
+    }
+    onSaveClick(): void {
+        this.flashMessage = null;
+        if (this.addForm.value!) {
+            this.addForm.enable();
+            this._fuseConfirmationService.open({
+                title: 'กรุณาระบุข้อมูล',
+                message: 'กรุณาระบุข้อมูลให้ครบถ้วน',
+                icon: {
+                    show: true,
+                    name: 'heroicons_outline:exclamation',
+                    color: 'warning',
+                },
+                actions: {
+                    confirm: {
+                        show: false,
+                        label: 'ยืนยัน',
+                        color: 'primary',
+                    },
+                    cancel: {
+                        show: false,
+                        label: 'ยกเลิก',
+                    },
+                },
+                dismissible: true,
+            });
+
+            return;
+        }
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            title: 'เพิ่มข้อมูล',
+            message: 'คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
+                },
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
+            },
+            dismissible: true,
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                const formData = new FormData();
+                Object.entries(this.addForm.value).forEach(
+                    ([key, value]: any[]) => {
+                        formData.append(key, value);
+                    }
+                );
+                this._service.create(formData).subscribe({
+                    next: (resp: any) => {
+                        this.showFlashMessage('success');
+                        this.dialogRef.close(resp);
+                    },
+                    error: (err: any) => {
+                        this.addForm.enable();
+                        this._fuseConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                    },
+                });
+            }
+        });
+
+        // แสดง Snackbar ข้อความ "complete"
+    }
+
+    onCancelClick(): void {
+        this.dialogRef.close();
+    }
+
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
+    }
+
+    files: File[] = [];
+    url_logo: string;
+    onSelect(event: { addedFiles: File[] }): void {
+        this.files.push(...event.addedFiles);
+
+        // this.addForm.patchValue({
+        //     image: this.files[0]
+        // })
+
+        var reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.onload = (e: any) => (this.url_logo = e.target.result);
+        const file = this.files[0];
+        this.addForm.patchValue({
+            image: file,
+        });
+    }
+
+    onRemove(file: File): void {
+        const index = this.files.indexOf(file);
+        if (index >= 0) {
+            this.files.splice(index, 1);
+        }
     }
 }
