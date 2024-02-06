@@ -1,12 +1,11 @@
 <div class="md:max-h-2xl mx-auto">
-    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-center">เพิ่มข้อมูลรถในระบบ</h1>
+    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-center">สร้างพนักงาน</h1>
     <div mat-dialog-content class="max-h-96 md:max-h-180">
         <form [formGroup]="addForm">
 
             <div class="flex flex-row">
 
                 <div class="flex flex-col mx-3 md:flex mb-4 w-full">
-                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">รายละเอียดรถ</h1>
                     <div class="grid grid-rows-7 grid-flow-col gap-4 ">
                         <div class="row-span-5 "> <ngx-dropzone (change)="onSelect($event)">
                                 <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
