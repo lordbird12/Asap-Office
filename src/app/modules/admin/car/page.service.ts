@@ -48,14 +48,22 @@ export class PageService {
 
     create(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/user', data)
+            .post<any>(environment.baseURL + '/api/car', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
                 })
             );
     }
-
+    updatecar(data: FormData): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_car', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     update(data: any, id: any): Observable<any> {
         return this._httpClient
             .put<any>(environment.baseURL + '/api/employees/' + id, data)
@@ -81,6 +89,16 @@ export class PageService {
                 })
             );
     }
+    getById(Id: any): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + `/api/car/${Id}`)
+            .pipe(
+                switchMap((response: any) => {
+                    console.log(response);
+                    return of(response.data);
+                })
+            );
+    }
     getPosition(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_position')
@@ -90,12 +108,30 @@ export class PageService {
                 })
             );
     }
-    getPermission(): Observable<any> {
+    getBrandModel(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/get_permission')
+            .get(environment.baseURL + '/api/get_brand_model')
             .pipe(
-                tap((result) => {
-                    this._data.next(result);
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
+    getProvince(): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + '/api/get_province')
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
+    getCompany(): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + '/api/get_client')
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
                 })
             );
     }
@@ -113,7 +149,7 @@ export class PageService {
     getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
         return this._httpClient
             .post(
-                environment.baseURL + '/api/user_page',
+                environment.baseURL + '/api/car_page',
                 dataTablesParameters,
                 this.httpOptionsFormdata
             )

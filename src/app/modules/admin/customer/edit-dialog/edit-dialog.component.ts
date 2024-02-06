@@ -1,5 +1,17 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { PageService } from '../page.service';
@@ -18,10 +30,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 @Component({
-    selector: 'app-edit-dialog',
+    selector: 'app-edit-car',
     templateUrl: './edit-dialog.component.html',
     styleUrls: ['./edit-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -46,7 +58,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         CommonModule,
         MatSlideToggleModule,
         MatCardModule,
-        NgxDropzoneModule
+        NgxDropzoneModule,
     ],
 })
 export class EditDialogComponent implements OnInit {
@@ -57,17 +69,19 @@ export class EditDialogComponent implements OnInit {
     status: any[] = [
         {
             id: 1,
-            name : 'เปิดใช้งาน'
-        },{
-        id: 0,
-        name : 'ไม่เปิดใช้งาน'
-    },
-];
-color: ThemePalette = 'primary';
-checked = false;
-disabled = false;
-isInputDisabled: boolean = true;
-    constructor(private dialogRef: MatDialogRef<EditDialogComponent>,
+            name: 'เปิดใช้งาน',
+        },
+        {
+            id: 0,
+            name: 'ไม่เปิดใช้งาน',
+        },
+    ];
+    color: ThemePalette = 'primary';
+    checked = false;
+    disabled = false;
+    isInputDisabled: boolean = true;
+    constructor(
+        private dialogRef: MatDialogRef<EditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
@@ -85,14 +99,13 @@ isInputDisabled: boolean = true;
             position_id: [],
             username: [],
         });
-     }
+    }
 
     ngOnInit(): void {
         this.editForm.patchValue({
-            ...this.data.data
-        })
-        console.log(this.editForm.value)
-
+            ...this.data.data,
+        });
+        console.log(this.editForm.value);
     }
 
     onSaveClick(): void {
@@ -102,50 +115,49 @@ isInputDisabled: boolean = true;
         if (this.editForm.invalid) {
             this.editForm.enable();
             this._fuseConfirmationService.open({
-                "title": "กรุณาระบุข้อมูล",
-                "icon": {
-                    "show": true,
-                    "name": "heroicons_outline:exclamation",
-                    "color": "warning"
+                title: 'กรุณาระบุข้อมูล',
+                icon: {
+                    show: true,
+                    name: 'heroicons_outline:exclamation',
+                    color: 'warning',
                 },
-                "actions": {
-                    "confirm": {
-                        "show": false,
-                        "label": "ยืนยัน",
-                        "color": "primary"
+                actions: {
+                    confirm: {
+                        show: false,
+                        label: 'ยืนยัน',
+                        color: 'primary',
                     },
-                    "cancel": {
-                        "show": false,
-                        "label": "ยกเลิก",
-
-                    }
+                    cancel: {
+                        show: false,
+                        label: 'ยกเลิก',
+                    },
                 },
-                "dismissible": true
+                dismissible: true,
             });
 
             return;
         }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            "title": "แก้ไขข้อมูล",
-            "message": "คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ",
-            "icon": {
-                "show": false,
-                "name": "heroicons_outline:exclamation",
-                "color": "warning"
+            title: 'แก้ไขข้อมูล',
+            message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
             },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ยืนยัน",
-                    "color": "primary"
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
                 },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
             },
-            "dismissible": true
+            dismissible: true,
         });
 
         // Subscribe to the confirmation dialog closed action
@@ -160,39 +172,35 @@ isInputDisabled: boolean = true;
                     error: (err: any) => {
                         this.editForm.enable();
                         this._fuseConfirmationService.open({
-                            "title": "กรุณาระบุข้อมูล",
-                            "message": err.error.message,
-                            "icon": {
-                                "show": true,
-                                "name": "heroicons_outline:exclamation",
-                                "color": "warning"
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
                             },
-                            "actions": {
-                                "confirm": {
-                                    "show": false,
-                                    "label": "ยืนยัน",
-                                    "color": "primary"
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
                                 },
-                                "cancel": {
-                                    "show": false,
-                                    "label": "ยกเลิก",
-
-                                }
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
                             },
-                            "dismissible": true
+                            dismissible: true,
                         });
-                    }
-                })
+                    },
+                });
             }
-        })
-
+        });
 
         // แสดง Snackbar ข้อความ "complete"
-
     }
 
     onCancelClick(): void {
-
         this.dialogRef.close();
     }
 
@@ -205,7 +213,6 @@ isInputDisabled: boolean = true;
 
         // Hide it after 3 seconds
         setTimeout(() => {
-
             this.flashMessage = null;
 
             // Mark for check

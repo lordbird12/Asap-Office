@@ -69,9 +69,9 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadTable();
-        this._service.getPosition().subscribe((resp: any) => {
-            this.positions = resp.data;
-        });
+        // this._service.getPosition().subscribe((resp: any) => {
+        //     this.positions = resp.data;
+        // });
     }
 
     ngAfterViewInit(): void {
@@ -80,9 +80,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        this._router.navigate([
-            'admin/product/edit/' + element
-        ])
+        this._router.navigate(['admin/product/form' ,element]);
     }
     viewElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -98,6 +96,16 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
     addElement() {
         this._router.navigate(['admin/product/form']);
+        // const dialogRef = this.dialog.open(FormDialogComponent, {
+        //     width: '1000px',
+        //     height: '600px', // กำหนดความกว้างของ Dialog
+        // });
+
+        // dialogRef.afterClosed().subscribe((result) => {
+        //     if (result) {
+        //         //    console.log(result,'result')
+        //     }
+        // });
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };

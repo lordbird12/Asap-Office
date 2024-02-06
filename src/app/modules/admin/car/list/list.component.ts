@@ -86,6 +86,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
+    edit(Id: any) {
+        this._router.navigate(['admin/car/edit/' + Id]);
+    }
     editElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
             width: '400px', // กำหนดความกว้างของ Dialog
@@ -102,17 +105,17 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
     addElement() {
-        // this._router.navigate(['admin/employee/form']);
-        const dialogRef = this.dialog.open(FormDialogComponent, {
-            width: '1000px',
-            height: '600px', // กำหนดความกว้างของ Dialog
-        });
+        this._router.navigate(['admin/car/form']);
+        // const dialogRef = this.dialog.open(FormDialogComponent, {
+        //     width: '1000px',
+        //     height: '600px', // กำหนดความกว้างของ Dialog
+        // });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                //    console.log(result,'result')
-            }
-        });
+        // dialogRef.afterClosed().subscribe((result) => {
+        //     if (result) {
+        //         //    console.log(result,'result')
+        //     }
+        // });
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };

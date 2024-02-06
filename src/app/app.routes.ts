@@ -262,6 +262,13 @@ export const appRoutes: Route[] = [
                                 'app/modules/admin/booking/page.routes'
                             ),
                     },
+                    {
+                        path: 'summary-service',
+                        loadChildren: () =>
+                            import(
+                                'app/modules/admin/summary-service/page.routes'
+                            ),
+                    },
                 ],
             },
         ],

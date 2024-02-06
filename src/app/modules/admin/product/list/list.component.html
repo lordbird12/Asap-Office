@@ -17,7 +17,10 @@
                     <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                         style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
                         <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
-                            <mat-icon>description</mat-icon>
+                            <mat-icon style="width: 10px; height: 10px;">
+                                <div style="width: 15px; height: 20px;">
+                                <img src="assets/icons/Vector.svg"></div>
+                            </mat-icon>
                             &nbsp;
                             อัปโหลด CSV
                         </button>
@@ -45,57 +48,43 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th>ชื่อ</th>
-                        <th>เบอร์ติดต่อ</th>
-                        <th>ที่อยู่</th>
-                        <th class="w-[100px]"> </th>
+                        <th class="w-[20px]">ชื่อ</th>
+                        <th class="w-[20px]">เบอร์ติดต่อ</th>
+                        <th class="w-[30px]">ที่อยู่</th>
+                        <th class="w-[10px]"> </th>
                     </tr>
                 </thead>
-                <!-- <tbody *ngIf="dataRow?.length != 0">
+                <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
-                        <td> TOYOTA วรจักร์ยนต์ </td>
-                        <td> 5</td>
-                        <td>5 </td>
+                        <td class="font-light">{{item?.name}}</td>
+                        <td class="font-light">{{item?.phone}}</td>
+                        <td class="font-light">{{item?.address}}</td>
                         <td>
                             <button mat-icon-button color="accent" (click)="editElement(item.id)">
                                 <mat-icon>edit</mat-icon>
                             </button>
                         </td>
                     </tr>
-                </tbody> -->
-                <tbody *ngIf="dataRow && dataRow.length > 0">
-                    <tr>
-                        <td>TOYOTA วรจักร์ยนต์</td>
-                        <td>02-123-2112</td>
-                        <td>48 ถนน เจริญราษฎร์ แขวงบางโคล่ เขตบางคอแหลม กรุงเทพมหานคร...</td>
-                        <td>
-                            <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Toyota Bangkok สาขาเจริญราษฎร์</td>
-                        <td>02-322-1111</td>
-                        <td>48 ถนน เจริญราษฎร์ แขวงบางโคล่ เขตบางคอแหลม กรุงเทพมหานคร...</td>
-                        <td>
-                            <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Toyota Bangkok สาขาเจริญราษฎร์</td>
-                        <td>02-322-1111</td>
-                        <td>48 ถนน เจริญราษฎร์ แขวงบางโคล่ เขตบางคอแหลม กรุงเทพมหานคร...</td>
-                        <td>
-                            <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
                 </tbody>
+                <!-- <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td style="text-align: center;">
+                            <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
+                                <img src="{{item?.image}}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </td>
+                        <td class="font-light">{{item?.fname}} {{item?.lname}}</td>
+                        <td class="font-light">{{item?.position?.name}}</td>
+                        <td class="font-light">{{item?.department?.name}}</td>
+                        <td class="font-light">{{ item?.created_at | date: "dd/MM/yyyy" }}</td>
+
+                        <td> <button mat-icon-button>
+                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody> -->
 
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>

@@ -49,8 +49,8 @@ export default [
         component: PageComponent,
         children : [
             {
-                path     : 'edit/:id',
-                component: EditComponent,
+                path     : 'form/:id',
+                component: FormComponent,
                 resolve  : {
                     // brands    : () => inject(InventoryService).getBrands(),
                     // categories: () => inject(InventoryService).getCategories(),

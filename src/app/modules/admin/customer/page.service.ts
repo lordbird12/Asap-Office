@@ -48,7 +48,7 @@ export class PageService {
 
     create(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/user', data)
+            .post<any>(environment.baseURL + '/api/client', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -65,7 +65,16 @@ export class PageService {
                 })
             );
     }
-
+    getById(Id: any): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + `/api/client/${Id}`)
+            .pipe(
+                switchMap((response: any) => {
+                    console.log(response);
+                    return of(response.data);
+                })
+            );
+    }
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
             environment.baseURL + '/api/employees/' + id,
@@ -92,7 +101,7 @@ export class PageService {
     }
     getPermission(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/get_permission')
+            .get<any>(environment.baseURL + '/api/get_car')
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -109,11 +118,29 @@ export class PageService {
      * @param order
      * @param search
      */
-
+    getBrandModel(): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + '/api/get_brand_model')
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
+    getCar(): Observable<any> {
+        return this._httpClient.get(environment.baseURL + '/api/get_car').pipe(
+            switchMap((response: any) => {
+                return of(response.data);
+            })
+        );
+    }
+    getCars(): Observable<any> {
+        return this._httpClient.get<any>(environment.baseURL + '/api/get_car');
+    }
     getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
         return this._httpClient
             .post(
-                environment.baseURL + '/api/user_page',
+                environment.baseURL + '/api/client_page',
                 dataTablesParameters,
                 this.httpOptionsFormdata
             )

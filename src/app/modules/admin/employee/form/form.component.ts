@@ -30,7 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'form-employee',
@@ -69,6 +69,8 @@ export class FormComponent implements OnInit {
     positions: any[];
     departments: any[];
     permissions: any[];
+    id: any;
+    item: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -76,12 +78,26 @@ export class FormComponent implements OnInit {
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router
+        private _router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
-        this._service.getPermission().subscribe((resp: any) => {
-            this.permissions = resp.data;
-        });
+        // this._service.getPermission().subscribe((resp: any) => {
+        //     this.permissions = resp.data;
+        // });
 
+        this.addForm = this.formBuilder.group({
+            image: [''],
+            department_id: [''],
+            position_id: [''],
+            fname: [''],
+            lname: [''],
+            email: [''],
+            phone: [''],
+            password: 555555,
+        });
+        this.id = +this.activatedRoute.snapshot.params.id;
+    }
+    ngOnInit(): void {
         this._service.getDepartment().subscribe((resp: any) => {
             this.departments = resp.data;
         });
@@ -89,35 +105,31 @@ export class FormComponent implements OnInit {
         this._service.getPosition().subscribe((resp: any) => {
             this.positions = resp.data;
         });
-    }
-    ngOnInit(): void {
-        this.addForm = this.formBuilder.group({
-            permission_id: [],
-            department_id: [],
-            position_id: [],
-            username: [],
-            password: [],
-            name: [],
-            email: [],
-            phone: null,
-            image: null,
-            user_no: [],
-            ot: [],
-        });
 
-        this.addForm2 = this.formBuilder.group({
-            permission_id: [],
-            department_id: [],
-            position_id: [],
-            username: [],
-            password: [],
-            name: [],
-            email: [],
-            phone: null,
-            image: null,
-            user_no: [],
-            ot: [],
-        });
+        this.activatedRoute.params.subscribe((params) => {
+            // console.log(params);
+            this.id = params.id;
+            this._service.getById(this.id).subscribe((resp: any) => {
+              this.item = resp;
+              console.log("getbyid", resp);
+              this.addForm.patchValue({
+                ...this.item,
+              });
+              // this.formGroup.value.plan_plan_budget_budgets = resp.plan_plan_budget_budgets;
+              // this.formGroup.value.user_approve = resp.plan_plan_budget_approves;
+      
+              //ความเสี่ยง
+            //   for (const item of resp.plan_plan_budget_approves) {
+            //     this.addapproves(item);
+            //   }
+              //ความเสี่ยง
+            //   for (const item of resp.plan_plan_budget_budgets) {
+            //     this.addbudgets(item);
+            //   }
+              // console.log("this.formGroup.value2", this.formGroup.value);
+              
+            });
+          });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -149,40 +161,6 @@ export class FormComponent implements OnInit {
 
     onSaveClick(): void {
         this.flashMessage = null;
-        // if (this.addForm.value!) {
-        //     this.addForm.enable();
-        //     this._fuseConfirmationService.open({
-        //         title: 'กรุณาระบุข้อมูล',
-        //         message: 'กรุณาระบุข้อมูลให้ครบถ้วน',
-        //         icon: {
-        //             show: true,
-        //             name: 'heroicons_outline:exclamation',
-        //             color: 'warning',
-        //         },
-        //         actions: {
-        //             confirm: {
-        //                 show: false,
-        //                 label: 'ยืนยัน',
-        //                 color: 'primary',
-        //             },
-        //             cancel: {
-        //                 show: false,
-        //                 label: 'ยกเลิก',
-        //             },
-        //         },
-        //         dismissible: true,
-        //     });
-
-        //     return;
-        // }
-
-        this.addForm.patchValue({
-            user_no: this.addForm2.value.user_no,
-            name: this.addForm2.value.name,
-            username: this.addForm2.value.username,
-            password: this.addForm2.value.password,
-            ot: this.addForm2.value.ot,
-        });
 
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
@@ -213,15 +191,22 @@ export class FormComponent implements OnInit {
                 const formData = new FormData();
                 Object.entries(this.addForm.value).forEach(
                     ([key, value]: any[]) => {
-                        formData.append(key, value);
+                        if (
+                            value !== '' &&
+                            value !== 'null' &&
+                            value !== null
+                        ) {
+                            formData.append(key, value);
+                        }
+                        if (key === 'image') {
+                            formData.append(key, this.selectedFile);
+                        }
                     }
                 );
                 this._service.create(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-               
-                        this._router.navigate(['admin/employee/list'])
-
+                        this._router.navigate(['admin/employee/list']);
                     },
                     error: (err: any) => {
                         this.addForm.enable();
@@ -252,6 +237,11 @@ export class FormComponent implements OnInit {
         });
 
         // แสดง Snackbar ข้อความ "complete"
+    }
+
+    onCancelClick(): void {
+
+        this._router.navigate(['admin/employee/list']);
     }
 
     files: File[] = [];
