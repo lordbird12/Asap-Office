@@ -30,6 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'app-select-car',
@@ -55,6 +56,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         MatTableModule,
         MatRadioModule,
         CommonModule,
+        MatCheckboxModule,
         NgxDropzoneModule,
     ],
 })
@@ -63,7 +65,16 @@ export class SelectCarComponent implements OnInit {
     addForm: FormGroup;
     isLoading: boolean = false;
     positions: any[];
+    selectedcar: any[];
     permissions: any[];
+    car: any[];
+    columns = [
+        {
+            name: 'name',
+        },
+    ];
+    filterData = [];
+    rawDataFilter: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -78,16 +89,66 @@ export class SelectCarComponent implements OnInit {
             this.permissions = resp.data;
         });
         this.addForm = this.formBuilder.group({
-            brand_model_id: [null],
-            license: [null],
-            status: [null],
-            date: [null],
-            company: [null],
+            filter: [null],
+            car_id: [],
         });
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this._service.getCar().subscribe((resp: any) => {
+            this.car = resp;
+        });
+    }
+    check(event: any, item: any) {
+        console.log(event);
 
+        if (event.checked == true) {
+            if (!this.selectedcar) {
+                this.selectedcar = [];
+            }
+
+            this.selectedcar.push(item);
+            console.log(this.selectedcar, 'formData');
+        } else {
+            if (this.selectedcar) {
+                const index = this.selectedcar.indexOf(item);
+                if (index !== -1) {
+                    this.selectedcar.splice(index, 1);
+                    console.log(this.selectedcar, 'formData');
+                }
+            }
+        }
+    }
+    onFilter(event) {
+        //  console.log('event',event.target.value);
+        // ตัวให้เป็นตัวเล็กให้หมด
+        let val = event.target.value.toLowerCase();
+        // หา ชื่อ คอลัมน์
+        let keys = Object.keys(this.columns[0]);
+        // หาจำนวนคอลัม
+        let colsAmt = keys.length;
+        // console.log('keys', keys);
+        this.car = this.rawDataFilter.filter(function (item) {
+            // console.log('item',item);
+            for (let i = 0; i < colsAmt; i++) {
+                //console.log(colsAmt);
+                if (item[keys[i]]) {
+                    if (
+                        item[keys[i]].toString().toLowerCase().indexOf(val) !==
+                            -1 ||
+                        !val
+                    ) {
+                        // ส่งคืนตัวที่เจอ
+                        return true;
+                    }
+                }
+            }
+        });
+        // console.log('this.BomData', this.BomData);
+    }
+    addcar(): void {
+        this.dialogRef.close(this.selectedcar);
+    }
     onSaveClick(): void {
         this.flashMessage = null;
         if (this.addForm.value!) {
