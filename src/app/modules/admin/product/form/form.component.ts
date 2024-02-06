@@ -86,6 +86,9 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
     formData: FormGroup;
     formData2: FormGroup;
 
+    id: any;
+    item: any;
+
     files: File[] = [];
     warehouseData: any;
     /**
@@ -98,24 +101,49 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         private _Service: Service,
         private _matDialog: MatDialog,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute,
+        private activatedRoute: ActivatedRoute,
         private _authService: AuthService
-    ) {}
+    ) {this.formData = this._formBuilder.group({
+        name: [''],
+        email: null,
+        phone: [''],
+        lat: [''],
+        lon: [''],
+        address: [''],
+        image: null,
+    });}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    async ngOnInit(): Promise<void> {
-        this.formData = this._formBuilder.group({
-            name: [''],
-            email: null,
-            phone: [''],
-            lat: [''],
-            lon: [''],
-            address: [''],
-            image: null,
-        });
+    ngOnInit(): void {
+        
+
+        this.activatedRoute.params.subscribe((params) => {
+            // console.log(params);
+            this.id = params.id;
+            this._Service.getById(this.id).subscribe((resp: any) => {
+              this.item = resp;
+              console.log("getbyid", resp);
+              this.formData.patchValue({
+                ...this.item,
+              });
+              // this.formGroup.value.plan_plan_budget_budgets = resp.plan_plan_budget_budgets;
+              // this.formGroup.value.user_approve = resp.plan_plan_budget_approves;
+      
+              //ความเสี่ยง
+            //   for (const item of resp.plan_plan_budget_approves) {
+            //     this.addapproves(item);
+            //   }
+              //ความเสี่ยง
+            //   for (const item of resp.plan_plan_budget_budgets) {
+            //     this.addbudgets(item);
+            //   }
+              // console.log("this.formGroup.value2", this.formGroup.value);
+              
+            });
+          });
 
         // this.getCategories();
         // this.getSuppliers();

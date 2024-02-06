@@ -214,4 +214,14 @@ export class Service {
                 })
             );
     }
+
+    getById(id: any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/service_center/' + id)
+            .pipe(
+                switchMap((response: any) => {
+                  return of(response.data);
+                })
+              );
+    }
 }

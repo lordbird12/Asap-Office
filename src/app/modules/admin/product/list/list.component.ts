@@ -80,9 +80,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        this._router.navigate([
-            'admin/product/edit/' + element
-        ])
+        this._router.navigate(['admin/product/form' ,element]);
     }
     viewElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
