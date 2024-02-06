@@ -39,7 +39,7 @@
                         <div class="md:w-full px-3 mb-6 md:mb-0">
                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                 <mat-label class=" font-light">จังหวัดตามป้ายทะเบียน</mat-label>
-                                <mat-select formControlName="brand_model_id">
+                                <mat-select formControlName="province_id">
                                     <mat-option *ngFor="let item of this.province;" value="{{item.id}}">
                                         {{item.name}}
                                     </mat-option>
