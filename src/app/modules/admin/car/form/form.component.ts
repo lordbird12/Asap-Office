@@ -78,10 +78,6 @@ export class FormComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
-        this._service.getPermission().subscribe((resp: any) => {
-            this.permissions = resp.data;
-        });
-
         this._service.getDepartment().subscribe((resp: any) => {
             this.departments = resp.data;
         });
@@ -219,9 +215,8 @@ export class FormComponent implements OnInit {
                 this._service.create(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
-               
-                        this._router.navigate(['admin/employee/list'])
 
+                        this._router.navigate(['admin/employee/list']);
                     },
                     error: (err: any) => {
                         this.addForm.enable();
