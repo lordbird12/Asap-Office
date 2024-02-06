@@ -72,6 +72,8 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         Validators.required,
     ]);
 
+    flashMessage: 'success' | 'error' | null = null;
+
     item1Data: any = [];
     item2Data: any = [];
     itemSupplier: any = [];
@@ -106,53 +108,21 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     async ngOnInit(): Promise<void> {
         this.formData = this._formBuilder.group({
-            category_product_id: ['', Validators.required],
-            pr_no: [''],
             name: [''],
-            detail: [''],
-            tank_no: [''],
-            engine_no: [''],
-            license_plate: [''],
-            sale_price: [''],
-            cost: [''],
-            type: [''],
-            year: [''],
-            supplier_id: [''],
-            brand_id: [''],
-            brand_model_id: [''],
-            cc_id: [''],
-            color_id: [''],
-            image: [''],
-            images: [''],
+            email: null,
+            phone: [''],
+            lat: [''],
+            lon: [''],
+            address: [''],
+            image: null,
         });
 
-        this.formData2 = this._formBuilder.group({
-            category_product_id: ['', Validators.required],
-            pr_no: [''],
-            name: [''],
-            detail: [''],
-            tank_no: [''],
-            engine_no: [''],
-            license_plate: [''],
-            sale_price: [''],
-            cost: [''],
-            type: [''],
-            year: [''],
-            supplier_id: [''],
-            brand_id: [''],
-            brand_model_id: [''],
-            cc_id: [''],
-            color_id: [''],
-            image: [''],
-            images: [''],
-        });
-
-        this.getCategories();
-        this.getSuppliers();
-        this.getBrand();
-        this.getBrandModel();
-        this.getCC();
-        this.getColor();
+        // this.getCategories();
+        // this.getSuppliers();
+        // this.getBrand();
+        // this.getBrandModel();
+        // this.getCC();
+        // this.getColor();
     }
 
     /**
@@ -321,5 +291,123 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                 });
             }
         });
+    }
+
+    onSaveClick(): void {
+        this.flashMessage = null;
+        // this.flashErrorMessage = null;
+        // Return if the form is invalid
+        if (this.formData.invalid) {
+            this.formData.enable();
+            this._fuseConfirmationService.open({
+                "title": "กรุณาระบุข้อมูล",
+                "icon": {
+                    "show": true,
+                    "name": "heroicons_outline:exclamation",
+                    "color": "warning"
+                },
+                "actions": {
+                    "confirm": {
+                        "show": false,
+                        "label": "ยืนยัน",
+                        "color": "primary"
+                    },
+                    "cancel": {
+                        "show": false,
+                        "label": "ยกเลิก",
+
+                    }
+                },
+                "dismissible": true
+            });
+
+            return;
+        }
+        // Open the confirmation dialog
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "เพิ่มข้อมูล",
+            "message": "คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ",
+            "icon": {
+                "show": false,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                const updatedData = this.formData.value;
+                this._Service.create(updatedData).subscribe({
+                    next: (resp: any) => {
+                        this.showFlashMessage('success');
+                        this._router.navigate(['admin/product/list']);
+                    },
+                    error: (err: any) => {
+                        this.formData.enable();
+                        this._fuseConfirmationService.open({
+                            "title": "กรุณาระบุข้อมูล",
+                            "message": err.error.message,
+                            "icon": {
+                                "show": true,
+                                "name": "heroicons_outline:exclamation",
+                                "color": "warning"
+                            },
+                            "actions": {
+                                "confirm": {
+                                    "show": false,
+                                    "label": "ยืนยัน",
+                                    "color": "primary"
+                                },
+                                "cancel": {
+                                    "show": false,
+                                    "label": "ยกเลิก",
+
+                                }
+                            },
+                            "dismissible": true
+                        });
+                    }
+                })
+            }
+        })
+
+
+        // แสดง Snackbar ข้อความ "complete"
+
+    }
+
+    onCancelClick(): void {
+
+        this._router.navigate(['admin/product/list']);
+    }
+
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
     }
 }

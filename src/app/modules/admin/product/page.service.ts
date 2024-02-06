@@ -48,7 +48,7 @@ export class Service {
 
     create(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/user', data)
+            .post<any>(environment.baseURL + '/api/service_center', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -58,7 +58,7 @@ export class Service {
 
     update(data: any, id: any): Observable<any> {
         return this._httpClient
-            .put<any>(environment.baseURL + '/api/employees/' + id, data)
+            .put<any>(environment.baseURL + '/api/service_center/' + id, data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -176,7 +176,7 @@ export class Service {
     getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
         return this._httpClient
             .post(
-                environment.baseURL + '/api/product_page',
+                environment.baseURL + '/api/service_center_page',
                 dataTablesParameters,
                 this.httpOptionsFormdata
             )
