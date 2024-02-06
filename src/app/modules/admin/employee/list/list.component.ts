@@ -76,9 +76,9 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadTable();
-        // this._service.getPosition().subscribe((resp: any)=>{
-        //     this.positions = resp.data
-        // })
+        this._service.getPosition().subscribe((resp: any)=>{
+            this.positions = resp.data
+        })
     }
 
     ngAfterViewInit(): void {

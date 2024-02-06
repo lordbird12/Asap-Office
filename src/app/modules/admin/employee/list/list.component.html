@@ -15,7 +15,10 @@
                 <div class="flex">
                     <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
                         <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
-                            <mat-icon>description</mat-icon>
+                            <mat-icon>
+                                <div style="width: 15px; height: 20px;">
+                                <img src="assets/icons/Vector.svg"></div>
+                            </mat-icon>
                             &nbsp;
                             อัปโหลด CSV
                         </button>
@@ -47,7 +50,7 @@
                         <th class="w-[100px]"> </th>
                     </tr>
                 </thead>
-                <tbody *ngIf="dataRow && dataRow.length > 0">
+                <!-- <tbody *ngIf="dataRow && dataRow.length > 0">
                     <tr>
                         <td style="text-align: center;">
                             <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
@@ -156,6 +159,25 @@
                         <td>14/2/2023 (6 เดือนที่แล้ว)</td>
                         <td>
                             <button mat-icon-button color="accent" (click)="editElement(dataRow[0].id)">
+                                <mat-icon>border_color</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody> -->
+
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td style="text-align: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
+                                <img src="assets/images/avatars/brian-hughes.jpg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </td>
+                        <td>{{ item.fname ? item.fname : "-" }}</td>
+                        <td>{{ item.detail ? item.detail : "-" }}</td>
+                        <td>{{ item.create_by ? item.create_by : "-" }}</td>
+                        <td>{{ item.created_at !== null ? (item.created_at | date : "dd-MM-yy, HH:mm"): "-"}}</td>
+                        <td>
+                            <button mat-icon-button color="accent" (click)="editElement(item)">
                                 <mat-icon>border_color</mat-icon>
                             </button>
                         </td>
