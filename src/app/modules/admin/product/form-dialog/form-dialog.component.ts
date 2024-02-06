@@ -49,6 +49,7 @@ import { BrowserModule } from '@angular/platform-browser';
     ],
 })
 export class FormDialogComponent implements OnInit {
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     // flashErrorMessage: string;
     positions: any[];
