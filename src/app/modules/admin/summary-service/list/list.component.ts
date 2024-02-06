@@ -80,9 +80,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        this._router.navigate([
-            'admin/product/edit/' + element
-        ])
+        this._router.navigate(['admin/summary-service/edit/:id']);
     }
     viewElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -114,7 +112,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     loadTable(): void {
         const that = this;
         this.dtOptions = {
-            pagingType: 'full_numbers',
+            pagingType: 'full_numbers', 
             pageLength: 25,
             serverSide: true,
             processing: true,

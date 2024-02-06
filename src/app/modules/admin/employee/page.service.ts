@@ -123,4 +123,14 @@ export class PageService {
                 })
             );
     }
+
+    getById(id: any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/user/' + id)
+            .pipe(
+                switchMap((response: any) => {
+                  return of(response.data);
+                })
+              );
+    }
 }

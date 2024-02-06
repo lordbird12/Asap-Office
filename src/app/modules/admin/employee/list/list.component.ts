@@ -76,6 +76,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadTable();
+
         // this._service.getPosition().subscribe((resp: any)=>{
         //     this.positions = resp.data
         // })
@@ -87,24 +88,26 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        const dialogRef = this.dialog.open(EditDialogComponent, {
-            width: '400px', // กำหนดความกว้างของ Dialog
-            data: {
-                data: element,
-                position: this.positions,
-            }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
-        });
+        this._router.navigate(['admin/employee/form', element]);
+        // const dialogRef = this.dialog.open(EditDialogComponent, {
+        //     width: '400px', // กำหนดความกว้างของ Dialog
+        //     data: {
+        //         data: element,
+        //         position: this.positions,
+        //     }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
+        // });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                // เมื่อ Dialog ถูกปิด ดำเนินการตามผลลัพธ์ที่คุณได้รับจาก Dialog
-            }
-        });
+        // dialogRef.afterClosed().subscribe((result) => {
+        //     if (result) {
+        //         // เมื่อ Dialog ถูกปิด ดำเนินการตามผลลัพธ์ที่คุณได้รับจาก Dialog
+        //     }
+        // });
     }
     addElement() {
-        this._router.navigate(['admin/employee/form'])
+        this._router.navigate(['admin/employee/form']);
         // const dialogRef = this.dialog.open(FormDialogComponent, {
-        //     width: '860px', // กำหนดความกว้างของ Dialog
+        //     width: '1000px',
+        //     height: '800px', // กำหนดความกว้างของ Dialog
         // });
 
         // dialogRef.afterClosed().subscribe((result) => {

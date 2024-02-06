@@ -1,31 +1,28 @@
 import { ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBuilder, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatOptionModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TextFieldModule } from '@angular/cdk/text-field';
-import { CommonModule, NgClass } from '@angular/common';
-import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
-import { Service } from '../page.service';
-import { Employee } from '../page.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { BrowserModule } from '@angular/platform-browser';
+import { Service } from '../page.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule, NgClass } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-select-car',
-    templateUrl: './form-dialog.component.html',
-    styleUrls: ['./form-dialog.component.scss'],
+    selector: 'app-edit-dialog',
+    templateUrl: './edit-dialog.component.html',
+    styleUrls: ['./edit-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -48,12 +45,10 @@ import { BrowserModule } from '@angular/platform-browser';
         CommonModule
     ],
 })
-export class FormDialogComponent implements OnInit {
-    formFieldHelpers: string[] = ['fuse-mat-dense'];
-    addForm: FormGroup;
-    // flashErrorMessage: string;
-    positions: any[];
+export class EditDialogComponent implements OnInit {
     flashMessage: 'success' | 'error' | null = null;
+    editForm: FormGroup;
+    positions: any[];
     taxType: any[] = [
         {
             id: 1,
@@ -81,41 +76,33 @@ export class FormDialogComponent implements OnInit {
             id: 4,
             name: 'กล่อง',
         },
-    ]
-    constructor(private dialogRef: MatDialogRef<FormDialogComponent>,
+    ];
+    Id: any;
+    warehouseData: any
+    constructor(private dialogRef: MatDialogRef<EditDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
-        private _service: Service,
         private _fuseConfirmationService: FuseConfirmationService,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _service: Service,
+        private _activatedRoute: ActivatedRoute,
+        private _formBuilder: FormBuilder,
     ) { }
 
     ngOnInit(): void {
         // สร้าง Reactive Form
-        this.addForm = this.formBuilder.group({
-            no: [],
-            code: [],
-            name: [],
-            tax_type: [],
-            qty: '',
-            price: '',
-            cost: '',
-            description: '',
-            remark: '',
-            vendor_id: ''
-        });
+        this._service.getWarehouse(this.data).subscribe((resp: any) => {
+            this.warehouseData = resp.data;
+            console.log('data',this.warehouseData.raws)
 
-        this._service.getPosition().subscribe((resp: any)=>{
-            this.positions = resp.data
+            this._changeDetectorRef.detectChanges();
         })
     }
 
     onSaveClick(): void {
         this.flashMessage = null;
-        // this.flashErrorMessage = null;
-        // Return if the form is invalid
-        if (this.addForm.invalid) {
-            this.addForm.enable();
+        if (this.editForm.invalid) {
+            this.editForm.enable();
             this._fuseConfirmationService.open({
                 "title": "กรุณาระบุข้อมูล",
                 "icon": {
@@ -166,14 +153,14 @@ export class FormDialogComponent implements OnInit {
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
-                const updatedData = this.addForm.value;
-                this._service.create(updatedData).subscribe({
+                const updatedData = this.editForm.value;
+                this._service.update(updatedData, this.data.id).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this.dialogRef.close(resp);
                     },
                     error: (err: any) => {
-                        this.addForm.enable();
+                        this.editForm.enable();
                         this._fuseConfirmationService.open({
                             "title": "กรุณาระบุข้อมูล",
                             "message": err.error.message,
@@ -206,8 +193,6 @@ export class FormDialogComponent implements OnInit {
 
     }
 
-
-
     onCancelClick(): void {
 
         this.dialogRef.close();
@@ -229,5 +214,4 @@ export class FormDialogComponent implements OnInit {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
-
 }

@@ -10,31 +10,20 @@
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between items-center">
                 <h2 class="text-2xl md:text-2xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                    ศูนย์บริการ
+                    สรุปภาพรวมการเข้ารับบริการ > Bank > เพิ่มเติม
                 </h2>
 
                 <div class="flex">
                     <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
                         style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
-                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
+                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'">
                             <mat-icon style="width: 10px; height: 10px;">
-                                <div style="width: 15px; height: 20px;">
-                                <img src="assets/icons/Vector.svg"></div>
+                                <div style="width: 20px; height: 20px;">
+                                <img src="assets/icons/file_arrow_down_icon.png"></div>
                             </mat-icon>
                             &nbsp;
-                            อัปโหลด CSV
+                            Export Excel
                         </button>
-                    </div>
-
-                    <div
-                        class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate ml-3">
-                        <button class="px-6" mat-flat-button [color]="'primary'" (click)="addElement()">
-                            <mat-icon>add_circle_outline</mat-icon>
-                            <div class="font-light">
-                                เพิ่มศูนย์บริการ
-                            </div>
-                        </button>
-
                     </div>
                 </div>
             </div>
@@ -48,10 +37,13 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="w-[20px]">ชื่อ</th>
-                        <th class="w-[20px]">เบอร์ติดต่อ</th>
-                        <th class="w-[30px]">ที่อยู่</th>
-                        <th class="w-[10px]"> </th>
+                        <th style="width: 100px;">ทะเบียนรถ</th>
+                        <th style="width: 150px;">วันเวลา</th>
+                        <th style="width: 80px;">ไมล์</th>
+                        <th style="width: 120px;">กิจกรรม</th>
+                        <th style="width: 150px;">ศูนย์บริการ</th>
+                        <th style="width: 200px;">อายุรถ <span style="font-size: smaller;">ตั้งแต่วันนำเข้าระบบ - วันที่เข้ารับบริการ</span></th>
+
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
@@ -59,11 +51,9 @@
                         <td class="font-light">{{item?.name}}</td>
                         <td class="font-light">{{item?.phone}}</td>
                         <td class="font-light">{{item?.address}}</td>
-                        <td>
-                            <button mat-icon-button color="accent" (click)="editElement(item.id)">
-                                <mat-icon>edit</mat-icon>
-                            </button>
-                        </td>
+                        <td class="font-light">{{item?.address}}</td>
+                        <td class="font-light">{{item?.address}}</td>                    
+                        <td class="font-light">{{item?.address}}</td>                    
                     </tr>
                 </tbody>
                 <!-- <tbody *ngIf="dataRow?.length != 0">

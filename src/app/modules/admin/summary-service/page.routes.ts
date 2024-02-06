@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { PageComponent } from './page.component';
 import { ListComponent } from './list/list.component';
 import { FormComponent } from './form/form.component';
+import { EditComponent } from './edit/edit.component';
 
 export default [
     // {
@@ -48,8 +49,8 @@ export default [
         component: PageComponent,
         children : [
             {
-                path     : 'form/:id',
-                component: FormComponent,
+                path     : 'edit/:id',
+                component: EditComponent,
                 resolve  : {
                     // brands    : () => inject(InventoryService).getBrands(),
                     // categories: () => inject(InventoryService).getCategories(),
