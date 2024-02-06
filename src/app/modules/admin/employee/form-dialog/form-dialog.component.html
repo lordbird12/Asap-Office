@@ -5,12 +5,12 @@
 
             <div class="flex flex-row">
 
-                <div class="flex flex-col mx-3 md:flex mb-4 w-full">
-                    <div class="grid grid-rows-7 grid-flow-col gap-4 ">
-                        <div class="row-span-5 "> <ngx-dropzone (change)="onSelect($event)">
+                <div class="flex flex-col mx-3 md:flex mb-6 px-50 pt-10">
+                    <div class="grid grid-rows-7 grid-flow-col gap-4">
+                        <div class="row-span-5"> <ngx-dropzone class="rounded-full" (change)="onSelect($event)">
                                 <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
                                 <div *ngFor="let f of files">
-                                    <ngx-dropzone-image-preview [file]="f" [removable]="true"
+                                    <ngx-dropzone-image-preview class="rounded-full"[file]="f" [removable]="true"
                                         (removed)="onRemove(f)"></ngx-dropzone-image-preview>
                                 </div>
                             </ngx-dropzone>
