@@ -61,6 +61,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/dashboards/project',
             },
             {
+                id: 'admin.comp',
+                title: 'สรุปภาพรวม',
+                type: 'basic',
+                icon: 'heroicons_outline:list-bullet',
+                link: '/admin/summary-service/list',
+            },
+            {
                 id: 'admin.department',
                 title: 'Ticket',
                 type: 'basic',

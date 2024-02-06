@@ -90,7 +90,7 @@ export class FormComponent implements OnInit {
             lname: [''],
             email: [''],
             phone: [''],
-            password: [''],
+            password: 555555,
         });
     }
     ngOnInit(): void {

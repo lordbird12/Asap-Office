@@ -1,0 +1,98 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between items-center">
+                <h2 class="text-2xl md:text-2xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+                    สรุปภาพรวมการเข้ารับบริการ > Bank
+                </h2>
+
+                <div class="flex">
+                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
+                        style="border: 1px solid #ccc; padding: 1px; border-radius: 20px; height: 50px;">
+                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
+                            <mat-icon style="width: 10px; height: 10px;">
+                                <div style="width: 20px; height: 20px;">
+                                <img src="assets/icons/file_arrow_down_icon.png"></div>
+                            </mat-icon>
+                            &nbsp;
+                            Export Excel
+                        </button>
+                    </div>
+
+                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate ml-3">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" placeholder="เลือกวันที่">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="w-[20px]">บริษัท</th>
+                        <th class="w-[20px]">จำนวนการเข้ารับบริการ</th>
+                        <th class="w-[20px]">จำนวนรถเข้ารับบริการ</th>
+                        <th class="w-[20px]">จำนวนรถในพอร์ต</th>
+                        <th class="w-[30px]">ค่าเฉลี่ยการเข้ารับบริการ</th>
+                        <th class="w-[10px]"> </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td class="font-light">{{item?.name}}</td>
+                        <td class="font-light">{{item?.phone}}</td>
+                        <td class="font-light">{{item?.address}}</td>
+                        <td class="font-light">{{item?.address}}</td>
+                        <td class="font-light">{{item?.address}}</td>
+                        <td>
+                            <button mat-button color="warn" size="small" (click)="editElement()">
+                                ดูเพิ่มเติม >
+                            </button>
+                        </td>                        
+                    </tr>
+                </tbody>
+                <!-- <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td style="text-align: center;">
+                            <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
+                                <img src="{{item?.image}}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </td>
+                        <td class="font-light">{{item?.fname}} {{item?.lname}}</td>
+                        <td class="font-light">{{item?.position?.name}}</td>
+                        <td class="font-light">{{item?.department?.name}}</td>
+                        <td class="font-light">{{ item?.created_at | date: "dd/MM/yyyy" }}</td>
+
+                        <td> <button mat-icon-button>
+                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                            </button>
+
+                        </td>
+                    </tr>
+                </tbody> -->
+
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="15" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
