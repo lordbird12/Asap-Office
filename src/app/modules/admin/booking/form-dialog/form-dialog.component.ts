@@ -64,8 +64,27 @@ export class FormDialogComponent implements OnInit {
     isLoading: boolean = false;
     positions: any[];
     permissions: any[];
+    services: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
+    status : any[] = [
+        {
+            status: 'Process',
+            name: 'กำลังดำเนินการ'
+        },
+        {
+            status: 'Waiting',
+            name: 'รอเข้ารับบริการ'
+        },
+        {
+            status: 'Finish',
+            name: 'เสร็จสิ้น'
+        },
+        {
+            status: 'Cancel',
+            name: 'ยกเลิก'
+        },
+    ]
     constructor(
         private dialogRef: MatDialogRef<FormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -74,9 +93,10 @@ export class FormDialogComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this._service.getPermission().subscribe((resp: any) => {
+        this._service.getService().subscribe((resp: any) => {
             this.permissions = resp.data;
         });
+        
         this.addForm = this.formBuilder.group({
             brand_model_id: [null],
             license: [null],
@@ -84,9 +104,16 @@ export class FormDialogComponent implements OnInit {
             date: [null],
             company: [null],
         });
+
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this._service.getService().subscribe((resp: any) => {
+            this.services = resp.data;
+            console.log(this.services)
+            this._changeDetectorRef.markForCheck();
+        });
+    }
 
     onSaveClick(): void {
         this.flashMessage = null;

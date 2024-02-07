@@ -78,7 +78,7 @@
             <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto"
                 *ngFor="let item of task; let i = index">
                 <p class="text-xl font-bold mx-5 mt-5 mb-2">
-                    {{item.name}}
+                    {{item.name}} <span class="font-light text-gray-500">({{item.task.length}})</span>
                 </p>
                 <p class="text-md mx-5 mb-2">
                     {{item.detail }}
