@@ -21,7 +21,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -35,6 +35,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { TicketCardComponent } from '../ticket-card/ticket-card.component';
 
 @Component({
     selector: 'car-list',
@@ -59,6 +60,7 @@ import { Router } from '@angular/router';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatDialogModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -72,21 +74,21 @@ export class ListComponent implements OnInit, AfterViewInit {
             id: 1,
             name: 'งานใหม่ / Todo',
             detail: 'งานใหม่รอรับ',
-            status : 'New',
+            status: 'New',
             task: []
         },
         {
             id: 2,
             name: 'กำลังดำเนินงาน',
             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-            status : 'Process',
+            status: 'Process',
             task: []
         },
         {
             id: 4,
             name: 'เสร็จสิ้น',
             detail: '-',
-            status : 'Finish',
+            status: 'Finish',
             task: []
         },
     ]
@@ -99,30 +101,30 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router
     ) {
-    
-        
+
+
     }
 
     ngOnInit() {
-        this._service.getTicket().subscribe((resp: any) =>{
+        this._service.getTicket().subscribe((resp: any) => {
             this.itemData = resp.data;
-            for (const item of this.itemData ) {
+            for (const item of this.itemData) {
                 if (item.status === 'New') {
                     this.task[0].task.push(item)
-                } 
+                }
                 else if (item.status === 'Process') {
                     this.task[1].task.push(item)
                 }
                 else if (item.status === 'Finish') {
                     this.task[2].task.push(item)
                 }
-              
+
             }
             this._changeDetectorRef.detectChanges();
         })
-   
-        
-    
+
+
+        // this.createTicket();
     }
 
     ngAfterViewInit(): void {
@@ -211,4 +213,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
+    createTicket() {
+        this.dialog.open(TicketCardComponent,
+            { minWidth: '50%' }
+        );
+    }
 }

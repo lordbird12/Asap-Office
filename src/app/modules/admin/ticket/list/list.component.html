@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'">
+                    <button (click)="createTicket()" class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'">
                         <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้าง Ticket
                     </button>
                 </div>
@@ -154,7 +154,7 @@
                                 <div class="flex px-4">
                                     <div>
                                         <span class="flex text-lg items-center justify-center">
-                                            <mat-icon svgIcon="feather:map-pin"> </mat-icon> 
+                                            <mat-icon svgIcon="feather:map-pin"> </mat-icon>
                                             &nbsp;
                                             {{card.service_center.name ?? ''}}
                                             <br>
