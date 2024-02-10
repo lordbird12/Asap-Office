@@ -36,6 +36,8 @@ import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { TicketCardComponent } from '../ticket-card/ticket-card.component';
+import { TicketDetailComponent } from '../ticket-detail/ticket-detail.component';
+import { TicketNewComponent } from '../ticket-new/ticket-new.component';
 
 @Component({
     selector: 'car-list',
@@ -214,7 +216,12 @@ export class ListComponent implements OnInit, AfterViewInit {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
     createTicket() {
-        this.dialog.open(TicketCardComponent,
+        this.dialog.open(TicketNewComponent,
+            { minWidth: '50%' }
+        );
+    }
+    detailTicket() {
+        this.dialog.open(TicketDetailComponent,
             { minWidth: '50%' }
         );
     }
