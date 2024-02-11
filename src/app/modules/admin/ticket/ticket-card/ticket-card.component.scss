@@ -12,4 +12,5 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:checked ~ * .checkbox-card {
     border: 1px solid #FF4849 !important;
+    background-color: #fff9f9 !important;
 }
