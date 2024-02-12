@@ -124,7 +124,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
 
 
-        // this.createTicket();
+        this.createTicket();
     }
 
     ngAfterViewInit(): void {

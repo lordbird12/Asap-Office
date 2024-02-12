@@ -35,11 +35,7 @@
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
-                <mat-form-field class="flex-auto">
-                    <input matInput [matDatepicker]="picker2" [placeholder]="'ระบุเวลา'">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
+                <app-dropdown-time></app-dropdown-time>
             </div>
         </div>
 
