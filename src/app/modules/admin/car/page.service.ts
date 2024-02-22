@@ -135,6 +135,16 @@ export class PageService {
                 })
             );
     }
+
+    importCar(data : any): Observable<any> {
+        return this._httpClient
+            .post(environment.baseURL + '/api/import_cars', data)
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
     /**
      * Get products
      *

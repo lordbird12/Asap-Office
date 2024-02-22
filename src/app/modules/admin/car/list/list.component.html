@@ -15,7 +15,7 @@
                 <div class="flex">
                     <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
                         style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
-                        <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'white'">
+                        <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'white'" (click)="uploadfile()">
                             <mat-icon>description</mat-icon>
                             &nbsp;
                             อัปโหลด CSV
@@ -34,7 +34,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

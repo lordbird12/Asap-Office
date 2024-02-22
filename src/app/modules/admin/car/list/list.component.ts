@@ -118,6 +118,19 @@ export class ListComponent implements OnInit, AfterViewInit {
         // });
     }
 
+    uploadfile() {
+                const dialogRef = this.dialog.open(FormDialogComponent, {
+            width: '1000px',
+            height: '600px', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                //    console.log(result,'result')
+            }
+        });
+    }
+
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
         const that = this;

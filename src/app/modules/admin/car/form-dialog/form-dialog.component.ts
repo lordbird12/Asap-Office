@@ -77,13 +77,7 @@ export class FormDialogComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.addForm = this.formBuilder.group({
-            license: [null],
-            brand_model_id: [null],
-            province_id: [null],
-            expire_date: [null],
-            client_id: [null],
-            image: [null],
-            status: [null],
+  file: ''
         });
     }
 
@@ -138,12 +132,12 @@ export class FormDialogComponent implements OnInit {
                         ) {
                             formData.append(key, value);
                         }
-                        if (key === 'image') {
+                        if (key === 'file') {
                             formData.append(key, this.selectedFile);
                         }
                     }
                 );
-                this._service.create(formData).subscribe({
+                this._service.importCar(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this.dialogRef.close(resp);
@@ -204,17 +198,11 @@ export class FormDialogComponent implements OnInit {
     onSelect(event: { addedFiles: File[] }): void {
         this.files.push(...event.addedFiles);
 
-        // this.addForm.patchValue({
-        //     image: this.files[0]
-        // })
-
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.onload = (e: any) => (this.url_logo = e.target.result);
-        const file = this.files[0];
         this.addForm.patchValue({
-            image: file,
-        });
+            file: this.files[0]
+        })
+
+      
     }
 
     onRemove(file: File): void {
