@@ -80,7 +80,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        this._router.navigate(['admin/product/form', element]);
+        this._router.navigate(['admin/service-center/form', element]);
     }
     viewElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -95,7 +95,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
     addElement() {
-        this._router.navigate(['admin/product/form']);
+        this._router.navigate(['admin/service-center/form']);
         // const dialogRef = this.dialog.open(FormDialogComponent, {
         //     width: '1000px',
         //     height: '600px', // กำหนดความกว้างของ Dialog
