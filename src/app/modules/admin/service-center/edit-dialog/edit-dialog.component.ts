@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from 
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Service } from '../page.service';
+import { PageService } from '../page.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule, NgClass } from '@angular/common';
@@ -84,7 +84,7 @@ export class EditDialogComponent implements OnInit {
         private formBuilder: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: Service,
+        private _service: PageService,
         private _activatedRoute: ActivatedRoute,
         private _formBuilder: FormBuilder,
     ) { }

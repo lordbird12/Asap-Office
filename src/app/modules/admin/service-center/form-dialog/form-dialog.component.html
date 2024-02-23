@@ -9,38 +9,31 @@
             <mat-icon svgIcon="heroicons_outline:x-mark" (click)="onCancelClick()"></mat-icon>
         </div>
     </div>
-    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === false">
+    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === true">
         <form [formGroup]="addForm">
             <div class="flex flex-col mx-3 md:flex mb-4 ">
-                <div class="">
-                    <ngx-dropzone (change)="onSelect($event)" class="w-full h-56 rounded-3xl">
-                        <ngx-dropzone-label>
-                            <img class="object-cover h-36 w-56 ..." src="assets/images/upload.png">
-                            <br><span>ลากและวางไฟล์ที่นี่หรือ</span>&nbsp;<span
-                                class="font-bold underline">เลือกไฟล์</span>
-                        </ngx-dropzone-label>
-                        <!-- <div *ngFor="let f of files">
-                            <ngx-dropzone-image-preview [file]="f" [removable]="true"
-                                (removed)="onRemove(f)"></ngx-dropzone-image-preview>
-                        </div> -->
-                    </ngx-dropzone>
+                <ngx-dropzone (change)="onSelect($event)" class="w-full h-56 rounded-3xl border-0">
+                    <ngx-dropzone-label>
+                        <img class="object-cover h-36 w-56 ..." src="assets/images/upload.png">
+                        <br><span>ลากและวางไฟล์ที่นี่หรือ</span>&nbsp;<span class="font-bold underline">เลือกไฟล์</span>
+                    </ngx-dropzone-label>
+                </ngx-dropzone>
 
-                </div>
             </div>
 
             <div class="flex flex-col mx-3 md:flex mb-4">
-                <div class=" bg-gray-50 rounded-2xl overflow-hidden px-2 pt-6 pb-8 mb-4 flex flex-col my-2">
+                <div class=" bg-gray-100 rounded-2xl overflow-hidden px-2 pt-6 pb-8 mb-4 flex flex-col my-2">
                     <div class="flex flex-row justify-between">
                         <div>
                             <h1 mat-dialog-title class="text-xl font-semibold ml-2"><img class="object-cover h-5 w-5 ..." src="assets/images/excel.png">ไฟล์ตัวอย่างข้อมูลต้นแบบ</h1>
                             <br>
-                            <p class="text-md ml-2">คุณสามารถดาวน์โหลดไฟล์ตัวอย่างข้อมูลต้นแบบ
-                                เพื่อกรอกข้อมูลและอัปโหลดเข้ามาในระบบได้</p>
+                            <p class="text-md ml-2">คุณสามารถดาวน์โหลดไฟล์ตัวอย่างข้อมูลต้นแบบ เพื่อกรอกข้อมูลและอัปโหลดเข้ามาในระบบได้
+                            </p>
                             <br>
                             <p class="text-md ml-2 text-red-400">อ่านคู่มือการใช้งาน</p>
                         </div>
                         <div class="flex justify-center items-center">
-                            <button class="px-6 ml-3 bg-white rounded-lg    " mat-flat-button  (click)="exportfile()">
+                            <button class="px-6 ml-3 bg-white rounded-lg" mat-flat-button (click)="exportfile()">
                                 ดาวน์โหลด
                             </button>
                         </div>
@@ -49,11 +42,11 @@
             </div>
         </form>
     </div>
-    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === true">
+    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === false">
         <form [formGroup]="addForm">
             <div class="flex flex-col mx-3 md:flex mb-4 mt-10">
                 <div class="flex justify-center">
-                    
+
                     <p class="text-lg">กำลังอัปโหลดข้อมูล กรุณารอสักครู่</p>
                 </div>
             </div>
@@ -64,13 +57,21 @@
                         <div class="flex flex-row">
                             <div><img class="object-cover h-15 w-15 ..." src="assets/images/sheet.png"></div>
                             <div>
-                                <span mat-dialog-title class="text-lg font-semibold ml-2">filename.csv</span>
+                                <span mat-dialog-title class="text-lg font-semibold ml-2">{{files[0]?.name}}</span>
                                 <br>
-                                <span mat-dialog-title class="text-2xl font-light ml-2 text-gray-500">15 MB</span>
+                                <span mat-dialog-title class="text-2xl font-light ml-2 text-gray-500">
+                                    {{files[0]?.size/1024}}
+                                    KB
+                                </span>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center" class="mt-10 px-2">
-                            <mat-progress-bar mode="determinate" value="40" class="rounded-full" [ngStyle]="{'background-color': '#F6F8FA'}"></mat-progress-bar>
+                        <div class="flex items-center justify-between px-2">
+                            <mat-progress-bar mode="determinate" [value]="uploadProgress" [ngStyle]="{'background-color': '#F6F8FA'}"></mat-progress-bar>
+
+
+                            <div class="ml-2 -mr-3">
+                                {{uploadProgress}}%
+                            </div>
                         </div>
                     </div>
                 </div>

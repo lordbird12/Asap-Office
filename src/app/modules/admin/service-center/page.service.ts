@@ -25,7 +25,7 @@ import { DataTablesResponse } from 'app/shared/datatable.types';
 const token = localStorage.getItem('accessToken') || null;
 
 @Injectable({ providedIn: 'root' })
-export class Service {
+export class PageService {
     // Private
     private _data: BehaviorSubject<any | null> = new BehaviorSubject(null);
 

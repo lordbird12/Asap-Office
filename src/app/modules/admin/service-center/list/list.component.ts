@@ -22,7 +22,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
-import { Service } from '../page.service';
+import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
@@ -63,7 +63,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: Service,
+        private _service: PageService,
         private _router: Router
     ) { }
 

@@ -21,7 +21,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'ศูนย์บริการ',
                 type: 'basic',
                 icon: 'heroicons_outline:building-storefront',
-                link: '/admin/product/list',
+                link: '/admin/service-center/list',
             },
             {
                 id: 'admin.car',

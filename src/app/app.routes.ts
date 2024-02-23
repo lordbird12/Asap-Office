@@ -183,9 +183,9 @@ export const appRoutes: Route[] = [
                             import('app/modules/admin/permission/page.routes'),
                     },
                     {
-                        path: 'product',
+                        path: 'service-center',
                         loadChildren: () =>
-                            import('app/modules/admin/product/page.routes'),
+                            import('app/modules/admin/service-center/page.routes'),
                     },
                     {
                         path: 'customer',

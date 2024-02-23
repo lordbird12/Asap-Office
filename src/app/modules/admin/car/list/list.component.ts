@@ -33,7 +33,7 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 
 @Component({
@@ -66,6 +66,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    dtInstance: Promise<DataTables.Api>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -119,15 +122,25 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     uploadfile() {
-                const dialogRef = this.dialog.open(FormDialogComponent, {
+        const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '500px',
             height: '600px', // กำหนดความกว้างของ Dialog
         });
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                //    console.log(result,'result')
+                this.rerender();
             }
+        });
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
         });
     }
 

@@ -30,7 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { AuthService } from 'app/core/auth/auth.service';
-import { Service } from '../page.service';
+import { PageService } from '../page.service';
 import { CommonModule } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 
@@ -98,7 +98,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _fuseConfirmationService: FuseConfirmationService,
         private _formBuilder: FormBuilder,
-        private _Service: Service,
+        private _Service: PageService,
         private _matDialog: MatDialog,
         private _router: Router,
         private activatedRoute: ActivatedRoute,

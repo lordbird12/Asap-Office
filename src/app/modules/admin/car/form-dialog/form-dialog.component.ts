@@ -31,6 +31,8 @@ import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'app-select-car',
@@ -57,11 +59,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         MatRadioModule,
         CommonModule,
         NgxDropzoneModule,
-        MatProgressBarModule
+        MatProgressBarModule,
     ],
 })
 export class FormDialogComponent implements OnInit {
-    display : boolean = true;
+    uploadProgress: number = 0;
+    display: boolean = true;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     isLoading: boolean = false;
@@ -77,27 +80,20 @@ export class FormDialogComponent implements OnInit {
         private formBuilder: FormBuilder,
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private http: HttpClient
     ) {
         this.addForm = this.formBuilder.group({
-  file: ''
+            file: '',
         });
     }
 
-    ngOnInit(): void {
-        this._service.getBrandModel().subscribe((resp: any) => {
-            this.brandmodel = resp;
-        });
-        this._service.getProvince().subscribe((resp: any) => {
-            this.province = resp;
-        });
-        this._service.getCompany().subscribe((resp: any) => {
-            this.company = resp;
-        });
-    }
+    ngOnInit(): void {}
 
     exportfile() {
-        window.open('https://asha-tech.co.th/asap/public/sample_file/cars.xlsx')
+        window.open(
+            'https://asha-tech.co.th/asap/public/sample_file/cars.xlsx'
+        );
     }
 
     onSaveClick(): void {
@@ -129,6 +125,7 @@ export class FormDialogComponent implements OnInit {
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
+                this.display = false;
                 const formData = new FormData();
                 Object.entries(this.addForm.value).forEach(
                     ([key, value]: any[]) => {
@@ -139,41 +136,60 @@ export class FormDialogComponent implements OnInit {
                         ) {
                             formData.append(key, value);
                         }
-                        if (key === 'file') {
-                            formData.append(key, this.selectedFile);
-                        }
+                        // if (key === 'file') {
+                        //     formData.append(key, this.selectedFile);
+                        // }
                     }
                 );
-                this._service.importCar(formData).subscribe({
-                    next: (resp: any) => {
-                        this.showFlashMessage('success');
-                        this.dialogRef.close(resp);
-                    },
-                    error: (err: any) => {
-                        this.addForm.enable();
-                        this._fuseConfirmationService.open({
-                            title: 'กรุณาระบุข้อมูล',
-                            message: err.error.message,
-                            icon: {
-                                show: true,
-                                name: 'heroicons_outline:exclamation',
-                                color: 'warning',
-                            },
-                            actions: {
-                                confirm: {
-                                    show: false,
-                                    label: 'ยืนยัน',
-                                    color: 'primary',
-                                },
-                                cancel: {
-                                    show: false,
-                                    label: 'ยกเลิก',
-                                },
-                            },
-                            dismissible: true,
-                        });
-                    },
-                });
+                this.http
+                    .post(environment.baseURL + '/api/import_cars', formData, {
+                        reportProgress: true,
+                        observe: 'events',
+                    })
+                    .subscribe((event: HttpEvent<any>) => {
+                        switch (event.type) {
+                            case HttpEventType.UploadProgress:
+                                if (event.total) {
+                                    this.uploadProgress = Math.round(
+                                        (100 * event.loaded) / event.total
+                                    );
+                                }
+                                break;
+                            case HttpEventType.Response:
+                                this.dialogRef.close();
+                                break;
+                        }
+                    });
+                // this._service.importCar(formData).subscribe({
+                //     next: (resp: any) => {
+                //         this.showFlashMessage('success');
+                //         this.dialogRef.close(resp);
+                //     },
+                //     error: (err: any) => {
+                //         this.addForm.enable();
+                //         this._fuseConfirmationService.open({
+                //             title: 'กรุณาระบุข้อมูล',
+                //             message: err.error.message,
+                //             icon: {
+                //                 show: true,
+                //                 name: 'heroicons_outline:exclamation',
+                //                 color: 'warning',
+                //             },
+                //             actions: {
+                //                 confirm: {
+                //                     show: false,
+                //                     label: 'ยืนยัน',
+                //                     color: 'primary',
+                //                 },
+                //                 cancel: {
+                //                     show: false,
+                //                     label: 'ยกเลิก',
+                //                 },
+                //             },
+                //             dismissible: true,
+                //         });
+                //     },
+                // });
             }
         });
 
@@ -206,10 +222,9 @@ export class FormDialogComponent implements OnInit {
         this.files.push(...event.addedFiles);
 
         this.addForm.patchValue({
-            file: this.files[0]
-        })
-
-      
+            file: this.files[0],
+        });
+        this.onSaveClick();
     }
 
     onRemove(file: File): void {
