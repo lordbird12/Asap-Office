@@ -1,35 +1,48 @@
 <div class="md:max-w-lg mx-auto">
-    <div mat-dialog-content class="max-h-96 md:max-h-180">
+    <div class="flex flex-row justify-between">
+        <div>
+            <h1 mat-dialog-title class="text-xl font-semibold ml-5">อัพโหลด CSV</h1>
+            <br>
+            <p class="text-md mb-4 ml-5">เลือกไฟล์ที่ต้องการอัปโหลด</p>
+        </div>
+        <div>
+            <mat-icon svgIcon="heroicons_outline:x-mark" (click)="onCancelClick()"></mat-icon>
+        </div>
+    </div>
+    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180">
         <form [formGroup]="addForm">
-            <div class="flex flex-col w-full">
-                <div class="flex flex-row mt-2 justify-between">
-                    <div class="flex justify-start">
-                        <h2 class="text-2xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
-                            อัปโหลด CSV
-                        </h2>
-                    </div>
-                    <div class="flex justify-end">
-                        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                            
-                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
-                        </div>
-                    </div>
+            <div class="flex flex-col mx-3 md:flex mb-4 ">
+                <div class="">
+                    <ngx-dropzone (change)="onSelect($event)" class="w-full h-56 rounded-3xl">
+                        <ngx-dropzone-label>
+                            <img class="object-cover h-36 w-56 ..." src="assets/images/upload.png">
+                            <br><span>ลากและวางไฟล์ที่นี่หรือ</span>&nbsp;<span
+                                class="font-bold underline">เลือกไฟล์</span>
+                        </ngx-dropzone-label>
+                        <!-- <div *ngFor="let f of files">
+                            <ngx-dropzone-image-preview [file]="f" [removable]="true"
+                                (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                        </div> -->
+                    </ngx-dropzone>
+
                 </div>
-                <div class="flex flex-col mx-3 md:flex mb-4 w-full">
-                    <div class="grid grid-rows-3 grid-flow-col gap-4 ">
-                        <div class="row-span-3 ">
-                            <ngx-dropzone (change)="onSelect($event)" class="w-[550px] h-[300px] rounded-3xl">
-                                <ngx-dropzone-label>
-                                    <img class="object-cover h-48 w-56 ..." src="assets/images/upload.png">
-                                    <br><span>ลากและวางไฟล์ที่นี่หรือ</span>&nbsp;<span
-                                        class="font-bold underline">เลือกไฟล์</span>
-                                </ngx-dropzone-label>
-                                <!-- <div *ngFor="let f of files">
-                                    <ngx-dropzone-image-preview [file]="f" [removable]="true"
-                                        (removed)="onRemove(f)"></ngx-dropzone-image-preview>
-                                </div> -->
-                            </ngx-dropzone>
-                        
+            </div>
+
+            <div class="flex flex-col mx-3 md:flex mb-4">
+                <div class=" bg-gray-50 rounded-2xl overflow-hidden px-2 pt-6 pb-8 mb-4 flex flex-col my-2">
+                    <div class="flex flex-row justify-between">
+                        <div>
+                            <h1 mat-dialog-title class="text-xl font-semibold ml-2"><img class="object-cover h-5 w-5 ..." src="assets/images/excel.png">ไฟล์ตัวอย่างข้อมูลต้นแบบ</h1>
+                            <br>
+                            <p class="text-md ml-2">คุณสามารถดาวน์โหลดไฟล์ตัวอย่างข้อมูลต้นแบบ
+                                เพื่อกรอกข้อมูลและอัปโหลดเข้ามาในระบบได้</p>
+                            <br>
+                            <p class="text-md ml-2 text-red-400">อ่านคู่มือการใช้งาน</p>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <button class="px-6 ml-3 bg-white rounded-lg    " mat-flat-button  (click)="onSaveClick()">
+                                ดาวน์โหลด
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -37,15 +50,9 @@
         </form>
     </div>
     <div mat-dialog-actions class="flex justify-end mt-4">
-        <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
-            <div class="font-light">
-                ยกเลิก
-            </div>
-        </button>
         <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-            <div class="font-light">
-                บันทึก
-            </div>
+            ตกลง
         </button>
+     
     </div>
 </div>

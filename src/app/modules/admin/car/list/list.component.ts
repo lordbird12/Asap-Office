@@ -120,7 +120,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     uploadfile() {
                 const dialogRef = this.dialog.open(FormDialogComponent, {
-            width: '1000px',
+            width: '500px',
             height: '600px', // กำหนดความกว้างของ Dialog
         });
 
