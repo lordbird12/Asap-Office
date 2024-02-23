@@ -24,10 +24,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/admin/product/list',
             },
             {
-                id: 'admin.position',
+                id: 'admin.car',
                 title: 'รถ',
                 type: 'basic',
-                icon: 'heroicons_outline:list-bullet',
+                icon: 'mat_outline:directions_car',
                 link: '/admin/car/list',
             },
             {
@@ -41,8 +41,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'admin.permission',
                 title: 'ประวัติทำรายการ',
                 type: 'basic',
-                icon: 'heroicons_outline:list-bullet',
-                link: '#',
+                icon: 'mat_outline:access_time',
+                link: '/admin/history/list',
             },
         ],
     },
@@ -52,6 +52,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ขัอมูลเกี่ยวกับระบบ',
         type: 'group',
         icon: 'heroicons_outline:home',
+        hidden: () => {
+            return true;
+        },
         children: [
             {
                 id: 'admin.comp',
@@ -110,6 +113,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ขัอมูลเกี่ยวกับระบบ',
         type: 'group',
         icon: 'heroicons_outline:home',
+        hidden: () => {
+            return true;
+        },
         children: [
             {
                 id: 'sales.list',
@@ -140,6 +146,9 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:user',
                 link: '/admin/employee/list',
+                hidden: () => {
+                    return true;
+                },
             },
             {
                 id: 'admin.logout',

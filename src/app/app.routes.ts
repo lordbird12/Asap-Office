@@ -158,6 +158,11 @@ export const appRoutes: Route[] = [
                             import('app/modules/admin/department/page.routes'),
                     },
                     {
+                        path: 'history',
+                        loadChildren: () =>
+                            import('app/modules/admin/history/page.routes'),
+                    },
+                    {
                         path: 'position',
                         loadChildren: () =>
                             import('app/modules/admin/position/page.routes'),
