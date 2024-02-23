@@ -224,4 +224,14 @@ export class Service {
                 })
               );
     }
+
+    import(data : any): Observable<any> {
+        return this._httpClient
+            .post(environment.baseURL + '/api/import_service_centers', data)
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
 }

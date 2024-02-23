@@ -9,7 +9,7 @@
             <mat-icon svgIcon="heroicons_outline:x-mark" (click)="onCancelClick()"></mat-icon>
         </div>
     </div>
-    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180">
+    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === false">
         <form [formGroup]="addForm">
             <div class="flex flex-col mx-3 md:flex mb-4 ">
                 <div class="">
@@ -40,7 +40,7 @@
                             <p class="text-md ml-2 text-red-400">อ่านคู่มือการใช้งาน</p>
                         </div>
                         <div class="flex justify-center items-center">
-                            <button class="px-6 ml-3 bg-white rounded-lg    " mat-flat-button  (click)="onSaveClick()">
+                            <button class="px-6 ml-3 bg-white rounded-lg    " mat-flat-button  (click)="exportfile()">
                                 ดาวน์โหลด
                             </button>
                         </div>
@@ -49,10 +49,37 @@
             </div>
         </form>
     </div>
-    <div mat-dialog-actions class="flex justify-end mt-4">
+    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === true">
+        <form [formGroup]="addForm">
+            <div class="flex flex-col mx-3 md:flex mb-4 mt-10">
+                <div class="flex justify-center">
+                    
+                    <p class="text-lg">กำลังอัปโหลดข้อมูล กรุณารอสักครู่</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col mx-3 md:flex mb-4">
+                <div class=" border-2 border-gray-100 rounded-2xl overflow-hidden px-2 pt-6 pb-8 mb-4 flex flex-col my-2">
+                    <div class="flex flex-col justify-between">
+                        <div class="flex flex-row">
+                            <div><img class="object-cover h-15 w-15 ..." src="assets/images/sheet.png"></div>
+                            <div>
+                                <span mat-dialog-title class="text-lg font-semibold ml-2">filename.csv</span>
+                                <br>
+                                <span mat-dialog-title class="text-2xl font-light ml-2 text-gray-500">15 MB</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center" class="mt-10 px-2">
+                            <mat-progress-bar mode="determinate" value="40" class="rounded-full" [ngStyle]="{'background-color': '#F6F8FA'}"></mat-progress-bar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- <div mat-dialog-actions class="flex justify-end mt-4">
         <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
             ตกลง
         </button>
-     
-    </div>
+    </div> -->
 </div>

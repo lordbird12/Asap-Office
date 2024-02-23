@@ -1,6 +1,18 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -18,6 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'app-select-car',
@@ -43,18 +56,23 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         MatTableModule,
         MatRadioModule,
         CommonModule,
-        NgxDropzoneModule
+        NgxDropzoneModule,
+        MatProgressBarModule
     ],
 })
 export class FormDialogComponent implements OnInit {
+    display : boolean = true;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     isLoading: boolean = false;
     positions: any[];
-    permissions: any[];
+    brandmodel: any[];
+    province: any[];
+    company: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
-    constructor(private dialogRef: MatDialogRef<FormDialogComponent>,
+    constructor(
+        private dialogRef: MatDialogRef<FormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
         private _service: PageService,
@@ -62,29 +80,17 @@ export class FormDialogComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.addForm = this.formBuilder.group({
-            department_id: [null],
-            position_id: [null],
-            fname: [null],
-            lname: [null],
-            email: [null],
-            phone: [null],
-            image: [null],
-            password: [null],
+  file: ''
         });
     }
 
     ngOnInit(): void {
-        // this._service.getPermission().subscribe((resp: any) => {
-        //     this.permissions = resp.data
-        // })
-
-        this._service.getPosition().subscribe((resp: any) => {
-            this.positions = resp.data
-        })
-
+      
     }
 
-
+    exportfile() {
+        window.open('https://asha-tech.co.th/asap/public/sample_file/cars.xlsx')
+    }
 
     onSaveClick(): void {
         this.flashMessage = null;
@@ -125,12 +131,12 @@ export class FormDialogComponent implements OnInit {
                         ) {
                             formData.append(key, value);
                         }
-                        if (key === 'image') {
+                        if (key === 'file') {
                             formData.append(key, this.selectedFile);
                         }
                     }
                 );
-                this._service.create(formData).subscribe({
+                this._service.import(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this.dialogRef.close(resp);
@@ -166,10 +172,7 @@ export class FormDialogComponent implements OnInit {
         // แสดง Snackbar ข้อความ "complete"
     }
 
-
-
     onCancelClick(): void {
-
         this.dialogRef.close();
     }
 
@@ -182,7 +185,6 @@ export class FormDialogComponent implements OnInit {
 
         // Hide it after 3 seconds
         setTimeout(() => {
-
             this.flashMessage = null;
 
             // Mark for check
@@ -193,19 +195,13 @@ export class FormDialogComponent implements OnInit {
     files: File[] = [];
     url_logo: string;
     onSelect(event: { addedFiles: File[] }): void {
-        this.files.push(...event.addedFiles); 
+        this.files.push(...event.addedFiles);
 
-        // this.addForm.patchValue({
-        //     image: this.files[0]
-        // })
-
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.onload = (e: any) => (this.url_logo = e.target.result);
-        const file = this.files[0];
         this.addForm.patchValue({
-            image: file,
-        });
+            file: this.files[0]
+        })
+
+      
     }
 
     onRemove(file: File): void {

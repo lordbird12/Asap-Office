@@ -133,4 +133,14 @@ export class PageService {
                 })
               );
     }
+
+    import(data : any): Observable<any> {
+        return this._httpClient
+            .post(environment.baseURL + '/api/import_employees', data)
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
 }

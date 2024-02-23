@@ -1,26 +1,36 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+    ViewEncapsulation,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBuilder, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
-import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { Service } from '../page.service';
-import { Employee } from '../page.types';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'app-select-car',
@@ -45,129 +55,88 @@ import { BrowserModule } from '@angular/platform-browser';
         MatPaginatorModule,
         MatTableModule,
         MatRadioModule,
-        CommonModule
+        CommonModule,
+        NgxDropzoneModule,
+        MatProgressBarModule
     ],
 })
 export class FormDialogComponent implements OnInit {
+    display : boolean = true;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
-    // flashErrorMessage: string;
+    isLoading: boolean = false;
     positions: any[];
+    brandmodel: any[];
+    province: any[];
+    company: any[];
     flashMessage: 'success' | 'error' | null = null;
-    taxType: any[] = [
-        {
-            id: 1,
-            name: 'สินค้ามีภาษี',
-        },
-        {
-            id: 2,
-            name: 'สินค้าไม่มีภาษี',
-        },
-    ];
-    uniType: any[] = [
-        {
-            id: 1,
-            name: 'แท่ง',
-        },
-        {
-            id: 2,
-            name: 'ชิ้น',
-        },
-        {
-            id: 3,
-            name: 'กิโลกรัม',
-        },
-        {
-            id: 4,
-            name: 'กล่อง',
-        },
-    ]
-    constructor(private dialogRef: MatDialogRef<FormDialogComponent>,
+    selectedFile: File = null;
+    constructor(
+        private dialogRef: MatDialogRef<FormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
         private _service: Service,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef
-    ) { }
+    ) {
+        this.addForm = this.formBuilder.group({
+  file: ''
+        });
+    }
 
     ngOnInit(): void {
-        // สร้าง Reactive Form
-        this.addForm = this.formBuilder.group({
-            no: [],
-            code: [],
-            name: [],
-            tax_type: [],
-            qty: '',
-            price: '',
-            cost: '',
-            description: '',
-            remark: '',
-            vendor_id: ''
-        });
+      
+    }
 
-        this._service.getPosition().subscribe((resp: any)=>{
-            this.positions = resp.data
-        })
+    exportfile() {
+        window.open('https://asha-tech.co.th/asap/public/sample_file/cars.xlsx')
     }
 
     onSaveClick(): void {
         this.flashMessage = null;
-        // this.flashErrorMessage = null;
-        // Return if the form is invalid
-        if (this.addForm.invalid) {
-            this.addForm.enable();
-            this._fuseConfirmationService.open({
-                "title": "กรุณาระบุข้อมูล",
-                "icon": {
-                    "show": true,
-                    "name": "heroicons_outline:exclamation",
-                    "color": "warning"
-                },
-                "actions": {
-                    "confirm": {
-                        "show": false,
-                        "label": "ยืนยัน",
-                        "color": "primary"
-                    },
-                    "cancel": {
-                        "show": false,
-                        "label": "ยกเลิก",
 
-                    }
-                },
-                "dismissible": true
-            });
-
-            return;
-        }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            "title": "เพิ่มข้อมูล",
-            "message": "คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ",
-            "icon": {
-                "show": false,
-                "name": "heroicons_outline:exclamation",
-                "color": "warning"
+            title: 'เพิ่มข้อมูล',
+            message: 'คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ',
+            icon: {
+                show: false,
+                name: 'heroicons_outline:exclamation',
+                color: 'warning',
             },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ยืนยัน",
-                    "color": "primary"
+            actions: {
+                confirm: {
+                    show: true,
+                    label: 'ยืนยัน',
+                    color: 'primary',
                 },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
+                cancel: {
+                    show: true,
+                    label: 'ยกเลิก',
+                },
             },
-            "dismissible": true
+            dismissible: true,
         });
 
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
-                const updatedData = this.addForm.value;
-                this._service.create(updatedData).subscribe({
+                const formData = new FormData();
+                Object.entries(this.addForm.value).forEach(
+                    ([key, value]: any[]) => {
+                        if (
+                            value !== '' &&
+                            value !== 'null' &&
+                            value !== null
+                        ) {
+                            formData.append(key, value);
+                        }
+                        if (key === 'file') {
+                            formData.append(key, this.selectedFile);
+                        }
+                    }
+                );
+                this._service.import(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this.dialogRef.close(resp);
@@ -175,41 +144,35 @@ export class FormDialogComponent implements OnInit {
                     error: (err: any) => {
                         this.addForm.enable();
                         this._fuseConfirmationService.open({
-                            "title": "กรุณาระบุข้อมูล",
-                            "message": err.error.message,
-                            "icon": {
-                                "show": true,
-                                "name": "heroicons_outline:exclamation",
-                                "color": "warning"
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
                             },
-                            "actions": {
-                                "confirm": {
-                                    "show": false,
-                                    "label": "ยืนยัน",
-                                    "color": "primary"
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
                                 },
-                                "cancel": {
-                                    "show": false,
-                                    "label": "ยกเลิก",
-
-                                }
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
                             },
-                            "dismissible": true
+                            dismissible: true,
                         });
-                    }
-                })
+                    },
+                });
             }
-        })
-
+        });
 
         // แสดง Snackbar ข้อความ "complete"
-
     }
 
-
-
     onCancelClick(): void {
-
         this.dialogRef.close();
     }
 
@@ -222,7 +185,6 @@ export class FormDialogComponent implements OnInit {
 
         // Hide it after 3 seconds
         setTimeout(() => {
-
             this.flashMessage = null;
 
             // Mark for check
@@ -230,4 +192,22 @@ export class FormDialogComponent implements OnInit {
         }, 3000);
     }
 
+    files: File[] = [];
+    url_logo: string;
+    onSelect(event: { addedFiles: File[] }): void {
+        this.files.push(...event.addedFiles);
+
+        this.addForm.patchValue({
+            file: this.files[0]
+        })
+
+      
+    }
+
+    onRemove(file: File): void {
+        const index = this.files.indexOf(file);
+        if (index >= 0) {
+            this.files.splice(index, 1);
+        }
+    }
 }

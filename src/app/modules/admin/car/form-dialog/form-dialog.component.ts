@@ -30,6 +30,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'app-select-car',
@@ -56,9 +57,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
         MatRadioModule,
         CommonModule,
         NgxDropzoneModule,
+        MatProgressBarModule
     ],
 })
 export class FormDialogComponent implements OnInit {
+    display : boolean = true;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     isLoading: boolean = false;
@@ -91,6 +94,10 @@ export class FormDialogComponent implements OnInit {
         this._service.getCompany().subscribe((resp: any) => {
             this.company = resp;
         });
+    }
+
+    exportfile() {
+        window.open('https://asha-tech.co.th/asap/public/sample_file/cars.xlsx')
     }
 
     onSaveClick(): void {

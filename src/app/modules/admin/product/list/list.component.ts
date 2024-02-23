@@ -65,7 +65,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: Service,
         private _router: Router
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.loadTable();
@@ -80,7 +80,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
-        this._router.navigate(['admin/product/form' ,element]);
+        this._router.navigate(['admin/product/form', element]);
     }
     viewElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -106,6 +106,19 @@ export class ListComponent implements OnInit, AfterViewInit {
         //         //    console.log(result,'result')
         //     }
         // });
+    }
+
+    uploadfile() {
+        const dialogRef = this.dialog.open(FormDialogComponent, {
+            width: '500px',
+            height: '600px', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                //    console.log(result,'result')
+            }
+        });
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
