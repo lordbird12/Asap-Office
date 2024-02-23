@@ -12,22 +12,26 @@
                     พนักงาน
                 </h2>
                 <div class="flex">
-                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
+                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
                         <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
-                            <mat-icon>
+                            <mat-icon style="width: 10px; height: 10px;">
                                 <div style="width: 15px; height: 20px;">
-                                <img src="assets/icons/Vector.svg"></div>
+                                    <img src="assets/icons/Vector.svg">
+                                </div>
                             </mat-icon>
                             &nbsp;
                             อัปโหลด CSV
                         </button>
                     </div>
 
-                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate ml-3">
-                        <button class="px-6" mat-flat-button [color]="'primary'" (click)="addElement()">
+                    <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+                        <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="addElement()">
+
                             <mat-icon>add_circle_outline</mat-icon>
-                            &nbsp;
-                            เพิ่มพนักงาน
+
+                            <div class="font-light">
+                                เพิ่มพนักงาน
+                            </div>
                         </button>
                     </div>
                 </div>
