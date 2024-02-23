@@ -142,7 +142,7 @@ export class FormDialogComponent implements OnInit {
                     }
                 );
                 this.http
-                    .post(environment.baseURL + '/api/import_cars', formData, {
+                    .post(environment.baseURL + '/api/import_employees', formData, {
                         reportProgress: true,
                         observe: 'events',
                     })
