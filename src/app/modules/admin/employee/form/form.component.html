@@ -25,15 +25,13 @@
                         <ngx-dropzone class="rounded-full" style="width: 180px; height: 180px;" (change)="onSelect($event)">
                             <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
                             <div *ngFor="let f of files">
-                                <ngx-dropzone-image-preview class="rounded-full" [file]="f" [removable]="true"
-                                    (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                <ngx-dropzone-image-preview class="rounded-full" [file]="f" [removable]="true" (removed)="onRemove(f)"></ngx-dropzone-image-preview>
                             </div>
                         </ngx-dropzone>
-                        <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png, <br>
-                            สูงสุดไม่เกิน 3.1 MB</div>
+                        <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png, <br> สูงสุดไม่เกิน 3.1 MB</div>
                     </div>
                 </div>
-                
+
             </form>
             <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="addForm">
                 <div class="flex">
@@ -89,42 +87,45 @@
                 <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">แผนก</h1>
                 <div>
                     <mat-radio-group aria-label="Select an option" formControlName="department_id" class="flex flex-col">
-                      <mat-radio-button value="1">
-                        <div class="font-light">Government</div>
-                      </mat-radio-button>
-                      <mat-radio-button value="2">
-                        <div class="font-light">Bank</div>
-                      </mat-radio-button>
-                      <mat-radio-button value="3">
-                        <div class="font-light">Hospital</div>
-                      </mat-radio-button>
-                      <mat-radio-button value="4">
-                        <div class="font-light">SME1</div>
-                      </mat-radio-button>
-                      <mat-radio-button value="5">
-                        <div class="font-light">SME2</div>
-                      </mat-radio-button>
-                      <mat-radio-button value="6">
-                        <div class="font-light">SME3</div>
-                      </mat-radio-button>
+                        <mat-radio-button value="1">
+                            <div class="font-light">Government</div>
+                        </mat-radio-button>
+                        <mat-radio-button value="2">
+                            <div class="font-light">Bank</div>
+                        </mat-radio-button>
+                        <mat-radio-button value="3">
+                            <div class="font-light">Hospital</div>
+                        </mat-radio-button>
+                        <mat-radio-button value="4">
+                            <div class="font-light">SME1</div>
+                        </mat-radio-button>
+                        <mat-radio-button value="5">
+                            <div class="font-light">SME2</div>
+                        </mat-radio-button>
+                        <mat-radio-button value="6">
+                            <div class="font-light">SME3</div>
+                        </mat-radio-button>
                     </mat-radio-group>
-                  </div>
+                </div>
 
             </form>
         </div>
 
-        <div mat-dialog-actions class="flex justify-end mt-4">
-            <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
-                <div class="font-light">
-                    ยกเลิก
-                </div>
+
+
+    </div>
+    <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex justify-end">
+        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
+            <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
+                ยกเลิก
             </button>
-            <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+        </div>
+        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+            <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
                 <div class="font-light">
                     บันทึก
                 </div>
             </button>
-    
         </div>
 
     </div>

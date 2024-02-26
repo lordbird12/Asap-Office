@@ -118,7 +118,6 @@ export class SelectCarComponent implements OnInit {
         });
     }
     check(event: any, item: any) {
-        console.log(event);
 
         if (event.checked == true) {
             if (!this.selectedcar) {

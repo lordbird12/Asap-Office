@@ -5,7 +5,7 @@
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-center">
                 <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    สร้างศูนย์บริการ
+                    ศูนย์บริการ
                 </h2>
             </div>
 
@@ -14,9 +14,9 @@
 
     <!-- Main -->
     <div class="flex-auto p-6 sm:p-10 items-center ">
-        <div class="grid gap-4 w-full"> 
+        <div class="grid gap-4 w-full">
             <form class="bg-card  md:shadow overflow-hidden ml-64 mr-64 rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="formData">
-                
+
                 <div class="-mx-3 md:flex mb-6">
                     <div class="md:min-w-full px-3 mb-6 md:mb-0">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
@@ -30,7 +30,7 @@
                     <div class="md:min-w-full px-3 mb-6 md:mb-0">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-label>เบอร์โทรศัพท์ติดต่อ</mat-label>
-                            <input matInput formControlName="phone" >
+                            <input matInput formControlName="phone">
                             <!-- <mat-hint>This is a hint text</mat-hint> -->
                         </mat-form-field>
                     </div>
@@ -62,20 +62,23 @@
 
                 </div>
 
-                <div mat-dialog-actions class="flex justify-end mt-4">
-                    <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
-                        <div class="font-light">
-                            ยกเลิก
-                        </div>
-                    </button>
-                    <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-                        <div class="font-light">
-                            บันทึก
-                        </div>
-                    </button>
-            
-                </div>
             </form>
         </div>
 
     </div>
+    <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex justify-end">
+        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
+            <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
+                ยกเลิก
+            </button>
+        </div>
+        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+            <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                <div class="font-light">
+                    บันทึก
+                </div>
+            </button>
+        </div>
+
+    </div>
+</div>

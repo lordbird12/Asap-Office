@@ -239,7 +239,7 @@ export class FormComponent implements OnInit {
         // แสดง Snackbar ข้อความ "complete"
     }
 
-    onCancelClick(): void {
+    back(): void {
 
         this._router.navigate(['admin/employee/list']);
     }

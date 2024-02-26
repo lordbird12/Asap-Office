@@ -147,8 +147,7 @@ export class EditFormComponent implements OnInit {
 
     onSaveClick(): void {
         this.flashMessage = null;
-        this._router.navigateByUrl('admin/car/list').then(() => {});
-        return;
+
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูล',

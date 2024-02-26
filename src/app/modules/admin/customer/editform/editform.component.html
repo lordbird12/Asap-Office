@@ -1,154 +1,140 @@
 <form [formGroup]="addForm" class="w-full">
     <div class="flex flex-col flex-auto min-w-0">
         <!-- Header -->
-        <div
-            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
             <div class="flex-1 flemin-w-0">
                 <!-- Title -->
-                <div class="flex flex-row mt-2 justify-between">
-                    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight leading-7 sm:leading-10 truncate">
-                        แก้ไขลูกค้า
+                <div class="flex flex-row mt-2 justify-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        ลูกค้าในระบบ
                     </h2>
                 </div>
+
             </div>
         </div>
 
         <div class="flex-auto p-6 sm:p-10 items-center ">
-            <div
-                class="bg-card md:shadow overflow-hidden ml-64 mr-64 rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+            <div class="bg-card md:shadow overflow-hidden ml-64 mr-64 rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
                 <div class="md:max-w-lg mx-auto">
-                    <h1 class="text-xl font-semibold mb-4 ml-5 text-center">แก้ไขลูกค้า</h1>
-                    <div class="">
-                        <form [formGroup]="addForm">
+                    <form [formGroup]="addForm">
 
-                            <div class="flex flex-row">
+                        <div class="flex flex-row">
 
-                                <div class="flex flex-col mx-3 md:flex mb-4 w-full">
-                                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">ข้อมูลลูกค้า
-                                    </h1>
-                                    <div>
+                            <div class="flex flex-col mx-3 md:flex mb-4 w-full">
+
+                                <div>
+                                    <div class="md:w-full px-3">
+                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                            <mat-label class=" font-light">ชื่อบริษัท</mat-label>
+                                            <input matInput formControlName="company">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="md:w-full px-3">
+                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                            <mat-label class=" font-light">ชื่อลูกค้า</mat-label>
+                                            <input matInput formControlName="name">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="flex">
                                         <div class="md:w-full px-3">
                                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                <mat-label class=" font-light">ชื่อบริษัท</mat-label>
-                                                <input matInput formControlName="company">
+                                                <mat-label class=" font-light">เบอร์โทรศัพท์ติดต่อ</mat-label>
+                                                <input matInput formControlName="phone">
                                             </mat-form-field>
                                         </div>
                                         <div class="md:w-full px-3">
                                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                <mat-label class=" font-light">ชื่อลูกค้า</mat-label>
-                                                <input matInput formControlName="name">
+                                                <mat-label class=" font-light">Email</mat-label>
+                                                <input matInput formControlName="email">
                                             </mat-form-field>
-                                        </div>
-                                        <div class="flex">
-                                            <div class="md:w-full px-3">
-                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                    <mat-label class=" font-light">เบอร์โทรศัพท์ติดต่อ</mat-label>
-                                                    <input matInput formControlName="phone">
-                                                </mat-form-field>
-                                            </div>
-                                            <div class="md:w-full px-3">
-                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                    <mat-label class=" font-light">Email</mat-label>
-                                                    <input matInput formControlName="email">
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                        <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">
-                                            สถานะบัญชี</h1>
-                                        <div><mat-radio-group aria-label="Select an option" formControlName="status">
-                                                <mat-radio-button value="Active">
-                                                    <div class="font-light">ใช้งานอยู่</div>
-                                                </mat-radio-button>
-                                                <mat-radio-button value="Expire">
-                                                    <div class="font-light">หมดอายุ</div>
-                                                </mat-radio-button>
-                                                <mat-radio-button value="3">
-                                                    <div class="font-light">ระงับการใช้งาน</div>
-                                                </mat-radio-button>
-                                            </mat-radio-group></div>
-
-                                        <div class="md:w-full px-3 pt-4">
-                                            <mat-label class=" font-light">วันหมดสัญญา</mat-label>
-                                            <mat-form-field class="w-full">
-                                                <input readonly [formControlName]="'expire_date'" matInput
-                                                    placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
-                                                <mat-datepicker-toggle matSuffix
-                                                    [for]="picker_start_date"></mat-datepicker-toggle>
-                                                <mat-datepicker #picker_start_date></mat-datepicker>
-                                            </mat-form-field>
-                                        </div>
-                                        <div formArrayName="cars">
-                                            <div class="flex">
-                                                <div class="md:w-full px-3 flex">
-
-                                                    <h1
-                                                        class="text-xl font-semibold mb-4 ml-5 pt-6 text-left whitespace-nowrap">
-                                                        รถที่ใช้งาน
-
-                                                    </h1>
-                                                    <div
-                                                        class="flex items-center justify-center mt-5 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
-                                                        {{car().length}}
-                                                    </div>
-                                                </div>
-                                                <div class="md:w-full px-3 mt-3">
-                                                    <button class="px-6 ml-3 font-light " mat-flat-button
-                                                        (click)="openDialog()" [color]="'primary'">
-
-                                                        <mat-icon>add_circle_outline</mat-icon>
-
-                                                        <div class="font-light">
-                                                            เลือกรถ
-                                                        </div>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-
-
-                                            <div *ngFor="let item; of: car().controls; let i = index"
-                                                [formGroupName]="i">
-                                                <div class="flex items-center pb-4 w-full">
-                                                    <div
-                                                        class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
-
-                                                        {{i+1}}
-                                                    </div>
-                                                    <div class="ml-4"
-                                                        style="width: 40px; height: 40px; overflow: hidden; display: inline-block; position: relative;">
-                                                        <img src="{{item.value.image}}"
-                                                            style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
-                                                    </div>
-                                                    <div class="ml-4 mt-2 whitespace-nowrap"> {{item.value.name}}
-                                                        <br>
-                                                        {{item.value.license}} {{item.value.province}}
-                                                    </div>
-                                                    <div
-                                                        class="border-2 pl-4 p-4 pr-4 pt-4 pb-4 border rounded-lg w-2 h-2 flex items-center justify-center pl-2 ml-48">
-
-                                                        <button class="text-white" (click)="removeCar(i)">
-                                                            <mat-icon class="pt-2">close</mat-icon>
-                                                        </button>
-
-                                                    </div>
-
-
-                                                </div>
-                                                <mat-divider></mat-divider>
-
-
-
-                                            </div>
                                         </div>
                                     </div>
+                                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">
+                                        สถานะบัญชี</h1>
+                                    <div>
+                                        <mat-radio-group aria-label="Select an option" formControlName="status">
+                                            <mat-radio-button value="Active">
+                                                <div class="font-light">ใช้งานอยู่</div>
+                                            </mat-radio-button>
+                                            <mat-radio-button value="Expire">
+                                                <div class="font-light">หมดอายุ</div>
+                                            </mat-radio-button>
+                                            <mat-radio-button value="3">
+                                                <div class="font-light">ระงับการใช้งาน</div>
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
 
+                                    <div class="md:w-full px-3 pt-4">
+                                        <mat-label class=" font-light">วันหมดสัญญา</mat-label>
+                                        <mat-form-field class="w-full">
+                                            <input readonly [formControlName]="'expire_date'" matInput placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
+                                            <mat-datepicker-toggle matSuffix [for]="picker_start_date"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker_start_date></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div formArrayName="cars">
+                                        <div class="flex">
+                                            <div class="md:w-full px-3 flex">
+
+                                                <h1 class="text-xl font-semibold mb-4 ml-5 pt-6 text-left whitespace-nowrap">
+                                                    รถที่ใช้งาน
+
+                                                </h1>
+                                                <div class="flex items-center justify-center mt-5 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
+                                                    {{car().length}}
+                                                </div>
+                                            </div>
+                                            <div class="md:w-full px-3 mt-3">
+                                                <button class="px-6 ml-3 font-light " mat-flat-button (click)="openDialog()" [color]="'primary'">
+
+                                                    <mat-icon>add_circle_outline</mat-icon>
+
+                                                    <div class="font-light">
+                                                        เลือกรถ
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+
+                                        <ng-container *ngFor="let item; of: car().controls; let i = index" [formGroupName]="i">
+                                            <div class="flex items-center pb-4 w-full">
+                                                <div class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
+
+                                                    {{i+1}}
+                                                </div>
+                                                <div class="ml-4" style="width: 40px; height: 40px; overflow: hidden; display: inline-block; position: relative;">
+                                                    <img src="{{item.value.image}}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                                                </div>
+                                                <div class="ml-4 mt-2 whitespace-nowrap"> {{item.value.name}}
+                                                    <br> {{item.value.license}} {{item.value.province}}
+                                                </div>
+                                                <div class="border-2 pl-4 p-4 pr-4 pt-4 pb-4 border rounded-lg w-2 h-2 flex items-center justify-center pl-2 ml-48">
+
+                                                    <button class="text-white" (click)="removeCar(i)">
+                                                        <mat-icon class="pt-2">close</mat-icon>
+                                                    </button>
+
+                                                </div>
+
+
+                                            </div>
+                                            <mat-divider></mat-divider>
+
+
+
+                                        </ng-container>
+                                    </div>
                                 </div>
 
                             </div>
 
+                        </div>
 
-                        </form>
-                    </div>
+
+                    </form>
                     <div mat-dialog-actions class="flex justify-end mt-4">
                         <button class="px-6 ml-3" mat-flat-button (click)="back()">
                             <div class="font-light">

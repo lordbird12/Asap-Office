@@ -417,9 +417,9 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    onCancelClick(): void {
+    back(): void {
 
-        this._router.navigate(['admin/product/list']);
+        this._router.navigate(['admin/service-center/list']);
     }
 
     showFlashMessage(type: 'success' | 'error'): void {

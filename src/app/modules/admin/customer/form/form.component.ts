@@ -196,11 +196,11 @@ export class FormComponent implements OnInit {
         console.log('data', data.id);
         if (data) {
             em.patchValue({
-                car_id: data.id,
-                name: data.brand_model.name,
-                image: data.image,
-                province: data.province.name,
-                license: data.license,
+                car_id: data?.id,
+                name: data?.brand_model?.name,
+                image: data?.image,
+                province: data?.province?.name,
+                license: data?.license,
             });
         }
         this.car().push(em);
@@ -212,8 +212,8 @@ export class FormComponent implements OnInit {
     Selectcar() {
         // this._router.navigate(['admin/employee/form']);
         const dialogRef = this.dialog.open(SelectCarComponent, {
-            width: '600px',
-            height: '800px', // กำหนดความกว้างของ Dialog
+            width: '700px',
+            height: '500px', // กำหนดความกว้างของ Dialog
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -227,8 +227,8 @@ export class FormComponent implements OnInit {
 
         // console.log(this.depositsForm.value.deposit[i]);
         const dialogRef = this.dialog.open(SelectCarComponent, {
-            width: '600px',
-            height: '800px',
+            width: '700px',
+            height: '500px',
         });
 
         // ปิด Dialog พร้อมรับค่า result
