@@ -9,7 +9,7 @@ import { LayoutComponent } from 'app/layout/layout.component';
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
     // Redirect empty path to '/dashboards/project'
-    { path: '', pathMatch: 'full', redirectTo: 'dashboards/project' },
+    { path: '', pathMatch: 'full', redirectTo: 'admin/employee/list' },
 
     // Redirect signed-in user to the '/dashboards/project'
     //
@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
     {
         path: 'signed-in-redirect',
         pathMatch: 'full',
-        redirectTo: 'dashboards/project',
+        redirectTo: 'admin/employee/list',
     },
 
     // Auth routes for guests
