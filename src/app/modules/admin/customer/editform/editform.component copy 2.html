@@ -13,9 +13,9 @@
             </div>
         </div>
 
-        <div class="flex-auto px-32 sm:px-32 py-12 items-center ">
-            <div class="bg-card md:shadow overflow-hidden rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
-                <div class="md:max-w-full">
+        <div class="flex-auto p-6 sm:p-10 items-center ">
+            <div class="bg-card md:shadow overflow-hidden ml-64 mr-64 rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                <div class="md:max-w-lg mx-auto">
                     <form [formGroup]="addForm">
 
                         <div class="flex flex-row">
@@ -49,7 +49,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-3 text-left">
+                                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">
                                         สถานะบัญชี</h1>
                                     <div>
                                         <mat-radio-group aria-label="Select an option" formControlName="status">
@@ -74,38 +74,32 @@
                                         </mat-form-field>
                                     </div>
                                     <div formArrayName="cars">
-                                        <div class="flex justify-between">
+                                        <div class="flex">
                                             <div class="md:w-full px-3 flex">
 
-                                                <h1 class="text-xl font-semibold mb-4 pt-2 text-left whitespace-nowrap">
+                                                <h1 class="text-xl font-semibold mb-4 ml-5 pt-6 text-left whitespace-nowrap">
                                                     รถที่ใช้งาน
 
                                                 </h1>
-                                                <div class="flex items-center justify-center mt-1 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
+                                                <div class="flex items-center justify-center mt-5 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
                                                     {{car().length}}
                                                 </div>
                                             </div>
-                                            <div class="flex justify-end mr-3">
-                                                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate justify-end">
-                                                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="openDialog()">
-                                                        <mat-icon>add_circle_outline</mat-icon>
-                                                        เลือกรถ
-                                                    </button>
-                                                </div>
-                                                <!-- <button class="px-6 ml-3 font-light " mat-flat-button (click)="openDialog()" [color]="'primary'">
+                                            <div class="md:w-full px-3 mt-3">
+                                                <button class="px-6 ml-3 font-light " mat-flat-button (click)="openDialog()" [color]="'primary'">
 
                                                     <mat-icon>add_circle_outline</mat-icon>
 
                                                     <div class="font-light">
                                                         เลือกรถ
                                                     </div>
-                                                </button> -->
+                                                </button>
                                             </div>
                                         </div>
 
 
 
-                                        <ng-container *ngFor="let item; of: car().controls; let i = index;" [formGroupName]="i">
+                                        <ng-container *ngFor="let item; of: car().controls; let i = index" [formGroupName]="i">
                                             <div class="flex items-center pb-4 w-full">
                                                 <div class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
 
@@ -141,7 +135,19 @@
 
 
                     </form>
+                    <div mat-dialog-actions class="flex justify-end mt-4">
+                        <button class="px-6 ml-3" mat-flat-button (click)="back()">
+                            <div class="font-light">
+                                ยกเลิก
+                            </div>
+                        </button>
+                        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                            <div class="font-light">
+                                บันทึก
+                            </div>
+                        </button>
 
+                    </div>
                 </div>
 
 
@@ -149,28 +155,6 @@
 
         </div>
 
-
-
-    </div>
-    <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex flex-col">
-        <div class="md:max-w-full">
-
-            <div mat-dialog-actions class="flex justify-end mt-4">
-
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
-                    <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
-                        ยกเลิก
-                    </button>
-                </div>
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-                        <div class="font-light">
-                            บันทึก
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </div>
 
 
     </div>
