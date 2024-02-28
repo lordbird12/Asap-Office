@@ -21,6 +21,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'ศูนย์บริการ',
                 type: 'basic',
                 icon: 'heroicons_outline:building-storefront',
+                link: '/admin/ticket/list',
+            },
+            {
+                id: 'admin.booking',
+                title: 'การติดตามลูกค้า',  
+                type: 'basic',
+                icon: 'heroicons_outline:building-storefront',
                 link: '/admin/service-center/list',
             },
             {
