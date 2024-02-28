@@ -4,8 +4,7 @@
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -13,9 +12,8 @@
                     จัดการบัญชีลูกค้า
                 </h2>
                 <div class="flex">
-                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
-                        style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
-                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
+                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
+                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="uploadfile()">
                             <mat-icon>description</mat-icon>
                             &nbsp;
                             อัปโหลด CSV
@@ -23,8 +21,7 @@
                     </div>
 
                     <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                        <button class="px-6 ml-3 font-light  rounded-md " mat-flat-button [color]="'primary'"
-                            (click)="addElement()">
+                        <button class="px-6 ml-3 font-light  rounded-md " mat-flat-button [color]="'primary'" (click)="addElement()">
 
                             <mat-icon>add_circle_outline</mat-icon>
 
@@ -46,8 +43,7 @@
             </ng-template>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                 <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
                                 <th class="font-light">ชื่อ</th>
@@ -65,15 +61,13 @@
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div
-                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                         เปิดใช้งาน
                                     </div>
                                 </td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date }}
                                 </td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
-                                        (click)="edit(item.id)">
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button (click)="edit(item.id)">
                                         <mat-icon svgIcon="feather:edit-3"></mat-icon>
                                     </button>
 
@@ -96,8 +90,7 @@
             </ng-template>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                 <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
                                 <th class="font-light">ชื่อ</th>
@@ -114,8 +107,7 @@
                                 <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div
-                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                         เปิดใช้งาน
                                     </div>
                                 </td>
@@ -143,8 +135,7 @@
             </ng-template>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                 <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
                                 <th class="font-light">ชื่อ</th>
@@ -161,8 +152,7 @@
                                 <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div
-                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                         เปิดใช้งาน
                                     </div>
                                 </td>
@@ -190,8 +180,7 @@
             </ng-template>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                 <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
                                 <th class="font-light">ชื่อ</th>
@@ -208,8 +197,7 @@
                                 <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div
-                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                         เปิดใช้งาน
                                     </div>
                                 </td>

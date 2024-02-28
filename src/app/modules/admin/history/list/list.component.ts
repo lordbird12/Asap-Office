@@ -35,6 +35,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'employee-list',
@@ -103,6 +104,11 @@ export class ListComponent implements OnInit, AfterViewInit {
         //     }
         // });
     }
+
+    exportfile() {
+        window.open(environment.baseURL + '/api/export_log');
+    }
+
     addElement() {
         this._router.navigate(['admin/history/form']);
         // const dialogRef = this.dialog.open(FormDialogComponent, {
@@ -152,15 +158,13 @@ export class ListComponent implements OnInit, AfterViewInit {
                         this._changeDetectorRef.markForCheck();
                     });
             },
-            // columns: [
-            //     { data: 'action', orderable: false },
-            //     { data: 'No' },
-            //     { data: 'name' },
-            //     { data: 'email' },
-            //     { data: 'tel' },
-            //     { data: 'create_by' },
-            //     { data: 'created_at' },
-            // ],
+            columns: [
+                { data: 'No' },
+                { data: 'name' },
+                { data: 'created_at' },
+                { data: 'description' },
+                { data: 'type' },
+            ],
         };
     }
 

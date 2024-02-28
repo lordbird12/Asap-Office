@@ -175,4 +175,17 @@ export class ListComponent implements OnInit, AfterViewInit {
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
+
+    uploadfile() {
+        const dialogRef = this.dialog.open(FormDialogComponent, {
+            width: '500px',
+            height: '600px', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                //    console.log(result,'result')
+            }
+        });
+    }
 }
