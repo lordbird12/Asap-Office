@@ -20,14 +20,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 id: 'admin.department',
                 title: 'ภาพรวมงาน',
                 type: 'basic',
-                icon: 'heroicons_outline:building-storefront',
+                icon: 'feather:home',
                 link: '/admin/booking/list',
             },
             {
                 id: 'admin.booking',
                 title: 'การติดตามลูกค้า',  
                 type: 'basic',
-                icon: 'heroicons_outline:building-storefront',
+                icon: 'heroicons_outline:phone',
                 link: '/admin/ticket/list',
             },
             {

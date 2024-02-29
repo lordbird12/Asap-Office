@@ -99,7 +99,70 @@ export class ListComponent implements OnInit, AfterViewInit {
             task: []
         },
     ]
-    itemData: any[];
+    itemData: any[] = [
+        {
+            status: 'Process',
+            car: {
+                license: '6กท-3155',
+                brand_model: {
+                    name: 'Honda'
+                }
+            },
+            created_at: '2023-02-12'
+        },
+        {
+            status: 'Process',
+            car: {
+                license: '6กท-3155',
+                brand_model: {
+                    name: 'Honda'
+                }
+            },
+            created_at: '2023-02-12'
+        },
+        {
+            status: 'Waiting',
+            car: {
+                license: '6กท-3155',
+                brand_model: {
+                    name: 'Honda'
+                }
+            },
+            service_center: {
+                name: 'ลาดกระบัง',
+                phone: '0987776655',
+            },
+            name: 'นาย เควิน เคลวิน',
+            phone: '0975554433',
+            created_at: '2023-02-12'
+        },
+        {
+            status: 'Waiting_service',
+            car: {
+                license: '6กท-3155',
+                brand_model: {
+                    name: 'Honda'
+                }
+            },
+            service_center: {
+                name: 'ลาดกระบัง',
+                phone: '0987776655',
+            },
+            name: 'นาย เควิน เคลวิน',
+            phone: '0975554433',
+            created_at: '2023-02-12'
+        },
+        {
+            status: 'Finish',
+            car: {
+                license: '6กท-3155',
+                brand_model: {
+                    name: 'Honda'
+                }
+            },
+            created_at: '2023-02-12'
+        },
+    ]
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
@@ -114,8 +177,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._service.getBooking().subscribe((resp: any) => {
-            this.itemData = resp.data;
-            console.log('itemData', this.itemData)
+            // this.itemData = resp.data;
+            // console.log('itemData', this.itemData)
             for (const item of this.itemData) {
                 if (item.status === 'Process') {
                     this.task[0].task.push(item)
@@ -123,7 +186,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 else if (item.status === 'Waiting') {
                     this.task[1].task.push(item)
                 }
-                else if (item.status === 'Waiting') {
+                else if (item.status === 'Waiting_service') {
                     this.task[2].task.push(item)
                 }
                 else if (item.status === 'Finish') {
@@ -230,11 +293,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     editTicket(value: any) {
-       const dialogRef =  this.dialog.open(TicketCardComponent,
+        const dialogRef = this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
                 width: '676px',
-                data : {
+                data: {
                     id: value.id,
                     value: value
                 }
@@ -242,7 +305,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
             console.log('close');
-            
+
         })
 
     }
