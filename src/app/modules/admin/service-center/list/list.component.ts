@@ -54,6 +54,7 @@ import { PictureComponent } from '../../picture/picture.component';
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];

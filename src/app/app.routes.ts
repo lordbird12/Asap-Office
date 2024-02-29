@@ -153,6 +153,11 @@ export const appRoutes: Route[] = [
                 path: 'admin',
                 children: [
                     {
+                        path: 'account',
+                        loadChildren: () =>
+                            import('app/modules/admin/account/page.routes'),
+                    },
+                    {
                         path: 'department',
                         loadChildren: () =>
                             import('app/modules/admin/department/page.routes'),
