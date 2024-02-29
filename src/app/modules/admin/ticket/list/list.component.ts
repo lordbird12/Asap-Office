@@ -36,6 +36,7 @@ import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { TicketCardComponent } from '../ticket-card/ticket-card.component';
+import { CreateComponent } from '../create-card/ticket-card.component';
 
 @Component({
     selector: 'car-list',
@@ -124,7 +125,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
 
 
-        this.createTicket();
+        // this.createTicket();
     }
 
     ngAfterViewInit(): void {
@@ -214,7 +215,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
     createTicket() {
-        this.dialog.open(TicketCardComponent,
+        this.dialog.open(CreateComponent,
             { minWidth: '50%' }
         );
     }

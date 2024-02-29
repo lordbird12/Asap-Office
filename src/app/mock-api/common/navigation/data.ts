@@ -25,10 +25,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'admin.booking',
-                title: 'ศูนย์บริการ',  
+                title: 'การติดตามลูกค้า',  
                 type: 'basic',
                 icon: 'heroicons_outline:building-storefront',
-                link: '/admin/service-center/list',
+                link: '/admin/ticket/list',
             },
             {
                 id: 'admin.dashboard',
