@@ -1,55 +1,64 @@
 <div class="flex flex-col" style="max-height: 90vh;">
     <div class="flex flex-col overflow-y-auto p-6">
         <div class="flex flex-row justify-between items-center">
-            <div class="flex flex-row items-center">
-                <div class="text-3xl font-bold mr-5">สร้าง Ticket</div>
+            <div class="flex flex-row items-center" *ngIf="!this.data">
+                <div class="text-3xl font-bold mr-5" >สร้าง Ticket</div>
                 <div class="text-base">(ID: 2221)</div>
             </div>
-            <div class="flex flex-row">
-                <mat-form-field class="flex-auto">
+            <div class="flex flex-row items-center" *ngIf="this.data">
+                <div class="text-3xl font-bold mr-5" >รายละเอียด</div>
+                <div class="text-base">(ID: 2221)</div>
+            </div>
+            <div class="flex flex-row items-center justify-center">
+                <mat-form-field class="min-w-56 mt-4">
                     <mat-select>
-                        <mat-option>None</mat-option>
-                        <mat-option value="option1">Option 1</mat-option>
-                        <mat-option value="option2">Option 2</mat-option>
-                        <mat-option value="option3">Option 3</mat-option>
+                        <mat-option class="border-b-2">เลือกสถานะ</mat-option>
+                        <mat-option value="option1">กำลังดำเนินงาน</mat-option>
+                        <mat-option value="option2">รอเข้ารับบริการ</mat-option>
+                        <mat-option value="option3">เสร็จสิ้น</mat-option>
+                        <mat-option value="option4">ยกเลิก</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button mat-icon-button [tabIndex]="-1">
+                &nbsp;
+                &nbsp;
+                <button mat-icon-button [tabIndex]="-1" (click)="onClose()">
                     <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
                 </button>
             </div>
         </div>
 
         <div class="flex flex-col">
-            <mat-label>ข้อมูลรถ</mat-label>
+            <mat-label class="font-bold">ข้อมูลรถ</mat-label>
             <mat-form-field class="flex-auto">
                 <input matInput [placeholder]="'ทะเบียนรถ'">
             </mat-form-field>
         </div>
 
         <div class="flex flex-col">
-            <mat-label>วันที่นัดหมาย</mat-label>
-            <div class="flex flex-row gap-3">
-                <mat-form-field class="flex-auto">
+            <mat-label class="font-bold">วันที่นัดหมาย</mat-label>
+            <div class="flex flex-row gap-3 ">
+                <mat-form-field class="flex-auto w-1/2">
                     <input matInput [matDatepicker]="picker1" [placeholder]="'ระบุวัน'">
                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                     <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
-                <app-dropdown-time></app-dropdown-time>
+                <div class="w-1/2">
+                    <app-dropdown-time></app-dropdown-time>
+                </div>
             </div>
         </div>
 
         <div class="flex flex-col mb-6">
-            <mat-label>รายละเอียดแจ้งซ่อม</mat-label>
+            <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
             <div class="grid grid-cols-4 gap-4">
-                <div *ngFor="let item of [1,2,3,4,5,6,7,8]" class="relative w-30 h-30">
-                    <input id="myCheck_{{item}}" class="absolute top-0 right-0 m-2" type="checkbox">
+                <div *ngFor="let item of serviceData" class="relative w-30 h-30">
+                    <input id="myCheck_{{item.name}}" class="absolute top-0 right-0 m-2" type="checkbox">
                     <label for="myCheck_{{item}}" class="w-fit cursor-pointer">
                         <div
                             class="flex items-center checkbox-card justify-center w-30 h-30 bg-white rounded-md select-none pointer-events-none">
                             <div class="flex flex-col items-center">
-                                <img class="max-w-13 max-h-13" src="assets/images/checklist_1.svg" alt="เช็คระยะ">
-                                <h1>เช็คระยะ</h1>
+                                <img class="max-w-13 max-h-13" src="{{item.image}}" alt="เช็คระยะ">
+                                <h1>{{item.name}}</h1>
                             </div>
                         </div>
                     </label>
@@ -58,24 +67,22 @@
         </div>
 
         <div class="flex flex-col">
-            <mat-label>ศูนย์บริการ</mat-label>
+            <mat-label class="font-bold">ศูนย์บริการ</mat-label>
             <mat-form-field>
                 <mat-select>
-                    <mat-option>None</mat-option>
-                    <mat-option value="option1">Option 1</mat-option>
-                    <mat-option value="option2">Option 2</mat-option>
-                    <mat-option value="option3">Option 3</mat-option>
+                    <mat-option value="">เลือกศูนย์บริการ</mat-option>
+                    <mat-option [value]="item.id" *ngFor="let item of serviceCenterData; let i = index">{{item.name}}</mat-option>
+                    
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="flex flex-col">
-            <mat-label>ข้อมูลลูกค้า</mat-label>
-
+            <mat-label class="font-bold">ข้อมูลลูกค้า</mat-label>
             <div class="flex flex-row mb-5 mt-2">
                 <div class="flex w-10 h-10 mr-5">
                     <img class="rounded-full"
-                        src="https://s3-alpha-sig.figma.com/img/2351/9685/23896065cdec96a82f1ad8d3887db470?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kZYgd6DyWY4Oo0eQcps6T~s88XvqjRSTYfTl~X5QMl3n1hrejyxR1fsG7al8wpGRsfb3HPRTcG2hg4-GrHD30Ad5eUW4ulYo9OWahsiaaLLv3QODwUbsmM5c4SUJfakPhPgv6ZpkOOs-YU3RqCbOCsu7g~TYebEOQOBkwmE4aGLXviAw0dxLMpamyNzaKtJ2uWB~I5jE-u~gJm-KU-gJ0LHmTBgjO-M7R972lCrycLdrqqb6HtInsxQndPppOyGAaiJGMXsJUik0R3r-H31a0rNW1HdWm38l7aFm0yNholviONpBdJ4BtmDi5s6ZJYA3nlG2~sIFLKnKN~zWwL6iAg__"
+                        src="assets/images/avatars/female-18.jpg"
                         alt="">
                 </div>
                 <div class="flex flex-col">
@@ -91,17 +98,21 @@
 
         <div class="flex flex-col">
             <div class="flex flex-row justify-between mb-6">
-                <mat-label>Activity</mat-label>
-                <h1>TEST</h1>
-            </div>
+                <mat-label class="font-bold">Activity</mat-label>
+                <div class="flex flex-row cursor-pointer">
+                    <img class="w-5 h-5" src="assets/images/sort-ascending.png" alt="">
+                    <h1 class="text-red-500">
+                        เรียงจากหน้าใหม่ไปเก่า</h1>
+                </div>
 
+            </div>
             <ol>
                 <ng-container *ngFor="let item of [1,2,3]">
                     <li class="flex flex-row min-h-20">
                         <div class="flex flex-col items-center">
                             <div class="flex w-10 h-10 mr">
                                 <img class="rounded-full"
-                                    src="https://s3-alpha-sig.figma.com/img/2351/9685/23896065cdec96a82f1ad8d3887db470?Expires=1708300800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=kZYgd6DyWY4Oo0eQcps6T~s88XvqjRSTYfTl~X5QMl3n1hrejyxR1fsG7al8wpGRsfb3HPRTcG2hg4-GrHD30Ad5eUW4ulYo9OWahsiaaLLv3QODwUbsmM5c4SUJfakPhPgv6ZpkOOs-YU3RqCbOCsu7g~TYebEOQOBkwmE4aGLXviAw0dxLMpamyNzaKtJ2uWB~I5jE-u~gJm-KU-gJ0LHmTBgjO-M7R972lCrycLdrqqb6HtInsxQndPppOyGAaiJGMXsJUik0R3r-H31a0rNW1HdWm38l7aFm0yNholviONpBdJ4BtmDi5s6ZJYA3nlG2~sIFLKnKN~zWwL6iAg__"
+                                    src="assets/images/avatars/female-18.jpg"
                                     alt="">
                             </div>
                             <div class="w-0.5 h-full bg-[#EAECF0]"></div>
@@ -114,7 +125,6 @@
                 </ng-container>
             </ol>
         </div>
-
-        <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'">บันทึก</button>
+        <button class="px-6 ml-3 rounded-md mt-5" mat-flat-button [color]="'primary'">บันทึก</button>
     </div>
 </div>

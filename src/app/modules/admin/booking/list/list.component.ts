@@ -35,6 +35,8 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { TicketCardComponent } from '../../ticket/ticket-card/ticket-card.component';
+import { result } from 'lodash';
 
 @Component({
     selector: 'car-list',
@@ -72,28 +74,28 @@ export class ListComponent implements OnInit, AfterViewInit {
             id: 1,
             name: 'งานใหม่ / Todo',
             detail: 'งานใหม่รอรับ',
-            status : 'Process',
+            status: 'Process',
             task: []
         },
         {
             id: 2,
             name: 'กำลังดำเนินงาน',
             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-            status : 'Waiting',
+            status: 'Waiting',
             task: []
         },
         {
             id: 3,
             name: 'รอเข้ารับบริการ',
             detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-            status : 'Finish',
+            status: 'Finish',
             task: []
         },
         {
             id: 4,
             name: 'เสร็จสิ้น',
             detail: '-',
-            status : 'Cancel',
+            status: 'Cancel',
             task: []
         },
     ]
@@ -106,17 +108,18 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router
     ) {
-    
-        
+
+
     }
 
     ngOnInit() {
-        this._service.getBooking().subscribe((resp: any) =>{
+        this._service.getBooking().subscribe((resp: any) => {
             this.itemData = resp.data;
-            for (const item of this.itemData ) {
+            console.log('itemData', this.itemData)
+            for (const item of this.itemData) {
                 if (item.status === 'Process') {
                     this.task[0].task.push(item)
-                } 
+                }
                 else if (item.status === 'Waiting') {
                     this.task[1].task.push(item)
                 }
@@ -129,9 +132,9 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
             this._changeDetectorRef.detectChanges();
         })
-   
-        
-    
+
+
+
     }
 
     ngAfterViewInit(): void {
@@ -215,6 +218,33 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     deleteElement() {
         // เขียนโค้ดสำหรับการลบออกองคุณ
+    }
+
+    createTicket() {
+        this.dialog.open(TicketCardComponent,
+            {
+                minWidth: '50%',
+                width: '676px'
+            }
+        );
+    }
+
+    editTicket(value: any) {
+       const dialogRef =  this.dialog.open(TicketCardComponent,
+            {
+                minWidth: '50%',
+                width: '676px',
+                data : {
+                    id: value.id,
+                    value: value
+                }
+            }
+        );
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('close');
+            
+        })
+
     }
 
     // handlePageEvent(event) {

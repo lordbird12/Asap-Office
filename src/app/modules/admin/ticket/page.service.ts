@@ -142,4 +142,23 @@ export class PageService {
                 })
             );
     }
+
+    getService(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_services')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    getServiceCenter(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_service_center')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
 }

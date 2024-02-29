@@ -19,7 +19,7 @@
     <!-- Main -->
     <div class="flex flex-col relative shadow-md sm:rounded-lg m-10  bg-white h-full">
         <div class="flex flex-row p-5  sm:overflow-y-auto justify-between h-25">
-            <div class="flex md:w-1/2 mb-6 md:mb-0">
+            <div class="flex md:w-1/2 mb-6 md:mb-0 justify-start items-center">
                 <mat-form-field [ngClass]="formFieldHelpers" class="w-1/2">
                     <!-- <mat-label>ตำแหน่ง</mat-label> -->
                     <mat-icon svgIcon="feather:search" class="text-gray-400"></mat-icon>
@@ -28,12 +28,12 @@
                     <input matInput [placeholder]="'ค้นหา Ticket'">
                 </mat-form-field>
             </div>
-            <div class="flex md:w-1/2 mb-6 md:mb-0 justify-end">
+            <div class="flex md:w-1/2 mb-6 md:mb-0 justify-end items-center">
                 <div>
                     <div class="flex items-center">
                         <div class="flex flex-row items-center -space-x-2 relative">
                             <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]"
-                                src="assets/images/avatars/female-18.jpg ">
+                                src="assets/images/avatars/female-18.jpg">
                             <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[3]"
                                 src="assets/images/avatars/female-11.jpg">
                             <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[2]"
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'" (click)="addElement()"> 
+                    <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'" (click)="createTicket()"> 
                         <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้าง Ticket
                     </button>
                 </div>
@@ -94,7 +94,7 @@
                             </div>
                             <div class="flex px-4 mb-2">
                                 <button
-                                    class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50">
+                                    class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50" (click)="editTicket(card)">
                                     <span class="font-light"> รับงาน</span>
                                 </button>
                             </div>
