@@ -16,12 +16,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss']
 })
-export class TicketCardComponent implements OnInit{
+export class CreateComponent implements OnInit{
     serviceData: any[] = []
     serviceCenterData: any[] = []
     constructor(
         private _service: PageService,
-        private dialogRef: MatDialogRef<TicketCardComponent>,
+        private dialogRef: MatDialogRef<CreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
     ) 
     {

@@ -46,47 +46,98 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+        <h2 class="text-2xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+            จัดการรถ
+        </h2>
 
-            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
-                <thead>
-                    <tr>
-                        <th class="font-light"></th>
-                        <th class="font-light">รุ่นรถยนต์</th>
-                        <th class="font-light">ป้ายทะเบียน</th>
-                        <th class="font-light">สถานะ</th>
-                        <th class="font-light ">บริษัทลูกค้า/เบอร์โทรติดต่อ</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="dataRow?.length != 0">
-                    <tr *ngFor="let item of dataRow; let i = index">
-                        <td style="text-align: center;">
-                            <div style="width: 70px; height: auto; overflow: hidden; display: inline-block; position: relative;">
-                                <img src="{{item?.image}}" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                        </td>
-                        <td class="font-light">{{item.brand_model?.name}}</td>
-                        <td class="font-light">{{item?.license}}</td>
-                        <td>
-                            <div *ngIf="item.status == 'Available'" class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
-                                เปิดใช้งาน
-                            </div>
-                        </td>
-                        <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
-                        <td> <button mat-icon-button (click)="edit(item.id)">
-                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                            </button>
+    </div>
+</div>
 
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="dataRow?.length == 0">
-                    <tr>
-                        <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                    </tr>
-                </tbody>
-            </table>
+<!-- Main -->
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+    <div class="flex flex-row justify-between py-2 px-5">
+        <div class="flex justify-start items-center w-100 mt-5">
+            <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center">
+                <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                    <mat-icon svgIcon="search"></mat-icon>
+                    <input matInput [placeholder]="'ค้นหา'">
+                </mat-form-field>
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center ">
+                    <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
+                        <div class="w-[15px] h-[20px] items-center mt-1">
+                            <img src="assets/icons/Vector.svg">
+                        </div>
+                        &nbsp;
+                        &nbsp;
+                        <span>อัปโหลด CSV</span>
+                        <div class="w-[15px] h-[20px] items-center mt-1">
+                            <img src="assets/icons/Vector.svg">
+                        </div>
+                    </button>
+                </div>
+            </div>
         </div>
+        <div class="flex">
+            <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
+                    <div class="w-[15px] h-[20px] items-center mt-1">
+                        <img src="assets/icons/Vector.svg">
+                    </div>
+                    &nbsp;
+                    &nbsp;
+                    <span>อัปโหลด CSV</span>
+                </button>
+            </div>
+            <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
+                <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
+                    <mat-icon>add_circle_outline</mat-icon>
+                    <div class="font-light">
+                        เพิ่มรถ
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+
+        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+            <thead>
+                <tr>
+                    <th class="font-light"></th>
+                    <th class="font-light">รุ่นรถยนต์</th>
+                    <th class="font-light">ป้ายทะเบียน</th>
+                    <th class="font-light">สถานะ</th>
+                    <th class="font-light ">บริษัทลูกค้า/เบอร์โทรติดต่อ</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="dataRow?.length != 0">
+                <tr *ngFor="let item of dataRow; let i = index">
+                    <td style="text-align: center;">
+                        <div style="width: 70px; height: auto; overflow: hidden; display: inline-block; position: relative;">
+                            <img src="{{item?.image}}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </td>
+                    <td class="font-light">{{item.brand_model?.name}}</td>
+                    <td class="font-light">{{item?.license}}</td>
+                    <td>
+                        <div *ngIf="item.status == 'Available'" class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                            เปิดใช้งาน
+                        </div>
+                    </td>
+                    <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
+                    <td> <button mat-icon-button (click)="edit(item.id)">
+                            <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                        </button>
+
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="dataRow?.length == 0">
+                <tr>
+                    <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

@@ -1,12 +1,9 @@
 <div class="flex flex-col" style="max-height: 90vh;">
     <div class="flex flex-col overflow-y-auto p-6">
         <div class="flex flex-row justify-between items-center">
-            <div class="flex flex-row items-center" *ngIf="!this.data">
-                <div class="text-3xl font-bold mr-5" >สร้าง Ticket</div>
-                <div class="text-base">(ID: 2221)</div>
-            </div>
-            <div class="flex flex-row items-center" *ngIf="this.data">
-                <div class="text-3xl font-bold mr-5" >รายละเอียด</div>
+
+            <div class="flex flex-row items-center">
+                <div class="text-3xl font-bold mr-5">รายละเอียด</div>
                 <div class="text-base">(ID: 2221)</div>
             </div>
             <div class="flex flex-row items-center justify-center">
@@ -29,61 +26,23 @@
 
         <div class="flex flex-col">
             <mat-label class="font-bold">ข้อมูลรถ</mat-label>
-            <mat-form-field class="flex-auto">
-                <input matInput [placeholder]="'ทะเบียนรถ'">
-            </mat-form-field>
-        </div>
-
-        <div class="flex flex-col">
-            <mat-label class="font-bold">วันที่นัดหมาย</mat-label>
-            <div class="flex flex-row gap-3 ">
-                <mat-form-field class="flex-auto w-1/2">
-                    <input matInput [matDatepicker]="picker1" [placeholder]="'ระบุวัน'">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-                <div class="w-1/2">
-                    <app-dropdown-time></app-dropdown-time>
+            <div class="flex flex-row mb-5 mt-2">
+                <div class="flex w-auto mr-5">
+                    <img class="h-15 w-auto"
+                        src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
+                        alt="image description">
+                </div>
+                <div class="flex flex-col">
+                    <h2><b>6กท-6789</b></h2>
+                    <span class="text-md font-light text-gray-400">Toyota Accord • Silver</span>
                 </div>
             </div>
         </div>
-
-        <div class="flex flex-col mb-6">
-            <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
-            <div class="grid grid-cols-4 gap-4">
-                <div *ngFor="let item of serviceData" class="relative w-30 h-30">
-                    <input id="myCheck_{{item.name}}" class="absolute top-0 right-0 m-2" type="checkbox">
-                    <label for="myCheck_{{item}}" class="w-fit cursor-pointer">
-                        <div
-                            class="flex items-center checkbox-card justify-center w-30 h-30 bg-white rounded-md select-none pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <img class="max-w-13 max-h-13" src="{{item.image}}" alt="เช็คระยะ">
-                                <h1>{{item.name}}</h1>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="flex flex-col">
-            <mat-label class="font-bold">ศูนย์บริการ</mat-label>
-            <mat-form-field>
-                <mat-select>
-                    <mat-option value="">เลือกศูนย์บริการ</mat-option>
-                    <mat-option [value]="item.id" *ngFor="let item of serviceCenterData; let i = index">{{item.name}}</mat-option>
-                    
-                </mat-select>
-            </mat-form-field>
-        </div>
-
         <div class="flex flex-col">
             <mat-label class="font-bold">ข้อมูลลูกค้า</mat-label>
             <div class="flex flex-row mb-5 mt-2">
                 <div class="flex w-10 h-10 mr-5">
-                    <img class="rounded-full"
-                        src="assets/images/avatars/female-18.jpg"
-                        alt="">
+                    <img class="rounded-full" src="assets/images/avatars/female-18.jpg" alt="">
                 </div>
                 <div class="flex flex-col">
                     <h2 class="font-normal">ธัชพล มหาสาร</h2>
@@ -94,6 +53,28 @@
             <mat-form-field class="flex-auto">
                 <input matInput [placeholder]="'เบอร์โทรศัพท์ติดต่อ'">
             </mat-form-field>
+        </div>
+        <div class="flex flex-col">
+            <mat-label class="font-bold">รายละเอียด</mat-label>
+            <div class="inline-flex items-center" *ngFor="let item of [1,2,3,4,5];">
+                <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="ripple-on"
+                    data-ripple-dark="true">
+                    <input id="ripple-on" type="checkbox"
+                        class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10" />
+                    <span
+                        class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20"
+                            fill="currentColor" stroke="currentColor" stroke-width="1">
+                            <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </label>
+                <label class="mt-px font-light text-gray-700 cursor-pointer select-none" htmlFor="ripple-on">
+                    Ripple Effect On
+                </label>
+            </div>
         </div>
 
         <div class="flex flex-col">
@@ -111,9 +92,7 @@
                     <li class="flex flex-row min-h-20">
                         <div class="flex flex-col items-center">
                             <div class="flex w-10 h-10 mr">
-                                <img class="rounded-full"
-                                    src="assets/images/avatars/female-18.jpg"
-                                    alt="">
+                                <img class="rounded-full" src="assets/images/avatars/female-18.jpg" alt="">
                             </div>
                             <div class="w-0.5 h-full bg-[#EAECF0]"></div>
                         </div>
