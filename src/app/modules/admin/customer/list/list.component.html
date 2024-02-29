@@ -1,21 +1,16 @@
 <div class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
-    <!-- Loader -->
-    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-6 px-8 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-2xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
                     จัดการบัญชีลูกค้า
                 </h2>
             </div>
         </div>
     </div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
+    <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
             <div class="flex justify-start items-center w-100 mt-5">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
@@ -24,7 +19,7 @@
                         <input matInput [placeholder]="'ค้นหา'">
                     </mat-form-field>
                 </div>
-            </div>  
+            </div>
             <div class="flex">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
@@ -36,7 +31,7 @@
                         <span>อัปโหลด CSV</span>
                     </button>
                 </div>
-                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center" >
+                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
                     <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
                         <mat-icon>add_circle_outline</mat-icon>
                         <div class="font-light">
@@ -52,8 +47,7 @@
                     ทั้งหมด
                 </ng-template>
                 <div class="flex flex-col flex-auto sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
                                 <th class="font-light">ชื่อ</th>
@@ -71,15 +65,13 @@
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div
-                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                    <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                         เปิดใช้งาน
                                     </div>
                                 </td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date }}
                                 </td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
-                                        (click)="edit(item.id)">
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button (click)="edit(item.id)">
                                         <mat-icon svgIcon="feather:edit-3"></mat-icon>
                                     </button>
 
@@ -104,8 +96,7 @@
                 </ng-template>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                     <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                        <table datatable [dtOptions]="dtOptions"
-                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th class="font-light">ชื่อ</th>
@@ -122,8 +113,7 @@
                                     <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
                                     <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                     <td style="width: 100px; min-width: 100px;">
-                                        <div
-                                            class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                        <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                             เปิดใช้งาน
                                         </div>
                                     </td>
@@ -151,8 +141,7 @@
                 </ng-template>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                     <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                        <table datatable [dtOptions]="dtOptions"
-                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th class="font-light">ชื่อ</th>
@@ -169,8 +158,7 @@
                                     <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
                                     <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                     <td style="width: 100px; min-width: 100px;">
-                                        <div
-                                            class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                        <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                             เปิดใช้งาน
                                         </div>
                                     </td>
@@ -198,8 +186,7 @@
                 </ng-template>
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
                     <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                        <table datatable [dtOptions]="dtOptions"
-                            class="table row-border hover w-full bg-white whitespace-nowrap">
+                        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th class="font-light">ชื่อ</th>
@@ -216,8 +203,7 @@
                                     <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
                                     <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
                                     <td style="width: 100px; min-width: 100px;">
-                                        <div
-                                            class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                        <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                             เปิดใช้งาน
                                         </div>
                                     </td>

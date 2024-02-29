@@ -1,15 +1,10 @@
 <div class="flex flex-col flex-auto min-w-0 h-full">
     <!-- Header -->
-    <!-- Loader -->
-    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-2xl md:text-2xl font-semibold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
                     ภาพรวมงาน แผนก Enterprise
                 </h2>
             </div>
@@ -17,29 +12,24 @@
     </div>
 
     <!-- Main -->
-    <div class="flex flex-col relative shadow-md sm:rounded-lg m-10  bg-white h-full">
+    <div class="flex flex-col relative shadow-md sm:rounded-lg m-5 bg-white h-full">
         <div class="flex flex-row p-5  sm:overflow-y-auto justify-between h-25">
-            <div class="flex md:w-1/2 mb-6 md:mb-0 justify-start items-center">
-                <mat-form-field [ngClass]="formFieldHelpers" class="w-1/2">
-                    <!-- <mat-label>ตำแหน่ง</mat-label> -->
-                    <mat-icon svgIcon="feather:search" class="text-gray-400"></mat-icon>
-                    &nbsp;
-                    &nbsp;
-                    <input matInput [placeholder]="'ค้นหา Ticket'">
-                </mat-form-field>
+            <div class="flex justify-start items-center w-100 mt-5">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                        <mat-icon svgIcon="search"></mat-icon>
+                        <input matInput [placeholder]="'ค้นหา'">
+                    </mat-form-field>
+                </div>
             </div>
             <div class="flex md:w-1/2 mb-6 md:mb-0 justify-end items-center">
                 <div>
                     <div class="flex items-center">
                         <div class="flex flex-row items-center -space-x-2 relative">
-                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]"
-                                src="assets/images/avatars/female-18.jpg">
-                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[3]"
-                                src="assets/images/avatars/female-11.jpg">
-                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[2]"
-                                src="assets/images/avatars/male-09.jpg">
-                            <div
-                                class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
+                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]" src="assets/images/avatars/female-18.jpg">
+                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[3]" src="assets/images/avatars/female-11.jpg">
+                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[2]" src="assets/images/avatars/male-09.jpg">
+                            <div class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
                                 +16</div>
                         </div>
                     </div>
@@ -52,8 +42,7 @@
             </div>
         </div>
         <div class="flex flex-row grow gap-2 mx-3 mb-5">
-            <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto"
-                *ngFor="let item of task; let i = index">
+            <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto" *ngFor="let item of task; let i = index">
                 <p class="text-xl font-bold mx-5 mt-5 mb-2">
                     {{item.name}} <span class="font-light text-gray-500">({{item.task.length}})</span>
                 </p>
@@ -64,9 +53,7 @@
                     <div class="flex flex-col mx-5 bg-white shadow-sm  rounded-xl mb-2" *ngIf="card.status === 'Process'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -93,8 +80,7 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <button
-                                    class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50" (click)="editTicket(card)">
+                                <button class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50" (click)="editTicket(card)">
                                     <span class="font-light"> รับงาน</span>
                                 </button>
                             </div>
@@ -103,9 +89,7 @@
                     <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -166,18 +150,14 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-8 w-8 rounded-full"
-                                src="assets/images/avatars/male-09.jpg"
-                                alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="assets/images/avatars/male-09.jpg" alt="image description">
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting_service'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -211,7 +191,7 @@
                                                 </div>
                                             </div>
                                         </span>
-                                    </div>  
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -225,18 +205,14 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-8 w-8 rounded-full"
-                                src="assets/images/avatars/male-09.jpg"
-                                alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="assets/images/avatars/male-09.jpg" alt="image description">
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Finish'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -268,9 +244,7 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-8 w-8 rounded-full"
-                                src="assets/images/avatars/male-09.jpg"
-                                alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="assets/images/avatars/male-09.jpg" alt="image description">
                             </div>
                         </div>
                     </div>
