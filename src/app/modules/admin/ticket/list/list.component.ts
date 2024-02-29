@@ -37,6 +37,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { TicketCardComponent } from '../ticket-card/ticket-card.component';
 import { CreateComponent } from '../create-card/ticket-card.component';
+import { DetailTicketComponent } from '../detail-card/ticket-card.component';
 
 @Component({
     selector: 'car-list',
@@ -124,7 +125,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             this._changeDetectorRef.detectChanges();
         })
 
-
+        // this.detailTicket();
         // this.createTicket();
     }
 
@@ -216,6 +217,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     // }
     createTicket() {
         this.dialog.open(CreateComponent,
+            { minWidth: '50%' }
+        );
+    }
+    detailTicket() {
+        this.dialog.open(DetailTicketComponent,
             { minWidth: '50%' }
         );
     }

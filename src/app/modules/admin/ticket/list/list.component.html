@@ -61,7 +61,7 @@
                     {{item.detail }}
                 </p>
                 <ng-container *ngFor="let card of item.task;">
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'New'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'New'" (click)="detailTicket()">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto"
