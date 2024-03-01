@@ -3,7 +3,7 @@
     <div class="flex-1 min-w-0">
         <!-- Title -->
         <div class="mt-2">
-            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
                 เลือกรถ
             </h1>
         </div>
@@ -13,28 +13,31 @@
     <form [formGroup]="addForm">
         <div class="flex-wrap">
             <div class="w-full">
-                <div class="flex p-5">
+                <div class="flex p-3 sm:p-5">
                     <mat-form-field class="w-full">
+                        <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="search-icon"></mat-icon>
                         <input matInput [formControlName]="'filter'"
                             (ngModelChange)="HandlerPage(this.addForm.value.filter)"
-                            placeholder="ค้นหาชื่อรุ่นรถ หรือ ทะเบียนรถ">
+                            placeholder="ค้นหาชื่อรุ่นรถ หรือ ทะเบียนรถ" class="custom-placeholder">
                     </mat-form-field>
                 </div>
             </div>
         </div>
         <div class="flex flex-col flex-auto min-w-0 bg-card dark:bg-transparent">
             <div class="flex flex-col">
-                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="py-2 inline-block min-w-full sm:px-8 lg:px-10">
+                <div class="overflow-x-auto sm:-mx-3 lg:-mx-6">
+                    <div class="py-2 inline-block min-w-full sm:px-5 lg:px-8">
                         <div class="overflow-hidden">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table
+                                class="w-full text-xs sm:text-sm md:text-base lg:text-lg text-left text-gray-500 dark:text-gray-400">
                                 <thead
-                                    class="text-lg text-gray-700  bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
+                                    class="text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400 text-center">
                                     <tr *ngFor="let item of filtercar; let i = index">
-                                        <th scope="col" class="py-2" style="width:50px">
-                                            <mat-checkbox (change)="check($event,item)"></mat-checkbox>
+                                        <th scope="col" class="py-2" style="min-width: 50px">
+                                            <mat-checkbox (change)="check($event, item)"
+                                                [checked]="item.isChecked"></mat-checkbox>
                                         </th>
-                                        <th scope="col" class="py-2" style="width:120px">
+                                        <th scope="col" class="py-2" style="min-width: 120px">
                                             <div *ngIf="!isNoImg(item?.image)" style="max-height: 60px; width:100px;">
                                                 <img src="{{item?.image}}"
                                                     style="max-height: 60px; object-fit: contain;">
@@ -48,36 +51,28 @@
                                             {{item.brand_model?.name}}
                                             <br>
                                             <div class="font-light"> {{item.license}} {{item.province?.name}}</div>
-
                                         </th>
-
                                     </tr>
                                 </thead>
                             </table>
-
                         </div>
-
                     </div>
                     &nbsp;
                 </div>
-                <button *ngIf="this.selectedcar?.length > 0" class="px-6 ml-3 font-light rounded-md" mat-flat-button
-                    [color]="'primary'" (click)="addcar()">
-                    <div class="font-light">
-                        ตกลง
-                    </div>
-                </button>
-                <button *ngIf="this.selectedcar?.length == 0" class="px-6 ml-3 font-light rounded-md" mat-flat-button
-                    [color]="'warn'">
-                    <div class="font-light">
-                        ตกลง
-                    </div>
-                </button>
-                <!-- <button class="px-6 ml-3 font-light " mat-flat-button [color]="'primary'" (click)="addcar()">
 
+                <button *ngIf="this.selectedcar?.length > 0"
+                    class="px-4 ml-2 font-light rounded-md sm:ml-0 sm:mt-2 sm:mr-2" mat-flat-button [color]="'primary'"
+                    (click)="addcar()">
                     <div class="font-light">
                         ตกลง
                     </div>
-                </button> -->
+                </button>
+                <button *ngIf="this.selectedcar?.length == 0"
+                    class="px-4 ml-2 font-light rounded-md sm:ml-0 sm:mt-2 sm:mr-2" mat-flat-button [color]="'warn'">
+                    <div class="font-light">
+                        ตกลง
+                    </div>
+                </button>
             </div>
         </div>
     </form>

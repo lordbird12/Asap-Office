@@ -38,9 +38,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectCarComponent } from '../select-car/select-car.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'edit-form-customer',
+    styleUrls: ['./editform.component.scss'],
     templateUrl: './editform.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -74,6 +76,7 @@ export class EditFormComponent implements OnInit {
     positions: any[];
     permissions: any[];
     itemitem: any;
+    datacar: any;
     id: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
@@ -85,7 +88,8 @@ export class EditFormComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        public activatedRoute: ActivatedRoute
+        public activatedRoute: ActivatedRoute,
+        private breakpointObserver: BreakpointObserver
     ) {
         this._service.getPermission().subscribe((resp: any) => {
             this.permissions = resp.data;
@@ -108,7 +112,7 @@ export class EditFormComponent implements OnInit {
             this.id = params.id;
             this._service.getById(this.id).subscribe((resp: any) => {
                 const item = resp;
-                console.log(resp);
+                this.datacar = resp.cars;
                 this.addForm.patchValue({
                     ...item,
                 });
@@ -165,7 +169,7 @@ export class EditFormComponent implements OnInit {
                     ([key, value]: any[]) => {}
                 );
 
-                this._service.create(this.addForm.value).subscribe({
+                this._service.update(this.id, this.addForm.value).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
@@ -210,20 +214,29 @@ export class EditFormComponent implements OnInit {
             province: [null],
             license: [null],
         });
-        console.log('data', data);
+
         if (data) {
             em.patchValue({
-                car_id: data.id,
+                car_id: data.car_id,
                 name: data.car?.brand_model?.name,
-                image: data?.image,
+                image: data?.car?.image,
                 province: data.car?.province?.name,
                 license: data?.car?.license,
             });
         }
         this.car().push(em);
-        console.log(this.car());
     }
     addCar(data?: any) {
+        const cars = this.car().value as any[];
+
+        const carId = data?.id.toString();
+        const carId2 = data?.id;
+        if (this.isCarIdAlreadyhave(carId)) {
+            return;
+        } else if (this.isCarIdAlreadyhave(carId2)) {
+            return;
+        }
+
         const em = this.formBuilder.group({
             car_id: [null],
             name: [null],
@@ -231,7 +244,7 @@ export class EditFormComponent implements OnInit {
             province: [null],
             license: [null],
         });
-        console.log('data', data);
+
         if (data) {
             em.patchValue({
                 car_id: data?.id,
@@ -242,8 +255,16 @@ export class EditFormComponent implements OnInit {
             });
         }
         this.car().push(em);
-        console.log(this.car());
     }
+    isCarIdAlreadyhave(carId: any): boolean {
+        const cars = this.car().value as any[];
+        return cars.some((car) => car.car_id === carId);
+    }
+    isCarIdAlreadyhavee(carId: any): boolean {
+        const cars = this.car().value as any[];
+        return cars.some((car) => car.car_id === carId);
+    }
+
     removeCar(i: number): void {
         this.car().removeAt(i);
     }
@@ -256,22 +277,23 @@ export class EditFormComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result');
             }
         });
     }
     openDialog() {
-        console.log();
+        const isSmallScreen = this.breakpointObserver.isMatched([
+            Breakpoints.Small,
+            Breakpoints.XSmall,
+        ]);
 
-        // console.log(this.depositsForm.value.deposit[i]);
         const dialogRef = this.dialog.open(SelectCarComponent, {
-            width: '600px',
-            height: '800px',
+            width: isSmallScreen ? '100%' : '700px',
+            height: isSmallScreen ? '70%' : '800px',
+            data: this.car().value,
         });
 
         // ปิด Dialog พร้อมรับค่า result
         dialogRef.afterClosed().subscribe((item) => {
-            console.log('itemss', item);
             for (const items of item) {
                 this.addCar(items);
             }

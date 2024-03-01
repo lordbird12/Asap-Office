@@ -38,9 +38,11 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Router } from '@angular/router';
 import { SelectCarComponent } from '../select-car/select-car.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'form-form-car',
+    styleUrls: ['./form.component.scss'],
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -72,8 +74,10 @@ export class FormComponent implements OnInit {
     newcar: FormGroup;
     isLoading: boolean = false;
     positions: any[];
+    filtercar: any;
     permissions: any[];
     itemitem: any;
+    carr: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -83,7 +87,8 @@ export class FormComponent implements OnInit {
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router
+        private _router: Router,
+        private breakpointObserver: BreakpointObserver
     ) {
         this._service.getPermission().subscribe((resp: any) => {
             this.permissions = resp.data;
@@ -186,6 +191,10 @@ export class FormComponent implements OnInit {
         // แสดง Snackbar ข้อความ "complete"
     }
     addCar(data?: any) {
+        const carId = data?.id;
+        if (this.isCarIdAlreadyhave(carId)) {
+            return;
+        }
         const em = this.formBuilder.group({
             car_id: [null],
             name: [null],
@@ -193,7 +202,7 @@ export class FormComponent implements OnInit {
             province: [null],
             license: [null],
         });
-        console.log('data', data.id);
+
         if (data) {
             em.patchValue({
                 car_id: data?.id,
@@ -204,7 +213,10 @@ export class FormComponent implements OnInit {
             });
         }
         this.car().push(em);
-        console.log(this.car());
+    }
+    isCarIdAlreadyhave(carId: any): boolean {
+        const cars = this.car().value as any[];
+        return cars.some((car) => car.car_id === carId);
     }
     removeCar(i: number): void {
         this.car().removeAt(i);
@@ -218,17 +230,19 @@ export class FormComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result');
             }
         });
     }
     openDialog() {
-        console.log();
+        const isSmallScreen = this.breakpointObserver.isMatched([
+            Breakpoints.Small,
+            Breakpoints.XSmall,
+        ]);
 
-        // console.log(this.depositsForm.value.deposit[i]);
         const dialogRef = this.dialog.open(SelectCarComponent, {
-            width: '700px',
-            height: '800px',
+            width: isSmallScreen ? '100%' : '700px',
+            height: isSmallScreen ? '70%' : '800px',
+            data: this.car().value,
         });
 
         // ปิด Dialog พร้อมรับค่า result

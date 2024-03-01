@@ -55,10 +55,18 @@ export class PageService {
                 })
             );
     }
-
-    update(data: any, id: any): Observable<any> {
+    edit(id: any, data: FormData): Observable<any> {
         return this._httpClient
-            .put<any>(environment.baseURL + '/api/employees/' + id, data)
+            .put<any>(environment.baseURL + '/api/client' + id, data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    update(id: any, data: any): Observable<any> {
+        return this._httpClient
+            .put<any>(environment.baseURL + '/api/client/' + id, data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
