@@ -71,6 +71,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    user: any;
     task: any[] = [
         {
             id: 1,
@@ -106,8 +107,10 @@ export class ListComponent implements OnInit, AfterViewInit {
 
 
     }
-
+    
     ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('user'));
+        console.log(this.user)
         this._service.getTicket().subscribe((resp: any) => {
             this.itemData = resp.data;
             for (const item of this.itemData) {

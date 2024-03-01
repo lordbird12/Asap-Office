@@ -84,7 +84,10 @@ export class AuthService
             {
                 // Store the access token in the local storage
                 this.accessToken = response.token;
-
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(response.data)
+                );
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
