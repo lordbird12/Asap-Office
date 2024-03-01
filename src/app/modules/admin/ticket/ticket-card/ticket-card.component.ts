@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DropdownTimeComponent } from 'app/shared/dropdown-time/dropdown-time.component';
 import { PageService } from '../page.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -23,6 +23,7 @@ import { DateDiffPipe } from 'app/date-diff-pipe.pipe';
     imports: [CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule,CheckboxServiceComponent],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss'],
+
     
 })
 export class TicketCardComponent implements OnInit{
@@ -47,7 +48,7 @@ export class TicketCardComponent implements OnInit{
     ) 
     {
 
-        console.log(this.data)
+        // console.log(this.data)
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
@@ -294,6 +295,22 @@ export class TicketCardComponent implements OnInit{
 
     }
 
-
+    getDaysAgo(created_at: string): string {
+        const createdAtDate = new Date(created_at);
+        const currentDate = new Date();
+    
+        const timeDifference = currentDate.getTime() - createdAtDate.getTime();
+        const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+        const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+        console.log(minutesDifference)
+        if (minutesDifference < 60) {
+          return `${minutesDifference} min ago`;
+        } else if (hoursDifference < 24) {
+          return `${hoursDifference} hour ago`;
+        } else {
+          const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+          return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
+        }
+    }
 
 }

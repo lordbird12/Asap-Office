@@ -97,7 +97,7 @@
                             <div class="w-0.5 h-full bg-[#EAECF0]"></div>
                         </div>
                         <div class="flex flex-col ml-5 mb-10">
-                            <h2><b>{{item.create_by ?? 'admin'}}</b> {{(item.created_at) ?? '2 min ago'}}</h2>
+                            <h2><b>{{item.create_by ?? 'admin'}}</b> {{getDaysAgo(item.created_at)}}</h2>
                             <h2 class="text-[#667085]">{{item.status ?? 'เพิ่มรายการใหม่'}}</h2>
                         </div>
                     </li>

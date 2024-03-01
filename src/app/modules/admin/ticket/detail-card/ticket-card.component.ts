@@ -21,7 +21,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class DetailTicketComponent implements OnInit {
     serviceData: any[] = []
     serviceCenterData: any[] = []
-    activities : any[] = []
+    activities: any[] = []
     topics: any[] = [
         'รถเสียฉุกเฉิน',
         'อุบัติเหตุ',
@@ -61,17 +61,17 @@ export class DetailTicketComponent implements OnInit {
     }
     changeStatus(event: any) {
         this.statusData.setValue(event.value)
-      }
+    }
     dataArray: any[] = [];
     isChecked(item: any): boolean {
-        console.log('item',item)
+        console.log('item', item)
         // console.log(this.dataArray)
         // return this.dataArray.includes(item);
         return this.dataArray.some(dataItem => dataItem.status === item);
     }
 
     toggleCheckbox(item: string): void {
-        
+
         if (this.isChecked(item)) {
 
             this.dataArray = this.dataArray.filter(value => value !== item);
@@ -103,16 +103,16 @@ export class DetailTicketComponent implements OnInit {
                 },
                 "dismissible": true
             });
-    
+
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._service.updateStatusTicket(this.data.id , this.statusData.value).subscribe({
+                    this._service.updateStatusTicket(this.data.id, this.statusData.value).subscribe({
                         next: (resp: any) => {
                             this.dialogRef.close(resp);
                         },
                         error: (err: any) => {
-                           
+
                             this._fuseConfirmationService.open({
                                 "title": "กรุณาระบุข้อมูล",
                                 "message": err.error.message,
@@ -130,7 +130,7 @@ export class DetailTicketComponent implements OnInit {
                                     "cancel": {
                                         "show": false,
                                         "label": "ยกเลิก",
-    
+
                                     }
                                 },
                                 "dismissible": true
@@ -140,12 +140,38 @@ export class DetailTicketComponent implements OnInit {
                 }
             })
         } else {
-     
+
         }
 
 
         // แสดง Snackbar ข้อความ "complete"
 
+    }
+    getDaysAgo(created_at: string): string {
+        let createdAtDate;
+
+        if (created_at) {
+          // ถ้า created_at ไม่ใช่ null
+          createdAtDate = new Date(created_at);
+        } else {
+          // ถ้า created_at เป็น null
+          createdAtDate = new Date();
+        }
+        
+        const currentDate = new Date();
+    
+        const timeDifference = currentDate.getTime() - createdAtDate.getTime();
+        const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+        const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+        console.log(minutesDifference)
+        if (minutesDifference < 60) {
+          return `${minutesDifference} min ago`;
+        } else if (hoursDifference < 24) {
+          return `${hoursDifference} hour ago`;
+        } else {
+          const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+          return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
+        }
     }
 
 }
