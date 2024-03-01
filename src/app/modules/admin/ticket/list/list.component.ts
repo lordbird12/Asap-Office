@@ -220,9 +220,11 @@ export class ListComponent implements OnInit, AfterViewInit {
             { minWidth: '50%' }
         );
     }
-    detailTicket() {
+    detailTicket(value: any) {
         this.dialog.open(DetailTicketComponent,
-            { minWidth: '50%' }
+            { minWidth: '50%',
+            data: value },
+           
         );
     }
 }
