@@ -73,6 +73,8 @@ export class SelectCarComponent implements OnInit {
             name: 'name',
         },
     ];
+    checked: boolean;
+
     filtercar: any[] = [];
     rawDataFilter: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
@@ -85,9 +87,9 @@ export class SelectCarComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        this._service.getPermission().subscribe((resp: any) => {
-            this.permissions = resp.data;
-        });
+        // this._service.getPermission().subscribe((resp: any) => {
+        //     this.permissions = resp.data;
+        // });
         this.addForm = this.formBuilder.group({
             filter: [null],
             car_id: [],
@@ -95,50 +97,62 @@ export class SelectCarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._service.getCar().subscribe((resp: any) => {
-            this.car = resp;
-            console.log('image', typeof this.car[0].image);
-            this.filtercar = resp;
-        });
+        // this._service.getCar().subscribe((resp: any) => {
+        //     this.car = resp;
+        //     console.log('image', typeof this.car[0].image);
+        //     this.filtercar = resp;
+        // });
+        // this.addForm.get('filter').valueChanges.subscribe((resp: any) => {
+        //     console.log('Resp', resp);
+        //     console.log('car', this.car);
+        //     this.filtercar = this.car.filter(
+        //         (e) =>
+        //             e.brand_model?.name
+        //                 .toLowerCase()
+        //                 .includes(resp.toLowerCase()) ||
+        //             e.license.toLowerCase().includes(resp.toLowerCase())
+        //     );
+        //     if (resp == '') {
+        //         console.log('test');
+        //         this.filtercar = this.car;
+        //     }
+        // });
+    }
 
-        this.addForm.get('filter').valueChanges.subscribe((resp: any) => {
-            console.log('Resp', resp);
-            console.log('car', this.car);
-            this.filtercar = this.car.filter(
-                (e) =>
-                    e.brand_model?.name
-                        .toLowerCase()
-                        .includes(resp.toLowerCase()) ||
-                    e.license.toLowerCase().includes(resp.toLowerCase())
-            );
-            if (resp == '') {
-                console.log('test');
-                this.filtercar = this.car;
-            }
+    HandlerPage(e: any) {
+        this._service.getcarbytext(e).subscribe((resp: any) => {
+            this.car = resp;
+
+            const selectedIds =
+                this.data?.map((dataItem: any) => dataItem.car_id.toString()) ||
+                [];
+
+            this.filtercar = this.car.map((item: any) => {
+                item.isChecked = selectedIds.includes(item.id?.toString());
+                return item;
+            });
         });
     }
-    check(event: any, item: any) {
 
+    check(event: any, item: any) {
         if (event.checked == true) {
             if (!this.selectedcar) {
                 this.selectedcar = [];
             }
 
             this.selectedcar.push(item);
-            console.log(this.selectedcar, 'formData');
         } else {
             if (this.selectedcar) {
                 const index = this.selectedcar.indexOf(item);
                 if (index !== -1) {
                     this.selectedcar.splice(index, 1);
-                    console.log(this.selectedcar, 'formData');
                 }
             }
         }
     }
     isNoImg(img: any): boolean {
         const typeimage = typeof img;
-        console.log('typeimage', typeimage);
+
         return typeimage == 'object';
     }
     onFilter(event) {
