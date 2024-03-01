@@ -36,7 +36,7 @@
                 </div>
                 <div>
                     <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'" (click)="createTicket()"> 
-                        <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้าง Ticket
+                        <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้างการจอง
                     </button>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Process'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2 cursor-pointer" *ngIf="card.status === 'Process'" (click)="editTicket(card)">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
@@ -154,7 +154,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting'"  (click)="editTicket(card)">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
@@ -201,7 +201,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
@@ -209,7 +209,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Finish'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Finish'"  (click)="editTicket(card)">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
@@ -240,7 +240,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">

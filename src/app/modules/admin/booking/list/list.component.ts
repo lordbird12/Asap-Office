@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {
     FormControl,
+    FormGroup,
     FormsModule,
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -284,28 +285,52 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     createTicket() {
-        this.dialog.open(TicketCardComponent,
+       const dialogRef= this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
                 width: '676px'
             }
         );
+        dialogRef.afterClosed().subscribe(result => {
+           
+
+        })
     }
 
-    editTicket(value: any) {
+    editTicket(value: FormGroup) {
+        console.log(value)
         const dialogRef = this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
                 width: '676px',
-                data: {
-                    id: value.id,
-                    value: value
-                }
+                data: value
             }
         );
         dialogRef.afterClosed().subscribe(result => {
             console.log('close');
-
+            if(result) {
+                this._service.getBooking().subscribe((resp: any) => {
+                    this.itemData = resp.data;  
+                    this.task = []
+                    // cons ole.log('itemData', this.itemData)
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.detectChanges();
+                })
+            }
+          
         })
 
     }

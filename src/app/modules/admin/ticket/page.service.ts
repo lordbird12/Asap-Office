@@ -48,7 +48,18 @@ export class PageService {
 
     create(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/user', data)
+            .post<any>(environment.baseURL + '/api/booking', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+
+    updateStatus(id: any, status: string): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_booking_status', {booking_id: id , status: status})
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -155,6 +166,24 @@ export class PageService {
     getServiceCenter(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_service_center')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    getCustomer(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_client')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    getCar(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_car')
             .pipe(
                 tap((result) => {
                     this._data.next(result);
