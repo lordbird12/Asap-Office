@@ -95,30 +95,36 @@ export class SelectCarComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._service.getCar().subscribe((resp: any) => {
+        // this._service.getCar().subscribe((resp: any) => {
+        //     this.car = resp;
+        //     console.log('image', typeof this.car[0].image);
+        //     this.filtercar = resp;
+        // });
+        // this.addForm.get('filter').valueChanges.subscribe((resp: any) => {
+        //     console.log('Resp', resp);
+        //     console.log('car', this.car);
+        //     this.filtercar = this.car.filter(
+        //         (e) =>
+        //             e.brand_model?.name
+        //                 .toLowerCase()
+        //                 .includes(resp.toLowerCase()) ||
+        //             e.license.toLowerCase().includes(resp.toLowerCase())
+        //     );
+        //     if (resp == '') {
+        //         console.log('test');
+        //         this.filtercar = this.car;
+        //     }
+        // });
+    }
+    HandlerPage(e: any) {
+        console.log(e);
+        this._service.getcarbytext(e).subscribe((resp: any) => {
             this.car = resp;
-            console.log('image', typeof this.car[0].image);
+            // console.log('image', typeof this.car[0].image);
             this.filtercar = resp;
-        });
-
-        this.addForm.get('filter').valueChanges.subscribe((resp: any) => {
-            console.log('Resp', resp);
-            console.log('car', this.car);
-            this.filtercar = this.car.filter(
-                (e) =>
-                    e.brand_model?.name
-                        .toLowerCase()
-                        .includes(resp.toLowerCase()) ||
-                    e.license.toLowerCase().includes(resp.toLowerCase())
-            );
-            if (resp == '') {
-                console.log('test');
-                this.filtercar = this.car;
-            }
         });
     }
     check(event: any, item: any) {
-
         if (event.checked == true) {
             if (!this.selectedcar) {
                 this.selectedcar = [];
@@ -138,7 +144,7 @@ export class SelectCarComponent implements OnInit {
     }
     isNoImg(img: any): boolean {
         const typeimage = typeof img;
-        console.log('typeimage', typeimage);
+
         return typeimage == 'object';
     }
     onFilter(event) {

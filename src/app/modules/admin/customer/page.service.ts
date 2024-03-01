@@ -75,6 +75,16 @@ export class PageService {
                 })
             );
     }
+    getcarbytext(text: any): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + `/api/get_car_by_key_search/${text}`)
+            .pipe(
+                switchMap((response: any) => {
+                    console.log(response);
+                    return of(response.data);
+                })
+            );
+    }
     delete(id: any): Observable<any> {
         return this._httpClient.delete<any>(
             environment.baseURL + '/api/employees/' + id,

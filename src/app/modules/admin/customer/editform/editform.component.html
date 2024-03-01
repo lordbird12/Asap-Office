@@ -1,7 +1,8 @@
 <form [formGroup]="addForm" class="w-full">
     <div class="flex flex-col flex-auto min-w-0">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
             <div class="flex-1 flemin-w-0">
                 <!-- Title -->
                 <div class="flex flex-row mt-2 justify-center">
@@ -68,8 +69,10 @@
                                     <div class="md:w-full px-3 pt-4">
                                         <mat-label class=" font-light">วันหมดสัญญา</mat-label>
                                         <mat-form-field class="w-full">
-                                            <input readonly [formControlName]="'expire_date'" matInput placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
-                                            <mat-datepicker-toggle matSuffix [for]="picker_start_date"></mat-datepicker-toggle>
+                                            <input readonly [formControlName]="'expire_date'" matInput
+                                                placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
+                                            <mat-datepicker-toggle matSuffix
+                                                [for]="picker_start_date"></mat-datepicker-toggle>
                                             <mat-datepicker #picker_start_date></mat-datepicker>
                                         </mat-form-field>
                                     </div>
@@ -81,13 +84,16 @@
                                                     รถที่ใช้งาน
 
                                                 </h1>
-                                                <div class="flex items-center justify-center mt-1 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
+                                                <div
+                                                    class="flex items-center justify-center mt-1 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
                                                     {{car().length}}
                                                 </div>
                                             </div>
                                             <div class="flex justify-end mr-3">
-                                                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate justify-end">
-                                                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="openDialog()">
+                                                <div
+                                                    class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate justify-end">
+                                                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button
+                                                        [color]="'primary'" (click)="openDialog()">
                                                         <mat-icon>add_circle_outline</mat-icon>
                                                         เลือกรถ
                                                     </button>
@@ -105,19 +111,24 @@
 
 
 
-                                        <ng-container *ngFor="let item; of: car().controls; let i = index;" [formGroupName]="i">
+                                        <ng-container *ngFor="let item; of: car().controls; let i = index;"
+                                            [formGroupName]="i">
                                             <div class="flex items-center pb-4 w-full">
-                                                <div class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
+                                                <div
+                                                    class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
 
                                                     {{i+1}}
                                                 </div>
-                                                <div class="ml-4" style="width: 40px; height: 40px; overflow: hidden; display: inline-block; position: relative;">
-                                                    <img src="{{item.value.image}}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                                                <div class="ml-4"
+                                                    style="width: 40px; height: 40px; overflow: hidden; display: inline-block; position: relative;">
+                                                    <img src="{{item.value.image}}"
+                                                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
                                                 </div>
                                                 <div class="ml-4 mt-2 whitespace-nowrap"> {{item.value.name}}
                                                     <br> {{item.value.license}} {{item.value.province}}
                                                 </div>
-                                                <div class="border-2 pl-4 p-4 pr-4 pt-4 pb-4 border rounded-lg w-2 h-2 flex items-center justify-center pl-2 ml-48">
+                                                <div
+                                                    class="border-2 pl-4 p-4 pr-4 pt-4 pb-4 border rounded-lg w-2 h-2 flex items-center justify-center pl-2 ml-48">
 
                                                     <button class="text-white" (click)="removeCar(i)">
                                                         <mat-icon class="pt-2">close</mat-icon>
@@ -157,13 +168,15 @@
 
             <div mat-dialog-actions class="flex justify-end mt-4">
 
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
+                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
+                    style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
                     <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
                         ยกเลิก
                     </button>
                 </div>
                 <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'"
+                        (click)="onSaveClick()">
                         <div class="font-light">
                             บันทึก
                         </div>

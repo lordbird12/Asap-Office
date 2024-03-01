@@ -74,6 +74,7 @@ export class EditFormComponent implements OnInit {
     positions: any[];
     permissions: any[];
     itemitem: any;
+    id: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -104,15 +105,15 @@ export class EditFormComponent implements OnInit {
     }
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((params) => {
-            const id = params.id;
-            this._service.getById(id).subscribe((resp: any) => {
+            this.id = params.id;
+            this._service.getById(this.id).subscribe((resp: any) => {
                 const item = resp;
                 console.log(resp);
                 this.addForm.patchValue({
                     ...item,
                 });
                 for (const items of resp.cars) {
-                    this.addCar(items);
+                    this.addCargetbyid(items);
                 }
             });
         });
@@ -201,7 +202,7 @@ export class EditFormComponent implements OnInit {
 
         // แสดง Snackbar ข้อความ "complete"
     }
-    addCar(data?: any) {
+    addCargetbyid(data?: any) {
         const em = this.formBuilder.group({
             car_id: [null],
             name: [null],
@@ -213,9 +214,30 @@ export class EditFormComponent implements OnInit {
         if (data) {
             em.patchValue({
                 car_id: data.id,
-                name: data.brand_model?.name,
+                name: data.car?.brand_model?.name,
                 image: data?.image,
-                province: data.province?.name,
+                province: data.car?.province?.name,
+                license: data?.car?.license,
+            });
+        }
+        this.car().push(em);
+        console.log(this.car());
+    }
+    addCar(data?: any) {
+        const em = this.formBuilder.group({
+            car_id: [null],
+            name: [null],
+            image: [null],
+            province: [null],
+            license: [null],
+        });
+        console.log('data', data);
+        if (data) {
+            em.patchValue({
+                car_id: data?.id,
+                name: data?.brand_model?.name,
+                image: data?.image,
+                province: data?.province?.name,
                 license: data?.license,
             });
         }
