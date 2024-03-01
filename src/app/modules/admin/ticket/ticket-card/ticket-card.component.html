@@ -4,11 +4,11 @@
         <div class="flex flex-row justify-between items-center">
             <div class="flex flex-row items-center" *ngIf="!this.data">
                 <div class="text-3xl font-bold mr-5">สร้าง Ticket</div>
-                <div class="text-base">(ID: 2221)</div>
+                <!-- <div class="text-base">(ID: 2221)</div> -->
             </div>
             <div class="flex flex-row items-center" *ngIf="this.data">
                 <div class="text-3xl font-bold mr-5">รายละเอียด</div>
-                <div class="text-base">(ID: 2221)</div>
+                <div class="text-base">(ID: {{this.data.code}})</div>
             </div>
             <div class="flex flex-row items-center justify-center">
                 <mat-form-field class="min-w-56 mt-4">

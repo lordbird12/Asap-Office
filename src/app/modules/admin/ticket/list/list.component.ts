@@ -122,7 +122,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 }
 
             }
-            this._changeDetectorRef.detectChanges();
+            this._changeDetectorRef.markForCheck();
         })
 
         // this.detailTicket();
@@ -221,10 +221,57 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
     }
     detailTicket(value: any) {
-        this.dialog.open(DetailTicketComponent,
-            { minWidth: '50%',
-            data: value },
-           
+        const dialogRef = this.dialog.open(DetailTicketComponent,
+            {
+                minWidth: '50%',
+                data: value
+            },
+
         );
+        dialogRef.afterClosed().subscribe(result => {
+
+            if(result) {
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'New',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Finish',
+                        task: []
+                    },
+                ];
+                this._service.getTicket().subscribe((resp: any) => {
+                    this.itemData = resp.data;
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[2].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                })
+            }
+        })
+
+
     }
 }

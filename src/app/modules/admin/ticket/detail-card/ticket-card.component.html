@@ -4,12 +4,13 @@
 
             <div class="flex flex-row items-center">
                 <div class="text-3xl font-bold mr-5">รายละเอียด</div>
-                <div class="text-base">(ID: 2221)</div>
+                <div class="text-base">(ID: {{this.data.code}})</div>
             </div>
             <div class="flex flex-row items-center justify-center">
                 <mat-form-field class="min-w-56 mt-4">
                     <mat-select  (selectionChange)="changeStatus($event)" [formControl]="statusData">
                         <mat-option class="border-b-2">เลือกสถานะ</mat-option>
+                        <mat-option value="New">งานใหม่</mat-option>
                         <mat-option value="Process">กำลังดำเนินงาน</mat-option>
                         <mat-option value="Finish">เสร็จสิ้น</mat-option>
                     </mat-select>
