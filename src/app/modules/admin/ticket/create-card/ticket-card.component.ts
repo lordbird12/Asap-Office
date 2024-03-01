@@ -95,9 +95,10 @@ export class CreateComponent implements OnInit{
       }
 
     
-      addFeature(serviceId: number) {
+      addFeature(serviceId: string) {
         const service = this.form.get('ticket_topics') as FormArray;
-        // ตรวจสอบว่า featureId มีอยู่ใน FormArray หรือไม่
+        // ตรวจสอบว่า featureId มีอยู่ใน FormArray 
+        console.log(serviceId)
         const index = service.value.findIndex((value: any) => value.topic === serviceId);
         console.log(index)
         if (index === -1) {
