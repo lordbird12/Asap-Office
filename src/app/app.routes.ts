@@ -142,6 +142,13 @@ export const appRoutes: Route[] = [
                                 'app/modules/admin/dashboards/finance/finance.routes'
                             ),
                     },
+                    {
+                        path: 'general-manager',
+                        loadChildren: () =>
+                            import(
+                                'app/modules/admin/dashboards/general-manager/general-manager.routes'
+                            ),
+                    },
                 ],
             },
 

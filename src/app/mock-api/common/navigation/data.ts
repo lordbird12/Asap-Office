@@ -10,6 +10,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/admin/booking/list',
     },
     {
+        id: 'admin.department',
+        title: 'สรุปภาพรวม',
+        type: 'basic',
+        icon: 'feather:home',
+        link: '/dashboards/general-manager',
+    },
+    {
         id: 'admin.booking',
         title: 'การติดตามลูกค้า',
         type: 'basic',
@@ -51,7 +58,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'mat_outline:access_time',
         link: '/admin/history/list',
     },
-  
+
     {
         id: 'callcenter',
         title: 'Call Center',
