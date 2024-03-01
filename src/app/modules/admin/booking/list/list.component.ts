@@ -177,16 +177,16 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._service.getBooking().subscribe((resp: any) => {
-            // this.itemData = resp.data;
-            // console.log('itemData', this.itemData)
+            this.itemData = resp.data;
+            // cons ole.log('itemData', this.itemData)
             for (const item of this.itemData) {
-                if (item.status === 'Process') {
+                if (item.status === 'New') {
                     this.task[0].task.push(item)
                 }
-                else if (item.status === 'Waiting') {
+                else if (item.status === 'Process') {
                     this.task[1].task.push(item)
                 }
-                else if (item.status === 'Waiting_service') {
+                else if (item.status === 'Waiting') {
                     this.task[2].task.push(item)
                 }
                 else if (item.status === 'Finish') {
