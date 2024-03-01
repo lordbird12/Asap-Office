@@ -1,0 +1,15 @@
+<div class="grid grid-cols-4 gap-4">
+    <div *ngFor="let item of items" class="relative w-30 h-30">
+        <input id="myCheck_{{item.name}}" class="absolute top-0 right-0 m-2" type="checkbox" *ngIf="isChecked(item.id) === true"
+             [ngModel]="isChecked(item.id)" (ngModelChange)="toggleCheckbox(item.id)" readonly>
+        <label for="myCheck_{{item}}" class="w-fit cursor-pointer">
+            <div
+                class="flex items-center checkbox-card justify-center w-30 h-30 bg-white rounded-md select-none pointer-events-none">
+                <div class="flex flex-col items-center">
+                    <img class="max-w-13 max-h-13" src="{{item.image}}" alt="เช็คระยะ">
+                    <h1>{{item.name}}</h1>
+                </div>
+            </div>
+        </label>
+    </div>
+</div>

@@ -1,51 +1,167 @@
 /* eslint-disable */
 import { FuseNavigationItem } from '@fuse/components/navigation';
-
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id: 'admin',
-        title: 'Admin',
-        subtitle: 'ขัอมูลเกี่ยวกับระบบ',
-        type: 'group',
-        icon: 'heroicons_outline:home',
-        children: [
-            {
-                id: 'admin.comp',
-                title: 'พนักงาน',
-                type: 'basic',
-                icon: 'heroicons_outline:user-group',
-                link: '/admin/employee/list',
-            },
-            {
-                id: 'admin.department',
-                title: 'ศูนย์บริการ',
-                type: 'basic',
-                icon: 'heroicons_outline:building-storefront',
-                link: '/admin/service-center/list',
-            },
-            {
-                id: 'admin.car',
-                title: 'รถ',
-                type: 'basic',
-                icon: 'mat_outline:directions_car',
-                link: '/admin/car/list',
-            },
-            {
-                id: 'admin.employee',
-                title: 'บัญชีลูกค้า',
-                type: 'basic',
-                icon: 'heroicons_outline:user-circle',
-                link: '/admin/customer/list',
-            },
-            {
-                id: 'admin.permission',
-                title: 'ประวัติทำรายการ',
-                type: 'basic',
-                icon: 'mat_outline:access_time',
-                link: '/admin/history/list',
-            },
-        ],
+        id: 'admin.book',
+        title: 'ภาพรวมงาน',
+        type: 'basic',
+        icon: 'feather:home',
+        link: '/admin/booking/list',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '1' || position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
     },
+    {
+        id: 'admin.department',
+        title: 'สรุปภาพรวม',
+        type: 'basic',
+        icon: 'feather:home',
+        link: '/dashboards/general-manager',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '1' || position.position_id === '2' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    }
+    ,{
+        id: 'admin.summary',
+        title: 'ภาพรวมการเข้ารับบริการ',
+        type: 'basic',
+        icon: 'mat_solid:local_car_wash',
+        link: '/admin/summary/list',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '1' || position.position_id === '2' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    },
+    {
+        id: 'admin.ticket.gm',
+        title: 'Ticket',
+        type: 'basic',
+        icon: 'heroicons_outline:document-text',
+        link: '/admin/ticket/list',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '1' || position.position_id === '2' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    },
+
+    {
+        id: 'admin.booking',
+        title: 'การติดตามลูกค้า',
+        type: 'basic',
+        icon: 'heroicons_outline:phone',
+        link: '/admin/ticket/list',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '1' || position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+    },
+    {
+        id: 'admin.comp',
+        title: 'พนักงาน',
+        type: 'basic',
+        hidden: () => {
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '2' || position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        icon: 'heroicons_outline:user-group',
+        link: '/admin/employee/list',
+    },
+    {
+        id: 'admin.department',
+        title: 'ศูนย์บริการ',
+        type: 'basic',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '2' && position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        icon: 'heroicons_outline:building-storefront',
+        link: '/admin/service-center/list',
+    },
+    {
+        id: 'admin.car',
+        title: 'รถ',
+        type: 'basic',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '2' && position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        icon: 'mat_outline:directions_car',
+        link: '/admin/car/list',
+    },
+    {
+        id: 'admin.employee',
+        title: 'บัญชีลูกค้า',
+        type: 'basic',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '2' && position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        icon: 'heroicons_outline:user-circle',
+        link: '/admin/customer/list',
+    },
+    {
+        id: 'admin.permission',
+        title: 'ประวัติทำรายการ',
+        type: 'basic',
+        hidden: () => {
+            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            const position = JSON.parse(localStorage.getItem('user'));
+            if (position.position_id === '2' && position.position_id === '3' ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        icon: 'mat_outline:access_time',
+        link: '/admin/history/list',
+    },
+
     {
         id: 'callcenter',
         title: 'Call Center',
@@ -62,6 +178,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:list-bullet',
                 link: '/dashboards/project',
+                hidden: () => {
+                    // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+                    const position = JSON.parse(localStorage.getItem('user'));
+                    if (position.position_id === '1' && position.position_id === '3' ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
             },
             {
                 id: 'admin.comp',
@@ -133,32 +258,32 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
         ],
     },
-    {
-        id: 'self',
-        title: 'User Profile',
-        subtitle: 'ขัอมูลเกี่ยวกับระบบ',
-        type: 'group',
-        icon: 'heroicons_outline:home',
-        children: [
-            {
-                id: 'self.employee',
-                title: 'แก้ไขข้อมูลส่วนตัว',
-                type: 'basic',
-                icon: 'heroicons_outline:user',
-                link: '/admin/employee/list',
-                hidden: () => {
-                    return true;
-                },
-            },
-            {
-                id: 'admin.logout',
-                title: 'ออกจากระบบ',
-                type: 'basic',
-                icon: 'heroicons_outline:arrow-left-on-rectangle',
-                link: '/sign-out',
-            },
-        ],
-    },
+    // {
+    //     id: 'self',
+    //     title: 'User Profile',
+    //     subtitle: 'ขัอมูลเกี่ยวกับระบบ',
+    //     type: 'group',
+    //     icon: 'heroicons_outline:home',
+    //     children: [
+    //         {
+    //             id: 'self.employee',
+    //             title: 'แก้ไขข้อมูลส่วนตัว',
+    //             type: 'basic',
+    //             icon: 'heroicons_outline:user',
+    //             link: '/admin/employee/list',
+    //             hidden: () => {
+    //                 return true;
+    //             },
+    //         },
+    //         {
+    //             id: 'admin.logout',
+    //             title: 'ออกจากระบบ',
+    //             type: 'basic',
+    //             icon: 'heroicons_outline:arrow-left-on-rectangle',
+    //             link: '/sign-out',
+    //         },
+    //     ],
+    // },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {

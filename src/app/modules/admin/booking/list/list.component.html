@@ -1,82 +1,48 @@
 <div class="flex flex-col flex-auto min-w-0 h-full">
     <!-- Header -->
-    <!-- Loader -->
-    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-2xl md:text-2xl font-semibold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
                     ภาพรวมงาน แผนก Enterprise
                 </h2>
-                <!-- <div class="flex">
-                    <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate"
-                        style="border: 1px solid #ccc; padding: 1px; border-radius: 20px;">
-                        <button class="px-6 ml-3 rounded-full" mat-flat-button [color]="'white'" (click)="addElement()">
-                            <mat-icon>description</mat-icon>
-                            &nbsp;
-                            อัปโหลด CSV
-                        </button>
-                    </div>
-
-                    <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                        <button class="px-6 ml-3 font-light " mat-flat-button [color]="'primary'"
-                            (click)="addElement()">
-
-                            <mat-icon>add_circle_outline</mat-icon>
-
-                            <div class="font-light">
-                                เพิ่มรถ
-                            </div>
-                        </button>
-                    </div>
-                </div> -->
-
             </div>
         </div>
     </div>
 
     <!-- Main -->
-    <div class="flex flex-col relative shadow-md sm:rounded-lg m-10  bg-white h-full">
+    <div class="flex flex-col relative shadow-md sm:rounded-lg m-5 bg-white h-full">
         <div class="flex flex-row p-5  sm:overflow-y-auto justify-between h-25">
-            <div class="flex md:w-1/2 mb-6 md:mb-0">
-                <mat-form-field [ngClass]="formFieldHelpers" class="w-1/2">
-                    <!-- <mat-label>ตำแหน่ง</mat-label> -->
-                    <mat-icon svgIcon="feather:search" class="text-gray-400"></mat-icon>
-                    &nbsp;
-                    &nbsp;
-                    <input matInput [placeholder]="'ค้นหา Ticket'">
-                </mat-form-field>
+            <div class="flex justify-start items-center w-100 mt-5">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                        <mat-icon svgIcon="search"></mat-icon>
+                        <input matInput [placeholder]="'ค้นหา'">
+                    </mat-form-field>
+                </div>
             </div>
-            <div class="flex md:w-1/2 mb-6 md:mb-0 justify-end">
+            <div class="flex md:w-1/2 mb-6 md:mb-0 justify-end items-center">
                 <div>
                     <div class="flex items-center">
                         <div class="flex flex-row items-center -space-x-2 relative">
-                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]"
-                                src="assets/images/avatars/female-18.jpg ">
-                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[3]"
-                                src="assets/images/avatars/female-11.jpg">
-                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[2]"
-                                src="assets/images/avatars/male-09.jpg">
-                            <div
-                                class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
+                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]" src="assets/images/avatars/female-18.jpg">
+                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[3]" src="assets/images/avatars/female-11.jpg">
+                            <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[2]" src="assets/images/avatars/male-09.jpg">
+                            <div class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
                                 +16</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'" (click)="addElement()"> 
-                        <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้าง Ticket
+                    <button class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'" (click)="createTicket()"> 
+                        <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้างการจอง
                     </button>
                 </div>
             </div>
         </div>
         <div class="flex flex-row grow gap-2 mx-3 mb-5">
-            <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto"
-                *ngFor="let item of task; let i = index">
+            <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto" *ngFor="let item of task; let i = index">
                 <p class="text-xl font-bold mx-5 mt-5 mb-2">
                     {{item.name}} <span class="font-light text-gray-500">({{item.task.length}})</span>
                 </p>
@@ -84,12 +50,10 @@
                     {{item.detail }}
                 </p>
                 <ng-container *ngFor="let card of item.task;">
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Process'">
+                    <div class="flex flex-col mx-5 bg-white shadow-sm  rounded-xl mb-2" *ngIf="card.status === 'New'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -107,28 +71,25 @@
                             </div>
                         </div>
                         <div class="mx-4">
-                            <hr>
+                            <hr class="my-3">
                         </div>
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <button
-                                    class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50">
+                                <button class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50" (click)="editTicket(card)">
                                     <span class="font-light"> รับงาน</span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2 cursor-pointer" *ngIf="card.status === 'Process'" (click)="editTicket(card)">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -140,7 +101,7 @@
                         </div>
                         <div class="flex flex-row mx-5 md:flex mb-6">
                             <div class="flex bg-slate-50 rounded-lg w-full p-5">
-                                <span class="flex text-lg items-center">เปลี่ยนยาง , เปลี่ยนแบตเตอรี่</span>
+                                <span class="flex text-lg items-center" *ngFor="let service of card.services"> {{service.service?.name}}&nbsp;</span>
                             </div>
                         </div>
                         <div class="flex flex-row">
@@ -154,21 +115,21 @@
                             <div class="flex flex-col mt-4">
                                 <div class="flex px-4">
                                     <div>
-                                        <span class="flex text-lg items-center justify-center">
-                                            <mat-icon svgIcon="feather:map-pin"> </mat-icon> 
+                                        <span class="flex text-lg items-start justify-center">
+                                            <mat-icon svgIcon="feather:map-pin" class="icon-size-4 mt-1"> </mat-icon> 
                                             &nbsp;
                                             {{card.service_center.name ?? ''}}
                                             <br>
                                             &nbsp;
-                                            ({{card.service_center.phone ?? ''}})
+                                            ({{card.service_center.phone ?? ''}}) 
                                         </span>
                                     </div>
                                 </div>
                                 &nbsp;
                                 <div class="flex px-4">
                                     <div>
-                                        <span class="flex text-lg items-center justify-center">
-                                            <mat-icon svgIcon="feather:user"></mat-icon>
+                                        <span class="flex text-lg items-start justify-center">
+                                            <mat-icon svgIcon="heroicons_outline:user" class="icon-size-4 mt-1"></mat-icon>
                                             &nbsp;
                                             {{card.name ?? ''}}
                                             <br>
@@ -180,27 +141,23 @@
                             </div>
                         </div>
                         <div class="mx-4">
-                            <hr>
+                            <hr class="my-3">
                         </div>
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{ card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-15 w-15 rounded-full"
-                                src="assets/images/avatars/male-09.jpg"
-                                alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="assets/images/avatars/male-09.jpg" alt="image description">
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Waiting'"  (click)="editTicket(card)">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -221,40 +178,41 @@
                             <div class="flex flex-col mt-4">
                                 <div class="flex px-4">
                                     <div>
-                                        <span class="flex text-lg items-center justify-center">
-                                            <mat-icon svgIcon="feather:map-pin"> </mat-icon> 
-                                            &nbsp;
-                                            {{card.service_center.name ?? ''}}
-                                            <br>
-                                            &nbsp;
-                                            ({{card.service_center.phone ?? ''}})
+                                        <span class="flex flex-row text-lg items-start justify-center">
+                                            <mat-icon svgIcon="feather:map-pin" class="icon-size-4 mt-1"> </mat-icon> 
+                                            <div>
+                                                <div>
+                                                    &nbsp;
+                                                    {{card.service_center.name ?? ''}}
+                                                </div>
+                                                <div class="text-md font-light">
+                                                    &nbsp;
+                                                    ({{card.service_center.phone ?? ''}})
+                                                </div>
+                                            </div>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="mx-4">
-                            <hr>
+                            <hr class="my-3">
                         </div>
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-15 w-15 rounded-full"
-                                src="assets/images/avatars/male-09.jpg"
-                                alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="assets/images/avatars/male-09.jpg" alt="image description">
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Finish'">
+                    <div class="flex flex-col mx-5 bg-white rounded-xl mb-2" *ngIf="card.status === 'Finish'"  (click)="editTicket(card)">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
-                                    alt="image description">
+                                <img class="h-15 w-auto" src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -277,18 +235,16 @@
                             </div>
                         </div>
                         <div class="mx-4">
-                            <hr>
+                            <hr class="my-3">
                         </div>
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">เมื่อวานนี้ 18:00</span>
+                                    <span class="text-lg text-slate-500">{{card.time}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-15 w-15 rounded-full"
-                                src="assets/images/avatars/male-09.jpg"
-                                alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="assets/images/avatars/male-09.jpg" alt="image description">
                             </div>
                         </div>
                     </div>

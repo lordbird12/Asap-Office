@@ -63,6 +63,7 @@ import { environment } from 'environments/environment.development';
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];

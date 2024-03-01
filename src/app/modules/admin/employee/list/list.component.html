@@ -8,22 +8,23 @@
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-2xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
                     พนักงาน
-                </h2>   
+                </h2>
             </div>
         </div>
     </div>
     <!-- Main -->
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
-            <div class="flex justify-start items-center w-100">
+            <div class="flex justify-start items-center w-100 mt-5">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="w-[170]">
-                        <input matInput >
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                        <mat-icon svgIcon="search"></mat-icon>
+                        <input matInput [placeholder]="'ค้นหา'">
                     </mat-form-field>
                 </div>
-            </div>  
+            </div>
             <div class="flex">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
@@ -35,7 +36,7 @@
                         <span>อัปโหลด CSV</span>
                     </button>
                 </div>
-                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center" >
+                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
                     <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
                         <mat-icon>add_circle_outline</mat-icon>
                         <div class="font-light">

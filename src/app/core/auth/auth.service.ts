@@ -82,9 +82,13 @@ export class AuthService
         return this._httpClient.post(environment.baseURL + '/api/login', credentials).pipe(
             switchMap((response: any) =>
             {
+                // localStorage.clear()
                 // Store the access token in the local storage
                 this.accessToken = response.token;
-
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(response.data)
+                );
                 // Set the authenticated flag to true
                 this._authenticated = true;
 
