@@ -309,9 +309,39 @@ export class ListComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
             console.log('close');
             if(result) {
+                
                 this._service.getBooking().subscribe((resp: any) => {
                     this.itemData = resp.data;  
-                    this.task = []
+                    this.task = [
+                        {
+                            id: 1,
+                            name: 'งานใหม่ / Todo',
+                            detail: 'งานใหม่รอรับ',
+                            status: 'Process',
+                            task: []
+                        },
+                        {
+                            id: 2,
+                            name: 'กำลังดำเนินงาน',
+                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                            status: 'Waiting',
+                            task: []
+                        },
+                        {
+                            id: 3,
+                            name: 'รอเข้ารับบริการ',
+                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                            status: 'Finish',
+                            task: []
+                        },
+                        {
+                            id: 4,
+                            name: 'เสร็จสิ้น',
+                            detail: '-',
+                            status: 'Cancel',
+                            task: []
+                        },
+                    ]
                     // cons ole.log('itemData', this.itemData)
                     for (const item of this.itemData) {
                         if (item.status === 'New') {
@@ -327,7 +357,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[3].task.push(item)
                         }
                     }
-                    this._changeDetectorRef.detectChanges();
+                    this._changeDetectorRef.markForCheck();
                 })
             }
           
