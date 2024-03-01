@@ -140,7 +140,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
     }
 
     openProfile(): void {
-        this.activeBtnAcc = 'primary';
+        //this.activeBtnAcc = 'primary';
 
         this._changeDetectorRef.markForCheck();
         this._router.navigate(['admin/account/form']);
