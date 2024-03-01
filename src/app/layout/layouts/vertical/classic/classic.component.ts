@@ -58,7 +58,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
     navigation: Navigation;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     activeBtnAcc: string;
-
+    user: any;
     /**
      * Constructor
      */
@@ -91,7 +91,9 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.activeBtnAcc = 'default';
-
+        this.user = JSON.parse(localStorage.getItem('user'));
+        // console.log(this.user)
+        // console.log(this.user)
         // Subscribe to navigation data
         this._navigationService.navigation$
             .pipe(takeUntil(this._unsubscribeAll))

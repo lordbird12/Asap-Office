@@ -25,10 +25,10 @@
                 </div>
                 <div class="flex flex-col min-w-0 ">
                     <div class="ml-1.5 text-1xl md:text-2xl font-semibold tracking-tight leading-7 md:leading-snug truncate ">
-                        ผู้ดูแลระบบ
+                        {{this.user.fname}} {{this.user.lname}}
                     </div>
                     <div class="flex items-center">
-                        <div class="ml-1.5 leading-6 truncate text-secondary ">admin@gmail.com</div>
+                        <div class="ml-1.5 leading-6 truncate text-secondary ">{{this.user.email}}</div>
                     </div>
                 </div>
                 <div class="flex flex-col min-w-0 ml-4">

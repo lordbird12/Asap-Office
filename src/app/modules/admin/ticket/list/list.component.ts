@@ -38,6 +38,7 @@ import { Router } from '@angular/router';
 import { TicketCardComponent } from '../ticket-card/ticket-card.component';
 import { CreateComponent } from '../create-card/ticket-card.component';
 import { DetailTicketComponent } from '../detail-card/ticket-card.component';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'car-list',
@@ -107,7 +108,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
 
     }
-    
+
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
         console.log(this.user)
@@ -276,5 +277,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
 
 
+    }
+
+    exportExcel() {
+        window.open(environment.baseURL + '/api/export_ticket')
     }
 }

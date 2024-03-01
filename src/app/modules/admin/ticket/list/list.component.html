@@ -48,7 +48,7 @@
                     <button (click)="createTicket()" class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'"  *ngIf="this.user.position_id === '2'">
                         <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้าง Ticket
                     </button>
-                    <button  class="px-6 ml-3 rounded-md border-2 border-gray-500 " mat-stroked-button color="accent" *ngIf="this.user.position_id === '3'">
+                    <button (click)="exportExcel()" class="px-6 ml-3 rounded-md border-2 border-gray-500 " mat-stroked-button color="accent" *ngIf="this.user.position_id === '3'">
                         <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
                     </button>
                 </div>
