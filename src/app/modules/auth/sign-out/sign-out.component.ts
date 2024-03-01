@@ -39,6 +39,7 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        localStorage.clear();
         // Sign out
         this._authService.signOut();
 

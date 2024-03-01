@@ -1,7 +1,5 @@
 /* eslint-disable */
 import { FuseNavigationItem } from '@fuse/components/navigation';
-const position = JSON.parse(localStorage.getItem('user'));
-console.log('user', position);
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id: 'admin.book',
@@ -11,7 +9,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/admin/booking/list',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '1' || position.position_id === '3' ) {
                 return true;
             } else {
@@ -27,7 +25,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/dashboards/general-manager',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '1' || position.position_id === '2' ) {
                 return true;
             } else {
@@ -43,7 +41,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/admin/summary/list',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '1' || position.position_id === '2' ) {
                 return true;
             } else {
@@ -59,7 +57,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/admin/ticket/list',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '1' || position.position_id === '2' ) {
                 return true;
             } else {
@@ -67,7 +65,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         },
     },
-    
+
     {
         id: 'admin.booking',
         title: 'การติดตามลูกค้า',
@@ -76,7 +74,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         link: '/admin/ticket/list',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '1' || position.position_id === '3' ) {
                 return true;
             } else {
@@ -89,8 +87,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'พนักงาน',
         type: 'basic',
         hidden: () => {
-            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '2' || position.position_id === '3' ) {
                 return true;
             } else {
@@ -106,7 +103,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '2' && position.position_id === '3' ) {
                 return true;
             } else {
@@ -122,7 +119,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '2' && position.position_id === '3' ) {
                 return true;
             } else {
@@ -138,7 +135,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '2' && position.position_id === '3' ) {
                 return true;
             } else {
@@ -154,7 +151,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-        
+            const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '2' && position.position_id === '3' ) {
                 return true;
             } else {
@@ -183,7 +180,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/dashboards/project',
                 hidden: () => {
                     // const storedPermission = JSON.parse(localStorage.getItem('permission'));
-                
+                    const position = JSON.parse(localStorage.getItem('user'));
                     if (position.position_id === '1' && position.position_id === '3' ) {
                         return true;
                     } else {
