@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {
     FormControl,
+    FormGroup,
     FormsModule,
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -177,16 +178,16 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this._service.getBooking().subscribe((resp: any) => {
-            // this.itemData = resp.data;
-            // console.log('itemData', this.itemData)
+            this.itemData = resp.data;
+            // cons ole.log('itemData', this.itemData)
             for (const item of this.itemData) {
-                if (item.status === 'Process') {
+                if (item.status === 'New') {
                     this.task[0].task.push(item)
                 }
-                else if (item.status === 'Waiting') {
+                else if (item.status === 'Process') {
                     this.task[1].task.push(item)
                 }
-                else if (item.status === 'Waiting_service') {
+                else if (item.status === 'Waiting') {
                     this.task[2].task.push(item)
                 }
                 else if (item.status === 'Finish') {
@@ -284,28 +285,82 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     createTicket() {
-        this.dialog.open(TicketCardComponent,
+       const dialogRef= this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
                 width: '676px'
             }
         );
+        dialogRef.afterClosed().subscribe(result => {
+           
+
+        })
     }
 
-    editTicket(value: any) {
+    editTicket(value: FormGroup) {
+        console.log(value)
         const dialogRef = this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
                 width: '676px',
-                data: {
-                    id: value.id,
-                    value: value
-                }
+                data: value
             }
         );
         dialogRef.afterClosed().subscribe(result => {
             console.log('close');
-
+            if(result) {
+                
+                this._service.getBooking().subscribe((resp: any) => {
+                    this.itemData = resp.data;  
+                    this.task = [
+                        {
+                            id: 1,
+                            name: 'งานใหม่ / Todo',
+                            detail: 'งานใหม่รอรับ',
+                            status: 'Process',
+                            task: []
+                        },
+                        {
+                            id: 2,
+                            name: 'กำลังดำเนินงาน',
+                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                            status: 'Waiting',
+                            task: []
+                        },
+                        {
+                            id: 3,
+                            name: 'รอเข้ารับบริการ',
+                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                            status: 'Finish',
+                            task: []
+                        },
+                        {
+                            id: 4,
+                            name: 'เสร็จสิ้น',
+                            detail: '-',
+                            status: 'Cancel',
+                            task: []
+                        },
+                    ]
+                    // cons ole.log('itemData', this.itemData)
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                })
+            }
+          
         })
 
     }

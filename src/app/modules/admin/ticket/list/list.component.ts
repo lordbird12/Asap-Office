@@ -125,7 +125,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             this._changeDetectorRef.detectChanges();
         })
 
-        this.detailTicket();
+        // this.detailTicket();
         // this.createTicket();
     }
 

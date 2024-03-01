@@ -3,7 +3,7 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id: 'admin.department',
+        id: 'admin.book',
         title: 'ภาพรวมงาน',
         type: 'basic',
         icon: 'feather:home',
@@ -14,7 +14,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'สรุปภาพรวม',
         type: 'basic',
         icon: 'feather:home',
-        link: '/dashboards/general-manager',
+        link: '/dashboards/general-manager',}
+    ,{
+        id: 'admin.summary',
+        title: 'ภาพรวมการเข้ารับบริการ',
+        type: 'basic',
+        icon: 'mat_solid:local_car_wash',
+        link: '/admin/summary/list',
     },
     {
         id: 'admin.booking',
