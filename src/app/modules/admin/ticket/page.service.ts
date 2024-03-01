@@ -56,10 +56,29 @@ export class PageService {
             );
     }
 
+    createTicket(data: FormData): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/ticket', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
 
     updateStatus(id: any, status: string): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_booking_status', {booking_id: id , status: status})
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    updateStatusTicket(id: any, status: string): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_ticket_status', {booking_id: id , status: status})
             .pipe(
                 tap((result) => {
                     this._data.next(result);
