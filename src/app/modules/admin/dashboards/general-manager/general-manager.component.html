@@ -200,7 +200,7 @@
 
     </div>
 
-    <div class="flex flex-row w-full max-w-screen-xl gap-8 mx-auto rounded-2xl">
+    <div class="flex flex-row w-full max-w-screen-xl gap-8 mx-auto rounded-2xl mb-5">
 
         <div class="flex flex-col flex-auto bg-card gap-8 w-4/6 p-8">
             <div class="flex flex-row justify-between">
@@ -210,12 +210,13 @@
                 <table class="table-auto w-full">
                     <thead>
                         <tr>
-                            <th>พนักงาน</th>
-                            <th>Team</th>
-                            <th>จำนวนเคส</th>
-                            <th>ระยะเวลาเฉลี่ย ในการรับเคส</th>
-                            <th>ระยะเวลาเฉลี่ย ในการปิดงาน</th>
-                            <th>
+                            <th class="text-start w-1/12">พนักงาน</th>
+                            <th class="text-start w-2/12"></th>
+                            <th class="text-start w-1/12">Team</th>
+                            <th class="text-start w-1/12">จำนวนเคส</th>
+                            <th class="text-start w-1/12">ระยะเวลาเฉลี่ย ในการรับเคส</th>
+                            <th class="text-start w-1/12">ระยะเวลาเฉลี่ย ในการปิดงาน</th>
+                            <th class="text-start w-2/12">
                                 <div class="flex flex-row items-center gap-1">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.9635 5.37072C13.8719 5.08724 13.6204 4.88589 13.3229 4.85908L9.28216 4.49217L7.68432 0.752285C7.56651 0.4782 7.29819 0.300781 7.00007 0.300781C6.70195 0.300781 6.43364 0.4782 6.31582 0.752926L4.71798 4.49217L0.67656 4.85908C0.379616 4.88653 0.128816 5.08724 0.0366355 5.37072C-0.0555452 5.65421 0.0295858 5.96514 0.254216 6.16115L3.30857 8.83983L2.40791 12.8072C2.34201 13.0989 2.45523 13.4005 2.69727 13.5754C2.82737 13.6694 2.97958 13.7173 3.13307 13.7173C3.26542 13.7173 3.39669 13.6816 3.51451 13.6111L7.00007 11.5279L10.4844 13.6111C10.7393 13.7645 11.0607 13.7505 11.3022 13.5754C11.5444 13.3999 11.6575 13.0983 11.5916 12.8072L10.6909 8.83983L13.7453 6.16168C13.9699 5.96514 14.0557 5.65474 13.9635 5.37072Z" fill="#FFC107"/>
@@ -227,14 +228,18 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let person of persons; let i = index;">
-                            <td>{{i+1}}
-                                <!-- <img src="assets\images\People (1).png" width="20" height="20" alt=""> -->
-                                {{person.name}}</td>
-                            <td>{{person.team}}</td>
-                            <td>{{person.case}}</td>
-                            <td>{{person.avgopen}}</td>
-                            <td>{{person.avgclose}}</td>
-                            <td>{{person.status}} {{person.rate}}</td>
+                            <td class="py-4">{{i+1}}</td>
+                            <td>
+                                <div class="flex flex-row items-center gap-4">
+                                    <img style="width: 44px;" src="assets\images\People (1).png" alt="">
+                                    {{person.name}}
+                                </div>
+                            </td>
+                            <td class="py-4">{{person.team}}</td>
+                            <td class="py-4">{{person.case}}</td>
+                            <td class="py-4">{{person.avgopen}}</td>
+                            <td class="py-4">{{person.avgclose}}</td>
+                            <td class="py-4"><span class="text-[#2EB47B]" style="background: #36B37E21;padding: 2px 8px 4px 8px;">{{person.status}}</span> {{person.rate}}</td>
                         </tr>
                     </tbody>
                 </table>
