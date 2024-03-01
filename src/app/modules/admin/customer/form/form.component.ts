@@ -213,7 +213,7 @@ export class FormComponent implements OnInit {
         // this._router.navigate(['admin/employee/form']);
         const dialogRef = this.dialog.open(SelectCarComponent, {
             width: '700px',
-            height: '500px', // กำหนดความกว้างของ Dialog
+            height: '800px', // กำหนดความกว้างของ Dialog
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -228,12 +228,11 @@ export class FormComponent implements OnInit {
         // console.log(this.depositsForm.value.deposit[i]);
         const dialogRef = this.dialog.open(SelectCarComponent, {
             width: '700px',
-            height: '500px',
+            height: '800px',
         });
 
         // ปิด Dialog พร้อมรับค่า result
         dialogRef.afterClosed().subscribe((item) => {
-            console.log('itemss', item);
             for (const items of item) {
                 this.addCar(items);
             }

@@ -121,9 +121,8 @@ export class EditFormComponent implements OnInit {
         this._router.navigateByUrl('admin/customer/list').then(() => {});
     }
     onSaveClick(): void {
-        this.flashMessage = null;
-        this._router.navigateByUrl('admin/customer/list').then(() => {});
-        return;
+        // this.flashMessage = null;
+        // this._router.navigateByUrl('admin/customer/list').then(() => {});
         const datePipe = new DatePipe('en-US');
 
         const date = datePipe.transform(
