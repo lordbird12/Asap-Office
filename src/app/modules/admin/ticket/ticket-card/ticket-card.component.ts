@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -45,9 +45,9 @@ export class TicketCardComponent implements OnInit{
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _fb: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) 
     {
-
         // console.log(this.data)
         this.form = this._fb.group({
             client_id: '',
@@ -58,6 +58,9 @@ export class TicketCardComponent implements OnInit{
             reason: '',
             date: '',
             time: '',
+            company: '',
+            image: '',
+            
             services: this._fb.array([])
         })
 
@@ -72,19 +75,18 @@ export class TicketCardComponent implements OnInit{
            this.clientData = resp.data;
             
         })
-     
-
     }
     yourArray: string[] = ['Item 1', 'Item 2', 'Item 3']; // ตัวอย่างของ Array
     yourDataArray: string[] = ['Item 2']; // ตัวอย่างของข้อมูลที่มีอยู่
     onChangeClient(event: any) {
-      
-        let formvalue = this.clientData.find(item =>  item.id === event.value)
-        // console.log(formvalue)
+        let formvalue = this.productData.find(item =>  item.car_id === event.value)
         this.form.patchValue({
-            client_id: formvalue.id,
-            name: formvalue.name,
-            phone: formvalue.phone,
+            car_id:formvalue.car_id,
+            client_id: formvalue.client.id,
+            name: formvalue.client.name,
+            phone: formvalue.client.phone,
+            image: formvalue.car.pictureUrl,
+            company: formvalue.client.company,
         })
      
 
@@ -96,17 +98,22 @@ export class TicketCardComponent implements OnInit{
         this._service.getService().subscribe((resp: any)=>{
             this.serviceData = resp.data;
          })
-        if(this.data && this.productData) {
-            
-            this.testData = this.data.activitys;
-            this.statusData.setValue(this.data.status)
+        if(this.data.value && this.productData) {
+                console.log('data', this.data.value)
+            this.testData = this.data.value.activitys;
+            console.log(this.testData)
+            this.statusData.setValue(this.data.value.status)
             this.form.patchValue({
-                ...this.data,
-                client_id: +this.data.client_id,
-                service_center_id: +this.data.service_center_id,
+                ...this.data.value,
+                car_id: +this.data.value.car_id,
+                client_id: +this.data.value.client_id,
+                service_center_id: +this.data.value.service_center_id,
             })
             // this.testData = this.data.services
-            console.log('111',+this.data.car_id)
+            
+        } else 
+        {
+            this.statusData.setValue('New') 
         }
     }
 
@@ -149,13 +156,13 @@ export class TicketCardComponent implements OnInit{
         
         // ตรวจสอบว่า featureId มีอยู่ใน FormArray หรือไม่
         const index = service.value.findIndex((value: any) => value.service_id === serviceId);
-        console.log(index)
+        // console.log(index)
         if (index === -1) {
             const value = this._fb.group({
                 service_id: serviceId,
             }); 
             service.push(value);
-            console.log(this.form.value)
+            // console.log(this.form.value)
            
         } else {
           // ถ้ามีอยู่แล้วให้ลบออก
@@ -302,7 +309,7 @@ export class TicketCardComponent implements OnInit{
         const timeDifference = currentDate.getTime() - createdAtDate.getTime();
         const minutesDifference = Math.floor(timeDifference / (1000 * 60));
         const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-        console.log(minutesDifference)
+        // console.log(minutesDifference)
         if (minutesDifference < 60) {
           return `${minutesDifference} min ago`;
         } else if (hoursDifference < 24) {
@@ -312,5 +319,17 @@ export class TicketCardComponent implements OnInit{
           return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
         }
     }
+    
+    // sortBy(property: string) {
+    //     console.log(this.testData)
+    //     this.testData.sort((a, b) => a[property].getTime() - b[property].getTime());
 
+        
+    //     this._changeDetectorRef.markForCheck();
+    //   }
+
+      sortBy(property: string) {
+        this.testData.reverse();
+        this._changeDetectorRef.markForCheck();
+      }
 }

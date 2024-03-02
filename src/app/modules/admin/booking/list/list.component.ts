@@ -38,12 +38,16 @@ import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { TicketCardComponent } from '../../ticket/ticket-card/ticket-card.component';
 import { result } from 'lodash';
+import { UserImageService } from 'app/shared/image-last/user-image.service';
+import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
+import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 
 @Component({
     selector: 'car-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
+    styleUrls: ['./list.component.scss'],
     imports: [
         CommonModule,
         MatIconModule,
@@ -62,13 +66,18 @@ import { result } from 'lodash';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        LastUserImagePipe,
+        TimeDifferencePipe
     ],
+    providers: [UserImageService],
+    
 })
 export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
+    isCheckedControl = new FormControl(false);
     public dataRow: any[];
     task: any[] = [
         {
@@ -102,6 +111,20 @@ export class ListComponent implements OnInit, AfterViewInit {
     ]
     itemData: any[] = [
         {
+            activitys: [
+                {
+                    id: 1,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+                {
+                    id: 2,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+            ],
             status: 'Process',
             car: {
                 license: '6กท-3155',
@@ -113,6 +136,20 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
         {
             status: 'Process',
+            activitys: [
+                {
+                    id: 1,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+                {
+                    id: 2,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+            ],
             car: {
                 license: '6กท-3155',
                 brand_model: {
@@ -123,6 +160,20 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
         {
             status: 'Waiting',
+            activitys: [
+                {
+                    id: 1,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+                {
+                    id: 2,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+            ],
             car: {
                 license: '6กท-3155',
                 brand_model: {
@@ -139,6 +190,20 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
         {
             status: 'Waiting_service',
+            activitys: [
+                {
+                    id: 1,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+                {
+                    id: 2,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+            ],
             car: {
                 license: '6กท-3155',
                 brand_model: {
@@ -155,6 +220,20 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
         {
             status: 'Finish',
+            activitys: [
+                {
+                    id: 1,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+                {
+                    id: 2,
+                    user: {
+                        image: '/image'
+                    }  
+                },
+            ],
             car: {
                 license: '6กท-3155',
                 brand_model: {
@@ -170,7 +249,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private userImageService: UserImageService
     ) {
 
 
@@ -179,6 +259,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this._service.getBooking().subscribe((resp: any) => {
             this.itemData = resp.data;
+            // const lastItem = resp.data.activitys.slice(-1)[0];
+            console.log(resp.data)
             // cons ole.log('itemData', this.itemData)
             for (const item of this.itemData) {
                 if (item.status === 'New') {
@@ -200,10 +282,37 @@ export class ListComponent implements OnInit, AfterViewInit {
 
 
     }
-
+    
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
+    selectedIdx: number | null = null;
+    selectItem(index: number): void {
+        this.selectedIdx = index;
+      }
+
+      isChecked1: boolean[] =  []
+      isChecked2: boolean[] =  []
+      isChecked3: boolean[] =  []
+      changeColor1(index: number): void {
+        this.isChecked1[index] = !this.isChecked1[index];
+      }
+      changeColor2(index: number): void {
+        this.isChecked2[index] = !this.isChecked2[index];
+      }
+      changeColor3(index: number): void {
+        this.isChecked3[index] = !this.isChecked3[index];
+      }
+
+      isCheckboxVisible: boolean[] = [];
+
+      showCheckbox(index: number): void {
+        this.isCheckboxVisible[index] = true;
+      }
+    
+      hideCheckbox(index: number): void {
+        this.isCheckboxVisible[index] = false;
+      }
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
@@ -288,12 +397,66 @@ export class ListComponent implements OnInit, AfterViewInit {
        const dialogRef= this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
-                width: '676px'
+                width: '500px',
+                data: {
+                    status: 'New'
+                }
             }
         );
         dialogRef.afterClosed().subscribe(result => {
            
-
+            if(result) {
+                
+                this._service.getBooking().subscribe((resp: any) => {
+                    this.itemData = resp.data;  
+                    this.task = [
+                        {
+                            id: 1,
+                            name: 'งานใหม่ / Todo',
+                            detail: 'งานใหม่รอรับ',
+                            status: 'Process',
+                            task: []
+                        },
+                        {
+                            id: 2,
+                            name: 'กำลังดำเนินงาน',
+                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                            status: 'Waiting',
+                            task: []
+                        },
+                        {
+                            id: 3,
+                            name: 'รอเข้ารับบริการ',
+                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                            status: 'Finish',
+                            task: []
+                        },
+                        {
+                            id: 4,
+                            name: 'เสร็จสิ้น',
+                            detail: '-',
+                            status: 'Cancel',
+                            task: []
+                        },
+                    ]
+                    // cons ole.log('itemData', this.itemData)
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                })
+            }
         })
     }
 
@@ -302,8 +465,11 @@ export class ListComponent implements OnInit, AfterViewInit {
         const dialogRef = this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
-                width: '676px',
-                data: value
+                width: '500px',
+                data: {
+                    status: 'Edit',
+                    value: value,
+                },
             }
         );
         dialogRef.afterClosed().subscribe(result => {
