@@ -32,13 +32,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 return false;
             }
         },
-    }
-    ,{
-        id: 'admin.summary',
+    },
+    {
+        id: 'admin.department',
         title: 'ภาพรวมการเข้ารับบริการ',
         type: 'basic',
-        icon: 'mat_solid:local_car_wash',
-        link: '/admin/summary/list',
+        icon: 'feather:home',
+        link: '/dashboards/summary-service',
         hidden: () => {
             // const storedPermission = JSON.parse(localStorage.getItem('permission'));
             const position = JSON.parse(localStorage.getItem('user'));
@@ -49,6 +49,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
             }
         },
     },
+    // ,{
+    //     id: 'admin.summary',
+    //     title: 'ภาพรวมการเข้ารับบริการ',
+    //     type: 'basic',
+    //     icon: 'mat_solid:local_car_wash',
+    //     link: '/admin/summary/list',
+    //     hidden: () => {
+    //         // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+    //         const position = JSON.parse(localStorage.getItem('user'));
+    //         if (position.position_id === '1' || position.position_id === '2' ) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+    //     },
+    // },
     {
         id: 'admin.ticket.gm',
         title: 'Ticket',

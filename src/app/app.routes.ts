@@ -149,6 +149,13 @@ export const appRoutes: Route[] = [
                                 'app/modules/admin/dashboards/general-manager/general-manager.routes'
                             ),
                     },
+                    {
+                        path: 'summary-service',
+                        loadChildren: () =>
+                            import(
+                                'app/modules/admin/dashboards/summary-service/summary-service.routes'
+                            ),
+                    },
                 ],
             },
 
