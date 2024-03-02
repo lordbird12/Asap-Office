@@ -1,0 +1,26 @@
+.transparent-button {
+    background-color: rgba(0, 123, 255, 0); /* Set your desired background color with alpha transparency */
+    border: 2px solid #FF595A; /* Set your desired border color */
+    color: #FF595A; /* Set your desired text color */
+  }
+  
+  .transparent-button:hover {
+    background-color: #ffffffdf; /* Set your desired hover background color with alpha transparency */
+    border: 3px solid #FF595A; /* Set your desired hover border color */
+    color: #FF595A; /* Set your desired hover text color */
+  }
+  .icon {
+    color: #FF595A; /* Set your desired icon color */
+  }
+  
+  .button-text {
+    color: #FF595A; /* Set your desired text color */
+  }
+  
+  .transparent-button:hover .icon {
+    color: #FF595A; /* Set your desired hover icon color */
+  }
+  
+  .transparent-button:hover .button-text {
+    color: #FF595A; /* Set your desired hover text color */
+  }
