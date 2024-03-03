@@ -9,6 +9,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SummaryServiceService } from './summary-service.service';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -21,7 +23,7 @@ export type ChartOptions = {
 @Component({
     selector: 'app-summary-service',
     standalone: true,
-    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, RouterLink],
+    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, RouterLink, ReactiveFormsModule],
     templateUrl: './summary-service.component.html',
     styleUrls: ['./summary-service.component.scss']
 })
@@ -32,7 +34,7 @@ export class SummaryServiceComponent implements OnInit {
     public chartOptions: Partial<ChartOptions>;
 
     typeScore = [];
-
+    form: FormGroup;
     lists = [
         { province: "กรุงเทพมหานคร", quantity: 450, top: "เปลี่ยนแบตเตอรี่" },
         { province: "นครราชสีมา", quantity: 250, top: "เปลี่ยนยาง" },
@@ -43,11 +45,17 @@ export class SummaryServiceComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
+        private fb: FormBuilder,
+        private service: SummaryServiceService,
     ) { }
 
     ngOnInit(): void {
         this.data = this.activatedRoute.snapshot.data.data;
-        console.log(this.data);
+
+        this.form = this.fb.group({
+            startDate: [],
+            endDate: []
+        });
 
         this.typeScore = [
             this.top_services('เปลี่ยนยาง'),
@@ -83,6 +91,18 @@ export class SummaryServiceComponent implements OnInit {
                 enabled: true,
             },
         };
+
+        this.form.valueChanges.subscribe({
+            next: (data) => {
+                if (data.startDate && data.endDate) {
+                    this.service.getData().subscribe({
+                        next: (resp) => {
+                            this.data = resp;
+                        }
+                    })
+                }
+            }
+        })
     }
 
     calPerStyly(score: number) {
