@@ -74,7 +74,11 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
+    isCardVisible: boolean = true;
 
+    toggleCardVisibility() {
+        this.isCardVisible = !this.isCardVisible;
+    }
     /**
      * Getter for current year
      */
