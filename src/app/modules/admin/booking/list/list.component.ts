@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
 import {
@@ -14,8 +13,6 @@ import {
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
-    UntypedFormBuilder,
-    Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -28,21 +25,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { TicketCardComponent } from '../../ticket/ticket-card/ticket-card.component';
-import { result } from 'lodash';
 import { UserImageService } from 'app/shared/image-last/user-image.service';
 import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.component';
-import moment from 'moment';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.component';
 

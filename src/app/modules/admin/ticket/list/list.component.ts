@@ -39,6 +39,8 @@ import { TicketCardComponent } from '../ticket-card/ticket-card.component';
 import { CreateComponent } from '../create-card/ticket-card.component';
 import { DetailTicketComponent } from '../detail-card/ticket-card.component';
 import { environment } from 'environments/environment.development';
+import { EmployeeDialogComponent } from '../employee-filter/dailog.component';
+import { DepartmentDialogComponent } from '../department-dialog/dailog.component';
 
 @Component({
     selector: 'car-list',
@@ -97,6 +99,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
     ]
     itemData: any[];
+    employeeDep: any[] = [];
+    deparment: any[] = [];
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
@@ -105,8 +109,22 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router
     ) {
-
-
+        this._service.getEmployeeBydepartment().subscribe((resp: any) => {
+            for (let index = 0; index < resp.data.length; index++) {
+                const element = {
+                    id: resp.data[index].id,
+                    fname: resp.data[index].fname,
+                    lname: resp.data[index].lname,
+                    image: resp.data[index].image,
+                    code: resp.data[index].code,
+                    isSelected: resp.data[index].code === this.user.code,
+                }
+                this.employeeDep.push(element)
+            }
+        })
+        this._service.getDepartment().subscribe((resp: any) => {
+           this.deparment = resp.data;
+        })
     }
 
     ngOnInit() {
@@ -136,7 +154,10 @@ export class ListComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
-
+    empFilter(data: any) {
+      
+        return data.filter(e => e.isSelected)
+    }
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
@@ -257,7 +278,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         status: 'Finish',
                         task: []
                     },
-                ];
+            ];
                 this._service.getTicket().subscribe((resp: any) => {
                     this.itemData = resp.data;
                     for (const item of this.itemData) {
@@ -281,5 +302,41 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     exportExcel() {
         window.open(environment.baseURL + '/api/export_ticket')
+    }
+
+    employeeDialog(value) {
+        console.log(this.employeeDep)
+        const dialogRef = this.dialog.open(EmployeeDialogComponent,
+            {
+                minWidth: '30%',
+                data: {
+                    status: 'Edit',
+                    value: this.employeeDep,
+                },
+            }
+        );
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                   console.log(result) 
+            }
+        })
+    }
+
+    departmentDailog() {
+        
+        const dialogRef = this.dialog.open(DepartmentDialogComponent,
+            {
+                minWidth: '30%',
+                data: {
+                    status: 'Edit',
+                    value: this.deparment,
+                },
+            }
+        );
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                   console.log(result) 
+            }
+        })
     }
 }
