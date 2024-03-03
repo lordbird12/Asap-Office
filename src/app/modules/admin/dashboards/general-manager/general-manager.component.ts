@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { KpiChartComponent } from './kpi-chart/kpi-chart.component';
 import { ComplacenceChartComponent } from './complacence-chart/complacence-chart.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-general-manager',
@@ -33,7 +34,15 @@ export class GeneralManagerComponent implements OnInit {
         { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
     ];
 
+    data;
+
+    constructor(
+        private activatedRoute: ActivatedRoute,
+    ){}
+
     ngOnInit(): void {
+        this.data = this.activatedRoute.snapshot.data.data;
+        console.log(this.data);
 
     }
 }

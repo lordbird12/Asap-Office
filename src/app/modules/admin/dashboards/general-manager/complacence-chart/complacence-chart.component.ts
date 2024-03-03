@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApexNonAxisChartSeries, ApexChart, ApexPlotOptions, NgApexchartsModule, ApexStroke } from 'ng-apexcharts';
 
@@ -6,6 +6,7 @@ export type ChartOptions = {
     series: ApexNonAxisChartSeries;
     chart: ApexChart;
     labels: string[];
+    
     plotOptions: ApexPlotOptions;
     colors: string[];
     stroke: ApexStroke;
@@ -19,6 +20,9 @@ export type ChartOptions = {
     styleUrls: ['./complacence-chart.component.scss']
 })
 export class ComplacenceChartComponent implements OnInit {
+
+    @Input()
+    data: any;
 
     public chartOptions: Partial<ChartOptions>;
 
@@ -39,7 +43,8 @@ export class ComplacenceChartComponent implements OnInit {
                 },
 
             },
-            labels: ["4.2"],
+
+            labels: [this.data.client_smile.point],
             colors: ['#FBAF5D'],
             stroke: {
                 lineCap: "round",
