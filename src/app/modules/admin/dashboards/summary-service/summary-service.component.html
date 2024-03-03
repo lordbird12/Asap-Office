@@ -27,7 +27,7 @@
         <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
             <div class="flex flex-row justify-between">
                 <div class="font-medium">วิเคราะห์การเข้ารับบริการ</div>
-                <a [routerLink]="['bank']" routerLinkActive="router-link-active">
+                <a [routerLink]="[department]" [queryParams]="{name: getDepartment.name}" routerLinkActive="router-link-active">
                     <div class="flex flex-row gap-1 items-center">
                         <div class="font-medium text-[#FF4849]">ดูเพิ่มเติม</div>
                         <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,55 +42,15 @@
                 <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#4F4F4F] p-3 h-24 cursor-pointer mr-1"
                     style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                     <div class="text-sm font-normal">ทั้งหมด</div>
-                    <div class="text-xl font-semibold text-[#637381]">{{deps_totals('All').total | number}} ครั้ง</div>
+                    <div class="text-xl font-semibold text-[#637381]">{{data.deps_totals[0].total | number}} ครั้ง</div>
                 </div>
-                <div class="relative">
-                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="bank" name="fav_language" value="BANK">
-                    <label for="bank">
+                <div *ngFor="let item of data.deps_totals.slice(1)" class="relative">
+                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" [id]="'card_' + item.name" name="fav_language" [value]="item.id" [(ngModel)]="department">
+                    <label [for]="'card_' + item.name">
                         <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                            <div class="text-sm font-normal">Bank</div>
-                            <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Bank').total | number}} ครั้ง</div>
-                        </div>
-                    </label>
-                </div>
-                <div class="relative">
-                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="hospital" name="fav_language" value="HOSPITAL">
-                    <label for="hospital">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
-                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                            <div class="text-sm font-normal">Government / Hospital</div>
-                            <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Government/Hospital').total | number}} ครั้ง</div>
-                        </div>
-                    </label>
-                </div>
-                <div class="relative">
-                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="logistic" name="fav_language" value="LOGISTIC">
-                    <label for="logistic">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
-                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                            <div class="text-sm font-normal">Logistic</div>
-                            <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Logistic').total | number}} ครั้ง</div>
-                        </div>
-                    </label>
-                </div>
-                <div class="relative">
-                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="general" name="fav_language" value="GENERAL">
-                    <label for="general">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
-                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                            <div class="text-sm font-normal">General</div>
-                            <div class="text-xl font-semibold text-[#637381]">{{deps_totals('General').total | number}} ครั้ง</div>
-                        </div>
-                    </label>
-                </div>
-                <div class="relative">
-                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="shot_term" name="fav_language" value="SHOT_TERM">
-                    <label for="shot_term">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
-                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                            <div class="text-sm font-normal">Short term / Replacment</div>
-                            <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Short Term/Replacement').total | number}} ครั้ง</div>
+                            <div class="text-sm font-normal">{{item.name}}</div>
+                            <div class="text-xl font-semibold text-[#637381]">{{item.total | number}} ครั้ง</div>
                         </div>
                     </label>
                 </div>

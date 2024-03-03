@@ -12,3 +12,15 @@
  /*change color of underline when focused*/
  background-color: green !important;
 }
+
+/* เริ่มต้นที่ mobile (หน้าจอขนาดเล็ก) */
+@media only screen and (max-width: 767px) {
+  .row-2 {
+      flex-direction: column; /* แนวตั้งเฉพาะใน mobile */
+      align-items: center; /* จัดตำแหน่งตรงกลาง */
+  }
+
+  .col-md-6 {
+      margin-top: 10px; /* ปรับระยะห่างของ .col-md-6 ในทุกขนาดหน้าจอ mobile */
+  }
+}

@@ -12,12 +12,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
-import { PageService } from 'app/modules/admin/account/page.service';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, NgApexchartsModule } from 'ng-apexcharts';
+import { CenterListService } from '../center-list/center-list.service';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -28,62 +28,79 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-center-detail',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    FormsModule,
-    MatFormFieldModule,
-    NgClass,
-    MatInputModule,
-    TextFieldModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatTableModule,
-    DataTablesModule,
-    RouterLink,
-    CenterChartComponent,
-    DataTablesModule,
-    NgApexchartsModule
-  ],
-  templateUrl: './center-detail.component.html',
-  styleUrls: ['./center-detail.component.scss']
+    selector: 'app-center-detail',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatIconModule,
+        FormsModule,
+        MatFormFieldModule,
+        NgClass,
+        MatInputModule,
+        TextFieldModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatTableModule,
+        DataTablesModule,
+        RouterLink,
+        CenterChartComponent,
+        DataTablesModule,
+        NgApexchartsModule
+    ],
+    templateUrl: './center-detail.component.html',
+    styleUrls: ['./center-detail.component.scss']
 })
 export class CenterDetailComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    typeScore = [56, 40, 38, 28, 18, 0, 0, 0];
+    typeScore = [];
     dtOptions: DataTables.Settings = {};
     dataRow: any[] = [];
+    data = null;
     public chartOptions: Partial<ChartOptions>;
+
+    centerName: string = "";
+    id: number;
+
+    series: any[] = [];
 
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: PageService,
-        private _router: Router
-    ) {}
+        private _service: CenterListService,
+        private _router: Router,
+        private activatedRoute: ActivatedRoute,
+    ) {
+        this.id = this.activatedRoute.snapshot.params.id;
+        this.centerName = this.activatedRoute.snapshot.queryParams.name;
+        this.data = this.activatedRoute.snapshot.data.data;
+    }
 
     ngOnInit(): void {
         this.loadTable();
+
+        this.series = this.data.most_clients.map(e => ({ x: e.name, y: +e.total, fillColor: '#FF4849' }));
+
+        this.typeScore = [
+            this.top_services('เปลี่ยนยาง'),
+            this.top_services('เปลี่ยนแบตเตอรี่'),
+            this.top_services('เช็คระยะ'),
+            this.top_services('เช็คระบบแอร์'),
+            this.top_services('เช็คระบบเบรค'),
+            this.top_services('เช็คระบบไฟ'),
+            this.top_services('เช็คช่วงล่าง'),
+            this.top_services('อื่น (โปรดระบุ)'),
+        ];
 
         this.chartOptions = {
             series: [
                 {
                     name: "จำนวนการใช้บริการ",
-                    data: [
-                        { x: "บริษัท A", y: 12000, fillColor: '#FF4849' },
-                        { x: "บริษัท B", y: 10000, fillColor: '#FF4849' },
-                        { x: "บริษัท C", y: 6000, fillColor: '#FF4849' },
-                        { x: "บริษัท D", y: 1400, fillColor: '#FF4849' },
-                        { x: "บริษัท E", y: 1000, fillColor: '#FF4849' },
-                        { x: "บริษัท F", y: 12, fillColor: '#FF4849' }
-                    ]
+                    data: [...this.series]
                 }
             ],
             chart: {
@@ -126,9 +143,9 @@ export class CenterDetailComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.type = 'Good';
+                dataTablesParameters.service_center_id = this.id;
                 that._service
-                    .getPage(dataTablesParameters)
+                    .carServiceCenterPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
 
@@ -148,5 +165,17 @@ export class CenterDetailComponent implements OnInit {
             //     { data: 'created_at' },
             // ],
         };
+    }
+
+    top_services(data: string): number {
+        return +this.data.top_services.find(e => e.name == data).total;
+    }
+
+    most_top_service() {
+        return this.data.top_services.reduce((max, obj) => +obj.total > +max.total ? obj : max, this.data.top_services[0]);
+    }
+
+    get total_service() {
+        return this.data.top_services.reduce((total, curr) => total + +curr.total, 0);
     }
 }

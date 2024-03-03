@@ -15,7 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { CompanyListService } from './company-list.service';
+import { CenterListService } from './center-list.service';
 
 @Component({
   selector: 'app-center-list',
@@ -53,7 +53,7 @@ export class CenterListComponent implements OnInit {
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: CompanyListService,
+        private _service: CenterListService,
         private _router: Router
     ) {}
 
@@ -74,7 +74,7 @@ export class CenterListComponent implements OnInit {
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.type = 'Good';
                 that._service
-                    .getPage(dataTablesParameters)
+                    .serviceCenterBookPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
 

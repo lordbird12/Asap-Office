@@ -181,7 +181,6 @@ export class PageService {
             .post(
                 environment.baseURL + '/api/car_page',
                 dataTablesParameters,
-                this.httpOptionsFormdata
             )
             .pipe(
                 switchMap((response: any) => {

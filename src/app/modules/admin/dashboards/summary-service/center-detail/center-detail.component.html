@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0 gap-5">
     <div class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
         <div class="flex flex-row gap-4 items-center justify-between">
-            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ
+            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ > ศูนย์ที่ลูกค้าเข้ารับบริการ > {{centerName}}
             </h2>
         </div>
 
@@ -28,16 +28,16 @@
             <hr style="margin: 0;">
             <div class="grid grid-cols-2 divide-x">
                 <div class="flex flex-col">
-                    <div class="text-base font-semibold mb-3">ศูนย์บริการที่ลูกค้าเข้ารับบริการ</div>
+                    <div class="text-base font-semibold mb-3">{{centerName}}</div>
                     <div class="">
                         <div class="flex flex-row">
                             <div class="flex flex-col w-1/2">
-                                <div class="">อันดับ 1</div>
-                                <div class="text-2xl font-bold">B-Quick รัชดา</div>
+                                <div class="">ประเภทการเข้ารับบริการอันดับ 1 </div>
+                                <div class="text-2xl font-bold">{{most_top_service().name}}</div>
                             </div>
                             <div class="flex flex-col w-1/2">
                                 <div class="">เฉลี่ยการเข้ารับบริการ</div>
-                                <div class="text-2xl font-bold">2 ครั้ง/ สัปดาห์</div>
+                                <div class="text-2xl font-bold">{{most_top_service().total}} ครั้ง/ สัปดาห์</div>
                             </div>
                         </div>
 
@@ -49,7 +49,7 @@
                 <div class="flex flex-col pl-8">
                     <div class="flex flex-row justify-between">
                         <div class="text-base font-semibold mb-3">จำนวนการเข้ารับบริการทั้งหมด</div>
-                        <div class="text-base font-semibold mb-3">11,000</div>
+                        <div class="text-base font-semibold mb-3">{{total_service | number}}</div>
                     </div>
                     <div class="text-base font-semibold">
 
@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="flex">เปลี่ยนยาง</div>
                                     </div>
-                                    <div class="flex">56</div>
+                                    <div class="flex">{{typeScore[0] | number}}</div>
                                 </div>
                             </li>
 
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="flex">เปลี่ยนแบตเตอรี่</div>
                                     </div>
-                                    <div class="flex">40</div>
+                                    <div class="flex">{{typeScore[1] | number}}</div>
                                 </div>
                             </li>
 
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="flex">เช็คระยะ</div>
                                     </div>
-                                    <div class="flex">38</div>
+                                    <div class="flex">{{typeScore[2] | number}}</div>
                                 </div>
                             </li>
 
@@ -137,7 +137,7 @@
                                         </div>
                                         <div class="flex">เช็คระบบแอร์</div>
                                     </div>
-                                    <div class="flex">28</div>
+                                    <div class="flex">{{typeScore[3] | number}}</div>
                                 </div>
                             </li>
 
@@ -150,7 +150,7 @@
                                         </div>
                                         <div class="flex">เช็คระบบเบรค</div>
                                     </div>
-                                    <div class="flex">18</div>
+                                    <div class="flex">{{typeScore[4] | number}}</div>
                                 </div>
                             </li>
 
@@ -163,7 +163,7 @@
                                         </div>
                                         <div class="flex">เช็คระบบไฟ</div>
                                     </div>
-                                    <div class="flex">0</div>
+                                    <div class="flex">{{typeScore[5] | number}}</div>
                                 </div>
                             </li>
 
@@ -176,7 +176,7 @@
                                         </div>
                                         <div class="flex">เช็คช่วงล่าง</div>
                                     </div>
-                                    <div class="flex">0</div>
+                                    <div class="flex">{{typeScore[6] | number}}</div>
                                 </div>
                             </li>
 
@@ -189,7 +189,7 @@
                                         </div>
                                         <div class="flex">อื่นๆ</div>
                                     </div>
-                                    <div class="flex">0</div>
+                                    <div class="flex">{{typeScore[7] | number}}</div>
                                 </div>
                             </li>
                         </ul>
@@ -226,23 +226,23 @@
                         class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
-                                <th>ทะเบียนรถ</th>
-                                <th>วันเวลา</th>
-                                <th>ไมล์</th>
-                                <th>กิจกรรม</th>
-                                <th>ศูนย์บริการ</th>
-                                <th>อายุรถ <span class="text-sm font-light">ตั้งแต่วันนำเข้าระบบ -
+                                <th class="w-auto">ทะเบียนรถ</th>
+                                <th class="w-auto">วันเวลา</th>
+                                <th class="w-auto">ไมล์</th>
+                                <th class="w-auto">กิจกรรม</th>
+                                <th class="w-auto">ศูนย์บริการ</th>
+                                <th class="w-auto">อายุรถ <span class="text-sm font-light">ตั้งแต่วันนำเข้าระบบ -
                                         วันที่เข้ารับบริการ</span></th>
                             </tr>
                         </thead>
                         <tbody *ngIf="dataRow?.length != 0">
                             <tr *ngFor="let item of dataRow; let i = index">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{item.license_plate}}</td>
+                                <td>{{item.created_at | date:'dd/MM/YYYY HH:mm'}}</td>
+                                <td>{{item.mile ?? 0}}</td>
+                                <td>{{item.status}}</td>
+                                <td>{{item.service_center}}</td>
+                                <td>{{item.age}}</td>
                             </tr>
                         </tbody>
 

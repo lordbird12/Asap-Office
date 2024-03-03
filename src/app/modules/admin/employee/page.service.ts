@@ -56,6 +56,15 @@ export class PageService {
             );
     }
 
+    updateuser(data: FormData): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_user', data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     update(data: any, id: any): Observable<any> {
         return this._httpClient
             .put<any>(environment.baseURL + '/api/employees/' + id, data)
@@ -74,22 +83,23 @@ export class PageService {
     }
     getDepartment(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/get_department')
+            .get(environment.baseURL + '/api/get_department')
             .pipe(
-                tap((result) => {
-                    this._data.next(result);
+                switchMap((response: any) => {
+                    return of(response.data);
                 })
             );
     }
     getPosition(): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/get_position')
+            .get(environment.baseURL + '/api/get_position')
             .pipe(
-                tap((result) => {
-                    this._data.next(result);
+                switchMap((response: any) => {
+                    return of(response.data);
                 })
             );
     }
+
     getPermission(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_permission')
@@ -129,12 +139,12 @@ export class PageService {
             .get<any>(environment.baseURL + '/api/user/' + id)
             .pipe(
                 switchMap((response: any) => {
-                  return of(response.data);
+                    return of(response.data);
                 })
-              );
+            );
     }
 
-    import(data : any): Observable<any> {
+    import(data: any): Observable<any> {
         return this._httpClient
             .post(environment.baseURL + '/api/import_employees', data)
             .pipe(

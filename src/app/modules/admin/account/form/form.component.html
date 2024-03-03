@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div class="flex-auto px-6 sm:px-6 py-4 items-center ">
+        <div class="flex-auto px-6 sm:px-6 py-4 items-center w-500 ">
             <div class="bg-card md:shadow overflow-hidden rounded-md px-1 pt-3 pb-8 mb-4 flex flex-col my-2">
                 <mat-tab-group class="sm:px-1" mat-stretch-tabs="false" [animationDuration]="'0'">
                     <!-- Home -->
@@ -24,83 +24,109 @@
                             <span>ข้อมูลส่วนตัว</span>
                         </ng-template>
                         <ng-template matTabContent>
-                            <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-3">
-                                <form class="bg-card rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-2 mb-2 my-2"
-                                    style="height: min-content; width: auto;" [formGroup]="addForm">
-                                    <div class="-mx-3 md:flex mb-6 justify-center items-center">
-                                        <div class="row-span-6">
-                                            <ngx-dropzone class="rounded-full" style="width: 180px; height: 180px;"
-                                                (change)="onSelect($event)">
-                                                <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
-                                                <div *ngFor="let f of files">
-                                                    <ngx-dropzone-image-preview class="rounded-full" [file]="f"
-                                                        [removable]="true" (removed)="onRemove(f)"
-                                                        style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;"></ngx-dropzone-image-preview>
+                            <div class="container">
+                                <div class="row-2 flex justify-center">
+                                    <!-- Image Upload Section -->
+                                    <div class="flex  justify-center">
+                                        <form
+                                            class="bg-card rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-2 w-full"
+                                            [formGroup]="addForm">
+                                            <div class=" justify-center flex w-80 ">
+                                                <div>
+                                                    <ngx-dropzone class="rounded-full"
+                                                        style="width: 180px; height: 180px; margin-left: 10px;"
+                                                        (change)="onSelect($event)">
+
+                                                        <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
+                                                        <div *ngFor="let f of files">
+                                                            <ngx-dropzone-image-preview class="rounded-full" [file]="f"
+                                                                [removable]="true" (removed)="onRemove(f)"
+                                                                style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;"></ngx-dropzone-image-preview>
+                                                        </div>
+                                                    </ngx-dropzone>
+
+                                                    <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg,
+                                                        *.jpg, *.png,
+                                                        <br> สูงสุดไม่เกิน 3.1 MB
+                                                    </div>
                                                 </div>
-                                            </ngx-dropzone>
-
-                                            <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png,
-                                                <br> สูงสุดไม่เกิน 3.1 MB
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
 
-                                </form>
-                                <form
-                                    class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
-                                    [formGroup]="addForm">
-                                    <div class="flex">
-                                        <div class="md:w-full max-w-full  px-3 mb-6 md:mb-0 flex-initial w-14 h-14">
-                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full max-w-full">
-                                                <mat-label class=" font-light">รหัสพนักงาน</mat-label>
-                                                <input matInput formControlName="code" readonly>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="md:w-full max-w-full  px-3 mb-6 md:mb-0 flex-initial w-14 h-14">
-                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full max-w-full">
-                                                <mat-label class=" font-light">ชื่อ</mat-label>
-                                                <input matInput formControlName="fname">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="md:w-full max-w-full px-3 mb-6 md:mb-0 flex-initial w-14">
-                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full ">
-                                                <mat-label class=" font-light">นามสกุล</mat-label>
-                                                <input matInput formControlName="lname">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
 
-                                    <div class="flex">
-                                        <div class="md:w-full px-3 mb-6 md:mb-0 flex-initial w-14 h-14">
-                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
-                                                <input matInput formControlName="phone">
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="md:w-full px-3 mb-6 md:mb-0 flex-initial w-14">
-                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                <mat-label class=" font-light">อีเมล</mat-label>
-                                                <input matInput formControlName="email">
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
+                                    <div class="col-md-6 mb-4 flex ml-4 justify-content-center">
+                                        <form
+                                            class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 flex flex-col"
+                                            [formGroup]="addForm">
+                                            <div class="flex flex-wrap md:flex-nowrap">
+                                                <!-- รหัสพนักงาน -->
+                                                <div
+                                                    class="md:w-full max-w-full px-3 mb-6 md:mb-0 md:flex-initial w-full md:w-1/4 h-14">
+                                                    <mat-form-field [ngClass]="formFieldHelpers"
+                                                        class="w-full max-w-full">
+                                                        <mat-label class="font-light">รหัสพนักงาน</mat-label>
+                                                        <input matInput formControlName="code" readonly>
+                                                    </mat-form-field>
+                                                </div>
 
-                                    <div class="md:w-full px-3 mb-6 md:mb-0">
-                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class="font-light">ตำแหน่ง</mat-label>
-                                            <input matInput formControlName="positionName" readonly>
-                                        </mat-form-field>
-                                    </div>
+                                                <!-- ชื่อ -->
+                                                <div
+                                                    class="md:w-full max-w-full px-3 mb-6 md:mb-0 md:flex-initial w-full md:w-1/4 h-14">
+                                                    <mat-form-field [ngClass]="formFieldHelpers"
+                                                        class="w-full max-w-full">
+                                                        <mat-label class="font-light">ชื่อ</mat-label>
+                                                        <input matInput formControlName="fname">
+                                                    </mat-form-field>
+                                                </div>
 
-                                    <div class="md:w-full px-3 mb-6 md:mb-0">
-                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class="font-light">แผนก</mat-label>
-                                            <input matInput formControlName="departmentName" readonly
-                                                class="gray-input">
-                                        </mat-form-field>
-                                    </div>
+                                                <!-- นามสกุล -->
+                                                <div
+                                                    class="md:w-full max-w-full px-3 mb-6 md:mb-0 md:flex-initial w-full md:w-1/4 h-14">
+                                                    <mat-form-field [ngClass]="formFieldHelpers"
+                                                        class="w-full max-w-full">
+                                                        <mat-label class="font-light">นามสกุล</mat-label>
+                                                        <input matInput formControlName="lname">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
 
-                                </form>
+
+                                            <div class="flex flex-wrap md:flex-nowrap mt-8">
+                                                <div
+                                                    class="md:w-full max-w-full px-3 mb-6 md:mb-0 md:flex-initial w-full md:w-1/4 h-14">
+                                                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                        <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
+                                                        <input matInput formControlName="phone">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div
+                                                    class="md:w-full max-w-full px-3 mb-6 md:mb-0 md:flex-initial w-full md:w-1/4 h-14">
+                                                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                        <mat-label class=" font-light">อีเมล</mat-label>
+                                                        <input matInput formControlName="email">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="md:w-full px-3 mb-6 md:mb-0 mt-8">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label class="font-light">ตำแหน่ง</mat-label>
+                                                    <input matInput formControlName="positionName" readonly>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <div class="md:w-full px-3 mb-6 md:mb-0">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label class="font-light">แผนก</mat-label>
+                                                    <input matInput formControlName="departmentName" readonly
+                                                        class="gray-input">
+                                                </mat-form-field>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </ng-template>
                     </mat-tab>
@@ -111,10 +137,10 @@
                         </ng-template>
                         <ng-template matTabContent>
                             <div
-                                class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+                                class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-8 mb-4 flex flex-col my-2">
 
-                                <div class="flex ">
-                                    <div class="md:w-full  px-3 mb-6 md:mb-6 flex-initial w-14 h-14">
+                                <div class="flex flex-col mb-4">
+                                    <div class="md:w-full mb-3">
                                         <mat-form-field class="w-full max-w-full">
                                             <mat-label class=" font-light">รหัสผ่านเดิม</mat-label>
                                             <input id="old_password" matInput type="password"
@@ -134,8 +160,8 @@
                                     </div>
                                 </div>
 
-                                <div class="flex">
-                                    <div class="md:w-full px-3 mb-6 md:mb-6 flex-initial w-14 h-14">
+                                <div class="flex flex-col mb-4">
+                                    <div class="md:w-full mb-3">
                                         <mat-form-field class="w-full">
                                             <mat-label class=" font-light">รหัสผ่านใหม่</mat-label>
                                             <input id="password" matInput type="password" [formControlName]="'password'"
@@ -155,8 +181,8 @@
                                     </div>
                                 </div>
 
-                                <div class="flex">
-                                    <div class="md:w-full px-3 mb-6 md:mb-6 flex-initial w-14 h-14">
+                                <div class="flex flex-col mb-4">
+                                    <div class="md:w-full mb-3">
                                         <mat-form-field class="w-full">
                                             <mat-label class=" font-light">ยืนยันรหัสผ่านใหม่</mat-label>
                                             <input id="password" matInput type="password" [formControlName]="'password'"

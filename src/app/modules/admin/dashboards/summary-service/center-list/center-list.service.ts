@@ -6,7 +6,7 @@ import { Observable, of, switchMap } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-export class CompanyListService {
+export class CenterListService {
 
     constructor(
         private http: HttpClient,
@@ -26,10 +26,10 @@ export class CompanyListService {
             );
     }
 
-    dashboardBookingPage(dataTablesParameters: any) {
+    serviceCenterBookPage(dataTablesParameters: any) {
         return this.http
             .post(
-                environment.baseURL + '/api/dashboard_booking_page',
+                environment.baseURL + '/api/service_center_book_page',
                 dataTablesParameters,
             )
             .pipe(
@@ -39,14 +39,13 @@ export class CompanyListService {
             );
     }
 
-    carCompPage(dataTablesParameters: any) {
+    carServiceCenterPage(dataTablesParameters: any) {
         return this.http
             .post(
-                environment.baseURL + '/api/car_comp_page',
-                dataTablesParameters,
-                {
+                environment.baseURL + '/api/car_service_center_page',
+                dataTablesParameters, {
                     params: {
-                        client_id: dataTablesParameters.client_id
+                        service_center_id: dataTablesParameters.service_center_id
                     }
                 }
             )
@@ -57,15 +56,12 @@ export class CompanyListService {
             );
     }
 
-    getDashboardSummaryByComp(client_id: any) {
+    getDashboardSummaryByServiceCenter(service_center_id: number) {
         return this.http
             .post(
-                environment.baseURL + '/api/get_dashboard_summary_by_comp',
-                {},
+                environment.baseURL + '/api/get_dashboard_summary_by_service_center',
                 {
-                    params: {
-                        client_id: client_id
-                    }
+                    service_center_id: service_center_id
                 }
             )
             .pipe(

@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
         <div class="flex flex-row gap-4 items-center justify-between">
-            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ
+            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ > ศูนย์ที่ลูกค้าเข้ารับบริการ
             </h2>
         </div>
 
@@ -66,15 +66,15 @@
                                 {{i+1}}
                             </div>
                         </td>
-                        <td class="font-light"></td>
-                        <td class="font-light"></td>
-                        <td class="font-light"></td>
-                        <td class="font-light"></td>
-                        <td class="font-light"></td>
+                        <td class="font-light">{{item.name}}</td>
+                        <td class="font-light">{{item.total_book}}</td>
+                        <td class="font-light">{{item.total_car}}</td>
+                        <td class="font-light">{{item.total_port}}</td>
+                        <td class="font-light">{{item.total_avg}}</td>
                         <td>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="font-medium text-[#FF4849]">
-                                    <a [routerLink]="[item.id]" routerLinkActive="router-link-active">
+                                    <a [routerLink]="[item.id]" [queryParams]="{name: item.name}" routerLinkActive="router-link-active">
                                         ดูเพิ่มเติม
                                     </a>
                                 </div>

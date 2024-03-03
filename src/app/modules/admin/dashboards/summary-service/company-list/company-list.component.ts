@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyListService } from './company-list.service';
 
@@ -50,12 +50,21 @@ export class CompanyListComponent implements OnInit {
     // public dataRow: any[];
     dataRow: any[] = [];
 
+    id: number;
+
+    departmentName: string = "";
+
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: CompanyListService,
-        private _router: Router
-    ) {}
+        private _router: Router,
+        private activatedRoute: ActivatedRoute,
+    ) {
+        this.id = this.activatedRoute.snapshot.params.id;
+        this.departmentName = this.activatedRoute.snapshot.queryParams.name;
+
+    }
 
     ngOnInit(): void {
         this.loadTable();
@@ -72,9 +81,9 @@ export class CompanyListComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.type = 'Good';
+                dataTablesParameters.department_id = +this.id;
                 that._service
-                    .getPage(dataTablesParameters)
+                    .dashboardBookingPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
 
