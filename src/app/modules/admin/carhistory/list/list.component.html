@@ -1,0 +1,124 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div class="flex-1 flemin-w-0">
+            <!-- Title -->
+            <div class="flex flex-row mt-2 justify-between">
+                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
+                    ประวัติรถ
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
+        <div class="flex flex-row justify-between py-2 px-5">
+            <div class="flex justify-start items-center w-100 mt-5">
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                        <mat-icon svgIcon="search"></mat-icon>
+                        <input matInput [placeholder]="'ค้นหา'">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="flex">
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center"
+                        (click)="uploadfile()">
+                        <div class="w-[15px] h-[20px] items-center mt-1">
+                            <img src="assets/icons/Vector.svg">
+                        </div>
+                        &nbsp;
+                        &nbsp;
+                        <span>อัปโหลด CSV</span>
+                    </button>
+                </div>
+                <!-- <div
+                    class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
+                    <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'"
+                        (click)="addElement()">
+                        <mat-icon>add_circle_outline</mat-icon>
+                        <div class="font-light">
+                            เพิ่มรถ
+                        </div>
+                    </button>
+                </div> -->
+            </div>
+        </div>
+
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
+        <div class="flex flex-row justify-between py-2 px-5">
+            <div class="flex justify-start items-center w-150 mt-5">
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <div class="flex p-4 ">
+                        <img class="h-15 w-auto"
+                            src="https://asha-tech.co.th/asap/public/images/cars/6f58276d3fa0fdd2c00c2c3b816d885d.png"
+                            alt="image" style="object-fit: contain;">
+                    </div>
+                    <div class="p-2 flex-grow">
+                        <div class="whitespace-nowrap"><strong>6กท-6789</strong><br>Toyota Accord</div>
+
+                    </div>
+                </div>
+                <div class="border-l h-24 mx-4"></div>
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <div class="flex p-4 ">
+                        <img class="h-15 w-auto"
+                            src="https://asha-tech.co.th/asap/public/images/users/229157350948b0586f07c2c28c8b2b93.jpg"
+                            alt="image" style="object-fit: contain;">
+                    </div>
+                    <div class="p-2 flex-grow">
+                        <div class="whitespace-nowrap"><strong>ธัชพล มหาสาร</strong><br>บริษัทเมืองไทยประกันชีวิต</div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="font-light">วันเวลา</th>
+                        <th class="font-light">ไมล์</th>
+                        <th class="font-light">กิจกรรม</th>
+                        <th class="font-light ">ศูนย์บริการ</th>
+                        <th class="font-light ">พนักงานที่บริการ</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <!-- <tr *ngFor="let item of dataRow; let i = index">
+
+                        <td class="font-light">{{item.brand_model?.name}}</td>
+                        <td class="font-light">{{item?.license}}</td>
+                        <td>
+                            <div *ngIf="item.status == 'Available'"
+                                class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                เปิดใช้งาน
+                            </div>
+                        </td>
+                        <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
+                        <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
+                    </tr> -->
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

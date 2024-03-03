@@ -30,12 +30,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, lastValueFrom } from 'rxjs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { environment } from 'environments/environment.development';
 
 @Component({
-    selector: 'editform-car',
-    templateUrl: './editform.component.html',
+    selector: 'app-select-car',
+    templateUrl: './form-dialog.component.html',
+    styleUrls: ['./form-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
@@ -57,94 +59,41 @@ import { forkJoin, lastValueFrom } from 'rxjs';
         MatRadioModule,
         CommonModule,
         NgxDropzoneModule,
+        MatProgressBarModule,
     ],
 })
-export class EditFormComponent implements OnInit {
-    /**
-     * Constructor
-     */
+export class FormDialogComponent implements OnInit {
+    uploadProgress: number = 0;
+    display: boolean = true;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
-    addForm2: FormGroup;
     isLoading: boolean = false;
     positions: any[];
-    departments: any[];
-    permissions: any[];
     brandmodel: any[];
     province: any[];
     company: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
+        private dialogRef: MatDialogRef<FormDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) private data: any,
         private formBuilder: FormBuilder,
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router,
-        public activatedRoute: ActivatedRoute
+        private http: HttpClient
     ) {
         this.addForm = this.formBuilder.group({
-            id: [null],
-            license: [null],
-            brand_model_id: [null],
-            province_id: [null],
-            expire_date: [null],
-            client_id: [null],
-            image: [null],
-            status: [null],
+            file: '',
         });
     }
-    async ngOnInit(): Promise<void> {
-        const initialData = await lastValueFrom(
-            forkJoin(
-                this._service.getBrandModel(),
-                this._service.getProvince(),
-                this._service.getCompany()
-            )
+
+    ngOnInit(): void {}
+
+    exportfile() {
+        window.open(
+            'https://asha-tech.co.th/asap/public/sample_file/cars.xlsx'
         );
-        this.brandmodel = initialData[0];
-        this.province = initialData[1];
-        this.company = initialData[2];
-        this.activatedRoute.params.subscribe((params) => {
-            const id = params.id;
-            this._service.getById(id).subscribe((resp: any) => {
-                const item = resp;
-                console.log(resp);
-                this.addForm.patchValue({
-                    ...item,
-                    id: id,
-                    expire_date: '2023-05-17',
-                    image: '',
-                });
-            });
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Get the form field helpers as string
-     */
-    getFormFieldHelpersAsString(): string {
-        return this.formFieldHelpers.join(' ');
-    }
-
-    showFlashMessage(type: 'success' | 'error'): void {
-        // Show the message
-        this.flashMessage = type;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
-        setTimeout(() => {
-            this.flashMessage = null;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        }, 3000);
     }
 
     onSaveClick(): void {
@@ -176,6 +125,7 @@ export class EditFormComponent implements OnInit {
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
+                this.display = false;
                 const formData = new FormData();
                 Object.entries(this.addForm.value).forEach(
                     ([key, value]: any[]) => {
@@ -186,47 +136,84 @@ export class EditFormComponent implements OnInit {
                         ) {
                             formData.append(key, value);
                         }
-                        if (key === 'image') {
-                            formData.append(key, this.selectedFile);
-                        }
+                        // if (key === 'file') {
+                        //     formData.append(key, this.selectedFile);
+                        // }
                     }
                 );
-                this._service.updatecar(formData).subscribe({
-                    next: (resp: any) => {
-                        this.showFlashMessage('success');
-                        this._router
-                            .navigateByUrl('admin/car/list')
-                            .then(() => {});
-                    },
-                    error: (err: any) => {
-                        this.addForm.enable();
-                        this._fuseConfirmationService.open({
-                            title: 'กรุณาระบุข้อมูล',
-                            message: err.error.message,
-                            icon: {
-                                show: true,
-                                name: 'heroicons_outline:exclamation',
-                                color: 'warning',
-                            },
-                            actions: {
-                                confirm: {
-                                    show: false,
-                                    label: 'ยืนยัน',
-                                    color: 'primary',
-                                },
-                                cancel: {
-                                    show: false,
-                                    label: 'ยกเลิก',
-                                },
-                            },
-                            dismissible: true,
-                        });
-                    },
-                });
+                this.http
+                    .post(environment.baseURL + '/api/import_cars', formData, {
+                        reportProgress: true,
+                        observe: 'events',
+                    })
+                    .subscribe((event: HttpEvent<any>) => {
+                        switch (event.type) {
+                            case HttpEventType.UploadProgress:
+                                if (event.total) {
+                                    this.uploadProgress = Math.round(
+                                        (100 * event.loaded) / event.total
+                                    );
+                                }
+                                break;
+                            case HttpEventType.Response:
+                                this.dialogRef.close();
+                                break;
+                        }
+                    });
+                // this._service.importCar(formData).subscribe({
+                //     next: (resp: any) => {
+                //         this.showFlashMessage('success');
+                //         this.dialogRef.close(resp);
+                //     },
+                //     error: (err: any) => {
+                //         this.addForm.enable();
+                //         this._fuseConfirmationService.open({
+                //             title: 'กรุณาระบุข้อมูล',
+                //             message: err.error.message,
+                //             icon: {
+                //                 show: true,
+                //                 name: 'heroicons_outline:exclamation',
+                //                 color: 'warning',
+                //             },
+                //             actions: {
+                //                 confirm: {
+                //                     show: false,
+                //                     label: 'ยืนยัน',
+                //                     color: 'primary',
+                //                 },
+                //                 cancel: {
+                //                     show: false,
+                //                     label: 'ยกเลิก',
+                //                 },
+                //             },
+                //             dismissible: true,
+                //         });
+                //     },
+                // });
             }
         });
 
         // แสดง Snackbar ข้อความ "complete"
+    }
+
+    onCancelClick(): void {
+        this.dialogRef.close();
+    }
+
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
     }
 
     files: File[] = [];
@@ -234,21 +221,12 @@ export class EditFormComponent implements OnInit {
     onSelect(event: { addedFiles: File[] }): void {
         this.files.push(...event.addedFiles);
 
-        // this.addForm.patchValue({
-        //     image: this.files[0]
-        // })
-
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-        reader.onload = (e: any) => (this.url_logo = e.target.result);
-        const file = this.files[0];
         this.addForm.patchValue({
-            image: file,
+            file: this.files[0],
         });
+        this.onSaveClick();
     }
-    back() {
-        this._router.navigateByUrl('admin/car/list').then(() => {});
-    }
+
     onRemove(file: File): void {
         const index = this.files.indexOf(file);
         if (index >= 0) {

@@ -1,0 +1,54 @@
+<div class="flex flex-row" style="max-height: 90vh;">
+    <div class="flex flex-col py-6">
+        <button mat-icon-button [tabIndex]="-1" (click)="onClose()">
+            <mat-icon class="text-current py-6" [svgIcon]="'heroicons_outline:chevron-left'"></mat-icon>
+        </button>
+    </div>
+    <div class="flex flex-col overflow-y-auto py-6">
+        <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-col items-start">
+                <div class="text-3xl font-bold mr-5 items-center justify-center"> ระบุเหตุผลที่ต้องการยกเลิก</div>
+                <div class="text-lg">ระบบจะส่งเหตุผลแจ้งให้ลูกค้าทราบ</div>
+            </div>
+        </div>
+        <form>
+            <div class="flex flex-col my-5">
+                <div class="grid grid-row-4 gap-4">
+                    <div class="flex flex-col">
+                        <div class="flex items-center mb-4">
+                            <input id="red-radio1" type="radio" value="ศูนย์ซ่อมบริการปิด" name="colored-radio" [formControl]="statusData"
+                                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="red-radio1"
+                                class="ms-2 text-lg font-medium text-gray-900 dark:text-gray-300" >ศูนย์ซ่อมบริการปิด</label>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <input id="red-radio2" type="radio" value="ไม่สามารถติดต่อลูกค้าได้" name="colored-radio" [formControl]="statusData"
+                                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="red-radio2"
+                                class="ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">ไม่สามารถติดต่อลูกค้าได้</label>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <input id="red-radio3" type="radio" value="ลูกค้าต้องการยกเลิก" name="colored-radio" [formControl]="statusData"
+                                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="red-radio3"
+                                class="ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">ลูกค้าต้องการยกเลิก</label>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <input id="red-radio4" type="radio" value="อื่นๆ โปรดระบุเหตุผล" name="colored-radio" [formControl]="statusData"
+                                class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="red-radio4"
+                                class="ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">อื่นๆ โปรดระบุเหตุผล</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+       
+    
+    </div>
+ 
+</div>
+<div class="flex flex-row">
+    <button class="px-6 ml-3 rounded-md mt-5 w-full" mat-flat-button [color]="'primary'"
+        (click)="onSaveClick()">บันทึก</button>
+</div>

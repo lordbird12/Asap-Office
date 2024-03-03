@@ -55,9 +55,9 @@ export class PageService {
                 })
             );
     }
-    updateuser(data: FormData): Observable<any> {
+    updatecar(data: FormData): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/update_user', data)
+            .post<any>(environment.baseURL + '/api/update_car', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -80,10 +80,18 @@ export class PageService {
             { headers: this.httpOptionsFormdata.headers }
         );
     }
-
+    getDepartment(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_department')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     getById(Id: any): Observable<any> {
         return this._httpClient
-            .get(environment.baseURL + `/api/user/${Id}`)
+            .get(environment.baseURL + `/api/car/${Id}`)
             .pipe(
                 switchMap((response: any) => {
                     console.log(response);
@@ -91,7 +99,15 @@ export class PageService {
                 })
             );
     }
-
+    getPosition(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_position')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     getBrandModel(): Observable<any> {
         return this._httpClient
             .get(environment.baseURL + '/api/get_brand_model')
@@ -101,45 +117,9 @@ export class PageService {
                 })
             );
     }
-    getPosition(): Observable<any> {
-        return this._httpClient
-            .get(environment.baseURL + '/api/get_position')
-            .pipe(
-                switchMap((response: any) => {
-                    return of(response.data);
-                })
-            );
-    }
-    getbyidPosition(id: any): Observable<any> {
-        return this._httpClient
-            .get(environment.baseURL + '/api/position/' + id)
-            .pipe(
-                switchMap((response: any) => {
-                    return of(response.data);
-                })
-            );
-    }
     getProvince(): Observable<any> {
         return this._httpClient
             .get(environment.baseURL + '/api/get_province')
-            .pipe(
-                switchMap((response: any) => {
-                    return of(response.data);
-                })
-            );
-    }
-    getDepartment(): Observable<any> {
-        return this._httpClient
-            .get(environment.baseURL + '/api/get_department')
-            .pipe(
-                switchMap((response: any) => {
-                    return of(response.data);
-                })
-            );
-    }
-    getbyidDepartment(id: any): Observable<any> {
-        return this._httpClient
-            .get(environment.baseURL + '/api/department/' + id)
             .pipe(
                 switchMap((response: any) => {
                     return of(response.data);
@@ -156,7 +136,7 @@ export class PageService {
             );
     }
 
-    importCar(data: any): Observable<any> {
+    importCar(data : any): Observable<any> {
         return this._httpClient
             .post(environment.baseURL + '/api/import_cars', data)
             .pipe(

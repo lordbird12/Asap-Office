@@ -32,8 +32,10 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
+import { forkJoin, lastValueFrom } from 'rxjs';
 @Component({
     selector: 'form-employee',
+    styleUrls: ['./form.component.scss'],
     templateUrl: './form.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -56,7 +58,7 @@ import { MatTabsModule } from '@angular/material/tabs';
         MatRadioModule,
         CommonModule,
         NgxDropzoneModule,
-        MatTabsModule
+        MatTabsModule,
     ],
 })
 export class FormComponent implements OnInit {
@@ -67,13 +69,14 @@ export class FormComponent implements OnInit {
     addForm: FormGroup;
     passwordForm: FormGroup;
     isLoading: boolean = false;
-    positions: any[];
-    departments: any[];
+    positions: any;
+    departments: any;
     permissions: any[];
     brandmodel: any[];
     province: any[];
     company: any[];
     flashMessage: 'success' | 'error' | null = null;
+    iduser: any;
     selectedFile: File = null;
     constructor(
         private formBuilder: FormBuilder,
@@ -82,31 +85,49 @@ export class FormComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
     ) {
+        this.iduser = JSON.parse(localStorage.getItem('user'));
         this.addForm = this.formBuilder.group({
+            id: [''],
             image: [''],
+            password: [''],
+            old_password: [''],
+            code: [''],
+            departmentName: [''],
             department_id: [''],
+            positionName: [''],
             position_id: [''],
             fname: [''],
             lname: [''],
             email: [''],
             phone: [''],
         });
-
-        this.passwordForm = this.formBuilder.group({
-            old_pass: [null],
-            new_pass: [null],
-            confirm_pass: [null],
-        });
     }
-    ngOnInit(): void {
-        this._service.getBrandModel().subscribe((resp: any) => {
-            this.brandmodel = resp;
-        });
-        this._service.getProvince().subscribe((resp: any) => {
-            this.province = resp;
-        });
-        this._service.getCompany().subscribe((resp: any) => {
-            this.company = resp;
+    async ngOnInit(): Promise<void> {
+        console.log(this.iduser);
+
+        this._service.getById(this.iduser.id).subscribe(async (resp: any) => {
+            const item = resp;
+            const initialData = await lastValueFrom(
+                forkJoin(
+                    this._service.getbyidPosition(item.position_id),
+                    this._service.getbyidDepartment(item.department_id)
+                )
+            );
+            (this.positions = initialData[0]),
+                (this.departments = initialData[1]),
+                console.log(item);
+            this.addForm.patchValue({
+                id: resp.id,
+                department_id: resp.department_id,
+                code: resp.code,
+                position_id: resp.position_id,
+                fname: resp.fname,
+                lname: resp.lname,
+                email: resp.email,
+                phone: resp.phone,
+                departmentName: this.departments.name,
+                positionName: this.positions.name,
+            });
         });
     }
 
@@ -136,7 +157,10 @@ export class FormComponent implements OnInit {
             this._changeDetectorRef.markForCheck();
         }, 3000);
     }
-
+    getDisabledValue() {
+        //your condition, in this case textarea will be disbaled.
+        return true;
+    }
     onSaveClick(): void {
         this.flashMessage = null;
 
@@ -181,11 +205,11 @@ export class FormComponent implements OnInit {
                         }
                     }
                 );
-                this._service.create(formData).subscribe({
+                this._service.updateuser(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                         this._router
-                            .navigateByUrl('admin/car/list')
+                            .navigateByUrl('admin/account/form')
                             .then(() => {});
                     },
                     error: (err: any) => {

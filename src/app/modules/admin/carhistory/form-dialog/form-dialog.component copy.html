@@ -1,0 +1,51 @@
+<div class="md:max-w-lg mx-auto">
+    <div mat-dialog-content class="max-h-96 md:max-h-180">
+        <form [formGroup]="addForm">
+            <div class="flex flex-col w-full">
+                <div class="flex flex-row mt-2 justify-between">
+                    <div class="flex justify-start">
+                        <h2 class="text-2xl md:text-2xl font-bold tracking-tight leading-7 sm:leading-10 truncate">
+                            อัปโหลด CSV
+                        </h2>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+                            
+                                <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col mx-3 md:flex mb-4 w-full">
+                    <div class="grid grid-rows-3 grid-flow-col gap-4 ">
+                        <div class="row-span-3 ">
+                            <ngx-dropzone (change)="onSelect($event)" class="w-[550px] h-[300px] rounded-3xl">
+                                <ngx-dropzone-label>
+                                    <img class="object-cover h-48 w-56 ..." src="assets/images/upload.png">
+                                    <br><span>ลากและวางไฟล์ที่นี่หรือ</span>&nbsp;<span
+                                        class="font-bold underline">เลือกไฟล์</span>
+                                </ngx-dropzone-label>
+                                <!-- <div *ngFor="let f of files">
+                                    <ngx-dropzone-image-preview [file]="f" [removable]="true"
+                                        (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                </div> -->
+                            </ngx-dropzone>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions class="flex justify-end mt-4">
+        <button class="px-6 ml-3" mat-flat-button (click)="onCancelClick()">
+            <div class="font-light">
+                ยกเลิก
+            </div>
+        </button>
+        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+            <div class="font-light">
+                บันทึก
+            </div>
+        </button>
+    </div>
+</div>
