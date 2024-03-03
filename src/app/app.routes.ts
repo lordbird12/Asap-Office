@@ -197,6 +197,11 @@ export const appRoutes: Route[] = [
                             import('app/modules/admin/car/page.routes'),
                     },
                     {
+                        path: 'carhistory',
+                        loadChildren: () =>
+                            import('app/modules/admin/carhistory/page.routes'),
+                    },
+                    {
                         path: 'permission',
                         loadChildren: () =>
                             import('app/modules/admin/permission/page.routes'),
@@ -204,7 +209,9 @@ export const appRoutes: Route[] = [
                     {
                         path: 'service-center',
                         loadChildren: () =>
-                            import('app/modules/admin/service-center/page.routes'),
+                            import(
+                                'app/modules/admin/service-center/page.routes'
+                            ),
                     },
                     {
                         path: 'customer',
@@ -275,16 +282,12 @@ export const appRoutes: Route[] = [
                     {
                         path: 'ticket',
                         loadChildren: () =>
-                            import(
-                                'app/modules/admin/ticket/page.routes'
-                            ),
+                            import('app/modules/admin/ticket/page.routes'),
                     },
                     {
                         path: 'booking',
                         loadChildren: () =>
-                            import(
-                                'app/modules/admin/booking/page.routes'
-                            ),
+                            import('app/modules/admin/booking/page.routes'),
                     },
                     {
                         path: 'summary-service',
