@@ -56,7 +56,7 @@ export class PageService {
             );
     }
 
-    update(data: any, id: any): Observable<any> {
+    update(id: any, data: any): Observable<any> {
         return this._httpClient
             .put<any>(environment.baseURL + '/api/service_center/' + id, data)
             .pipe(
@@ -220,12 +220,12 @@ export class PageService {
             .get<any>(environment.baseURL + '/api/service_center/' + id)
             .pipe(
                 switchMap((response: any) => {
-                  return of(response.data);
+                    return of(response.data);
                 })
-              );
+            );
     }
 
-    import(data : any): Observable<any> {
+    import(data: any): Observable<any> {
         return this._httpClient
             .post(environment.baseURL + '/api/import_service_centers', data)
             .pipe(
