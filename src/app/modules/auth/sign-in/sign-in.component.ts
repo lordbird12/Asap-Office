@@ -82,37 +82,57 @@ export class AuthSignInComponent implements OnInit
         this.showAlert = false;
 
         // Sign in
-        this._authService.signIn(this.signInForm.value)
-            .subscribe(
-                () =>
-                {
-                    // Set the redirect url.
-                    // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
-                    // to the correct page after a successful sign in. This way, that url can be set via
-                    // routing file and we don't have to touch here.
-                    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-
-                    // Navigate to the redirect url
-                    this._router.navigateByUrl(redirectURL);
-
+        this._authService.signIn(this.signInForm.value).subscribe(
+            {
+                next: (resp: any) => {
+                    console.log(resp.data.position_id)
+                    let position = resp.data.position_id
+                    if (position === '1') {
+                        this._router.navigate(['admin/employee/list'])
+                    } else if (position === '2') {
+                        this._router.navigate(['admin/booking/list'])
+                    } else {
+                        this._router.navigate(['/dashboards/general-manager'])
+                    }
                 },
-                (response) =>
-                {
-                    // Re-enable the form
-                    this.signInForm.enable();
+                error: (err: any) => {
+           
+                }
+            }
+        )
+            // .subscribe(
+            //     () =>
+            //     {
 
-                    // Reset the form
-                    this.signInNgForm.resetForm();
+            //         // Set the redirect url.
+            //         // The '/signed-in-redirect' is a dummy url to catch the request and redirect the user
+            //         // to the correct page after a successful sign in. This way, that url can be set via
+            //         // routing file and we don't have to touch here.
+            //         // const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Wrong email or password',
-                    };
+            //         if
 
-                    // Show the alert
-                    this.showAlert = true;
-                },
-            );
+            //         // Navigate to the redirect url
+            //         this._router.navigateByUrl(redirectURL);
+
+            //     },
+            //     (response) =>
+            //     {
+            //         // Re-enable the form
+            //         this.signInForm.enable();
+
+            //         // Reset the form
+            //         this.signInNgForm.resetForm();
+
+            //         // Set the alert
+            //         this.alert = {
+            //             type   : 'error',
+            //             message: 'Wrong email or password',
+            //         };
+
+            //         // Show the alert
+            //         this.showAlert = true;
+            //     },
+            // );
     }
 }
