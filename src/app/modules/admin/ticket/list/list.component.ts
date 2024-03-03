@@ -130,8 +130,15 @@ export class ListComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
         console.log(this.user)
-        this._service.getTicket().subscribe((resp: any) => {
+        const data = {
+            deps: [+this.user.department_id] , 
+            users: [{
+                code: this.user.code
+            }]
+        }
+        this._service.getTicketByDep(data).subscribe((resp: any) => {
             this.itemData = resp.data;
+            console.log(this.itemData)
             for (const item of this.itemData) {
                 if (item.status === 'New') {
                     this.task[0].task.push(item)
@@ -142,13 +149,9 @@ export class ListComponent implements OnInit, AfterViewInit {
                 else if (item.status === 'Finish') {
                     this.task[2].task.push(item)
                 }
-
             }
             this._changeDetectorRef.markForCheck();
         })
-
-        // this.detailTicket();
-        // this.createTicket();
     }
 
     ngAfterViewInit(): void {
@@ -317,11 +320,54 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                   console.log(result) 
-            }
+                const deps = this.deparment.map(item => item.id)
+                const data = {
+                    deps:  deps,
+                    users: result.map(item => ({code: item.code}))
+                }
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'New',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Finish',
+                        task: []
+                    },
+            ];
+                this._service.getTicketByDep(data).subscribe((resp: any) => {
+                    this.itemData = resp.data;
+                    console.log(this.itemData)
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[2].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                })
+        }
         })
     }
-
+    department : any [] = []
     departmentDailog() {
         
         const dialogRef = this.dialog.open(DepartmentDialogComponent,
@@ -335,7 +381,51 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                   console.log(result) 
+                    this.department = result.map(item => item.id)
+                    const emp = this.employeeDep.filter(item => item.isSelected)
+                    const data = {
+                        deps:  this.department , 
+                        users: emp.map(item => ({code: item.code}))
+                    }
+                    this.task = [
+                        {
+                            id: 1,
+                            name: 'งานใหม่ / Todo',
+                            detail: 'งานใหม่รอรับ',
+                            status: 'New',
+                            task: []
+                        },
+                        {
+                            id: 2,
+                            name: 'กำลังดำเนินงาน',
+                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                            status: 'Process',
+                            task: []
+                        },
+                        {
+                            id: 4,
+                            name: 'เสร็จสิ้น',
+                            detail: '-',
+                            status: 'Finish',
+                            task: []
+                        },
+                ];
+                    this._service.getTicketByDep(data).subscribe((resp: any) => {
+                        this.itemData = resp.data;
+                        console.log(this.itemData)
+                        for (const item of this.itemData) {
+                            if (item.status === 'New') {
+                                this.task[0].task.push(item)
+                            }
+                            else if (item.status === 'Process') {
+                                this.task[1].task.push(item)
+                            }
+                            else if (item.status === 'Finish') {
+                                this.task[2].task.push(item)
+                            }
+                        }
+                        this._changeDetectorRef.markForCheck();
+                    })
             }
         })
     }

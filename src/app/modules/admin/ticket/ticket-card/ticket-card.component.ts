@@ -91,9 +91,8 @@ export class TicketCardComponent implements OnInit{
             image: formvalue.car.pictureUrl,
             company: formvalue.client.company,
         })
-     
-
     }
+    
     testData: any[] = []
     serviceData1: any[] = []
      ngOnInit(): void {

@@ -45,6 +45,8 @@ export class CreateComponent implements OnInit{
             client_id: '',
             car_id: '',
             phone: '',
+            name: '',
+            company: '',
             note: '',
             cliphoneent_id: '',
             status: 'New',
@@ -67,20 +69,24 @@ export class CreateComponent implements OnInit{
          })
          this._service.getCar().subscribe((resp: any)=>{
             this.productData = resp.data;
+            console.log('get_car',this.productData);
+            
          })
     }
 
     onChangeClient(event: any) {
-        console.log(event.value)
-        let formvalue = this.clientData.find(item =>  item.id === event.value)
-        console.log(formvalue)
+        let formvalue = this.productData.find(item =>  item.car_id === event.value)
+        console.log('formValue', formvalue)
         this.form.patchValue({
-            client_id: formvalue.id,
-            phone: formvalue.phone,
+            car_id:formvalue.car_id,
+            client_id: formvalue.client.id,
+            name: formvalue.client.name,
+            phone: formvalue.client.phone,
+            image: formvalue.car.pictureUrl,
+            company: formvalue.client.company,
         })
-     
-
     }
+    
     ngOnInit(): void {
 
     }
