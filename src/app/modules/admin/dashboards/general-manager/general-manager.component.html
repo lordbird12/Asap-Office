@@ -1,9 +1,9 @@
 <div class="flex flex-col flex-auto w-full gap-5">
-    <div [formGroup]="form" class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
-        <div class="flex flex-row gap-4 items-center justify-between">
+    <div [formGroup]="form" class="flex flex-col md:flex-row md:items-center justify-between p-3 bg-card">
+        <div class="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
             <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวม </h2>
 
-            <mat-form-field [ngClass]="formFieldHelpers" class="flex w-60" style="margin-bottom: -1.25em">
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
                 <mat-select formControlName="department_id">
                     <mat-option value="">ทุกแผนก</mat-option>
                     <mat-option *ngFor="let item of departmests;" value="{{item.id}}">
@@ -12,7 +12,7 @@
                 </mat-select>
             </mat-form-field>
 
-            <mat-form-field [ngClass]="formFieldHelpers" class="flex w-60" style="margin-bottom: -1.25em">
+            <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
                 <mat-select formControlName="user_id">
                     <mat-option value="">พนักงานทุกคน</mat-option>
                     <mat-option *ngFor="let item of employees;" value="{{item.id}}">
@@ -22,12 +22,12 @@
             </mat-form-field>
         </div>
 
-        <div class="flex flex-row gap-4">
+        <div class="flex flex-row mt-4 md:gap-4">
             <!-- <button class="px-6 rounded-md border border-gray-500 " mat-stroked-button color="accent">
                 <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
             </button> -->
 
-            <mat-form-field class="flex w-80" [ngClass]="formFieldHelpers" style="margin-bottom: -1.25em">
+            <mat-form-field class="flex w-full md:w-80" [ngClass]="formFieldHelpers" style="margin-bottom: -1.25em">
                 <mat-date-range-input [rangePicker]="picker">
                     <input matStartDate placeholder="วันที่เริ่ม" formControlName="startDate">
                     <input matEndDate placeholder="วันที่สิ้นสุด" formControlName="endDate">
