@@ -64,10 +64,10 @@
                         </div>
                         <div class="flex flex-col justify-between pl-6">
                             <div class="text-xs">จำนวนเคสทั้งหมด</div>
-                            <div class="font-bold">350</div>
+                            <div class="font-bold">{{data.summary_ticket.all.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="flex flex-row items-center gap-1">
-                                    <div class="text-xs">11.8%</div>
+                                    <div class="text-xs">{{data.summary_ticket.all.percent}}%</div>
                                     <svg width="7" height="4" viewBox="0 0 7 4" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -87,9 +87,9 @@
                         </div>
                         <div class="flex flex-col justify-between pl-6">
                             <div class="text-xs">กำลังดำเนินการ</div>
-                            <div class="font-bold">35</div>
+                            <div class="font-bold">{{data.summary_ticket.process.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
-                                <div class="text-xs bg-gray-200 rounded-full p-1">28%</div>
+                                <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.process.percent}}%</div>
                                 <div class="text-xs">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
@@ -102,9 +102,9 @@
                         </div>
                         <div class="flex flex-col justify-between pl-6">
                             <div class="text-xs">รอเข้ารับบริการ</div>
-                            <div class="font-bold">35</div>
+                            <div class="font-bold">{{data.summary_ticket.waiting.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
-                                <div class="text-xs bg-gray-200 rounded-full p-1">28%</div>
+                                <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.waiting.percent}}%</div>
                                 <div class="text-xs">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
@@ -117,9 +117,9 @@
                         </div>
                         <div class="flex flex-col justify-between pl-6">
                             <div class="text-xs">เสร็จสิ้น</div>
-                            <div class="font-bold">35</div>
+                            <div class="font-bold">{{data.summary_ticket.finish.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
-                                <div class="text-xs bg-gray-200 rounded-full p-1">28%</div>
+                                <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.finish.percent}}%</div>
                                 <div class="text-xs">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
@@ -134,7 +134,7 @@
         style="box-shadow: 0px 0px 30px 0px #22222214;">
 
         <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
-            <app-kpi-chart></app-kpi-chart>
+            <app-kpi-chart [data]="data"></app-kpi-chart>
         </div>
 
     </div>
@@ -169,18 +169,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let person of persons; let i = index;">
+                        <tr *ngFor="let person of data.work_ranking_persons.slice(0,10); let i = index;">
                             <td class="py-4">{{i+1}}</td>
                             <td>
                                 <div class="flex flex-row items-center gap-4">
-                                    <img style="width: 44px;" src="assets\images\People (1).png" alt="">
-                                    {{person.name}}
+                                    <img *ngIf="person.image" class="inline-block h-8 w-8 rounded-full ring-2 ring-white" [src]="person.image" alt="">
+                                    {{person.fname}}
                                 </div>
                             </td>
                             <td class="py-4">{{person.team}}</td>
-                            <td class="py-4">{{person.case}}</td>
-                            <td class="py-4">{{person.avgopen}}</td>
-                            <td class="py-4">{{person.avgclose}}</td>
+                            <td class="py-4">{{person.case | number}}</td>
+                            <td class="py-4">{{person.period_open}}</td>
+                            <td class="py-4">{{person.period_finish}}</td>
                             <td class="py-4"><span class="text-[#2EB47B]"
                                     style="background: #36B37E21;padding: 2px 8px 4px 8px;">{{person.status}}</span>
                                 {{person.rate}}</td>
@@ -190,7 +190,7 @@
             </div>
         </div>
 
-        <app-complacence-chart class="flex flex-col flex-auto bg-card gap-8 w-2/6 p-8"></app-complacence-chart>
+        <app-complacence-chart [data]="data" class="flex flex-col flex-auto bg-card gap-8 w-2/6 p-8"></app-complacence-chart>
 
     </div>
 </div>

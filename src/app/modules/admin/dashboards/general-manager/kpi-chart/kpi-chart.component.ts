@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexGrid, ApexStroke, ApexTitleSubtitle, NgApexchartsModule } from 'ng-apexcharts';
 
@@ -20,19 +20,47 @@ export type ChartOptions = {
     styleUrls: ['./kpi-chart.component.scss']
 })
 export class KpiChartComponent implements OnInit {
+
+    @Input()
+    data: any;
+
     public chartOptions: Partial<ChartOptions>;
 
+    data1 = [];
+    data2 = [];
+
     ngOnInit(): void {
+        console.log(this.data.graph_weeks);
+
+        this.data1 = [
+            this.data.graph_weeks.mon.new,
+            this.data.graph_weeks.tue.new,
+            this.data.graph_weeks.wed.new,
+            this.data.graph_weeks.thu.new,
+            this.data.graph_weeks.fri.new,
+            this.data.graph_weeks.sat.new,
+            this.data.graph_weeks.son.new
+        ]
+        this.data2 = [
+            this.data.graph_weeks.mon.finish,
+            this.data.graph_weeks.tue.finish,
+            this.data.graph_weeks.wed.finish,
+            this.data.graph_weeks.thu.finish,
+            this.data.graph_weeks.fri.finish,
+            this.data.graph_weeks.sat.finish,
+            this.data.graph_weeks.son.finish
+        ]
+
         this.chartOptions = {
             series: [
                 {
                     name: "เคสใหม่",
-                    data: [10, 41, 35, 51, 49, 62, 69],
+                    data: this.data1,
                     color: "#FF4849"
                 },
                 {
                     name: "ปิดเคส",
-                    data: [20, 80, 10, 88, 44, 11, 2],
+                    data: this.data2,
                     color: "#36B37E"
                 }
             ],

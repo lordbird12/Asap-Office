@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -31,7 +31,7 @@ export class SummaryServiceComponent implements OnInit {
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
 
-    typeScore = [56, 40, 38, 28, 18, 0, 0, 0];
+    typeScore = [];
 
     lists = [
         { province: "กรุงเทพมหานคร", quantity: 450, top: "เปลี่ยนแบตเตอรี่" },
@@ -39,23 +39,34 @@ export class SummaryServiceComponent implements OnInit {
         { province: "นนทบุรี", quantity: 150, top: "เช็คระยะ" },
     ];
 
-    constructor() {
+    data = null;
 
-    }
+    constructor(
+        private activatedRoute: ActivatedRoute,
+    ) { }
 
     ngOnInit(): void {
+        this.data = this.activatedRoute.snapshot.data.data;
+        console.log(this.data);
+
+        this.typeScore = [
+            this.top_services('เปลี่ยนยาง'),
+            this.top_services('เปลี่ยนแบตเตอรี่'),
+            this.top_services('เช็คระยะ'),
+            this.top_services('เช็คระบบแอร์'),
+            this.top_services('เช็คระบบเบรค'),
+            this.top_services('เช็คระบบไฟ'),
+            this.top_services('เช็คช่วงล่าง'),
+            this.top_services('อื่น (โปรดระบุ)'),
+        ];
+
+        this.data.most_booking.map(e => ({x: e.company, y: +e.total, fillColor: '#FF4849'}));
+
         this.chartOptions = {
             series: [
                 {
                     name: "จำนวนการใช้บริการ",
-                    data: [
-                        { x: "บริษัท A", y: 12000, fillColor: '#FF4849' },
-                        { x: "บริษัท B", y: 10000, fillColor: '#FF4849' },
-                        { x: "บริษัท C", y: 6000, fillColor: '#FF4849' },
-                        { x: "บริษัท D", y: 1400, fillColor: '#FF4849' },
-                        { x: "บริษัท E", y: 1000, fillColor: '#FF4849' },
-                        { x: "บริษัท F", y: 12, fillColor: '#FF4849' }
-                    ]
+                    data: this.data.most_booking.map(e => ({x: e.company, y: +e.total, fillColor: '#FF4849'}))
                 }
             ],
             chart: {
@@ -85,5 +96,13 @@ export class SummaryServiceComponent implements OnInit {
         const percentages: number = (this.typeScore[index] / total) * 100;
 
         return percentages;
+    }
+
+    deps_totals(data: string): {name:string, total: number} {
+        return this.data.deps_totals.find(e => e.name == data);
+    }
+
+    top_services(data: string): number {
+        return +this.data.top_services.find(e => e.name == data).total;
     }
 }
