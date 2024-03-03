@@ -4,11 +4,16 @@ import { CompanyListComponent } from './company-list/company-list.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { CenterListComponent } from './center-list/center-list.component';
 import { CenterDetailComponent } from './center-detail/center-detail.component';
+import { inject } from '@angular/core';
+import { SummaryServiceService } from './summary-service.service';
 
 export default [
     {
         path: '',
-        component: SummaryServiceComponent
+        component: SummaryServiceComponent,
+        resolve: {
+            data: () => inject(SummaryServiceService).getData(),
+        }
     },
     {
         path: 'bank',

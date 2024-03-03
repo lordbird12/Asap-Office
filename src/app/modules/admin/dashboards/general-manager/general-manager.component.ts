@@ -34,7 +34,7 @@ export class GeneralManagerComponent implements OnInit {
         { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
     ];
 
-    data;
+    data = null;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -42,7 +42,5 @@ export class GeneralManagerComponent implements OnInit {
 
     ngOnInit(): void {
         this.data = this.activatedRoute.snapshot.data.data;
-        console.log(this.data);
-
     }
 }
