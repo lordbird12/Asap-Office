@@ -129,6 +129,15 @@ export class PageService {
                 })
             );
     }
+    getKeywordCompany(data: string): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_client_by_key_search/' + data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     /**
      * Get products
      *

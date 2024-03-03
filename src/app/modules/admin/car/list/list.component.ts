@@ -35,6 +35,7 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { CompanyDialogComponent } from '../../ticket/compony-dialog/dailog.component';
 
 @Component({
     selector: 'car-list',
@@ -125,7 +126,19 @@ export class ListComponent implements OnInit, AfterViewInit {
     uploadfile() {
         const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '500px',
-            height: '600px', // กำหนดความกว้างของ Dialog
+            maxHeight: '80%', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.rerender();
+            }
+        });
+    }
+    companyDialog() {
+        const dialogRef = this.dialog.open(CompanyDialogComponent, {
+            width: '500px',
+            height: '80%', // กำหนดความกว้างของ Dialog
         });
 
         dialogRef.afterClosed().subscribe((result) => {

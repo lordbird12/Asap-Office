@@ -6,5 +6,7 @@ export interface User
     avatar?: string;
     status?: string;
     permission_id: string;
+    department_id: string;
+    position_id: string;
 
 }
