@@ -46,7 +46,6 @@ import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.compone
     standalone: true,
     styleUrls: ['./list.component.scss'],
     imports: [
-        ReactiveFormsModule,
         CommonModule,
         MatIconModule,
         FormsModule,
@@ -54,6 +53,7 @@ import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.compone
         NgClass,
         MatInputModule,
         TextFieldModule,
+        FormsModule,
         ReactiveFormsModule,
         MatButtonToggleModule,
         MatButtonModule,
@@ -855,5 +855,15 @@ export class ListComponent implements OnInit, AfterViewInit {
                 })
             }
         })
+    }
+
+    uncheckAll() {
+        // this.isChecked2[1] = false
+        this.isChecked2 = Array(this.task[2].task.length).fill(false);
+        this.multiItems = [];
+    }
+
+    onUncheckAllClick(): void {
+        this.uncheckAll()
     }
 }

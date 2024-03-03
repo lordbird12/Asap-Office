@@ -172,6 +172,15 @@ export class PageService {
                 })
             );
     }
+    getTicketByDep(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/get_ticket_by_dep' , data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
 
     getService(): Observable<any> {
         return this._httpClient
