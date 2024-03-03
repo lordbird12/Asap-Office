@@ -90,31 +90,16 @@ export class FormComponent implements OnInit {
             id: [''],
             image: [''],
             password: [''],
-            code: [''],
-            departmentName: [''],
-            department_id: [''],
-            positionName: [''],
-            position_id: [''],
-            fname: [''],
-            lname: [''],
-            email: [''],
-            phone: [''],
-        });
-
-        this.passwordForm = this.formBuilder.group({
-            id: [''],
-            image: [''],
-            code: [''],
-            departmentName: [''],
-            department_id: [''],
-            positionName: [''],
-            position_id: [''],
-            fname: [''],
-            lname: [''],
-            email: [''],
-            phone: [''],
             old_password: [''],
-            password: [''],
+            code: [''],
+            departmentName: [''],
+            department_id: [''],
+            positionName: [''],
+            position_id: [''],
+            fname: [''],
+            lname: [''],
+            email: [''],
+            phone: [''],
         });
     }
     async ngOnInit(): Promise<void> {
@@ -132,18 +117,6 @@ export class FormComponent implements OnInit {
                 (this.departments = initialData[1]),
                 console.log(item);
             this.addForm.patchValue({
-                id: resp.id,
-                department_id: resp.department_id,
-                code: resp.code,
-                position_id: resp.position_id,
-                fname: resp.fname,
-                lname: resp.lname,
-                email: resp.email,
-                phone: resp.phone,
-                departmentName: this.departments.name,
-                positionName: this.positions.name,
-            });
-            this.passwordForm.patchValue({
                 id: resp.id,
                 department_id: resp.department_id,
                 code: resp.code,
