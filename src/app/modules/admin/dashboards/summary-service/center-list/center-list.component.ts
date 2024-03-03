@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
+import { DataTablesModule } from 'angular-datatables';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,13 +14,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Router, RouterLink } from '@angular/router';
-import { DataTablesModule } from 'angular-datatables';
-import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
-import { PageService } from 'app/modules/admin/account/page.service';
+import { CompanyListService } from './company-list.service';
 
 @Component({
-  selector: 'app-companit-detail',
+  selector: 'app-center-list',
   standalone: true,
   imports: [
     CommonModule,
@@ -38,41 +37,28 @@ import { PageService } from 'app/modules/admin/account/page.service';
     MatDatepickerModule,
     MatTableModule,
     DataTablesModule,
-    RouterLink,
-    CenterChartComponent,
-    DataTablesModule,
+    RouterLink
   ],
-  templateUrl: './companit-detail.component.html',
-  styleUrls: ['./companit-detail.component.scss']
+  templateUrl: './center-list.component.html',
+  styleUrls: ['./center-list.component.scss']
 })
-export class CompanitDetailComponent implements OnInit {
+export class CenterListComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    typeScore = [56, 40, 38, 28, 18, 0, 0, 0];
+    isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
+    positions: any[];
+    // public dataRow: any[];
     dataRow: any[] = [];
 
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: PageService,
+        private _service: CompanyListService,
         private _router: Router
     ) {}
 
     ngOnInit(): void {
         this.loadTable();
-    }
-
-    calPerStyly(score: number) {
-        let txt = Math.floor(score);
-        return txt > 0 ? txt + '%' : ""
-    }
-
-    calPers(index: number): number {
-        const total: number = this.typeScore.reduce((acc, val) => acc + val, 0);
-
-        const percentages: number = (this.typeScore[index] / total) * 100;
-
-        return percentages;
     }
 
     loadTable(): void {
@@ -109,4 +95,6 @@ export class CompanitDetailComponent implements OnInit {
             // ],
         };
     }
+
+    uploadfile() {}
 }

@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
 import { SummaryServiceComponent } from './summary-service.component';
 import { CompanyListComponent } from './company-list/company-list.component';
-import { CompanitDetailComponent } from './companit-detail/companit-detail.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { CenterListComponent } from './center-list/center-list.component';
+import { CenterDetailComponent } from './center-detail/center-detail.component';
 
 export default [
     {
@@ -14,6 +16,14 @@ export default [
     },
     {
         path: 'bank/:id',
-        component: CompanitDetailComponent
+        component: CompanyDetailComponent
+    },
+    {
+        path: 'center',
+        component: CenterListComponent
+    },
+    {
+        path: 'center/:id',
+        component: CenterDetailComponent
     },
 ] as Routes;

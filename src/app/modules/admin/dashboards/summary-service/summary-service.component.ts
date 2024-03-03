@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { SemiCircleComponent } from './semi-circle/semi-circle.component';
@@ -25,7 +25,7 @@ export type ChartOptions = {
     templateUrl: './summary-service.component.html',
     styleUrls: ['./summary-service.component.scss']
 })
-export class SummaryServiceComponent {
+export class SummaryServiceComponent implements OnInit {
 
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     @ViewChild("chart") chart: ChartComponent;
@@ -40,6 +40,10 @@ export class SummaryServiceComponent {
     ];
 
     constructor() {
+
+    }
+
+    ngOnInit(): void {
         this.chartOptions = {
             series: [
                 {
