@@ -41,6 +41,7 @@ import { result } from 'lodash';
 import { UserImageService } from 'app/shared/image-last/user-image.service';
 import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
+import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.component';
 
 @Component({
     selector: 'car-list',
@@ -244,6 +245,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         },
     ]
 
+    employeeDep: any [] = [];
+
+    multiItems: any [] = [];
+
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -253,6 +258,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         private userImageService: UserImageService
     ) {
 
+        this._service.getEmployeeBydepartment().subscribe((resp: any) =>  {
+            this.employeeDep = resp.data
+        })
 
     }
 
@@ -279,8 +287,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             this._changeDetectorRef.detectChanges();
         })
 
-
-
+        // this.employeeDialog()
     }
     
     ngAfterViewInit(): void {
@@ -530,6 +537,75 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
 
     }
+    employeeDialog() {
+        const dialogRef = this.dialog.open(EmployeeDialogComponent,
+            {
+                minWidth: '30%',
+                // data: {
+                //     status: 'Edit',
+                //     value: value,
+                // },
+            }
+        );
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('close');
+            if(result) {
+                
+                // this._service.getBooking().subscribe((resp: any) => {
+                //     this.itemData = resp.data;  
+                //     this.task = [
+                //         {
+                //             id: 1,
+                //             name: 'งานใหม่ / Todo',
+                //             detail: 'งานใหม่รอรับ',
+                //             status: 'Process',
+                //             task: []
+                //         },
+                //         {
+                //             id: 2,
+                //             name: 'กำลังดำเนินงาน',
+                //             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                //             status: 'Waiting',
+                //             task: []
+                //         },
+                //         {
+                //             id: 3,
+                //             name: 'รอเข้ารับบริการ',
+                //             detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                //             status: 'Finish',
+                //             task: []
+                //         },
+                //         {
+                //             id: 4,
+                //             name: 'เสร็จสิ้น',
+                //             detail: '-',
+                //             status: 'Cancel',
+                //             task: []
+                //         },
+                //     ]
+                //     // cons ole.log('itemData', this.itemData)
+                //     for (const item of this.itemData) {
+                //         if (item.status === 'New') {
+                //             this.task[0].task.push(item)
+                //         }
+                //         else if (item.status === 'Process') {
+                //             this.task[1].task.push(item)
+                //         }
+                //         else if (item.status === 'Waiting') {
+                //             this.task[2].task.push(item)
+                //         }
+                //         else if (item.status === 'Finish') {
+                //             this.task[3].task.push(item)
+                //         }
+                //     }
+                //     this._changeDetectorRef.markForCheck();
+                // })
+            }
+        })
+
+    }
+
+
 
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);

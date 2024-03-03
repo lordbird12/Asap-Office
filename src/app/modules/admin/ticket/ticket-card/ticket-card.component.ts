@@ -203,7 +203,8 @@ export class TicketCardComponent implements OnInit{
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this._service.updateStatus(this.data.id , this.statusData.value).subscribe({
+                  
+                    this._service.updateStatus(this.data.value.id , this.statusData.value).subscribe({
                         next: (resp: any) => {
                             this.dialogRef.close(resp);
                         },
