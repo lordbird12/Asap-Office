@@ -1,7 +1,8 @@
 <div class="flex flex-col flex-auto w-full gap-5 pb-5">
     <div class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
         <div class="flex flex-row gap-4 items-center justify-between">
-            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ </h2>
+            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ
+            </h2>
         </div>
 
         <div class="flex flex-row gap-4">
@@ -38,35 +39,60 @@
                 </a>
             </div>
             <div class="grid grid-cols-6 gap-8">
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#4F4F4F] p-3 h-24"
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#4F4F4F] p-3 h-24 cursor-pointer"
                     style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                     <div class="text-sm font-normal">ทั้งหมด</div>
                     <div class="text-xl font-semibold text-[#637381]">50,000 ครั้ง</div>
                 </div>
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#FF736A] bg-[#FFECEC] p-3 h-24"
-                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                    <div class="text-sm font-normal">Bank</div>
-                    <div class="text-xl font-semibold text-[#637381]">20,000 ครั้ง</div>
+                <div class="relative">
+                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="bank" name="fav_language" value="BANK">
+                    <label for="bank">
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                            <div class="text-sm font-normal">Bank</div>
+                            <div class="text-xl font-semibold text-[#637381]">20,000 ครั้ง</div>
+                        </div>
+                    </label>
                 </div>
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
-                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                    <div class="text-sm font-normal">Government / Hospital</div>
-                    <div class="text-xl font-semibold text-[#637381]">10,000 ครั้ง</div>
+                <div class="relative">
+                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="hospital" name="fav_language" value="HOSPITAL">
+                    <label for="hospital">
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                            <div class="text-sm font-normal">Government / Hospital</div>
+                            <div class="text-xl font-semibold text-[#637381]">10,000 ครั้ง</div>
+                        </div>
+                    </label>
                 </div>
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
-                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                    <div class="text-sm font-normal">Logistic</div>
-                    <div class="text-xl font-semibold text-[#637381]">5,000 ครั้ง</div>
+                <div class="relative">
+                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="logistic" name="fav_language" value="LOGISTIC">
+                    <label for="logistic">
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                            <div class="text-sm font-normal">Logistic</div>
+                            <div class="text-xl font-semibold text-[#637381]">5,000 ครั้ง</div>
+                        </div>
+                    </label>
                 </div>
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
-                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                    <div class="text-sm font-normal">General</div>
-                    <div class="text-xl font-semibold text-[#637381]">10,000 ครั้ง</div>
+                <div class="relative">
+                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="general" name="fav_language" value="GENERAL">
+                    <label for="general">
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                            <div class="text-sm font-normal">General</div>
+                            <div class="text-xl font-semibold text-[#637381]">10,000 ครั้ง</div>
+                        </div>
+                    </label>
                 </div>
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
-                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                    <div class="text-sm font-normal">Short term / Replacment</div>
-                    <div class="text-xl font-semibold text-[#637381]">5,000 ครั้ง</div>
+                <div class="relative">
+                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="shot_term" name="fav_language" value="SHOT_TERM">
+                    <label for="shot_term">
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                            style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                            <div class="text-sm font-normal">Short term / Replacment</div>
+                            <div class="text-xl font-semibold text-[#637381]">5,000 ครั้ง</div>
+                        </div>
+                    </label>
                 </div>
             </div>
             <div class="grid grid-cols-2 divide-x">
