@@ -84,6 +84,7 @@ export class EditFormComponent implements OnInit {
         public activatedRoute: ActivatedRoute
     ) {
         this.addForm = this.formBuilder.group({
+            id: [null],
             license: [null],
             brand_model_id: [null],
             province_id: [null],
@@ -111,6 +112,7 @@ export class EditFormComponent implements OnInit {
                 console.log(resp);
                 this.addForm.patchValue({
                     ...item,
+                    id: id,
                     expire_date: '2023-05-17',
                     image: '',
                 });
@@ -192,6 +194,9 @@ export class EditFormComponent implements OnInit {
                 this._service.updatecar(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
+                        this._router
+                            .navigateByUrl('admin/car/list')
+                            .then(() => {});
                     },
                     error: (err: any) => {
                         this.addForm.enable();

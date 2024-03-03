@@ -1,12 +1,13 @@
 <form [formGroup]="addForm" class="w-full">
     <div class="flex flex-col flex-auto min-w-0">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
             <div class="flex-1 flemin-w-0">
                 <!-- Title -->
                 <div class="flex flex-row mt-2 justify-center">
                     <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                        ข้อมูลรถในระบบ
+                        แก้ไขข้อมูลรถในระบบ
                     </h2>
                 </div>
 
@@ -27,9 +28,11 @@
                                 <div class="row-span-3 ">
                                     <ngx-dropzone (change)="onSelect($event)">
                                         <ngx-dropzone-label>
-                                            <mat-icon svgIcon="feather:camera"></mat-icon><br>อัปโหลดรูปรถ</ngx-dropzone-label>
+                                            <mat-icon
+                                                svgIcon="feather:camera"></mat-icon><br>อัปโหลดรูปรถ</ngx-dropzone-label>
                                         <div *ngFor="let f of files">
-                                            <ngx-dropzone-image-preview [file]="f" [removable]="true" (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                            <ngx-dropzone-image-preview [file]="f" [removable]="true"
+                                                (removed)="onRemove(f)"></ngx-dropzone-image-preview>
                                         </div>
                                     </ngx-dropzone>
                                     <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png,
@@ -94,8 +97,10 @@
                                 <div class="md:w-full px-3">
                                     <mat-label class=" font-light">วันหมดสัญญา</mat-label>
                                     <mat-form-field class="w-full">
-                                        <input readonly [formControlName]="'expire_date'" matInput placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
-                                        <mat-datepicker-toggle matSuffix [for]="picker_start_date"></mat-datepicker-toggle>
+                                        <input readonly [formControlName]="'expire_date'" matInput
+                                            placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
+                                        <mat-datepicker-toggle matSuffix
+                                            [for]="picker_start_date"></mat-datepicker-toggle>
                                         <mat-datepicker #picker_start_date></mat-datepicker>
                                     </mat-form-field>
                                 </div>
@@ -118,13 +123,15 @@
         <div class="md:max-w-full">
 
             <div mat-dialog-actions class="flex justify-end mt-4">
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
+                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
+                    style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
                     <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
                         ยกเลิก
                     </button>
                 </div>
                 <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'"
+                        (click)="onSaveClick()">
                         <div class="font-light">
                             บันทึก
                         </div>
