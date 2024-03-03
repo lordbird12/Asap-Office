@@ -1,0 +1,291 @@
+<div class="flex flex-col flex-auto w-full gap-5 pb-5">
+    <div class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
+        <div class="flex flex-row gap-4 items-center justify-between">
+            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ </h2>
+        </div>
+
+        <div class="flex flex-row gap-4">
+            <button class="px-6 rounded-md border border-gray-500 " mat-stroked-button color="accent">
+                <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
+            </button>
+
+            <mat-form-field class="flex w-80" [ngClass]="formFieldHelpers" style="margin-bottom: -1.25em">
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="วันที่เริ่ม">
+                    <input matEndDate placeholder="วันที่สิ้นสุด">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl"
+        style="box-shadow: 0px 0px 30px 0px #22222214;">
+
+        <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
+            <div class="flex flex-row justify-between">
+                <div class="font-medium">วิเคราะห์การเข้ารับบริการ</div>
+                <a [routerLink]="['bank']" routerLinkActive="router-link-active">
+                    <div class="flex flex-row gap-1 items-center">
+                        <div class="font-medium text-[#FF4849]">ดูเพิ่มเติม</div>
+                        <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M4.29286 3.96477C3.90234 3.57424 3.26918 3.57424 2.87865 3.96477C2.48813 4.35529 2.48813 4.98846 2.87865 5.37898L4.99994 7.50028L2.87862 9.6216C2.4881 10.0121 2.4881 10.6453 2.87862 11.0358C3.26915 11.4263 3.90231 11.4263 4.29284 11.0358L7.11516 8.21349C7.11721 8.21147 7.11925 8.20945 7.12129 8.20741C7.50571 7.82299 7.51172 7.20345 7.13931 6.81168C7.1334 6.80546 7.12739 6.7993 7.12129 6.7932C7.12128 6.79319 7.12127 6.79318 7.12127 6.79317C7.1212 6.7931 7.12113 6.79303 7.12106 6.79296L4.29286 3.96477Z"
+                                fill="#FF4849" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <div class="grid grid-cols-6 gap-8">
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#4F4F4F] p-3 h-24"
+                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                    <div class="text-sm font-normal">ทั้งหมด</div>
+                    <div class="text-xl font-semibold text-[#637381]">50,000 ครั้ง</div>
+                </div>
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#FF736A] bg-[#FFECEC] p-3 h-24"
+                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                    <div class="text-sm font-normal">Bank</div>
+                    <div class="text-xl font-semibold text-[#637381]">20,000 ครั้ง</div>
+                </div>
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
+                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                    <div class="text-sm font-normal">Government / Hospital</div>
+                    <div class="text-xl font-semibold text-[#637381]">10,000 ครั้ง</div>
+                </div>
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
+                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                    <div class="text-sm font-normal">Logistic</div>
+                    <div class="text-xl font-semibold text-[#637381]">5,000 ครั้ง</div>
+                </div>
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
+                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                    <div class="text-sm font-normal">General</div>
+                    <div class="text-xl font-semibold text-[#637381]">10,000 ครั้ง</div>
+                </div>
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24"
+                    style="box-shadow: 0px 4px 12px 0px #19191C0A;">
+                    <div class="text-sm font-normal">Short term / Replacment</div>
+                    <div class="text-xl font-semibold text-[#637381]">5,000 ครั้ง</div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 divide-x">
+                <div class="flex flex-col">
+                    <div class="text-base font-semibold mb-3">บริษัทในกลุ่มธนาคารที่เข้ารับบริการบ่อยสุด</div>
+                    <div class="">
+                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                            [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
+                            [xaxis]="chartOptions.xaxis"></apx-chart>
+                    </div>
+                </div>
+                <div class="flex flex-col pl-8">
+                    <div class="text-base font-semibold mb-3">ประเภทการแจ้งซ่อม</div>
+                    <div class="text-base font-semibold">
+
+                        <div class="flex flex-row w-full h-10 my-5 rounded-lg text-base font-semibold text-white">
+                            <div class="flex bg-[#FF4849] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(0)) ? 'pl-4' : ''" [style.width]="calPers(0) + '%'">
+                                {{calPerStyly(calPers(0))}}
+                            </div>
+                            <div class="flex bg-[#2B4D66] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(1)) ? 'pl-4' : ''" [style.width]="calPers(1) + '%'">
+                                {{calPerStyly(calPers(1))}}
+                            </div>
+                            <div class="flex bg-[#33C455] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(2)) ? 'pl-4' : ''" [style.width]="calPers(2) + '%'">
+                                {{calPerStyly(calPers(2))}}
+                            </div>
+                            <div class="flex bg-[#FFB600] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(3)) ? 'pl-4' : ''" [style.width]="calPers(3) + '%'">
+                                {{calPerStyly(calPers(3))}}
+                            </div>
+                            <div class="flex bg-[#6692FB] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(4)) ? 'pl-4' : ''" [style.width]="calPers(4) + '%'">
+                                {{calPerStyly(calPers(4))}}
+                            </div>
+                            <div class="flex bg-[#00B8D9] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(5)) ? 'pl-4' : ''" [style.width]="calPers(5) + '%'">
+                                {{calPerStyly(calPers(5))}}
+                            </div>
+                            <div class="flex bg-[#B76E00] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(6)) ? 'pl-4' : ''" [style.width]="calPers(6) + '%'">
+                                {{calPerStyly(calPers(6))}}
+                            </div>
+                            <div class="flex bg-[#BBBACE] h-10 text-center items-center"
+                                [ngClass]="calPerStyly(calPers(7)) ? 'pl-4' : ''" [style.width]="calPers(7) + '%'">
+                                {{calPerStyly(calPers(7))}}
+                            </div>
+                        </div>
+
+                        <ul class="list-none">
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#FF4849] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#FF4849] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เปลี่ยนยาง</div>
+                                    </div>
+                                    <div class="flex">56</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#2b4d66] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#2B4D66] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เปลี่ยนแบตเตอรี่</div>
+                                    </div>
+                                    <div class="flex">40</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#33C455] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#33C455] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เช็คระยะ</div>
+                                    </div>
+                                    <div class="flex">38</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#FFB600] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#FFB600] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เช็คระบบแอร์</div>
+                                    </div>
+                                    <div class="flex">28</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#6692FB] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#6692FB] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เช็คระบบเบรค</div>
+                                    </div>
+                                    <div class="flex">18</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#00B8D9] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#00B8D9] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เช็คระบบไฟ</div>
+                                    </div>
+                                    <div class="flex">0</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#B76E00] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#B76E00] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">เช็คช่วงล่าง</div>
+                                    </div>
+                                    <div class="flex">0</div>
+                                </div>
+                            </li>
+
+                            <li class="h-7">
+                                <div class="flex flex-row items-center justify-between">
+                                    <div class="flex gap-3 items-center">
+                                        <div
+                                            class="flex items-center justify-center w-4 h-4 bg-[#BBBACE] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#BBBACE] rounded-full"></div>
+                                        </div>
+                                        <div class="flex">อื่นๆ</div>
+                                    </div>
+                                    <div class="flex">0</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-row w-full max-w-screen-xl gap-8 mx-auto rounded-2xl mb-5">
+        <div class="flex flex-col flex-auto bg-card gap-8 w-1/2 p-8" style="box-shadow: 0px 0px 30px 0px #22222214;">
+            <div class="font-medium">ลูกค้าที่เข้ารับบริการตามกลุ่มบริษัท</div>
+            <div class="">
+                <app-semi-circle></app-semi-circle>
+            </div>
+        </div>
+        <div class="flex flex-col flex-auto bg-card gap-8 w-1/2 p-8" style="box-shadow: 0px 0px 30px 0px #22222214;">
+            <div class="flex flex-row justify-between">
+                <div class="font-medium">ศูนย์บริการที่ลูกค้าเข้ารับบริการ</div>
+                <a [routerLink]="['center']" routerLinkActive="router-link-active">
+                    <div class="flex flex-row gap-1 items-center">
+                        <div class="font-medium text-[#FF4849]">ดูเพิ่มเติม</div>
+                        <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M4.29286 3.96477C3.90234 3.57424 3.26918 3.57424 2.87865 3.96477C2.48813 4.35529 2.48813 4.98846 2.87865 5.37898L4.99994 7.50028L2.87862 9.6216C2.4881 10.0121 2.4881 10.6453 2.87862 11.0358C3.26915 11.4263 3.90231 11.4263 4.29284 11.0358L7.11516 8.21349C7.11721 8.21147 7.11925 8.20945 7.12129 8.20741C7.50571 7.82299 7.51172 7.20345 7.13931 6.81168C7.1334 6.80546 7.12739 6.7993 7.12129 6.7932C7.12128 6.79319 7.12127 6.79318 7.12127 6.79317C7.1212 6.7931 7.12113 6.79303 7.12106 6.79296L4.29286 3.96477Z"
+                                fill="#FF4849" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <div class="">
+                <app-center-chart></app-center-chart>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl"
+        style="box-shadow: 0px 0px 30px 0px #22222214;">
+        <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
+            <div class="font-medium">3 อันดับจังหวัดที่เข้ารับบริการมากที่สุด</div>
+            <div class="">
+                <table class="w-full table-auto">
+                    <thead class="border-b">
+                        <tr>
+                            <th class="text-start w-2/4 pb-4" colspan="2">จังหวัด</th>
+                            <th class="text-start w-1/4 pb-4">จำนวนการเข้ารับบริการ</th>
+                            <th class="text-start w-1/4 pb-4">รายการแจ้งซ่อมมากที่สุด</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-base font-medium" *ngFor="let item of lists; let i = index;">
+                            <td class="py-4">
+                                <div class="flex w-8 h-8 items-center justify-center rounded-full bg-white">
+                                    <div [ngClass]="i == 0 ? 'bg-[#FBAF5D]' : i == 1 ? 'bg-[#919AA9]' : i == 2 ? 'bg-[#CE7430]' : ''"
+                                        class="flex w-7 h-7 items-center justify-center rounded-full text-white font-semibold"
+                                        style="box-shadow: 0px 2.3888888359069824px 4.777777671813965px 0px #0000000F;">
+                                        {{i+1}}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4">{{item.province}}</td>
+                            <td class="py-4">{{item.quantity}}</td>
+                            <td class="py-4">{{item.top}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

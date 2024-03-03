@@ -1,0 +1,17 @@
+<div class="block">
+
+  <div class="flex flex-row">
+    <div class="flex flex-col w-1/2">
+      <div class="">อันดับ 1</div>
+      <div class="text-2xl font-bold">B-Quick รัชดา</div>
+    </div>
+    <div class="flex flex-col w-1/2">
+      <div class="">เฉลี่ยการเข้ารับบริการ</div>
+      <div class="text-2xl font-bold">2 ครั้ง/ สัปดาห์</div>
+    </div>
+  </div>
+
+  <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+    [plotOptions]="chartOptions.plotOptions" [legend]="chartOptions.legend" [fill]="chartOptions.fill"
+    [stroke]="chartOptions.stroke" [tooltip]="chartOptions.tooltip"></apx-chart>
+</div>
