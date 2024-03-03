@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RouterLink } from '@angular/router';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -20,7 +21,7 @@ export type ChartOptions = {
 @Component({
     selector: 'app-summary-service',
     standalone: true,
-    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule],
+    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, RouterLink],
     templateUrl: './summary-service.component.html',
     styleUrls: ['./summary-service.component.scss']
 })
