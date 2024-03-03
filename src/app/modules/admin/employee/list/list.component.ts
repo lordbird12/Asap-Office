@@ -118,8 +118,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         // });
     }
 
-        uploadfile() {
-                const dialogRef = this.dialog.open(FormDialogComponent, {
+    uploadfile() {
+        const dialogRef = this.dialog.open(FormDialogComponent, {
             width: '500px',
             height: '600px', // กำหนดความกว้างของ Dialog
         });
@@ -139,6 +139,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             pageLength: 25,
             serverSide: true,
             processing: true,
+            searching: false,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },

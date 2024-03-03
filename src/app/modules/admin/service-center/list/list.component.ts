@@ -66,7 +66,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router
-    ) { }
+    ) {}
 
     ngOnInit() {
         this.loadTable();
@@ -86,7 +86,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     viewElement(element: any) {
         const dialogRef = this.dialog.open(EditDialogComponent, {
             width: '700px', // กำหนดความกว้างของ Dialog
-            data: element
+            data: element,
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -130,6 +130,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             pageLength: 25,
             serverSide: true,
             processing: true,
+            searching: false,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
