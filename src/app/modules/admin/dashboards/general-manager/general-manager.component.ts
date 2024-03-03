@@ -69,4 +69,16 @@ export class GeneralManagerComponent implements OnInit {
             }
         })
     }
+
+    minutesToMMSS(minutes: number) {
+        let totalSeconds = minutes * 60;
+        let mm = Math.floor(totalSeconds / 60);
+        let ss = totalSeconds % 60;
+
+        // Add leading zeros if necessary
+        let mmStr = String(mm).padStart(2, '0');
+        let ssStr = String(ss).padStart(2, '0');
+
+        return mmStr + ':' + ssStr;
+    }
 }

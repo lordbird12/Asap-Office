@@ -179,11 +179,11 @@
                             </td>
                             <td class="py-4">{{person.team}}</td>
                             <td class="py-4">{{person.case | number}}</td>
-                            <td class="py-4">{{person.period_open}}</td>
-                            <td class="py-4">{{person.period_finish}}</td>
-                            <td class="py-4"><span class="text-[#2EB47B]"
-                                    style="background: #36B37E21;padding: 2px 8px 4px 8px;">{{person.status}}</span>
-                                {{person.rate}}</td>
+                            <td class="py-4">{{minutesToMMSS(person.period_open)}}m</td>
+                            <td class="py-4">{{minutesToMMSS(person.period_finish)}}m</td>
+                            <td class="py-4">
+                                <span class="text-[#2EB47B]" style="background: #36B37E21;padding: 2px 8px 4px 8px;">พึงพอใจมาก</span> 4.9
+                            </td>
                         </tr>
                     </tbody>
                 </table>
