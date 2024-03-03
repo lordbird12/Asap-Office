@@ -44,7 +44,7 @@ export class SemiCircleComponent implements OnInit {
           bottom: -200
         }
       },
-      labels: ["Bank", "Government/Hospital", "Logistic", "General", "Short term/Replacment"],
+      labels: ["Bank", "Government / Hospital", "Logistic", "General", "Short term / Replacment"],
       responsive: [
         {
           breakpoint: 480,

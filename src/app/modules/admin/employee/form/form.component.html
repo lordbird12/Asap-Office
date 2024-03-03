@@ -87,25 +87,11 @@
                 <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">แผนก</h1>
                 <div>
                     <mat-radio-group aria-label="Select an option" formControlName="department_id" class="flex flex-col">
-                        <mat-radio-button value="1">
-                            <div class="font-light">Government</div>
-                        </mat-radio-button>
-                        <mat-radio-button value="2">
-                            <div class="font-light">Bank</div>
-                        </mat-radio-button>
-                        <mat-radio-button value="3">
-                            <div class="font-light">Hospital</div>
-                        </mat-radio-button>
-                        <mat-radio-button value="4">
-                            <div class="font-light">SME1</div>
-                        </mat-radio-button>
-                        <mat-radio-button value="5">
-                            <div class="font-light">SME2</div>
-                        </mat-radio-button>
-                        <mat-radio-button value="6">
-                            <div class="font-light">SME3</div>
+                        <mat-radio-button *ngFor="let item of departments" [value]="item.id">
+                            <div class="font-light">{{item.name}}</div>
                         </mat-radio-button>
                     </mat-radio-group>
+
                 </div>
 
             </form>
