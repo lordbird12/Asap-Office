@@ -44,6 +44,7 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.component';
 import moment from 'moment';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.component';
 
 @Component({
     selector: 'car-list',
@@ -82,7 +83,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     isCheckedControl = new FormControl(false);
-    status = new FormControl(false);
+    status = new FormControl('');
     public dataRow: any[];
     task: any[] = [
         {
@@ -170,7 +171,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     else if (item.status === 'Waiting') {
                         this.task[2].task.push(item)
                     }
-                    else if (item.status === 'Finish') {
+                    else if (item.status === 'Finish' || item.status === 'Cancel') {
                         this.task[3].task.push(item)
                     }
                 }
@@ -178,8 +179,6 @@ export class ListComponent implements OnInit, AfterViewInit {
             })
         }
 
-
-        // this.employeeDialog()
     }
 
     ngAfterViewInit(): void {
@@ -322,6 +321,9 @@ export class ListComponent implements OnInit, AfterViewInit {
 
                 this._service.getBooking().subscribe((resp: any) => {
                     this.itemData = resp.data;
+                    const data =   {
+                        users: this.employeeDep.filter(e => e.isSelected)
+                    }
                     this.task = [
                         {
                             id: 1,
@@ -352,21 +354,29 @@ export class ListComponent implements OnInit, AfterViewInit {
                             task: []
                         },
                     ]
-                    // cons ole.log('itemData', this.itemData)
-                    for (const item of this.itemData) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
+                    this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                        const news = resp.data.news;
+                        const all = resp.data.all;
+                        // console.log(resp.data.all)
+        
+                        for (const item of news) {
+                            if (item.status === 'New') {
+                                this.task[0].task.push(item)
+                            }
                         }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
+                        for (const item of all) {
+                            if (item.status === 'Process') {
+                                this.task[1].task.push(item)
+                            }
+                            else if (item.status === 'Waiting') {
+                                this.task[2].task.push(item)
+                            }
+                            else if (item.status === 'Finish' || item.status === 'Cancel') {
+                                this.task[3].task.push(item)
+                            }
                         }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
-                        }
-                    }
+                        this._changeDetectorRef.detectChanges();
+                    })
                     this._changeDetectorRef.markForCheck();
                 })
             }
@@ -391,6 +401,9 @@ export class ListComponent implements OnInit, AfterViewInit {
 
                 this._service.getBooking().subscribe((resp: any) => {
                     this.itemData = resp.data;
+                    const data =   {
+                        users: this.employeeDep.filter(e => e.isSelected)
+                    }
                     this.task = [
                         {
                             id: 1,
@@ -421,21 +434,29 @@ export class ListComponent implements OnInit, AfterViewInit {
                             task: []
                         },
                     ]
-                    // cons ole.log('itemData', this.itemData)
-                    for (const item of this.itemData) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
+                    this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                        const news = resp.data.news;
+                        const all = resp.data.all;
+                        // console.log(resp.data.all)
+        
+                        for (const item of news) {
+                            if (item.status === 'New') {
+                                this.task[0].task.push(item)
+                            }
                         }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
+                        for (const item of all) {
+                            if (item.status === 'Process') {
+                                this.task[1].task.push(item)
+                            }
+                            else if (item.status === 'Waiting') {
+                                this.task[2].task.push(item)
+                            }
+                            else if (item.status === 'Finish' || item.status === 'Cancel') {
+                                this.task[3].task.push(item)
+                            }
                         }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
-                        }
-                    }
+                        this._changeDetectorRef.detectChanges();
+                    })
                     this._changeDetectorRef.markForCheck();
                 })
             }
@@ -444,6 +465,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     }
     employeeDialog(value) {
+        console.log(this.employeeDep)
         const dialogRef = this.dialog.open(EmployeeDialogComponent,
             {
                 minWidth: '30%',
@@ -456,7 +478,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
           
             if (result) {
-                this.employeeDep = result
+                // this.employeeDep = result
                 const data =   {
                     users: result
                 }
@@ -506,7 +528,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Waiting') {
                             this.task[2].task.push(item)
                         }
-                        else if (item.status === 'Finish') {
+                        else if (item.status === 'Finish' || item.status === 'Cancel') {
                             this.task[3].task.push(item)
                         }
                     }
@@ -578,124 +600,266 @@ export class ListComponent implements OnInit, AfterViewInit {
 
 
     multiSave() {
-
-        const confirmation = this._fuseConfirmationService.open({
-            "title": "เปลี่ยนสถานะ",
-            "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
-            "icon": {
-                "show": false,
-                "name": "heroicons_outline:exclamation",
-                "color": "warning"
-            },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ยืนยัน",
-                    "color": "primary"
+        if(this.status.value === 'Cancel') {
+            this.CancelStatus()
+        } else {
+            const confirmation = this._fuseConfirmationService.open({
+                "title": "เปลี่ยนสถานะ",
+                "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
+                "icon": {
+                    "show": false,
+                    "name": "heroicons_outline:exclamation",
+                    "color": "warning"
                 },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
-            },
-            "dismissible": true
-        });
-
-        // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                this.multiItems.map((item:any)=>{
-                    const formValue = item
-                    this._service.updateStatus(formValue.id , this.status.value).subscribe({
-                        
-                        next: (resp: any) => {
-                            this.multiItems = [];
-                            this.isChecked1 = [];
-                            this.isChecked2 = [];
-                            const data =   {
-                                users: this.employeeDep.filter(e => e.isSelected)
-                            }
-                            this.task = [
-                                {
-                                    id: 1,
-                                    name: 'งานใหม่ / Todo',
-                                    detail: 'งานใหม่รอรับ',
-                                    status: 'Process',
-                                    task: []
-                                },
-                                {
-                                    id: 2,
-                                    name: 'กำลังดำเนินงาน',
-                                    detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                                    status: 'Waiting',
-                                    task: []
-                                },
-                                {
-                                    id: 3,
-                                    name: 'รอเข้ารับบริการ',
-                                    detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                                    status: 'Finish',
-                                    task: []
-                                },
-                                {
-                                    id: 4,
-                                    name: 'เสร็จสิ้น',
-                                    detail: '-',
-                                    status: 'Cancel',
-                                    task: []
-                                },
-                            ]
-                            this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                                const news = resp.data.news;
-                                const all = resp.data.all;
-                                // console.log(resp.data.all)
-                
-                                for (const item of news) {
-                                    if (item.status === 'New') {
-                                        this.task[0].task.push(item)
-                                    }
-                                }
-                                for (const item of all) {
-                                    if (item.status === 'Process') {
-                                        this.task[1].task.push(item)
-                                    }
-                                    else if (item.status === 'Waiting') {
-                                        this.task[2].task.push(item)
-                                    }
-                                    else if (item.status === 'Finish') {
-                                        this.task[3].task.push(item)
-                                    }
-                                }
-                                this._changeDetectorRef.detectChanges();
-                            })
-                        },
-                        error: (err: any) => {
-                            this._fuseConfirmationService.open({
-                                "title": "กรุณาระบุข้อมูล",
-                                "message": err.error.message,
-                                "icon": {
-                                    "show": true,
-                                    "name": "heroicons_outline:exclamation",
-                                    "color": "warning"
-                                },
-                                "actions": {
-                                    "confirm": {
-                                        "show": false,
-                                        "label": "ยืนยัน",
-                                        "color": "primary"
-                                    },
-                                    "cancel": {
-                                        "show": false,
-                                        "label": "ยกเลิก",
+                "actions": {
+                    "confirm": {
+                        "show": true,
+                        "label": "ยืนยัน",
+                        "color": "primary"
+                    },
+                    "cancel": {
+                        "show": true,
+                        "label": "ยกเลิก"
+                    }
+                },
+                "dismissible": true
+            });
     
+            // Subscribe to the confirmation dialog closed action
+            confirmation.afterClosed().subscribe((result) => {
+                if (result === 'confirmed') {
+                    this.multiItems.map((item:any)=>{
+                        const reason = '';
+                        const services = item.services.map(data => ({service_id: data.service_id}));
+                        const formValue = item
+                        this._service.updateStatus(formValue.id , this.status.value, reason, services).subscribe({
+                            
+                            next: (resp: any) => {
+                                this.multiItems = [];
+                                this.isChecked1 = [];
+                                this.isChecked2 = [];
+                                const data =   {
+                                    users: this.employeeDep.filter(e => e.isSelected)
+                                }
+                                this.task = [
+                                    {
+                                        id: 1,
+                                        name: 'งานใหม่ / Todo',
+                                        detail: 'งานใหม่รอรับ',
+                                        status: 'Process',
+                                        task: []
+                                    },
+                                    {
+                                        id: 2,
+                                        name: 'กำลังดำเนินงาน',
+                                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                                        status: 'Waiting',
+                                        task: []
+                                    },
+                                    {
+                                        id: 3,
+                                        name: 'รอเข้ารับบริการ',
+                                        detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                                        status: 'Finish',
+                                        task: []
+                                    },
+                                    {
+                                        id: 4,
+                                        name: 'เสร็จสิ้น',
+                                        detail: '-',
+                                        status: 'Cancel',
+                                        task: []
+                                    },
+                                ]
+                                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                                    const news = resp.data.news;
+                                    const all = resp.data.all;
+                                    // console.log(resp.data.all)
+                    
+                                    for (const item of news) {
+                                        if (item.status === 'New') {
+                                            this.task[0].task.push(item)
+                                        }
                                     }
-                                },
-                                "dismissible": true
-                            });
-                        }
+                                    for (const item of all) {
+                                        if (item.status === 'Process') {
+                                            this.task[1].task.push(item)
+                                        }
+                                        else if (item.status === 'Waiting') {
+                                            this.task[2].task.push(item)
+                                        }
+                                        else if (item.status === 'Finish' || item.status === 'Cancel') {
+                                            this.task[3].task.push(item)
+                                        }
+                                    }
+                                    this._changeDetectorRef.detectChanges();
+                                })
+                            },
+                            error: (err: any) => {
+                                this._fuseConfirmationService.open({
+                                    "title": "กรุณาระบุข้อมูล",
+                                    "message": err.error.message,
+                                    "icon": {
+                                        "show": true,
+                                        "name": "heroicons_outline:exclamation",
+                                        "color": "warning"
+                                    },
+                                    "actions": {
+                                        "confirm": {
+                                            "show": false,
+                                            "label": "ยืนยัน",
+                                            "color": "primary"
+                                        },
+                                        "cancel": {
+                                            "show": false,
+                                            "label": "ยกเลิก",
+        
+                                        }
+                                    },
+                                    "dismissible": true
+                                });
+                            }
+                        })
                     })
-                })
+                
+                }
+            })
+        }
+    
+    }
+
+    CancelStatus() {
+        const dialogRef = this.dialog.open(CancelDialogComponent, {
+            width: '500px', // กำหนดความกว้างของ Dialog
+            data: {
+                data: 1,
+                position: this.positions,
+            }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
+        });
+        dialogRef.afterClosed().subscribe(result => {
+            if(result) {
+                const confirmation = this._fuseConfirmationService.open({
+                    "title": "เปลี่ยนสถานะ",
+                    "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
+                    "icon": {
+                        "show": false,
+                        "name": "heroicons_outline:exclamation",
+                        "color": "warning"
+                    },
+                    "actions": {
+                        "confirm": {
+                            "show": true,
+                            "label": "ยืนยัน",
+                            "color": "primary"
+                        },
+                        "cancel": {
+                            "show": true,
+                            "label": "ยกเลิก"
+                        }
+                    },
+                    "dismissible": true
+                });
+        
+                // Subscribe to the confirmation dialog closed action
+                confirmation.afterClosed().subscribe((result) => {
+                    if (result === 'confirmed') {
+                        this.multiItems.map((item:any)=>{
+                            const reason = result
+                            const formValue = item
+                            const services = item.services.map(data => ({service_id: data.service_id}));
+                     
+                            this._service.updateStatus(formValue.id , this.status.value, reason,  services).subscribe({
+
+                                next: (resp: any) => {
+                                    this.multiItems = [];
+                                    this.isChecked1 = [];
+                                    this.isChecked2 = [];
+                                    const data =   {
+                                        users: this.employeeDep.filter(e => e.isSelected)
+                                    }
+                                    this.task = [
+                                        {
+                                            id: 1,
+                                            name: 'งานใหม่ / Todo',
+                                            detail: 'งานใหม่รอรับ',
+                                            status: 'Process',
+                                            task: []
+                                        },
+                                        {
+                                            id: 2,
+                                            name: 'กำลังดำเนินงาน',
+                                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                                            status: 'Waiting',
+                                            task: []
+                                        },
+                                        {
+                                            id: 3,
+                                            name: 'รอเข้ารับบริการ',
+                                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                                            status: 'Finish',
+                                            task: []
+                                        },
+                                        {
+                                            id: 4,
+                                            name: 'เสร็จสิ้น',
+                                            detail: '-',
+                                            status: 'Cancel',
+                                            task: []
+                                        },
+                                    ]
+                                    this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                                        const news = resp.data.news;
+                                        const all = resp.data.all;
+                                        // console.log(resp.data.all)
+                        
+                                        for (const item of news) {
+                                            if (item.status === 'New') {
+                                                this.task[0].task.push(item)
+                                            }
+                                        }
+                                        for (const item of all) {
+                                            if (item.status === 'Process') {
+                                                this.task[1].task.push(item)
+                                            }
+                                            else if (item.status === 'Waiting') {
+                                                this.task[2].task.push(item)
+                                            }
+                                            else if (item.status === 'Finish' || item.status === 'Cancel') {
+                                                this.task[3].task.push(item)
+                                            }
+                                        }
+                                        this._changeDetectorRef.detectChanges();
+                                    })
+                                },
+                                error: (err: any) => {
+                                    this._fuseConfirmationService.open({
+                                        "title": "กรุณาระบุข้อมูล",
+                                        "message": err.error.message,
+                                        "icon": {
+                                            "show": true,
+                                            "name": "heroicons_outline:exclamation",
+                                            "color": "warning"
+                                        },
+                                        "actions": {
+                                            "confirm": {
+                                                "show": false,
+                                                "label": "ยืนยัน",
+                                                "color": "primary"
+                                            },
+                                            "cancel": {
+                                                "show": false,
+                                                "label": "ยกเลิก",
             
+                                            }
+                                        },
+                                        "dismissible": true
+                                    });
+                                }
+                            })
+                        })
+                    
+                    }
+                })
             }
         })
     }

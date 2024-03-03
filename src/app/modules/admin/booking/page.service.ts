@@ -164,9 +164,9 @@ export class PageService {
             );
     }
 
-    updateStatus(id: any, status: any): Observable<any> {
+    updateStatus(id: any, status: any, reason: any, services: any): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/update_booking_status', {booking_id: id , status: status})
+            .post<any>(environment.baseURL + '/api/update_booking_status', {booking_id: id , status: status, reason: reason, services: services})
             .pipe(
                 tap((result) => {
                     this._data.next(result);

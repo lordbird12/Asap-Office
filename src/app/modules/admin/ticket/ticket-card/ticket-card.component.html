@@ -96,7 +96,7 @@
             <div class="flex flex-col mb-6" *ngIf="this.data.status === 'Edit'">
                 <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
                 <!-- main.component.html -->
-                <app-checkbox-service [items]="this.serviceData" [dataArray]="this.testData"></app-checkbox-service>
+                <app-checkbox-service [items]="this.serviceData" [dataArray]="this.serviceData1" (dataArrayChange)="handleDataArrayChange($event)"></app-checkbox-service>
                 <!-- <app-checkbox-service [items]="yourArray" [dataArray]="yourDataArray"></app-checkbox-service> -->
             </div>
 
@@ -164,7 +164,7 @@
                         <li class="flex flex-row min-h-20">
                             <div class="flex flex-col items-center">
                                 <div class="flex w-10 h-10 mr">
-                                    <img class="rounded-full" src="{{item.user.image}}" alt="">
+                                    <img class="rounded-full" src="{{item.user?.image}}" alt="">
                                 </div>
                                 <div class="w-0.5 h-full bg-[#EAECF0]"></div>
                             </div>
