@@ -38,8 +38,8 @@
                     </div>
                 </a>
             </div>
-            <div class="grid grid-cols-6 gap-8">
-                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#4F4F4F] p-3 h-24 cursor-pointer"
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8">
+                <div class="flex flex-col justify-between rounded-sm border-t-2 border-t-[#4F4F4F] p-3 h-24 cursor-pointer mr-1"
                     style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                     <div class="text-sm font-normal">ทั้งหมด</div>
                     <div class="text-xl font-semibold text-[#637381]">{{deps_totals('All').total | number}} ครั้ง</div>
@@ -47,7 +47,7 @@
                 <div class="relative">
                     <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="bank" name="fav_language" value="BANK">
                     <label for="bank">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                             <div class="text-sm font-normal">Bank</div>
                             <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Bank').total | number}} ครั้ง</div>
@@ -57,7 +57,7 @@
                 <div class="relative">
                     <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="hospital" name="fav_language" value="HOSPITAL">
                     <label for="hospital">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                             <div class="text-sm font-normal">Government / Hospital</div>
                             <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Government/Hospital').total | number}} ครั้ง</div>
@@ -67,7 +67,7 @@
                 <div class="relative">
                     <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="logistic" name="fav_language" value="LOGISTIC">
                     <label for="logistic">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                             <div class="text-sm font-normal">Logistic</div>
                             <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Logistic').total | number}} ครั้ง</div>
@@ -77,7 +77,7 @@
                 <div class="relative">
                     <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="general" name="fav_language" value="GENERAL">
                     <label for="general">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                             <div class="text-sm font-normal">General</div>
                             <div class="text-xl font-semibold text-[#637381]">{{deps_totals('General').total | number}} ครั้ง</div>
@@ -87,7 +87,7 @@
                 <div class="relative">
                     <input class="absolute top-2 right-2 h-6 w-6" type="radio" id="shot_term" name="fav_language" value="SHOT_TERM">
                     <label for="shot_term">
-                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer"
+                        <div class="flex flex-col radio-card justify-between rounded-sm border-t-2 border-t-[#979797] p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
                             <div class="text-sm font-normal">Short term / Replacment</div>
                             <div class="text-xl font-semibold text-[#637381]">{{deps_totals('Short Term/Replacement').total | number}} ครั้ง</div>
@@ -95,7 +95,7 @@
                     </label>
                 </div>
             </div>
-            <div class="grid grid-cols-2 divide-x">
+            <div class="grid grid-cols-1 sm:grid-cols-2 sm:divide-x">
                 <div class="flex flex-col">
                     <div class="text-base font-semibold mb-3">บริษัทในกลุ่มธนาคารที่เข้ารับบริการบ่อยสุด</div>
                     <div class="">
@@ -254,14 +254,14 @@
         </div>
     </div>
 
-    <div class="flex flex-row w-full max-w-screen-xl gap-8 mx-auto rounded-2xl mb-5">
-        <div class="flex flex-col flex-auto bg-card gap-8 w-1/2 p-8" style="box-shadow: 0px 0px 30px 0px #22222214;">
+    <div class="flex flex-col sm:flex-row w-full max-w-screen-xl gap-8 mx-auto rounded-2xl mb-5">
+        <div class="flex flex-col flex-auto bg-card gap-8 w-full sm:w-1/2 p-8" style="box-shadow: 0px 0px 30px 0px #22222214;">
             <div class="font-medium">ลูกค้าที่เข้ารับบริการตามกลุ่มบริษัท</div>
             <div class="">
                 <app-semi-circle [data]="data"></app-semi-circle>
             </div>
         </div>
-        <div class="flex flex-col flex-auto bg-card gap-8 w-1/2 p-8" style="box-shadow: 0px 0px 30px 0px #22222214;">
+        <div class="flex flex-col flex-auto bg-card gap-8 w-full sm:w-1/2 p-8" style="box-shadow: 0px 0px 30px 0px #22222214;">
             <div class="flex flex-row justify-between">
                 <div class="font-medium">ศูนย์บริการที่ลูกค้าเข้ารับบริการ</div>
                 <a [routerLink]="['center']" routerLinkActive="router-link-active">
