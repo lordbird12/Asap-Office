@@ -18,7 +18,3 @@ input[type="checkbox"]:checked ~ * .checkbox-card {
 mat-label {
     font:bold;
 }
-
-::ng-deep .mat-select-panel.example-long-panel { 
-    max-height: 500px;
-  }
