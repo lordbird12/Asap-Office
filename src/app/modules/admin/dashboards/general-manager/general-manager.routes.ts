@@ -9,9 +9,8 @@ export default [
         path     : '',
         component: GeneralManagerComponent,
         resolve  : {
-            data: () => {
-                return inject(GeneralManagerService).getSummary();
-            },
+            data: () => inject(GeneralManagerService).getSummary(),
+            department: () => inject(GeneralManagerService).department()
         },
     },
 ] as Routes;

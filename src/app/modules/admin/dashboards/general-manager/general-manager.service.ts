@@ -19,4 +19,13 @@ export class GeneralManagerService {
             );
     }
 
+    department() {
+        return this.http.get(environment.baseURL + '/api/get_department')
+            .pipe(
+                map((resp: any) => resp.data)
+            );
+    }
+
+    
+
 }
