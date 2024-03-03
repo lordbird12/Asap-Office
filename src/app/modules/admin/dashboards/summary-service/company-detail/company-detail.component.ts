@@ -12,54 +12,62 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PageService } from 'app/modules/admin/account/page.service';
+import { CompanyListService } from '../company-list/company-list.service';
 
 @Component({
-  selector: 'app-company-detail',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    FormsModule,
-    MatFormFieldModule,
-    NgClass,
-    MatInputModule,
-    TextFieldModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatTableModule,
-    DataTablesModule,
-    RouterLink,
-    CenterChartComponent,
-    DataTablesModule,
-  ],
-  templateUrl: './company-detail.component.html',
-  styleUrls: ['./company-detail.component.scss']
+    selector: 'app-company-detail',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatIconModule,
+        FormsModule,
+        MatFormFieldModule,
+        NgClass,
+        MatInputModule,
+        TextFieldModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatTableModule,
+        DataTablesModule,
+        RouterLink,
+        CenterChartComponent,
+        DataTablesModule,
+    ],
+    templateUrl: './company-detail.component.html',
+    styleUrls: ['./company-detail.component.scss']
 })
 export class CompanyDetailComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     typeScore = [56, 40, 38, 28, 18, 0, 0, 0];
     dtOptions: DataTables.Settings = {};
     dataRow: any[] = [];
+    data = null;
+
+    company_id: number;
 
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _service: PageService,
-        private _router: Router
-    ) {}
+        private _service: CompanyListService,
+        private _router: Router,
+        private activatedRoute: ActivatedRoute,
+    ) {
+        this.company_id = this.activatedRoute.snapshot.params.company_id;
+    }
 
     ngOnInit(): void {
         this.loadTable();
+        this.getDashboardSummaryByComp();
     }
 
     calPerStyly(score: number) {
@@ -75,9 +83,28 @@ export class CompanyDetailComponent implements OnInit {
         return percentages;
     }
 
+    getDashboardSummaryByComp() {
+        this._service
+            .getDashboardSummaryByComp(this.company_id)
+            .subscribe((resp: any) => {
+                this.data = resp;
+
+                this.typeScore = [
+                    this.top_services('เปลี่ยนยาง'),
+                    this.top_services('เปลี่ยนแบตเตอรี่'),
+                    this.top_services('เช็คระยะ'),
+                    this.top_services('เช็คระบบแอร์'),
+                    this.top_services('เช็คระบบเบรค'),
+                    this.top_services('เช็คระบบไฟ'),
+                    this.top_services('เช็คช่วงล่าง'),
+                    this.top_services('อื่น (โปรดระบุ)'),
+                ];
+            });
+    }
+
     loadTable(): void {
         const that = this;
-        this.dtOptions = {
+        that.dtOptions = {
             pagingType: 'full_numbers',
             pageLength: 25,
             serverSide: true,
@@ -86,9 +113,9 @@ export class CompanyDetailComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.type = 'Good';
+                dataTablesParameters.client_id = this.company_id;
                 that._service
-                    .getPage(dataTablesParameters)
+                    .carCompPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
 
@@ -108,5 +135,9 @@ export class CompanyDetailComponent implements OnInit {
             //     { data: 'created_at' },
             // ],
         };
+    }
+
+    top_services(data: string): number {
+        return +this.data.top_services.find(e => e.name == data).total;
     }
 }

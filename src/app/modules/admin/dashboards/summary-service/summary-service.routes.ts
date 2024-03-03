@@ -16,11 +16,11 @@ export default [
         }
     },
     {
-        path: 'bank',
+        path: ':id',
         component: CompanyListComponent
     },
     {
-        path: 'bank/:id',
+        path: ':id/:company_id',
         component: CompanyDetailComponent
     },
     {

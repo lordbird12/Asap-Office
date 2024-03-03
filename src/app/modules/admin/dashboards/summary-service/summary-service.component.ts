@@ -9,7 +9,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { SummaryServiceService } from './summary-service.service';
 
 export type ChartOptions = {
@@ -23,15 +23,18 @@ export type ChartOptions = {
 @Component({
     selector: 'app-summary-service',
     standalone: true,
-    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, RouterLink, ReactiveFormsModule],
+    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, RouterLink, ReactiveFormsModule, FormsModule],
     templateUrl: './summary-service.component.html',
-    styleUrls: ['./summary-service.component.scss']
+    styleUrls: ['./summary-service.component.scss'],
+    // providers: [NgModel]
 })
 export class SummaryServiceComponent implements OnInit {
 
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
+
+    department = 1;
 
     typeScore = [];
     form: FormGroup;
@@ -116,10 +119,6 @@ export class SummaryServiceComponent implements OnInit {
         const percentages: number = (this.typeScore[index] / total) * 100;
 
         return percentages;
-    }
-
-    deps_totals(data: string): {name:string, total: number} {
-        return this.data.deps_totals.find(e => e.name == data);
     }
 
     top_services(data: string): number {

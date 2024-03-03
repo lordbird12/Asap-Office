@@ -33,7 +33,7 @@
                 <div class="flex flex-col">
                     <div class="text-base font-semibold mb-3">ศูนย์บริการที่ลูกค้าเข้ารับบริการ</div>
                     <div class="">
-                        <app-center-chart></app-center-chart>
+                        <app-center-chart *ngIf="data" [data]="data"></app-center-chart>
                     </div>
                 </div>
                 <div class="flex flex-col pl-8">
@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="flex">เปลี่ยนยาง</div>
                                     </div>
-                                    <div class="flex">56</div>
+                                    <div class="flex">{{typeScore[0] | number}}</div>
                                 </div>
                             </li>
 
@@ -101,7 +101,7 @@
                                         </div>
                                         <div class="flex">เปลี่ยนแบตเตอรี่</div>
                                     </div>
-                                    <div class="flex">40</div>
+                                    <div class="flex">{{typeScore[1] | number}}</div>
                                 </div>
                             </li>
 
@@ -114,7 +114,7 @@
                                         </div>
                                         <div class="flex">เช็คระยะ</div>
                                     </div>
-                                    <div class="flex">38</div>
+                                    <div class="flex">{{typeScore[2] | number}}</div>
                                 </div>
                             </li>
 
@@ -127,7 +127,7 @@
                                         </div>
                                         <div class="flex">เช็คระบบแอร์</div>
                                     </div>
-                                    <div class="flex">28</div>
+                                    <div class="flex">{{typeScore[3] | number}}</div>
                                 </div>
                             </li>
 
@@ -140,7 +140,7 @@
                                         </div>
                                         <div class="flex">เช็คระบบเบรค</div>
                                     </div>
-                                    <div class="flex">18</div>
+                                    <div class="flex">{{typeScore[4] | number}}</div>
                                 </div>
                             </li>
 
@@ -153,7 +153,7 @@
                                         </div>
                                         <div class="flex">เช็คระบบไฟ</div>
                                     </div>
-                                    <div class="flex">0</div>
+                                    <div class="flex">{{typeScore[5] | number}}</div>
                                 </div>
                             </li>
 
@@ -166,7 +166,7 @@
                                         </div>
                                         <div class="flex">เช็คช่วงล่าง</div>
                                     </div>
-                                    <div class="flex">0</div>
+                                    <div class="flex">{{typeScore[6] | number}}</div>
                                 </div>
                             </li>
 
@@ -179,7 +179,7 @@
                                         </div>
                                         <div class="flex">อื่นๆ</div>
                                     </div>
-                                    <div class="flex">0</div>
+                                    <div class="flex">{{typeScore[7] | number}}</div>
                                 </div>
                             </li>
                         </ul>
@@ -213,22 +213,22 @@
                     <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
-                                <th>ทะเบียนรถ</th>
-                                <th>วันเวลา</th>
-                                <th>ไมล์</th>
-                                <th>กิจกรรม</th>
-                                <th>ศูนย์บริการ</th>
-                                <th>อายุรถ <span class="text-sm font-light">ตั้งแต่วันนำเข้าระบบ - วันที่เข้ารับบริการ</span></th>
+                                <th class="w-auto">ทะเบียนรถ</th>
+                                <th class="w-auto">วันเวลา</th>
+                                <th class="w-auto">ไมล์</th>
+                                <th class="w-auto">กิจกรรม</th>
+                                <th class="w-auto">ศูนย์บริการ</th>
+                                <th class="w-auto">อายุรถ <span class="text-sm font-light">ตั้งแต่วันนำเข้าระบบ - วันที่เข้ารับบริการ</span></th>
                             </tr>
                         </thead>
                         <tbody *ngIf="dataRow?.length != 0">
                             <tr *ngFor="let item of dataRow; let i = index">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>{{item.license_plate}}</td>
+                                <td>{{item.created_at | date:'dd/MM/YYYY HH:mm'}}</td>
+                                <td>{{item.mile ?? 0}}</td>
+                                <td>{{item.status}}</td>
+                                <td>{{item.service_center}}</td>
+                                <td>{{item.age}}</td>
                             </tr>
                         </tbody>
 
