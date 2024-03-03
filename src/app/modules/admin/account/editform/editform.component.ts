@@ -189,7 +189,7 @@ export class EditFormComponent implements OnInit {
                         }
                     }
                 );
-                this._service.updatecar(formData).subscribe({
+                this._service.updateuser(formData).subscribe({
                     next: (resp: any) => {
                         this.showFlashMessage('success');
                     },

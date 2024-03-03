@@ -1,7 +1,8 @@
 <form [formGroup]="addForm" class="w-full">
     <div class="flex flex-col flex-auto min-w-0">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
             <div class="flex-1 flemin-w-0">
                 <!-- Title -->
                 <div class="flex flex-row mt-2 justify-start">
@@ -24,21 +25,30 @@
                         </ng-template>
                         <ng-template matTabContent>
                             <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-3">
-                                <form class="bg-card rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-2 mb-2 my-2" style="height: min-content; width: auto;" [formGroup]="addForm">
+                                <form class="bg-card rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-2 mb-2 my-2"
+                                    style="height: min-content; width: auto;" [formGroup]="addForm">
                                     <div class="-mx-3 md:flex mb-6 justify-center items-center">
                                         <div class="row-span-6">
-                                            <ngx-dropzone class="rounded-full" style="width: 180px; height: 180px;" (change)="onSelect($event)">
+                                            <ngx-dropzone class="rounded-full" style="width: 180px; height: 180px;"
+                                                (change)="onSelect($event)">
                                                 <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
                                                 <div *ngFor="let f of files">
-                                                    <ngx-dropzone-image-preview class="rounded-full" [file]="f" [removable]="true" (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                                                    <ngx-dropzone-image-preview class="rounded-full" [file]="f"
+                                                        [removable]="true" (removed)="onRemove(f)"
+                                                        style="border-radius: 50%; width: 100%; height: 100%; object-fit: cover;"></ngx-dropzone-image-preview>
                                                 </div>
                                             </ngx-dropzone>
-                                            <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png, <br> สูงสุดไม่เกิน 3.1 MB</div>
+
+                                            <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png,
+                                                <br> สูงสุดไม่เกิน 3.1 MB
+                                            </div>
                                         </div>
                                     </div>
 
                                 </form>
-                                <form class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="addForm">
+                                <form
+                                    class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+                                    [formGroup]="addForm">
                                     <div class="flex">
                                         <div class="md:w-full px-3 mb-6 md:mb-0 flex-initial w-14 h-14">
                                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
@@ -80,34 +90,16 @@
 
                                     <div class="md:w-full px-3 mb-6 md:mb-0">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class=" font-light">ตำแหน่ง</mat-label>
-                                            <mat-select formControlName="position_id">
-                                                <mat-option *ngFor="let item of this.positions;" value="{{item.id}}">
-                                                    {{item.name}}
-                                                </mat-option>
-                                            </mat-select>
+                                            <mat-label class="font-light">ตำแหน่ง</mat-label>
+                                            <input matInput formControlName="positionName" readonly>
                                         </mat-form-field>
                                     </div>
 
                                     <div class="md:w-full px-3 mb-6 md:mb-0">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class=" font-light">ตำแหน่ง</mat-label>
-                                            <mat-select formControlName="position_id">
-                                                <mat-option *ngFor="let item of this.positions;" value="{{item.id}}">
-                                                    {{item.name}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-
-                                    <div class="md:w-full px-3 mb-6 md:mb-0">
-                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class=" font-light">ตำแหน่ง</mat-label>
-                                            <mat-select formControlName="position_id">
-                                                <mat-option *ngFor="let item of this.positions;" value="{{item.id}}">
-                                                    {{item.name}}
-                                                </mat-option>
-                                            </mat-select>
+                                            <mat-label class="font-light">แผนก</mat-label>
+                                            <input matInput formControlName="departmentName" readonly
+                                                class="gray-input">
                                         </mat-form-field>
                                     </div>
 
@@ -121,21 +113,22 @@
                             <span>เปลี่ยนแปลงรหัสผ่าน</span>
                         </ng-template>
                         <ng-template matTabContent>
-                            <form class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2" [formGroup]="passwordForm">
+                            <form
+                                class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+                                [formGroup]="passwordForm">
 
                                 <div class="flex">
                                     <div class="md:w-full px-3 mb-6 md:mb-6 flex-initial w-14 h-14">
                                         <mat-form-field class="w-full">
                                             <mat-label class=" font-light">รหัสผ่านเดิม</mat-label>
-                                            <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
-                                            <button mat-icon-button type="button" (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'" matSuffix>
-                                                <mat-icon
-                                                    class="icon-size-5"
-                                                    *ngIf="passwordField.type === 'password'"
+                                            <input id="old_password" matInput type="password"
+                                                [formControlName]="'old_password'" #passwordField1>
+                                            <button mat-icon-button type="button"
+                                                (click)="passwordField1.type === 'password' ? passwordField1.type = 'text' : passwordField1.type = 'password'"
+                                                matSuffix>
+                                                <mat-icon class="icon-size-5" *ngIf="passwordField1.type === 'password'"
                                                     [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                                <mat-icon
-                                                    class="icon-size-5"
-                                                    *ngIf="passwordField.type === 'text'"
+                                                <mat-icon class="icon-size-5" *ngIf="passwordField1.type === 'text'"
                                                     [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                                             </button>
                                             <mat-error>
@@ -149,15 +142,14 @@
                                     <div class="md:w-full px-3 mb-6 md:mb-6 flex-initial w-14 h-14">
                                         <mat-form-field class="w-full">
                                             <mat-label class=" font-light">รหัสผ่านใหม่</mat-label>
-                                            <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
-                                            <button mat-icon-button type="button" (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'" matSuffix>
-                                                <mat-icon
-                                                    class="icon-size-5"
-                                                    *ngIf="passwordField.type === 'password'"
+                                            <input id="password" matInput type="password" [formControlName]="'password'"
+                                                #passwordField2>
+                                            <button mat-icon-button type="button"
+                                                (click)="passwordField2.type === 'password' ? passwordField2.type = 'text' : passwordField2.type = 'password'"
+                                                matSuffix>
+                                                <mat-icon class="icon-size-5" *ngIf="passwordField2.type === 'password'"
                                                     [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                                <mat-icon
-                                                    class="icon-size-5"
-                                                    *ngIf="passwordField.type === 'text'"
+                                                <mat-icon class="icon-size-5" *ngIf="passwordField2.type === 'text'"
                                                     [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                                             </button>
                                             <mat-error>
@@ -171,15 +163,14 @@
                                     <div class="md:w-full px-3 mb-6 md:mb-6 flex-initial w-14 h-14">
                                         <mat-form-field class="w-full">
                                             <mat-label class=" font-light">ยืนยันรหัสผ่านใหม่</mat-label>
-                                            <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
-                                            <button mat-icon-button type="button" (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'" matSuffix>
-                                                <mat-icon
-                                                    class="icon-size-5"
-                                                    *ngIf="passwordField.type === 'password'"
+                                            <input id="password" matInput type="password" [formControlName]="'password'"
+                                                #passwordField3>
+                                            <button mat-icon-button type="button"
+                                                (click)="passwordField3.type === 'password' ? passwordField3.type = 'text' : passwordField3.type = 'password'"
+                                                matSuffix>
+                                                <mat-icon class="icon-size-5" *ngIf="passwordField3.type === 'password'"
                                                     [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                                <mat-icon
-                                                    class="icon-size-5"
-                                                    *ngIf="passwordField.type === 'text'"
+                                                <mat-icon class="icon-size-5" *ngIf="passwordField3.type === 'text'"
                                                     [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                                             </button>
                                             <mat-error>
@@ -212,13 +203,15 @@
                         ยกเลิก
                     </div>
                 </button> -->
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
+                <!-- <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
+                    style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
                     <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
                         ยกเลิก
                     </button>
-                </div>
+                </div> -->
                 <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'"
+                        (click)="onSaveClick()">
                         <div class="font-light">
                             บันทึก
                         </div>
