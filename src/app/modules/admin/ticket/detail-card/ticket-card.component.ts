@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -37,6 +37,7 @@ export class DetailTicketComponent implements OnInit {
         private dialogRef: MatDialogRef<DetailTicketComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _fuseConfirmationService: FuseConfirmationService,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
 
         console.log('data', this.data)
@@ -173,5 +174,8 @@ export class DetailTicketComponent implements OnInit {
           return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
         }
     }
-
+    sortBy(property: string) {
+        this.activities.reverse();
+        this._changeDetectorRef.markForCheck();
+      }
 }

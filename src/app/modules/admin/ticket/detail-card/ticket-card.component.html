@@ -86,7 +86,7 @@
         <div class="flex flex-col">
             <div class="flex flex-row justify-between mb-6">
                 <mat-label class="font-bold">Activity</mat-label>
-                <div class="flex flex-row cursor-pointer">
+                <div class="flex flex-row cursor-pointer" (click)="sortBy('created_at')">
                     <img class="w-5 h-5" src="assets/images/sort-ascending.png" alt="">
                     <h1 class="text-red-500">
                         เรียงจากหน้าใหม่ไปเก่า</h1>

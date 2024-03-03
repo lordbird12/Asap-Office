@@ -4,13 +4,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-checkbox-topic',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule],
+  imports: [CommonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule,ReactiveFormsModule],
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss']
 })
@@ -33,6 +33,7 @@ export class CheckboxTopicComponent implements OnInit{
   }
 
   isChecked(item: any): boolean {
+    console.log(item)
     return this.dataArray.includes(item);
     // return this.dataArray.some(dataItem => dataItem.id === item);
   }
