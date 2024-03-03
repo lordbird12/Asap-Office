@@ -34,7 +34,8 @@
                     </div>
                 </div>
                 <div class="flex flex-col min-w-0 ml-4" (click)="toggleCardVisibility()">
-                    <mat-icon class="font-bold" svgIcon="heroicons_outline:chevron-down"></mat-icon>
+                    <mat-icon class="font-bold"
+                        [svgIcon]="isCardVisible ? 'heroicons_outline:chevron-up' : 'heroicons_outline:chevron-down'"></mat-icon>
                 </div>
 
             </div>
