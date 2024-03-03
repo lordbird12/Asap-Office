@@ -1,0 +1,30 @@
+<div class="flex flex-row justify-between">
+    <div class="font-medium">สถิติเคสและประสิทธิภาพการทำงานของพนักงาน</div>
+</div>
+<div class="flex flex-row">
+    <div class="w-4/5 pr-8">
+        <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis"
+            [dataLabels]="chartOptions.dataLabels"
+            [grid]="chartOptions.grid"
+            [stroke]="chartOptions.stroke"
+            [title]="chartOptions.title"
+        ></apx-chart>
+    </div>
+    <div class="flex flex-col w-1/5 justify-between">
+        <div class="block">
+            <div class="text-sm font-normal">ระยะเวลาเฉลี่ยในการรับเคส</div>
+            <div class="text-4xl font-bold">1m</div>
+        </div>
+        <div class="block">
+            <div class="text-sm font-normal">ระยะเวลาเฉลี่ยในการปิดงาน</div>
+            <div class="text-4xl font-bold">4 วัน</div>
+        </div>
+        <div class="block">
+            <div class="text-sm font-normal">ระยะเวลาเฉลี่ยในการโทร</div>
+            <div class="text-4xl font-bold">4m:36s</div>
+        </div>
+    </div>
+</div>
