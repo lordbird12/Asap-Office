@@ -18,6 +18,7 @@ import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, NgApexchartsModule } from 'ng-apexcharts';
 import { CenterListService } from '../center-list/center-list.service';
+import { environment } from 'environments/environment.development';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -177,5 +178,9 @@ export class CenterDetailComponent implements OnInit {
 
     get total_service() {
         return this.data.top_services.reduce((total, curr) => total + +curr.total, 0);
+    }
+
+    exportExcel() {
+        window.open(environment.baseURL + '/api/export_book_activity_service_center/' + this.id);
     }
 }
