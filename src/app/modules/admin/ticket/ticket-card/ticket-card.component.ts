@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DropdownTimeComponent } from 'app/shared/dropdown-time/dropdown-time.component';
 import { PageService } from '../page.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -15,6 +15,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import moment from 'moment';
 import { CheckboxServiceComponent } from 'app/shared/checkbox-service/checkbox.component';
 import { DateDiffPipe } from 'app/date-diff-pipe.pipe';
+import { CancelDialogComponent } from '../cancel-dialog/dailog.component';
 
 
 @Component({
@@ -38,7 +39,8 @@ export class TicketCardComponent implements OnInit{
     productData: any[] = [];
     categoryData: any[] = [];
     productFilter: any[] = [];
-    form: FormGroup
+    form: FormGroup;
+    service: { service_id: number }[] = [];
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<TicketCardComponent>,
@@ -46,6 +48,7 @@ export class TicketCardComponent implements OnInit{
         private _fb: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
+        private dialog: MatDialog,
     ) 
     {
         // console.log(this.data)
@@ -73,12 +76,12 @@ export class TicketCardComponent implements OnInit{
         })
         this._service.getCustomer().subscribe((resp: any)=>{
            this.clientData = resp.data;
-            
         })
     }
     yourArray: string[] = ['Item 1', 'Item 2', 'Item 3']; // ตัวอย่างของ Array
     yourDataArray: string[] = ['Item 2']; // ตัวอย่างของข้อมูลที่มีอยู่
     onChangeClient(event: any) {
+
         let formvalue = this.productData.find(item =>  item.car_id === event.value)
         this.form.patchValue({
             car_id:formvalue.car_id,
@@ -92,6 +95,7 @@ export class TicketCardComponent implements OnInit{
 
     }
     testData: any[] = []
+    serviceData1: any[] = []
      ngOnInit(): void {
         this.generateTimeOptions();
         // this.GetCar();
@@ -99,9 +103,9 @@ export class TicketCardComponent implements OnInit{
             this.serviceData = resp.data;
          })
         if(this.data.value && this.productData) {
-                console.log('data', this.data.value)
             this.testData = this.data.value.activitys;
-            console.log(this.testData)
+            this.serviceData1 = this.data.value.services.map(item => item.service);
+            console.log('testData',this.testData)
             this.statusData.setValue(this.data.value.status)
             this.form.patchValue({
                 ...this.data.value,
@@ -177,65 +181,71 @@ export class TicketCardComponent implements OnInit{
         this.statusData.setValue(event.value)
       }
       onSaveClick(): void {
-        if (this.data) {
-            const confirmation = this._fuseConfirmationService.open({
-                "title": "เปลี่ยนสถานะ",
-                "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
-                "icon": {
-                    "show": false,
-                    "name": "heroicons_outline:exclamation",
-                    "color": "warning"
-                },
-                "actions": {
-                    "confirm": {
-                        "show": true,
-                        "label": "ยืนยัน",
-                        "color": "primary"
+        if (this.data.value) {
+            if(this.statusData.value === 'Cancel') {
+                this.CancelStatus()
+            } else {
+                const confirmation = this._fuseConfirmationService.open({
+                    "title": "เปลี่ยนสถานะ",
+                    "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
+                    "icon": {
+                        "show": false,
+                        "name": "heroicons_outline:exclamation",
+                        "color": "warning"
                     },
-                    "cancel": {
-                        "show": true,
-                        "label": "ยกเลิก"
-                    }
-                },
-                "dismissible": true
-            });
-    
-            // Subscribe to the confirmation dialog closed action
-            confirmation.afterClosed().subscribe((result) => {
-                if (result === 'confirmed') {
-                  
-                    this._service.updateStatus(this.data.value.id , this.statusData.value).subscribe({
-                        next: (resp: any) => {
-                            this.dialogRef.close(resp);
+                    "actions": {
+                        "confirm": {
+                            "show": true,
+                            "label": "ยืนยัน",
+                            "color": "primary"
                         },
-                        error: (err: any) => {
-                            this.form.enable();
-                            this._fuseConfirmationService.open({
-                                "title": "กรุณาระบุข้อมูล",
-                                "message": err.error.message,
-                                "icon": {
-                                    "show": true,
-                                    "name": "heroicons_outline:exclamation",
-                                    "color": "warning"
-                                },
-                                "actions": {
-                                    "confirm": {
-                                        "show": false,
-                                        "label": "ยืนยัน",
-                                        "color": "primary"
-                                    },
-                                    "cancel": {
-                                        "show": false,
-                                        "label": "ยกเลิก",
-    
-                                    }
-                                },
-                                "dismissible": true
-                            });
+                        "cancel": {
+                            "show": true,
+                            "label": "ยกเลิก"
                         }
-                    })
-                }
-            })
+                    },
+                    "dismissible": true
+                });
+        
+                // Subscribe to the confirmation dialog closed action
+                confirmation.afterClosed().subscribe((result) => {
+                    if (result === 'confirmed') {
+                        const reason = '';
+                        this.service = this.yourArray1.map(item => ({service_id: item.id}))
+                        this._service.updateStatus(this.data.value.id , this.statusData.value,reason, this.service).subscribe({
+                            next: (resp: any) => {
+                                this.dialogRef.close(resp);
+                            },
+                            error: (err: any) => {
+                                this.form.enable();
+                                this._fuseConfirmationService.open({
+                                    "title": "กรุณาระบุข้อมูล",
+                                    "message": err.error.message,
+                                    "icon": {
+                                        "show": true,
+                                        "name": "heroicons_outline:exclamation",
+                                        "color": "warning"
+                                    },
+                                    "actions": {
+                                        "confirm": {
+                                            "show": false,
+                                            "label": "ยืนยัน",
+                                            "color": "primary"
+                                        },
+                                        "cancel": {
+                                            "show": false,
+                                            "label": "ยกเลิก",
+        
+                                        }
+                                    },
+                                    "dismissible": true
+                                });
+                            }
+                        })
+                    }
+                })
+            }
+
         } else {
             const confirmation = this._fuseConfirmationService.open({
                 "title": "เพิ่มข้อมูล",
@@ -333,4 +343,84 @@ export class TicketCardComponent implements OnInit{
         this.testData.reverse();
         this._changeDetectorRef.markForCheck();
       }
+
+      yourArray1: any[] = [];
+
+      handleDataArrayChange(updatedArray: any[]): void {
+        // Handle the updated dataArray from child component
+        this.yourArray1 = updatedArray;
+        console.log('yourArray1',this.yourArray1)
+      }
+
+      CancelStatus() {
+        const dialogRef = this.dialog.open(CancelDialogComponent, {
+            width: '500px', // กำหนดความกว้างของ Dialog
+            data: {
+                data: 1,
+            }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
+        });
+        dialogRef.afterClosed().subscribe(result1 => {
+            if(result1) {
+                const confirmation = this._fuseConfirmationService.open({
+                    "title": "เปลี่ยนสถานะ",
+                    "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
+                    "icon": {
+                        "show": false,
+                        "name": "heroicons_outline:exclamation",
+                        "color": "warning"
+                    },
+                    "actions": {
+                        "confirm": {
+                            "show": true,
+                            "label": "ยืนยัน",
+                            "color": "primary"
+                        },
+                        "cancel": {
+                            "show": true,
+                            "label": "ยกเลิก"
+                        }
+                    },
+                    "dismissible": true
+                });
+        
+                // Subscribe to the confirmation dialog closed action
+                confirmation.afterClosed().subscribe((result) => {
+                    if (result === 'confirmed') {
+                        const reason = result1
+                        this.service = this.yourArray1.map(item => ({service_id: item.id}))
+                        this._service.updateStatus(this.data.value.id , this.statusData.value, reason, this.service).subscribe({
+                            next: (resp: any) => {
+                                this.dialogRef.close(resp);
+                            },
+                            error: (err: any) => {
+                                this.form.enable();
+                                this._fuseConfirmationService.open({
+                                    "title": "กรุณาระบุข้อมูล",
+                                    "message": err.error.message,
+                                    "icon": {
+                                        "show": true,
+                                        "name": "heroicons_outline:exclamation",
+                                        "color": "warning"
+                                    },
+                                    "actions": {
+                                        "confirm": {
+                                            "show": false,
+                                            "label": "ยืนยัน",
+                                            "color": "primary"
+                                        },
+                                        "cancel": {
+                                            "show": false,
+                                            "label": "ยกเลิก",
+        
+                                        }
+                                    },
+                                    "dismissible": true
+                                });
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
 }
