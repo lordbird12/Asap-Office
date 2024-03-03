@@ -67,6 +67,6 @@ export class CenterChartComponent implements OnInit {
     }
 
     mostCenter() {
-        return this.data.most_service_centers.reduce((max, obj) => +obj.total > +max.total ? obj : max, this.data.most_service_centers[0]);
+        return this.data?.most_service_centers.reduce((max, obj) => +obj.total > +max.total ? obj : max, this.data?.most_service_centers[0]);
     }
 }

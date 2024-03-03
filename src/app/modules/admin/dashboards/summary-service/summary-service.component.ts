@@ -34,7 +34,7 @@ export class SummaryServiceComponent implements OnInit {
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
 
-    department = 1;
+    department: number = 1;
 
     typeScore = [];
     form: FormGroup;
@@ -123,5 +123,9 @@ export class SummaryServiceComponent implements OnInit {
 
     top_services(data: string): number {
         return +this.data.top_services.find(e => e.name == data).total;
+    }
+
+    get getDepartment() {
+        return this.data.deps_totals.find(e => e.id == this.department)
     }
 }

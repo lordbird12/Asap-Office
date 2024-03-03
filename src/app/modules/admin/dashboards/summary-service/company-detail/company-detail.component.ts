@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -16,7 +16,6 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
-import { PageService } from 'app/modules/admin/account/page.service';
 import { CompanyListService } from '../company-list/company-list.service';
 
 @Component({
@@ -54,6 +53,10 @@ export class CompanyDetailComponent implements OnInit {
     data = null;
 
     company_id: number;
+    form: FormGroup;
+
+    dapartmentName: string = ""
+    companyName: string = ""
 
     constructor(
         private dialog: MatDialog,
@@ -61,13 +64,31 @@ export class CompanyDetailComponent implements OnInit {
         private _service: CompanyListService,
         private _router: Router,
         private activatedRoute: ActivatedRoute,
+        private fb: FormBuilder,
     ) {
         this.company_id = this.activatedRoute.snapshot.params.company_id;
+
+        this.dapartmentName = this.activatedRoute.snapshot.queryParams.name;
+        this.companyName = this.activatedRoute.snapshot.queryParams.company;
+
+        this.form = fb.group({
+            startDate: [],
+            endDate: []
+        })
     }
 
     ngOnInit(): void {
         this.loadTable();
         this.getDashboardSummaryByComp();
+
+        this.form.valueChanges.subscribe(
+            (data) => {
+                if (data.startDate && data.endDate) {
+                    this.loadTable();
+                    this.getDashboardSummaryByComp();
+                }
+            }
+        )
     }
 
     calPerStyly(score: number) {

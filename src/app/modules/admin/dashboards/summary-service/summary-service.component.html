@@ -27,7 +27,7 @@
         <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
             <div class="flex flex-row justify-between">
                 <div class="font-medium">วิเคราะห์การเข้ารับบริการ</div>
-                <a [routerLink]="[department]" routerLinkActive="router-link-active">
+                <a [routerLink]="[department]" [queryParams]="{name: getDepartment.name}" routerLinkActive="router-link-active">
                     <div class="flex flex-row gap-1 items-center">
                         <div class="font-medium text-[#FF4849]">ดูเพิ่มเติม</div>
                         <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">

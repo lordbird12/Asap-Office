@@ -8,16 +8,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { KpiChartComponent } from './kpi-chart/kpi-chart.component';
 import { ComplacenceChartComponent } from './complacence-chart/complacence-chart.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GeneralManagerService } from './general-manager.service';
 
 @Component({
-  selector: 'app-general-manager',
-  standalone: true,
-  imports: [CommonModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatButtonModule, KpiChartComponent, ComplacenceChartComponent, ReactiveFormsModule],
-  templateUrl: './general-manager.component.html',
-  styleUrls: ['./general-manager.component.scss']
+    selector: 'app-general-manager',
+    standalone: true,
+    imports: [CommonModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatDatepickerModule,
+        RouterLink,
+        MatIconModule, MatButtonModule, KpiChartComponent, ComplacenceChartComponent, ReactiveFormsModule],
+    templateUrl: './general-manager.component.html',
+    styleUrls: ['./general-manager.component.scss']
 })
 export class GeneralManagerComponent implements OnInit {
 
@@ -42,7 +44,7 @@ export class GeneralManagerComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder,
         private service: GeneralManagerService,
-    ){}
+    ) { }
 
     ngOnInit(): void {
         this.data = this.activatedRoute.snapshot.data.data;

@@ -52,6 +52,8 @@ export class CompanyListComponent implements OnInit {
 
     id: number;
 
+    departmentName: string = "";
+
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -59,7 +61,9 @@ export class CompanyListComponent implements OnInit {
         private _router: Router,
         private activatedRoute: ActivatedRoute,
     ) {
-        this.id = activatedRoute.snapshot.params.id
+        this.id = this.activatedRoute.snapshot.params.id;
+        this.departmentName = this.activatedRoute.snapshot.queryParams.name;
+
     }
 
     ngOnInit(): void {
