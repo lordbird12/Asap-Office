@@ -164,8 +164,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                     else if (item.status === 'Waiting') {
                         this.task[2].task.push(item)
                     }
-                    else if (item.status === 'Finish' || item.status === 'Cancel') {
+                    else if (item.status === 'Finish') {
                         this.task[3].task.push(item)
+                    }
+                    else if (item.status === 'Cancel' ) {
+                        this.task[0].task.push(item)
                     }
                 }
                 this._changeDetectorRef.detectChanges();
@@ -444,8 +447,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                             else if (item.status === 'Waiting') {
                                 this.task[2].task.push(item)
                             }
-                            else if (item.status === 'Finish' || item.status === 'Cancel') {
+                            else if (item.status === 'Finish') {
                                 this.task[3].task.push(item)
+                            }
+                            else if (item.status === 'Cancel' ) {
+                                this.task[0].task.push(item)
                             }
                         }
                         this._changeDetectorRef.detectChanges();
@@ -521,8 +527,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Waiting') {
                             this.task[2].task.push(item)
                         }
-                        else if (item.status === 'Finish' || item.status === 'Cancel') {
+                        else if (item.status === 'Finish' ) {
                             this.task[3].task.push(item)
+                        }
+                        else if (item.status === 'Cancel' ) {
+                            this.task[0].task.push(item)
                         }
                     }
                     this._changeDetectorRef.detectChanges();
@@ -681,8 +690,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                                         else if (item.status === 'Waiting') {
                                             this.task[2].task.push(item)
                                         }
-                                        else if (item.status === 'Finish' || item.status === 'Cancel') {
+                                        else if (item.status === 'Finish') {
                                             this.task[3].task.push(item)
+                                        }
+                                        else if (item.status === 'Cancel' ) {
+                                            this.task[0].task.push(item)
                                         }
                                     }
                                     this._changeDetectorRef.detectChanges();
@@ -817,8 +829,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                                             else if (item.status === 'Waiting') {
                                                 this.task[2].task.push(item)
                                             }
-                                            else if (item.status === 'Finish' || item.status === 'Cancel') {
+                                            else if (item.status === 'Finish') {
                                                 this.task[3].task.push(item)
+                                            }
+                                            else if (item.status === 'Cancel' ) {
+                                                this.task[0].task.push(item)
                                             }
                                         }
                                         this._changeDetectorRef.detectChanges();

@@ -21,13 +21,13 @@ import { CancelDialogComponent } from '../cancel-dialog/dailog.component';
 @Component({
     selector: 'app-ticket-card',
     standalone: true,
-    imports: [CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule,CheckboxServiceComponent],
+    imports: [CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule, CheckboxServiceComponent],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss'],
 
-    
+
 })
-export class TicketCardComponent implements OnInit{
+export class TicketCardComponent implements OnInit {
     serviceData: any[] = [];
     serviceCenterData: any[] = [];
     clientData: any[] = [];
@@ -49,8 +49,7 @@ export class TicketCardComponent implements OnInit{
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog,
-    ) 
-    {
+    ) {
         // console.log(this.data)
         this.form = this._fb.group({
             client_id: '',
@@ -63,28 +62,29 @@ export class TicketCardComponent implements OnInit{
             time: '',
             company: '',
             image: '',
-            
+            note: '',
+
             services: this._fb.array([])
         })
 
-        this._service.getCar().subscribe((resp: any)=>{
+        this._service.getCar().subscribe((resp: any) => {
             this.productData = resp.data;
-         })
-        this._service.getServiceCenter().subscribe((resp: any)=>{
-           this.serviceCenterData = resp.data;
-            
         })
-        this._service.getCustomer().subscribe((resp: any)=>{
-           this.clientData = resp.data;
+        this._service.getServiceCenter().subscribe((resp: any) => {
+            this.serviceCenterData = resp.data;
+
+        })
+        this._service.getCustomer().subscribe((resp: any) => {
+            this.clientData = resp.data;
         })
     }
     yourArray: string[] = ['Item 1', 'Item 2', 'Item 3']; // ตัวอย่างของ Array
     yourDataArray: string[] = ['Item 2']; // ตัวอย่างของข้อมูลที่มีอยู่
     onChangeClient(event: any) {
 
-        let formvalue = this.productData.find(item =>  item.car_id === event.value)
+        let formvalue = this.productData.find(item => item.car_id === event.value)
         this.form.patchValue({
-            car_id:formvalue.car_id,
+            car_id: formvalue.car_id,
             client_id: formvalue.client.id,
             name: formvalue.client.name,
             phone: formvalue.client.phone,
@@ -92,30 +92,32 @@ export class TicketCardComponent implements OnInit{
             company: formvalue.client.company,
         })
     }
-    
+
     testData: any[] = []
     serviceData1: any[] = []
-     ngOnInit(): void {
+    ngOnInit(): void {
         this.generateTimeOptions();
         // this.GetCar();
-        this._service.getService().subscribe((resp: any)=>{
+        this._service.getService().subscribe((resp: any) => {
             this.serviceData = resp.data;
-         })
-        if(this.data.value && this.productData) {
+        })
+        console.log(this.data.value);
+
+        if (this.data.value && this.productData) {
             this.testData = this.data.value.activitys;
             this.serviceData1 = this.data.value.services.map(item => item.service);
-            console.log('testData',this.testData)
+            this.yourArray1 = this.serviceData1
             this.statusData.setValue(this.data.value.status)
             this.form.patchValue({
                 ...this.data.value,
                 car_id: +this.data.value.car_id,
                 client_id: +this.data.value.client_id,
                 service_center_id: +this.data.value.service_center_id,
-                time: this.convertTime(this.data.value.time)
+                time: this.convertTime(this.data.value.time ?? '00:00:00'),
+                note: this.data.value.note ?? ''
             })
-        } else 
-        {
-            this.statusData.setValue('New') 
+        } else {
+            this.statusData.setValue('New')
         }
     }
 
@@ -123,13 +125,12 @@ export class TicketCardComponent implements OnInit{
         // แปลง string จากรูปแบบ 'HH:mm:ss' เป็น 'HH:mm'
         const timeArray = inputTime.split(':');
         const formattedTime = `${timeArray[0]}:${timeArray[1]}`;
-        
         return formattedTime;
-      }
+    }
     GetCar() {
-        this._service.getCar().subscribe((resp: any)=>{
+        this._service.getCar().subscribe((resp: any) => {
             this.productData = resp.data;
-         })
+        })
     }
     displayProduct(subject) {
         if (!subject) return '';
@@ -151,43 +152,43 @@ export class TicketCardComponent implements OnInit{
     timeOptions: string[] = [];
     generateTimeOptions(): void {
         for (let hour = 6; hour <= 20; hour++) {
-          const formattedHour = hour < 10 ? `0${hour}` : `${hour}`;
-          const time = `${formattedHour}:00`;
-          this.timeOptions.push(time);
+            const formattedHour = hour < 10 ? `0${hour}` : `${hour}`;
+            const time = `${formattedHour}:00`;
+            this.timeOptions.push(time);
         }
-      }
+    }
 
     onClose() {
         this.dialogRef.close();
-    } 
+    }
     addFeature(serviceId: number) {
         const service = this.form.get('services') as FormArray;
-        
+
         // ตรวจสอบว่า featureId มีอยู่ใน FormArray หรือไม่
         const index = service.value.findIndex((value: any) => value.service_id === serviceId);
         // console.log(index)
         if (index === -1) {
             const value = this._fb.group({
                 service_id: serviceId,
-            }); 
+            });
             service.push(value);
             // console.log(this.form.value)
-           
+
         } else {
-          // ถ้ามีอยู่แล้วให้ลบออก
-          service.removeAt(index);
+            // ถ้ามีอยู่แล้วให้ลบออก
+            service.removeAt(index);
         }
-      }
+    }
     isChecked(serviceId: number): boolean {
         const service = this.form.get('services') as FormArray;
         return service.value.some((value: any) => value.service_id === serviceId);
-      }
-      changeStatus(event: any) {
+    }
+    changeStatus(event: any) {
         this.statusData.setValue(event.value)
-      }
-      onSaveClick(): void {
+    }
+    onSaveClick(): void {
         if (this.data.value) {
-            if(this.statusData.value === 'Cancel') {
+            if (this.statusData.value === 'Cancel') {
                 this.CancelStatus()
             } else {
                 const confirmation = this._fuseConfirmationService.open({
@@ -211,13 +212,13 @@ export class TicketCardComponent implements OnInit{
                     },
                     "dismissible": true
                 });
-        
+
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         const reason = '';
-                        this.service = this.yourArray1.map(item => ({service_id: item.id}))
-                        this._service.updateStatus(this.data.value.id , this.statusData.value,reason, this.service).subscribe({
+                        this.service = this.yourArray1.map(item => ({ service_id: item.id }))
+                        this._service.updateStatus(this.data.value.id, this.statusData.value, reason, this.service, this.form.value.note).subscribe({
                             next: (resp: any) => {
                                 this.dialogRef.close(resp);
                             },
@@ -240,7 +241,7 @@ export class TicketCardComponent implements OnInit{
                                         "cancel": {
                                             "show": false,
                                             "label": "ยกเลิก",
-        
+
                                         }
                                     },
                                     "dismissible": true
@@ -273,7 +274,7 @@ export class TicketCardComponent implements OnInit{
                 },
                 "dismissible": true
             });
-    
+
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
@@ -302,7 +303,7 @@ export class TicketCardComponent implements OnInit{
                                     "cancel": {
                                         "show": false,
                                         "label": "ยกเลิก",
-    
+
                                     }
                                 },
                                 "dismissible": true
@@ -321,43 +322,46 @@ export class TicketCardComponent implements OnInit{
     getDaysAgo(created_at: string): string {
         const createdAtDate = new Date(created_at);
         const currentDate = new Date();
-    
+
         const timeDifference = currentDate.getTime() - createdAtDate.getTime();
         const minutesDifference = Math.floor(timeDifference / (1000 * 60));
         const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
         // console.log(minutesDifference)
         if (minutesDifference < 60) {
-          return `${minutesDifference} min ago`;
+            return `${minutesDifference} min ago`;
         } else if (hoursDifference < 24) {
-          return `${hoursDifference} hour ago`;
+            return `${hoursDifference} hour ago`;
         } else {
-          const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-          return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
+            const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
         }
     }
-    
+
     // sortBy(property: string) {
     //     console.log(this.testData)
     //     this.testData.sort((a, b) => a[property].getTime() - b[property].getTime());
 
-        
+
     //     this._changeDetectorRef.markForCheck();
     //   }
 
-      sortBy(property: string) {
+    sortBy(property: string) {
         this.testData.reverse();
         this._changeDetectorRef.markForCheck();
-      }
+    }
 
-      yourArray1: any[] = [];
+    yourArray1: any[] = [];
 
-      handleDataArrayChange(updatedArray: any[]): void {
-        // Handle the updated dataArray from child component
+
+    status: boolean = false;
+    handleDataArrayChange(updatedArray: any[]): void {
+        // this.status = !this.status;
         this.yourArray1 = updatedArray;
-        console.log('yourArray1',this.yourArray1)
-      }
+        console.log(this.yourArray1);
+        
+    }
 
-      CancelStatus() {
+    CancelStatus() {
         const dialogRef = this.dialog.open(CancelDialogComponent, {
             width: '500px', // กำหนดความกว้างของ Dialog
             data: {
@@ -365,7 +369,7 @@ export class TicketCardComponent implements OnInit{
             }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
         });
         dialogRef.afterClosed().subscribe(result1 => {
-            if(result1) {
+            if (result1) {
                 const confirmation = this._fuseConfirmationService.open({
                     "title": "เปลี่ยนสถานะ",
                     "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
@@ -387,13 +391,13 @@ export class TicketCardComponent implements OnInit{
                     },
                     "dismissible": true
                 });
-        
+
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         const reason = result1
-                        this.service = this.yourArray1.map(item => ({service_id: item.id}))
-                        this._service.updateStatus(this.data.value.id , this.statusData.value, reason, this.service).subscribe({
+                        this.service = this.yourArray1.map(item => ({ service_id: item.id }))
+                        this._service.updateStatus(this.data.value.id, this.statusData.value, reason, this.service, this.form.value.note).subscribe({
                             next: (resp: any) => {
                                 this.dialogRef.close(resp);
                             },
@@ -416,7 +420,7 @@ export class TicketCardComponent implements OnInit{
                                         "cancel": {
                                             "show": false,
                                             "label": "ยกเลิก",
-        
+
                                         }
                                     },
                                     "dismissible": true
