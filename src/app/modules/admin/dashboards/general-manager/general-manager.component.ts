@@ -7,11 +7,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { KpiChartComponent } from './kpi-chart/kpi-chart.component';
+import { ComplacenceChartComponent } from './complacence-chart/complacence-chart.component';
 
 @Component({
   selector: 'app-general-manager',
   standalone: true,
-  imports: [CommonModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatButtonModule, KpiChartComponent],
+  imports: [CommonModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, MatButtonModule, KpiChartComponent, ComplacenceChartComponent],
   templateUrl: './general-manager.component.html',
   styleUrls: ['./general-manager.component.scss']
 })
