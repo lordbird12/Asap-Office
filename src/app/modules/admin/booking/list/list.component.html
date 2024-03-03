@@ -57,7 +57,7 @@
                 </p>
                 <ng-container *ngFor="let card of item.task; let j = index">
                     <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100"
-                        *ngIf="card.status === 'New'">
+                        *ngIf="card.status === 'New' || card.status === 'Cancel'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
@@ -66,16 +66,22 @@
                                 <div>
                                     <span class="text-lg font-bold">{{card.car?.license ?? ''}}</span>
                                     <br>
-                                    <span class="text-md font-light text-slate-400">{{card.car?.brand_model?.name ??
-                                        ''}}</span>
+                                    <span class="text-md font-light text-slate-400">{{card.car?.brand_model?.name ?? ''}}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-row">
+            
+                        <div class="flex flex-row mb-3">
                             <div class="flex px-4">
                                 <div>
                                     <span class="text-lg font-bold">{{card.created_at | date: 'dd MMM yyyy HH:mm'}}</span>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-row mx-3 md:flex mb-6" *ngIf="card.status === 'Cancel'">
+                            <div class="flex flex-col rounded-lg w-full p-2 bg-gray-50" >
+                                <span class="flex text-lg items-center font-bold text-red-500" >ยกเลิก</span>
+                                <span class="flex text-lg items-center" >{{card.reason?? 'อื่น ๆ'}}</span>
                             </div>
                         </div>
                         <div class="mx-4">
@@ -119,7 +125,7 @@
                             </div>
                         </div>
                         <div class="flex flex-row mx-5 md:flex mb-6">
-                            <div class="flex rounded-lg w-full p-2" (click)="editTicket(card)"
+                            <div class="flex truncate md:text-clip rounded-lg w-full p-2" (click)="editTicket(card)"
                                 [ngClass]="{'bg-gray-50': isChecked1[j], 'bg-gray-100': !isChecked1[j]}">
                                 <span class="flex text-lg items-center" *ngFor="let service of card.services">
                                     {{service.service?.name}}&nbsp;</span>
@@ -244,7 +250,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5" *ngIf="card.status === 'Finish' || item.status === 'Cancel'">
+                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5" *ngIf="card.status === 'Finish'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
@@ -258,11 +264,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-row mx-5 md:flex mb-6" *ngIf="card.status === 'Cancel'">
-                            <div class="flex rounded-lg w-full p-2 bg-gray-50" >
-                                <span class="flex text-lg items-center" >{{card.reason?? 'อื่น ๆ'}}</span>
-                            </div>
-                        </div>
                         <div class="flex flex-row">
                             <div class="flex px-4">
                                 <div>
@@ -274,9 +275,9 @@
                             <div class="flex bg-[#ECFDF3] text-green-500 rounded-full w-fit p-2" *ngIf="card.status === 'Finish'">
                                 <span class="flex text-full items-center">• เสร็จสิ้น</span>
                             </div>
-                            <div class="flex bg-[#f8e5e5] text-red-500 rounded-full w-fit p-2" *ngIf="card.status === 'Cancel'">
+                            <!-- <div class="flex bg-[#f8e5e5] text-red-500 rounded-full w-fit p-2" *ngIf="card.status === 'Cancel'">
                                 <span class="flex text-full items-center">• ยกเลิก</span>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="mx-4">
                             <hr class="my-3">
@@ -305,8 +306,6 @@
                     </button>
                     <span class="text-lg font-bold mx-5">เลือกแล้ว {{this.multiItems.length}}</span>
                 </div>
-
-        
             </div>
             <div class="flex w-1/3 justify-end items-center">
                 <mat-form-field class="min-w-56 mt-4 w-2/3">
