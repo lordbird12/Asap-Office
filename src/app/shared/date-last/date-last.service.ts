@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LastDateService {
+
   
   getLastDate(item: any): string | null {
     if (item.activitys && item.activitys.length > 0) {

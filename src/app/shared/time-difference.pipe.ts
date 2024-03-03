@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TimeDifferencePipe implements PipeTransform {
     transform(created_at: string): string {
-      console.log(created_at)
+    console.log(created_at)
     const currentDate = new Date();
     const createdAtDate = new Date(created_at);
     const timeDifference = currentDate.getTime() - createdAtDate.getTime();

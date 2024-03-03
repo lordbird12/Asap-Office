@@ -42,6 +42,8 @@ import { UserImageService } from 'app/shared/image-last/user-image.service';
 import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.component';
+import moment from 'moment';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
 
 @Component({
     selector: 'car-list',
@@ -50,6 +52,7 @@ import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.com
     standalone: true,
     styleUrls: ['./list.component.scss'],
     imports: [
+        ReactiveFormsModule,
         CommonModule,
         MatIconModule,
         FormsModule,
@@ -71,7 +74,7 @@ import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.com
         TimeDifferencePipe
     ],
     providers: [UserImageService],
-    
+
 })
 export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -79,6 +82,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     isCheckedControl = new FormControl(false);
+    status = new FormControl(false);
     public dataRow: any[];
     task: any[] = [
         {
@@ -110,144 +114,11 @@ export class ListComponent implements OnInit, AfterViewInit {
             task: []
         },
     ]
-    itemData: any[] = [
-        {
-            activitys: [
-                {
-                    id: 1,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-                {
-                    id: 2,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-            ],
-            status: 'Process',
-            car: {
-                license: '6กท-3155',
-                brand_model: {
-                    name: 'Honda'
-                }
-            },
-            created_at: '2023-02-12'
-        },
-        {
-            status: 'Process',
-            activitys: [
-                {
-                    id: 1,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-                {
-                    id: 2,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-            ],
-            car: {
-                license: '6กท-3155',
-                brand_model: {
-                    name: 'Honda'
-                }
-            },
-            created_at: '2023-02-12'
-        },
-        {
-            status: 'Waiting',
-            activitys: [
-                {
-                    id: 1,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-                {
-                    id: 2,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-            ],
-            car: {
-                license: '6กท-3155',
-                brand_model: {
-                    name: 'Honda'
-                }
-            },
-            service_center: {
-                name: 'ลาดกระบัง',
-                phone: '0987776655',
-            },
-            name: 'นาย เควิน เคลวิน',
-            phone: '0975554433',
-            created_at: '2023-02-12'
-        },
-        {
-            status: 'Waiting_service',
-            activitys: [
-                {
-                    id: 1,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-                {
-                    id: 2,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-            ],
-            car: {
-                license: '6กท-3155',
-                brand_model: {
-                    name: 'Honda'
-                }
-            },
-            service_center: {
-                name: 'ลาดกระบัง',
-                phone: '0987776655',
-            },
-            name: 'นาย เควิน เคลวิน',
-            phone: '0975554433',
-            created_at: '2023-02-12'
-        },
-        {
-            status: 'Finish',
-            activitys: [
-                {
-                    id: 1,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-                {
-                    id: 2,
-                    user: {
-                        image: '/image'
-                    }  
-                },
-            ],
-            car: {
-                license: '6กท-3155',
-                brand_model: {
-                    name: 'Honda'
-                }
-            },
-            created_at: '2023-02-12'
-        },
-    ]
+    itemData: any;
+    user: any;
+    employeeDep: any[] = [];
 
-    employeeDep: any [] = [];
-
-    multiItems: any [] = [];
+    multiItems: any[] = [];
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
@@ -255,71 +126,106 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router,
-        private userImageService: UserImageService
+        private userImageService: UserImageService,
+        private _fuseConfirmationService: FuseConfirmationService,
     ) {
-
-        this._service.getEmployeeBydepartment().subscribe((resp: any) =>  {
-            this.employeeDep = resp.data
+        this._service.getEmployeeBydepartment().subscribe((resp: any) => {
+            for (let index = 0; index < resp.data.length; index++) {
+                const element = {
+                    id: resp.data[index].id,
+                    fname: resp.data[index].fname,
+                    lname: resp.data[index].lname,
+                    image: resp.data[index].image,
+                    code: resp.data[index].code,
+                    isSelected: resp.data[index].code === this.user.code,
+                }
+                this.employeeDep.push(element)
+            }
         })
-
+       this.user = JSON.parse(localStorage.getItem('user'));
+    //    console.log(this.user)
     }
 
     ngOnInit() {
-        this._service.getBooking().subscribe((resp: any) => {
-            this.itemData = resp.data;
-            // const lastItem = resp.data.activitys.slice(-1)[0];
-            console.log(resp.data)
-            // cons ole.log('itemData', this.itemData)
-            for (const item of this.itemData) {
-                if (item.status === 'New') {
-                    this.task[0].task.push(item)
-                }
-                else if (item.status === 'Process') {
-                    this.task[1].task.push(item)
-                }
-                else if (item.status === 'Waiting') {
-                    this.task[2].task.push(item)
-                }
-                else if (item.status === 'Finish') {
-                    this.task[3].task.push(item)
-                }
+        if(this.user) {
+            const data =   {
+                users: [{
+                    code: this.user.code
+                }]
             }
-            this._changeDetectorRef.detectChanges();
-        })
+            this._service.getBookingByDep(this.user.department_id,data).subscribe((resp: any) => {
+                const news = resp.data.news;
+                const all = resp.data.all;
+                // console.log(resp.data.all)
+
+                for (const item of news) {
+                    if (item.status === 'New') {
+                        this.task[0].task.push(item)
+                    }
+                }
+                for (const item of all) {
+                    if (item.status === 'Process') {
+                        this.task[1].task.push(item)
+                    }
+                    else if (item.status === 'Waiting') {
+                        this.task[2].task.push(item)
+                    }
+                    else if (item.status === 'Finish') {
+                        this.task[3].task.push(item)
+                    }
+                }
+                this._changeDetectorRef.detectChanges();
+            })
+        }
+
 
         // this.employeeDialog()
     }
-    
+
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
     selectedIdx: number | null = null;
     selectItem(index: number): void {
         this.selectedIdx = index;
-      }
+    }
 
-      isChecked1: boolean[] =  []
-      isChecked2: boolean[] =  []
-      isChecked3: boolean[] =  []
-      changeColor1(index: number): void {
+    isChecked1: boolean[] = []
+    isChecked2: boolean[] = []
+    isChecked3: boolean[] = []
+    changeColor1(index: number, event: any): void {
         this.isChecked1[index] = !this.isChecked1[index];
-      }
-      changeColor2(index: number): void {
+        if(event.target.checked === true )  {
+            this.multiItems.push(this.task[1].task[index])
+         
+        } else {
+            this.multiItems = this.multiItems.filter(item => item !== this.task[1].task[index]);
+        
+        }
+    }
+    changeColor2(index: number,event: any): void {
         this.isChecked2[index] = !this.isChecked2[index];
-      }
-      changeColor3(index: number): void {
+        if(event.target.checked === true )  {
+            this.multiItems.push(this.task[2].task[index])
+            console.log(this.multiItems)
+        } else {
+            this.multiItems = this.multiItems.filter(item => item !== this.task[2].task[index]);
+          
+        }
+    }
+    changeColor3(index: number): void {
         this.isChecked3[index] = !this.isChecked3[index];
-      }
+    }
 
-      isCheckboxVisible: boolean[] = [];
+    isCheckboxVisible: boolean[] = [];
 
-      showCheckbox(index: number): void {
+    showCheckbox(index: number): void {
         this.isCheckboxVisible[index] = true;
-      }
-    
-      hideCheckbox(index: number): void {
+    }
+
+    hideCheckbox(index: number): void {
         this.isCheckboxVisible[index] = false;
-      }
+    }
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
@@ -401,7 +307,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     createTicket() {
-       const dialogRef= this.dialog.open(TicketCardComponent,
+        const dialogRef = this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
                 width: '500px',
@@ -411,11 +317,11 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         );
         dialogRef.afterClosed().subscribe(result => {
-           
-            if(result) {
-                
+
+            if (result) {
+
                 this._service.getBooking().subscribe((resp: any) => {
-                    this.itemData = resp.data;  
+                    this.itemData = resp.data;
                     this.task = [
                         {
                             id: 1,
@@ -468,7 +374,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     editTicket(value: FormGroup) {
-        console.log(value)
+        // console.log(value)
         const dialogRef = this.dialog.open(TicketCardComponent,
             {
                 minWidth: '50%',
@@ -480,11 +386,11 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         );
         dialogRef.afterClosed().subscribe(result => {
-            console.log('close');
-            if(result) {
-                
+            // console.log('close');
+            if (result) {
+
                 this._service.getBooking().subscribe((resp: any) => {
-                    this.itemData = resp.data;  
+                    this.itemData = resp.data;
                     this.task = [
                         {
                             id: 1,
@@ -533,25 +439,80 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this._changeDetectorRef.markForCheck();
                 })
             }
-          
+
         })
 
     }
-    employeeDialog() {
+    employeeDialog(value) {
         const dialogRef = this.dialog.open(EmployeeDialogComponent,
             {
                 minWidth: '30%',
-                // data: {
-                //     status: 'Edit',
-                //     value: value,
-                // },
+                data: {
+                    status: 'Edit',
+                    value: this.employeeDep,
+                },
             }
         );
         dialogRef.afterClosed().subscribe(result => {
-            console.log('close');
-            if(result) {
-                
-                // this._service.getBooking().subscribe((resp: any) => {
+          
+            if (result) {
+                this.employeeDep = result
+                const data =   {
+                    users: result
+                }
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Waiting',
+                        task: []
+                    },
+                    {
+                        id: 3,
+                        name: 'รอเข้ารับบริการ',
+                        detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                        status: 'Finish',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Cancel',
+                        task: []
+                    },
+                ]
+                this._service.getBookingByDep(this.user.department_id,data).subscribe((resp: any) => {
+                    const news = resp.data.news;
+                    const all = resp.data.all;
+    
+                    for (const item of news) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                    }
+                    for (const item of all) {
+                        if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.detectChanges();
+                })
+                            // this._service.getBooking().subscribe((resp: any) => {
                 //     this.itemData = resp.data;  
                 //     this.task = [
                 //         {
@@ -602,12 +563,140 @@ export class ListComponent implements OnInit, AfterViewInit {
                 // })
             }
         })
-
     }
 
+    getLastElement(data: any): any {
+        const created_at = data.activitys[data.activitys.length - 1];
+        return created_at.updated_at
+    }
+    lastSelectEmp: any[] = []
+    empFilter(data: any) {
+      
+        return data.filter(e => e.isSelected)
+    }
+    selectedItems: any[] = [];
 
 
-    // handlePageEvent(event) {
-    //     this.loadData(event.pageIndex + 1, event.pageSize);
-    // }
+    multiSave() {
+
+        const confirmation = this._fuseConfirmationService.open({
+            "title": "เปลี่ยนสถานะ",
+            "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
+            "icon": {
+                "show": false,
+                "name": "heroicons_outline:exclamation",
+                "color": "warning"
+            },
+            "actions": {
+                "confirm": {
+                    "show": true,
+                    "label": "ยืนยัน",
+                    "color": "primary"
+                },
+                "cancel": {
+                    "show": true,
+                    "label": "ยกเลิก"
+                }
+            },
+            "dismissible": true
+        });
+
+        // Subscribe to the confirmation dialog closed action
+        confirmation.afterClosed().subscribe((result) => {
+            if (result === 'confirmed') {
+                this.multiItems.map((item:any)=>{
+                    const formValue = item
+                    this._service.updateStatus(formValue.id , this.status.value).subscribe({
+                        
+                        next: (resp: any) => {
+                            this.multiItems = [];
+                            this.isChecked1 = [];
+                            this.isChecked2 = [];
+                            const data =   {
+                                users: this.employeeDep.filter(e => e.isSelected)
+                            }
+                            this.task = [
+                                {
+                                    id: 1,
+                                    name: 'งานใหม่ / Todo',
+                                    detail: 'งานใหม่รอรับ',
+                                    status: 'Process',
+                                    task: []
+                                },
+                                {
+                                    id: 2,
+                                    name: 'กำลังดำเนินงาน',
+                                    detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                                    status: 'Waiting',
+                                    task: []
+                                },
+                                {
+                                    id: 3,
+                                    name: 'รอเข้ารับบริการ',
+                                    detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                                    status: 'Finish',
+                                    task: []
+                                },
+                                {
+                                    id: 4,
+                                    name: 'เสร็จสิ้น',
+                                    detail: '-',
+                                    status: 'Cancel',
+                                    task: []
+                                },
+                            ]
+                            this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                                const news = resp.data.news;
+                                const all = resp.data.all;
+                                // console.log(resp.data.all)
+                
+                                for (const item of news) {
+                                    if (item.status === 'New') {
+                                        this.task[0].task.push(item)
+                                    }
+                                }
+                                for (const item of all) {
+                                    if (item.status === 'Process') {
+                                        this.task[1].task.push(item)
+                                    }
+                                    else if (item.status === 'Waiting') {
+                                        this.task[2].task.push(item)
+                                    }
+                                    else if (item.status === 'Finish') {
+                                        this.task[3].task.push(item)
+                                    }
+                                }
+                                this._changeDetectorRef.detectChanges();
+                            })
+                        },
+                        error: (err: any) => {
+                            this._fuseConfirmationService.open({
+                                "title": "กรุณาระบุข้อมูล",
+                                "message": err.error.message,
+                                "icon": {
+                                    "show": true,
+                                    "name": "heroicons_outline:exclamation",
+                                    "color": "warning"
+                                },
+                                "actions": {
+                                    "confirm": {
+                                        "show": false,
+                                        "label": "ยืนยัน",
+                                        "color": "primary"
+                                    },
+                                    "cancel": {
+                                        "show": false,
+                                        "label": "ยกเลิก",
+    
+                                    }
+                                },
+                                "dismissible": true
+                            });
+                        }
+                    })
+                })
+            
+            }
+        })
+    }
 }

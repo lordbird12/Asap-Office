@@ -5,6 +5,11 @@
                 <div class="text-3xl font-bold mr-5">ตัวกรอง</div>
                 <div class="text-base">เลือกพนักงานที่ต้องการดู Ticket</div>
             </div>
+            <div class="flex flex-row items-center justify-center">
+                <button mat-icon-button [tabIndex]="-1" (click)="onClose()">
+                    <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+                </button>
+            </div>
         </div>
         <div class="flex flex-col my-5">
             <!-- <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label> -->

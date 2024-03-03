@@ -134,6 +134,16 @@ export class PageService {
             );
     }
     
+    getBookingByDep(id: any, data: any): Observable<any> {
+        return this._httpClient
+            .put<any>(environment.baseURL + '/api/get_booking_by_dep/' + id, data)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+    
     getService(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_services')
@@ -147,6 +157,16 @@ export class PageService {
     getEmployeeBydepartment(): Observable<any> {
         return this._httpClient
             .get<any>(environment.baseURL + '/api/get_user_by_dep')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
+    updateStatus(id: any, status: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/update_booking_status', {booking_id: id , status: status})
             .pipe(
                 tap((result) => {
                     this._data.next(result);
