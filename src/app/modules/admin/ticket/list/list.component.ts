@@ -244,9 +244,59 @@ export class ListComponent implements OnInit, AfterViewInit {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
     createTicket() {
-        this.dialog.open(CreateComponent,
+        const dialogRef = this.dialog.open(CreateComponent,
             { minWidth: '50%' }
         );
+        dialogRef.afterClosed().subscribe(result => {
+
+            if(result) {    
+
+                const emp = this.employeeDep.filter(item => item.isSelected)
+                const data = {
+                    deps:  this.department.map(item => item.id) , 
+                    users: emp.map(item => ({code: item.code}))
+                }
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'New',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Finish',
+                        task: []
+                    },
+            ];
+        
+                this._service.getTicketByDep(data).subscribe((resp: any) => {
+                    this.itemData = resp.data;
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[2].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                })
+            }
+        })
     }
     detailTicket(value: any) {
         const dialogRef = this.dialog.open(DetailTicketComponent,
