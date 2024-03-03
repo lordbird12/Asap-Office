@@ -228,9 +228,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         const dialogRef = this.dialog.open(DetailTicketComponent,
             {
                 minWidth: '50%',
+                width: '676px',
                 data: value
-            },
-
+            }
         );
         dialogRef.afterClosed().subscribe(result => {
 

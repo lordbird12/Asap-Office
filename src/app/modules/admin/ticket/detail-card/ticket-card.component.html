@@ -53,7 +53,7 @@
                 <input matInput [placeholder]="'เบอร์โทรศัพท์ติดต่อ'" [value]="this.data.phone">
             </mat-form-field>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col" *ngIf="!this.data">
             <mat-label class="font-bold">รายละเอียด</mat-label>
             <div class="inline-flex items-center" *ngFor="let item of topics;">
                 <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="ripple-on"
@@ -76,7 +76,13 @@
                 </label>
             </div>
         </div>
-
+        <div class="flex flex-col mb-6" *ngIf="this.data">
+            <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
+            <!-- main.component.html -->
+            <app-checkbox-topic [items]="this.topics" [dataArray]="this.dataArray"></app-checkbox-topic>
+            
+            <!-- <app-checkbox-service [items]="yourArray" [dataArray]="yourDataArray"></app-checkbox-service> -->
+        </div>
         <div class="flex flex-col">
             <div class="flex flex-row justify-between mb-6">
                 <mat-label class="font-bold">Activity</mat-label>
@@ -85,7 +91,6 @@
                     <h1 class="text-red-500">
                         เรียงจากหน้าใหม่ไปเก่า</h1>
                 </div>
-
             </div>
             <ol>
                 <ng-container *ngFor="let item of activities">

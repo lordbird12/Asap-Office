@@ -9,12 +9,13 @@ import { DropdownTimeComponent } from 'app/shared/dropdown-time/dropdown-time.co
 import { PageService } from '../page.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckboxTopicComponent } from 'app/shared/checkbox-topic/checkbox.component';
 
 @Component({
     selector: 'app-ticket-card',
     standalone: true,
-    imports: [ReactiveFormsModule, CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent],
+    imports: [ReactiveFormsModule, CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent,FormsModule, CheckboxTopicComponent],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss']
 })
@@ -22,6 +23,7 @@ export class DetailTicketComponent implements OnInit {
     serviceData: any[] = []
     serviceCenterData: any[] = []
     activities: any[] = []
+    dataArray: any[] = [];
     topics: any[] = [
         'รถเสียฉุกเฉิน',
         'อุบัติเหตุ',
@@ -51,9 +53,10 @@ export class DetailTicketComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.dataArray = this.data.ticket_topic
         this.activities = this.data.activitys
         this.statusData.setValue(this.data.status)
+        this.dataArray = this.data.ticket_topic.map(topic => topic.status);
+        console.log('topics',this.dataArray)
     }
 
     onClose() {
@@ -62,12 +65,9 @@ export class DetailTicketComponent implements OnInit {
     changeStatus(event: any) {
         this.statusData.setValue(event.value)
     }
-    dataArray: any[] = [];
+
     isChecked(item: any): boolean {
-        console.log('item', item)
-        // console.log(this.dataArray)
-        // return this.dataArray.includes(item);
-        return this.dataArray.some(dataItem => dataItem.status === item);
+        return this.dataArray.includes(item);
     }
 
     toggleCheckbox(item: string): void {
@@ -163,7 +163,7 @@ export class DetailTicketComponent implements OnInit {
         const timeDifference = currentDate.getTime() - createdAtDate.getTime();
         const minutesDifference = Math.floor(timeDifference / (1000 * 60));
         const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-        console.log(minutesDifference)
+        // console.log(minutesDifference)
         if (minutesDifference < 60) {
           return `${minutesDifference} min ago`;
         } else if (hoursDifference < 24) {
