@@ -111,15 +111,21 @@ export class TicketCardComponent implements OnInit{
                 car_id: +this.data.value.car_id,
                 client_id: +this.data.value.client_id,
                 service_center_id: +this.data.value.service_center_id,
+                time: this.convertTime(this.data.value.time)
             })
-            // this.testData = this.data.services
-            
         } else 
         {
             this.statusData.setValue('New') 
         }
     }
 
+    convertTime(inputTime: string): string {
+        // แปลง string จากรูปแบบ 'HH:mm:ss' เป็น 'HH:mm'
+        const timeArray = inputTime.split(':');
+        const formattedTime = `${timeArray[0]}:${timeArray[1]}`;
+        
+        return formattedTime;
+      }
     GetCar() {
         this._service.getCar().subscribe((resp: any)=>{
             this.productData = resp.data;
@@ -146,7 +152,7 @@ export class TicketCardComponent implements OnInit{
     generateTimeOptions(): void {
         for (let hour = 6; hour <= 20; hour++) {
           const formattedHour = hour < 10 ? `0${hour}` : `${hour}`;
-          const time = `${formattedHour}:00:00`;
+          const time = `${formattedHour}:00`;
           this.timeOptions.push(time);
         }
       }
