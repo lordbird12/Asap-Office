@@ -41,6 +41,9 @@ import { DetailTicketComponent } from '../detail-card/ticket-card.component';
 import { environment } from 'environments/environment.development';
 import { EmployeeDialogComponent } from '../employee-filter/dailog.component';
 import { DepartmentDialogComponent } from '../department-dialog/dailog.component';
+import { UserImageService } from 'app/shared/image-last/user-image.service';
+import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
+import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 
 @Component({
     selector: 'car-list',
@@ -65,8 +68,11 @@ import { DepartmentDialogComponent } from '../department-dialog/dailog.component
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
-        MatDialogModule
+        MatDialogModule,
+        LastUserImagePipe,
+        TimeDifferencePipe
     ],
+    providers: [UserImageService]
 })
 export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -100,14 +106,16 @@ export class ListComponent implements OnInit, AfterViewInit {
     ]
     itemData: any[];
     employeeDep: any[] = [];
-    deparment: any[] = [];
-
+    department : any [] = []
+    departmentData : any [] = []
+    
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private userImageService: UserImageService,
     ) {
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
@@ -123,13 +131,13 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         })
         this._service.getDepartment().subscribe((resp: any) => {
-           this.deparment = resp.data;
+           this.departmentData = resp.data;
         })
     }
 
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
-        console.log(this.user)
+        
         const data = {
             deps: [+this.user.department_id] , 
             users: [{
@@ -138,7 +146,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         }
         this._service.getTicketByDep(data).subscribe((resp: any) => {
             this.itemData = resp.data;
-            console.log(this.itemData)
             for (const item of this.itemData) {
                 if (item.status === 'New') {
                     this.task[0].task.push(item)
@@ -248,12 +255,19 @@ export class ListComponent implements OnInit, AfterViewInit {
             { minWidth: '50%' }
         );
         dialogRef.afterClosed().subscribe(result => {
-
             if(result) {    
-
+                let dep = []
+                if (this.department.length > 0 ) {
+                    dep = this.department.map(item => item )
+                }
+                else 
+                {
+                    dep = [+this.user.department_id]
+                }
                 const emp = this.employeeDep.filter(item => item.isSelected)
+                
                 const data = {
-                    deps:  this.department.map(item => item.id) , 
+                    deps:  dep,
                     users: emp.map(item => ({code: item.code}))
                 }
                 this.task = [
@@ -308,7 +322,13 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
 
-            if(result) {
+            if(result) {    
+                const emp = this.employeeDep.filter(item => item.isSelected)
+                const dep = this.department.map(item => item)
+                const data = {
+                    deps:  dep, 
+                    users: emp.map(item => ({code: item.code}))
+                }
                 this.task = [
                     {
                         id: 1,
@@ -332,7 +352,8 @@ export class ListComponent implements OnInit, AfterViewInit {
                         task: []
                     },
             ];
-                this._service.getTicket().subscribe((resp: any) => {
+        
+                this._service.getTicketByDep(data).subscribe((resp: any) => {
                     this.itemData = resp.data;
                     for (const item of this.itemData) {
                         if (item.status === 'New') {
@@ -370,7 +391,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                const deps = this.deparment.map(item => item.id)
+                const deps = this.department.map(item => item)
                 const data = {
                     deps:  deps,
                     users: result.map(item => ({code: item.code}))
@@ -417,7 +438,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         }
         })
     }
-    department : any [] = []
+
     departmentDailog() {
         
         const dialogRef = this.dialog.open(DepartmentDialogComponent,
@@ -425,7 +446,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 minWidth: '30%',
                 data: {
                     status: 'Edit',
-                    value: this.deparment,
+                    value: this.departmentData,
                 },
             }
         );
@@ -478,5 +499,10 @@ export class ListComponent implements OnInit, AfterViewInit {
                     })
             }
         })
+    }
+
+    getLastElement(data: any): any {
+        const created_at = data.activitys[data.activitys.length - 1];
+        return created_at.updated_at
     }
 }
