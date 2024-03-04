@@ -63,13 +63,16 @@
                             <tr *ngFor="let item of dataRow; let i = index">
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}</td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
-                                        เปิดใช้งาน
+                                    <div class="text-green-600 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900" *ngIf="item?.status === 'Active'">
+                                        <span class="bg-green-200 p-1 rounded-md"> ใช้งานอยู่</span>
+                                    </div>
+                                    <div class="text-red-500  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900" *ngIf="item?.status === 'Expire'">
+                                      <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>  
                                     </div>
                                 </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date }}
+                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date | date : 'dd/MM/yyyy' }}
                                 </td>
                                 <td style="width: 100px; min-width: 100px;"> <button mat-icon-button (click)="edit(item.id)">
                                         <mat-icon svgIcon="feather:edit-3"></mat-icon>

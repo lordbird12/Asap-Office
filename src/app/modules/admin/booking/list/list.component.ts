@@ -314,67 +314,66 @@ export class ListComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
 
             if (result) {
-
-                this._service.getBooking().subscribe((resp: any) => {
-                    this.itemData = resp.data;
-                    const data =   {
-                        users: this.employeeDep.filter(e => e.isSelected)
+               
+                const data =   {
+                    users: this.employeeDep.filter(e => e.isSelected)
+                }
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Waiting',
+                        task: []
+                    },
+                    {
+                        id: 3,
+                        name: 'รอเข้ารับบริการ',
+                        detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                        status: 'Finish',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Cancel',
+                        task: []
+                    },
+                ]
+                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                    const news = resp.data.news;
+                    const all = resp.data.all;
+                    // console.log(resp.data.all)
+    
+                    for (const item of news) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
                     }
-                    this.task = [
-                        {
-                            id: 1,
-                            name: 'งานใหม่ / Todo',
-                            detail: 'งานใหม่รอรับ',
-                            status: 'Process',
-                            task: []
-                        },
-                        {
-                            id: 2,
-                            name: 'กำลังดำเนินงาน',
-                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                            status: 'Waiting',
-                            task: []
-                        },
-                        {
-                            id: 3,
-                            name: 'รอเข้ารับบริการ',
-                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                            status: 'Finish',
-                            task: []
-                        },
-                        {
-                            id: 4,
-                            name: 'เสร็จสิ้น',
-                            detail: '-',
-                            status: 'Cancel',
-                            task: []
-                        },
-                    ]
-                    this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                        const news = resp.data.news;
-                        const all = resp.data.all;
-                        // console.log(resp.data.all)
-        
-                        for (const item of news) {
-                            if (item.status === 'New') {
-                                this.task[0].task.push(item)
-                            }
+                    for (const item of all) {
+                        if (item.status === 'Process') {
+                            this.task[1].task.push(item)
                         }
-                        for (const item of all) {
-                            if (item.status === 'Process') {
-                                this.task[1].task.push(item)
-                            }
-                            else if (item.status === 'Waiting') {
-                                this.task[2].task.push(item)
-                            }
-                            else if (item.status === 'Finish' || item.status === 'Cancel') {
-                                this.task[3].task.push(item)
-                            }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
                         }
-                        this._changeDetectorRef.detectChanges();
-                    })
-                    this._changeDetectorRef.markForCheck();
+                        else if (item.status === 'Finish' ) {
+                            this.task[3].task.push(item)
+                        }
+                        else if (item.status === 'Cancel' ) {
+                            this.task[0].task.push(item)
+                        }
+                    }
                 })
+                this._changeDetectorRef.markForCheck();
             }
         })
     }
@@ -395,69 +394,66 @@ export class ListComponent implements OnInit, AfterViewInit {
             // console.log('close');
             if (result) {
 
-                this._service.getBooking().subscribe((resp: any) => {
-                    this.itemData = resp.data;
-                    const data =   {
-                        users: this.employeeDep.filter(e => e.isSelected)
+                const data =   {
+                    users: this.employeeDep.filter(e => e.isSelected)
+                }
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Waiting',
+                        task: []
+                    },
+                    {
+                        id: 3,
+                        name: 'รอเข้ารับบริการ',
+                        detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                        status: 'Finish',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Cancel',
+                        task: []
+                    },
+                ]
+                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                    const news = resp.data.news;
+                    const all = resp.data.all;
+                    // console.log(resp.data.all)
+    
+                    for (const item of news) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
                     }
-                    this.task = [
-                        {
-                            id: 1,
-                            name: 'งานใหม่ / Todo',
-                            detail: 'งานใหม่รอรับ',
-                            status: 'Process',
-                            task: []
-                        },
-                        {
-                            id: 2,
-                            name: 'กำลังดำเนินงาน',
-                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                            status: 'Waiting',
-                            task: []
-                        },
-                        {
-                            id: 3,
-                            name: 'รอเข้ารับบริการ',
-                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                            status: 'Finish',
-                            task: []
-                        },
-                        {
-                            id: 4,
-                            name: 'เสร็จสิ้น',
-                            detail: '-',
-                            status: 'Cancel',
-                            task: []
-                        },
-                    ]
-                    this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                        const news = resp.data.news;
-                        const all = resp.data.all;
-                        // console.log(resp.data.all)
-        
-                        for (const item of news) {
-                            if (item.status === 'New') {
-                                this.task[0].task.push(item)
-                            }
+                    for (const item of all) {
+                        if (item.status === 'Process') {
+                            this.task[1].task.push(item)
                         }
-                        for (const item of all) {
-                            if (item.status === 'Process') {
-                                this.task[1].task.push(item)
-                            }
-                            else if (item.status === 'Waiting') {
-                                this.task[2].task.push(item)
-                            }
-                            else if (item.status === 'Finish') {
-                                this.task[3].task.push(item)
-                            }
-                            else if (item.status === 'Cancel' ) {
-                                this.task[0].task.push(item)
-                            }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
                         }
-                        this._changeDetectorRef.detectChanges();
-                    })
-                    this._changeDetectorRef.markForCheck();
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                        else if (item.status === 'Cancel' ) {
+                            this.task[0].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.detectChanges();
                 })
+                this._changeDetectorRef.markForCheck();
             }
 
         })

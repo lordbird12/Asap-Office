@@ -326,7 +326,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 const emp = this.employeeDep.filter(item => item.isSelected)
                 const dep = this.department.map(item => item)
                 const data = {
-                    deps:  dep, 
+                    deps:  dep ?? this.user.department_id, 
                     users: emp.map(item => ({code: item.code}))
                 }
                 this.task = [
