@@ -10,7 +10,9 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
+    FormBuilder,
     FormControl,
+    FormGroup,
     FormsModule,
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -37,6 +39,7 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'car-list',
@@ -73,6 +76,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     public dataRow: any[];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
+    form: FormGroup
     dtInstance: Promise<DataTables.Api>;
     tableRow: any[] = [
         {
@@ -102,18 +106,30 @@ export class ListComponent implements OnInit, AfterViewInit {
     productData: any[] = [];
     categoryData: any[] = [];
     productFilter: any[] = [];
-    ProductControl = new FormControl('');
+    ProductControl = new FormControl('2กล-5442');
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private  _fb: FormBuilder
     ) {
+        this._service.getCarwithClient().subscribe((resp: any)=>{
+            this.productData = resp.data
+        })
+        this.form = this._fb.group({
+            car_img: '',
+            license_plate: '',
+            model_car: '',
+            name: '',
+            company: '',
 
+        })
     }
 
     ngOnInit() {
+        this.loadTable();
         this.filteredOptionsProduct = this.ProductControl.valueChanges.pipe(
             startWith(''),
             map((value: any) => this._filterProduct(value || ''))
@@ -131,17 +147,31 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     private _filterProduct(value: string): string[] {
         const filterValue = value.toLowerCase();
-        return this.productData.filter((option) =>
-            option.name.toLowerCase().includes(filterValue)
+        return this.productData.filter((option) => option.license_plate.toLowerCase().includes(filterValue)
         );
     }
-
+    data1: any;
     displayProduct(subject) {
+        // console.log('product',subject);
         if (!subject) return '';
         let index = this.productData.findIndex(
-            (state) => state.id === parseInt(subject)
+            (state) => state.license_plate === subject
         );
-        return this.productData[index].name;
+        // console.log(index)
+        this.data1 = this.productData[index];
+        console.log(this.data1)
+        return this.productData[index].license_plate;
+    }
+
+    clear() {
+        this.ProductControl.setValue('')
+    }
+
+    searchTable() {
+    
+        // this.loadTable()
+        this.rerender();
+        this._changeDetectorRef.markForCheck();
     }
 
     uploadfile() {
@@ -152,13 +182,15 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
+                // this.loadTable()
                 this.rerender();
+                this._changeDetectorRef.markForCheck();
             }
         });
     }
 
     exportFile() {
-        window.open('')
+        window.open(environment.baseURL + '/api/booking_export_history/' + this.ProductControl.value ?? '')
     }
 
     rerender(): void {
@@ -166,9 +198,6 @@ export class ListComponent implements OnInit, AfterViewInit {
             dtInstance.ajax.reload();
         });
 
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.ajax.reload();
-        });
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -185,6 +214,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                // dataTablesParameters.search_license_plate = '2กล-5442';
+                dataTablesParameters.search_license_plate = this.data1?.license_plate ?? '2กล-5442';
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {

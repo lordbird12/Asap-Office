@@ -33,7 +33,7 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 
 @Component({
@@ -62,18 +62,21 @@ import { Router } from '@angular/router';
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    searchQuery: string = '';
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.loadTable();
@@ -83,7 +86,25 @@ export class ListComponent implements OnInit, AfterViewInit {
         // })
     }
 
-    ngAfterViewInit(): void {
+    applySearch() {
+        // You may need to modify this based on your DataTables structure
+        this.rerender()
+      }
+      rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+
+    }
+
+    ngAfterViewInit() {
+        // Handle search event
+        // const table = $(this.dtOptions).DataTable();
+
+        // $('#searchInput').on('keyup', function () {
+        //     table.search('1').draw();
+        
+        // });
         this._changeDetectorRef.detectChanges();
     }
 
@@ -145,6 +166,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {

@@ -108,6 +108,15 @@ export class PageService {
                 })
             );
     }
+    getCarwithClient(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_car_with_client')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
     getBrandModel(): Observable<any> {
         return this._httpClient
             .get(environment.baseURL + '/api/get_brand_model')
@@ -159,7 +168,7 @@ export class PageService {
     getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
         return this._httpClient
             .post(
-                environment.baseURL + '/api/car_page',
+                environment.baseURL + '/api/car_history_page',
                 dataTablesParameters,
                 this.httpOptionsFormdata
             )
