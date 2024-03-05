@@ -21,9 +21,9 @@
             <div class="flex justify-start items-center w-100 mt-5">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <form [formGroup]="addForm">
-                        <mat-form-field class="w-full">
+                        <mat-form-field class="w-full min-w-56">
                             <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="search-icon"></mat-icon>
-                            <input matInput [formControlName]="'filter'" (ngModelChange)="HandlerPage(this.addForm.value.filter)" placeholder="ค้นหาชื่อรุ่นรถ หรือ ทะเบียนรถ" class="custom-placeholder">
+                            <input matInput [formControlName]="'filter'" (ngModelChange)="HandlerPage(this.addForm.value.filter)" placeholder="ค้นหาทะเบียนรถ" class="custom-placeholder">
                         </mat-form-field>
                     </form>
                     <!-- <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full min-w-56">
