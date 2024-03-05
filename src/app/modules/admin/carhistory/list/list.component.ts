@@ -65,40 +65,41 @@ import { environment } from 'environments/environment.development';
         MatTableModule,
         DataTablesModule,
         MatAutocompleteModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
+    addForm: FormGroup;
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
-    form: FormGroup
+    form: FormGroup;
     dtInstance: Promise<DataTables.Api>;
     tableRow: any[] = [
         {
-            created_at: "2024-03-04T11:01:29.000000Z",
-            mile: "23000",
-            activity: "เช็คระยะ",
-            service: "Toyota บางนา",
-            create_by: "โอลิเวีย  (แผนก Enterprise)"
+            created_at: '2024-03-04T11:01:29.000000Z',
+            mile: '23000',
+            activity: 'เช็คระยะ',
+            service: 'Toyota บางนา',
+            create_by: 'โอลิเวีย  (แผนก Enterprise)',
         },
         {
-            created_at: "2024-03-04T11:01:29.000000Z",
-            mile: "23000",
-            activity: "เช็คระยะ",
-            service: "Toyota บางนา",
-            create_by: "โอลิเวีย  (แผนก Enterprise)"
+            created_at: '2024-03-04T11:01:29.000000Z',
+            mile: '23000',
+            activity: 'เช็คระยะ',
+            service: 'Toyota บางนา',
+            create_by: 'โอลิเวีย  (แผนก Enterprise)',
         },
         {
-            created_at: "2024-03-04T11:01:29.000000Z",
-            mile: "23000",
-            activity: "เช็คระยะ",
-            service: "Toyota บางนา",
-            create_by: "โอลิเวีย  (แผนก Enterprise)"
+            created_at: '2024-03-04T11:01:29.000000Z',
+            mile: '23000',
+            activity: 'เช็คระยะ',
+            service: 'Toyota บางนา',
+            create_by: 'โอลิเวีย  (แผนก Enterprise)',
         },
     ];
     filteredOptionsProduct: Observable<string[]>;
@@ -106,6 +107,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     productData: any[] = [];
     categoryData: any[] = [];
     productFilter: any[] = [];
+    cars: any;
+    car: any;
     ProductControl = new FormControl('2กล-5442');
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
@@ -113,19 +116,23 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router,
-        private  _fb: FormBuilder
+        private _fb: FormBuilder
     ) {
-        this._service.getCarwithClient().subscribe((resp: any)=>{
-            this.productData = resp.data
-        })
+        this._service.getCarwithClient().subscribe((resp: any) => {
+            this.productData = resp.data;
+        });
         this.form = this._fb.group({
             car_img: '',
             license_plate: '',
             model_car: '',
             name: '',
             company: '',
+        });
 
-        })
+        this.addForm = this._fb.group({
+            filter: [null],
+            car_id: [],
+        });
     }
 
     ngOnInit() {
@@ -134,6 +141,21 @@ export class ListComponent implements OnInit, AfterViewInit {
             startWith(''),
             map((value: any) => this._filterProduct(value || ''))
         );
+    }
+
+    HandlerPage(e: any) {
+        this._service.getcarbytext(e).subscribe((resp: any) => {
+            this.cars = resp;
+            if (this.cars.length == 1) {
+                this.car = this.cars[0]
+                this.rerender();
+                this._changeDetectorRef.markForCheck();
+            } else {
+                this.car = null;
+                this.rerender();
+                this._changeDetectorRef.markForCheck();
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -147,7 +169,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     private _filterProduct(value: string): string[] {
         const filterValue = value.toLowerCase();
-        return this.productData.filter((option) => option.license_plate.toLowerCase().includes(filterValue)
+        return this.productData.filter((option) =>
+            option.license_plate.toLowerCase().includes(filterValue)
         );
     }
     data1: any;
@@ -159,16 +182,15 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         // console.log(index)
         this.data1 = this.productData[index];
-        console.log(this.data1)
+        console.log(this.data1);
         return this.productData[index].license_plate;
     }
 
     clear() {
-        this.ProductControl.setValue('')
+        this.ProductControl.setValue('');
     }
 
     searchTable() {
-    
         // this.loadTable()
         this.rerender();
         this._changeDetectorRef.markForCheck();
@@ -190,14 +212,17 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     exportFile() {
-        window.open(environment.baseURL + '/api/booking_export_history/' + this.ProductControl.value ?? '')
+        window.open(
+            environment.baseURL +
+                '/api/booking_export_history/' +
+                this.ProductControl.value ?? ''
+        );
     }
 
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
-
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -214,8 +239,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
-                // dataTablesParameters.search_license_plate = '2กล-5442';
-                dataTablesParameters.search_license_plate = this.data1?.license_plate ?? '2กล-5442';
+                dataTablesParameters.search_license_plate =
+                    this.car?.license ?? '';
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
@@ -239,11 +264,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
+                { data: 'date' },
+                { data: 'mile' },
+                { data: 'event' },
+                { data: 'service_center' },
+                { data: 'user' },
             ],
         };
     }

@@ -145,7 +145,7 @@ export class PageService {
             );
     }
 
-    importCar(data : any): Observable<any> {
+    importCar(data: any): Observable<any> {
         return this._httpClient
             .post(environment.baseURL + '/api/import_cars', data)
             .pipe(
@@ -174,6 +174,17 @@ export class PageService {
             )
             .pipe(
                 switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
+
+    getcarbytext(text: any): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + `/api/get_car_by_key_search_all/${text}`)
+            .pipe(
+                switchMap((response: any) => {
+                    console.log(response);
                     return of(response.data);
                 })
             );

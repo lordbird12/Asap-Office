@@ -4,8 +4,7 @@
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -20,16 +19,17 @@
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
             <div class="flex justify-start items-center w-100 mt-5">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full min-w-56">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <form [formGroup]="addForm">
+                        <mat-form-field class="w-full">
+                            <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="search-icon"></mat-icon>
+                            <input matInput [formControlName]="'filter'" (ngModelChange)="HandlerPage(this.addForm.value.filter)" placeholder="ค้นหาชื่อรุ่นรถ หรือ ทะเบียนรถ" class="custom-placeholder">
+                        </mat-form-field>
+                    </form>
+                    <!-- <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full min-w-56">
                         <mat-icon svgIcon="search"></mat-icon>
-                        <input type="text" 
-                        matInput placeholder="ค้นหา"
-                        [matAutocomplete]="product" 
-                        [formControl]="ProductControl" />
-                        <button *ngIf="ProductControl.value" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="clear()">
+                        <input type="text" matInput placeholder="ค้นหา" [matAutocomplete]="product" [formControl]="ProductControl" />
+                        <button *ngIf="ProductControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clear()">
                             <mat-icon>close</mat-icon>
                         </button>
                         <mat-autocomplete #product="matAutocomplete" [displayWith]="displayProduct.bind(this)" (optionSelected)="searchTable()">
@@ -37,19 +37,12 @@
                                 {{ option.license_plate }}
                             </mat-option>
                         </mat-autocomplete>
-                        <!-- <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                              {{option}}
-                            </mat-option>
-                          </mat-autocomplete> -->
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </div>
             </div>
             <div class="flex">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <button class="flex flex-row text-gray-500 px-3 border-2 border-gray-300 rounded-xl items-center"
-                        (click)="exportFile()">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <button class="flex flex-row text-gray-500 px-3 border-2 border-gray-300 rounded-xl items-center" (click)="exportFile()">
                         <mat-icon class="icon-size-6 text-gray-500"
                             svgIcon="heroicons_outline:document-arrow-down"></mat-icon>
                         &nbsp;
@@ -62,28 +55,24 @@
     </div>
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
-            <div class="flex justify-start items-center w-150 mt-5">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+            <div class="flex justify-start items-center w-150 mt-5" *ngIf="this.car">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <div class="flex p-4 ">
-                        <img class="h-15 w-auto"
-                            src="https://asha-tech.co.th/asap/public/images/cars/6f58276d3fa0fdd2c00c2c3b816d885d.png"
-                            alt="image" style="object-fit: contain;">
+                        <img class="h-15 w-auto" [src]="this.car?.image" alt="image" style="object-fit: contain;">
                     </div>
                     <div class="p-2 flex-grow">
-                        <div class="whitespace-nowrap"><strong>{{this.data1?.license_plate ?? 'กท - 678'}}</strong><br>{{this.data1?.car.brand_model?.name ?? 'Toyota Accord'}}</div>
+                        <div class="whitespace-nowrap"><strong>{{this.car?.license ??
+                                '-'}}</strong><br>{{this.car?.brand_model?.name ?? '-'}}</div>
                     </div>
                 </div>
                 <div class="border-l h-24 mx-4"></div>
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <div class="flex p-4 ">
-                        <img class="h-15 w-15 border-2 border-gray-500 rounded-full"
-                            src="{{this.data1?.car?.pictureUrl ?? 'assets/images/no_image.jpg'}}"
-                            alt="image" style="object-fit: contain;">
+                        <img class="h-15 w-15 border-2 border-gray-500 rounded-full" src="{{this.car?.pictureUrl ?? 'assets/images/no_image.jpg'}}" alt="image" style="object-fit: contain;">
                     </div>
                     <div class="p-2 flex-grow">
-                        <div class="whitespace-nowrap"><strong>{{this.data1?.client.name ?? 'มานี มีนา'}}</strong><br>{{this.data1?.client.company ?? 'ไทยประกัน'}}</div>
+                        <div class="whitespace-nowrap"><strong>{{this.car?.client.name ??
+                                '-'}}</strong><br>{{this.car?.client.company ?? '-'}}</div>
                     </div>
                 </div>
             </div>
@@ -100,35 +89,36 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    *ngFor="let item of dataRow; let i = index;">
-                    <td class="px-6 py-4">
-                        <div class="flex flex-col ">
-                            <div class="text-base font-semibold">{{ (item.book_date | date: 'dd/MM/yyyy') ?? ''}}</div>
-                            <div class="font-normal text-gray-500"> {{ item.book_time?.slice(0,5) ?? '00:00' }}</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex flex-col ">
-                            <div class="text-base font-semibold">{{ (item.mile | number) ?? '0'}} km.</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex flex-col ">
-                            <div class="text-base font-semibold">{{ item.service ?? '-'}}</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex flex-col ">
-                            <div class="text-base font-semibold">{{ item.service_center  ?? '-'}}</div>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex flex-col ">
-                            <div class="text-base font-semibold">{{ item.user?.fname  ?? ''}} {{ item.user?.lname ?? '' }} ({{ item.user?.department?.name ?? '' }})</div>
-                        </div>
-                    </td>
-                </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let item of dataRow; let i = index;">
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">{{ (item.book_date | date: 'dd/MM/yyyy') ?? ''}}
+                                </div>
+                                <div class="font-normal text-gray-500"> {{ item.book_time?.slice(0,5) ?? '00:00' }}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">{{ (item.mile | number) ?? '0'}} km.</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">{{ item.service ?? '-'}}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">{{ item.service_center ?? '-'}}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">{{ item.user?.fname ?? ''}} {{ item.user?.lname ?? '' }} ({{ item.user?.department?.name ?? '' }})</div>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
                 <!-- <tbody *ngIf="dataRow?.length == 0">
                     <tr>
