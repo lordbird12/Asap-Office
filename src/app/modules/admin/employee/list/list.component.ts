@@ -89,8 +89,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     applySearch() {
         // You may need to modify this based on your DataTables structure
         this.rerender()
-      }
-      rerender(): void {
+    }
+    rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
@@ -103,7 +103,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         // $('#searchInput').on('keyup', function () {
         //     table.search('1').draw();
-        
+
         // });
         this._changeDetectorRef.detectChanges();
     }

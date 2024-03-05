@@ -16,7 +16,7 @@
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
                         <mat-icon svgIcon="search"></mat-icon>
-                        <input matInput [placeholder]="'ค้นหา'">
+                        <input matInput [placeholder]="'ค้นหา'"  [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
                     </mat-form-field>
                 </div>
             </div>

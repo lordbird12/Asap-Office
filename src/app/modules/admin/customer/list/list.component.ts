@@ -33,7 +33,7 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
@@ -64,12 +64,15 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    searchQuery: string = ''
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
     selectedTabLabel: string;
     public dataRow: any[];
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -83,6 +86,17 @@ export class ListComponent implements OnInit, AfterViewInit {
         // this._service.getPosition().subscribe((resp: any)=>{
         //     this.positions = resp.data
         // })
+    }
+
+    applySearch() {
+        // You may need to modify this based on your DataTables structure
+        this.rerender()
+    }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+
     }
 
     ngAfterViewInit(): void {
@@ -138,6 +152,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
