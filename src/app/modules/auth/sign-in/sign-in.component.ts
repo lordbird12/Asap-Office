@@ -85,7 +85,7 @@ export class AuthSignInComponent implements OnInit
         this._authService.signIn(this.signInForm.value).subscribe(
             {
                 next: (resp: any) => {
-                    console.log(resp.data.position_id)
+                    // console.log(resp.data.position_id)
                     let position = resp.data.position_id
                     if (position === '1') {
                         this._router.navigate(['admin/employee/list'])

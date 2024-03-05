@@ -122,6 +122,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
 
+    exportFile() {
+        window.open('')
+    }
+
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
