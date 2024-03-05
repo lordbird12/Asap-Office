@@ -33,25 +33,15 @@
                     class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <button class="flex flex-row text-gray-500 px-3 border-2 border-gray-300 rounded-xl items-center"
                         (click)="exportFile()">
-                        <mat-icon class="icon-size-6 text-gray-500" svgIcon="heroicons_outline:document-arrow-down"></mat-icon>
+                        <mat-icon class="icon-size-6 text-gray-500"
+                            svgIcon="heroicons_outline:document-arrow-down"></mat-icon>
                         &nbsp;
                         &nbsp;
                         <span>Export Excel</span>
                     </button>
                 </div>
-                <!-- <div
-                    class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
-                    <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'"
-                        (click)="addElement()">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        <div class="font-light">
-                            เพิ่มรถ
-                        </div>
-                    </button>
-                </div> -->
             </div>
         </div>
-
     </div>
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
@@ -72,21 +62,18 @@
                 <div
                     class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <div class="flex p-4 ">
-                        <img class="h-15 w-auto"
+                        <img class="h-15 w-15"
                             src="https://asha-tech.co.th/asap/public/images/users/229157350948b0586f07c2c28c8b2b93.jpg"
                             alt="image" style="object-fit: contain;">
                     </div>
                     <div class="p-2 flex-grow">
                         <div class="whitespace-nowrap"><strong>ธัชพล มหาสาร</strong><br>บริษัทเมืองไทยประกันชีวิต</div>
-
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-
-            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+            <!-- <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
                         <th class="font-light">วันเวลา</th>
@@ -97,26 +84,69 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
-                    <!-- <tr *ngFor="let item of dataRow; let i = index">
-
-                        <td class="font-light">{{item.brand_model?.name}}</td>
-                        <td class="font-light">{{item?.license}}</td>
-                        <td>
-                            <div *ngIf="item.status == 'Available'"
-                                class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
-                                เปิดใช้งาน
-                            </div>
-                        </td>
-                        <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
-                        <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
-                    </tr> -->
+    
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>
                         <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead
+                        class="text-lg text-gray-700 font-normal uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                วันเวลา
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                ไมล์
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                กิจกรรม
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                ศูนย์บริการ
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                พนักงานที่บริการ
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            *ngFor="let item of tableRow; let i = index;">
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col ">
+                                    <div class="text-base font-semibold">{{ item.created_at | date: 'dd/MM/yyyy'}}</div>
+                                    <div class="font-normal text-gray-500"> {{ item.created_at | date: 'HH:mm'}}</div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col ">
+                                    <div class="text-base font-semibold">{{ item.mile | number}} km.</div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col ">
+                                    <div class="text-base font-semibold">{{ item.activity}} km.</div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col ">
+                                    <div class="text-base font-semibold">{{ item.service }} km.</div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col ">
+                                    <div class="text-base font-semibold">{{ item.create_by }} km.</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

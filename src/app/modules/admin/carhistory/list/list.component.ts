@@ -71,6 +71,29 @@ export class ListComponent implements OnInit, AfterViewInit {
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     dtInstance: Promise<DataTables.Api>;
+    tableRow : any[] = [
+        {
+            created_at: "2024-03-04T11:01:29.000000Z",
+            mile: "23000",
+            activity: "เช็คระยะ",
+            service: "Toyota บางนา",
+            create_by: "โอลิเวีย  (แผนก Enterprise)"
+        },
+        {
+            created_at: "2024-03-04T11:01:29.000000Z",
+            mile: "23000",
+            activity: "เช็คระยะ",
+            service: "Toyota บางนา",
+            create_by: "โอลิเวีย  (แผนก Enterprise)"
+        },
+        {
+            created_at: "2024-03-04T11:01:29.000000Z",
+            mile: "23000",
+            activity: "เช็คระยะ",
+            service: "Toyota บางนา",
+            create_by: "โอลิเวีย  (แผนก Enterprise)"
+        },
+    ]
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
