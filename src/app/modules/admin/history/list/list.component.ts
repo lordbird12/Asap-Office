@@ -33,7 +33,7 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment.development';
 
@@ -63,11 +63,14 @@ import { environment } from 'environments/environment.development';
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    searchQuery: string = '';
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -124,6 +127,17 @@ export class ListComponent implements OnInit, AfterViewInit {
         // });
     }
 
+    applySearch() {
+        // You may need to modify this based on your DataTables structure
+        this.rerender()
+    }
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+
+    }
+
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
         const that = this;
@@ -138,6 +152,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
