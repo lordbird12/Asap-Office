@@ -32,10 +32,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { PageService } from '../page.service';
 
-import { tap } from 'rxjs';
+import { Observable, map, startWith, tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
     selector: 'car-list',
@@ -60,6 +61,8 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -71,7 +74,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     dtInstance: Promise<DataTables.Api>;
-    tableRow : any[] = [
+    tableRow: any[] = [
         {
             created_at: "2024-03-04T11:01:29.000000Z",
             mile: "23000",
@@ -93,20 +96,28 @@ export class ListComponent implements OnInit, AfterViewInit {
             service: "Toyota บางนา",
             create_by: "โอลิเวีย  (แผนก Enterprise)"
         },
-    ]
+    ];
+    filteredOptionsProduct: Observable<string[]>;
+    selectedProduct: string = '';
+    productData: any[] = [];
+    categoryData: any[] = [];
+    productFilter: any[] = [];
+    ProductControl = new FormControl('');
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router
-    ) {}
+    ) {
+
+    }
 
     ngOnInit() {
-        this.loadTable();
-        // this._service.getPosition().subscribe((resp: any)=>{
-        //     this.positions = resp.data
-        // })
+        this.filteredOptionsProduct = this.ProductControl.valueChanges.pipe(
+            startWith(''),
+            map((value: any) => this._filterProduct(value || ''))
+        );
     }
 
     ngAfterViewInit(): void {
@@ -118,18 +129,19 @@ export class ListComponent implements OnInit, AfterViewInit {
         this._router.navigate(['admin/car/edit/' + Id]);
     }
 
-    addElement() {
-        this._router.navigate(['admin/car/form']);
-        // const dialogRef = this.dialog.open(FormDialogComponent, {
-        //     width: '1000px',
-        //     height: '600px', // กำหนดความกว้างของ Dialog
-        // });
+    private _filterProduct(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.productData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
+    }
 
-        // dialogRef.afterClosed().subscribe((result) => {
-        //     if (result) {
-        //         //    console.log(result,'result')
-        //     }
-        // });
+    displayProduct(subject) {
+        if (!subject) return '';
+        let index = this.productData.findIndex(
+            (state) => state.id === parseInt(subject)
+        );
+        return this.productData[index].name;
     }
 
     uploadfile() {

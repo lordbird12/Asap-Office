@@ -312,9 +312,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         );
         dialogRef.afterClosed().subscribe(result => {
-
             if (result) {
-               
+                console.log('result',result)
                 const data =   {
                     users: this.employeeDep.filter(e => e.isSelected)
                 }
@@ -351,8 +350,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
                     const news = resp.data.news;
                     const all = resp.data.all;
-                    // console.log(resp.data.all)
-    
                     for (const item of news) {
                         if (item.status === 'New') {
                             this.task[0].task.push(item)
@@ -372,8 +369,9 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[0].task.push(item)
                         }
                     }
+                    this._changeDetectorRef.markForCheck();
                 })
-                this._changeDetectorRef.markForCheck();
+               
             }
         })
     }
