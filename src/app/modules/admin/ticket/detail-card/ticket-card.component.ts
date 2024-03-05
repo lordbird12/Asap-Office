@@ -20,6 +20,7 @@ import { CheckboxTopicComponent } from 'app/shared/checkbox-topic/checkbox.compo
     styleUrls: ['./ticket-card.component.scss']
 })
 export class DetailTicketComponent implements OnInit {
+    note: string = '';
     serviceData: any[] = []
     serviceCenterData: any[] = []
     activities: any[] = []
@@ -54,6 +55,7 @@ export class DetailTicketComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.note = this.data.note
         this.activities = this.data.activitys
         this.statusData.setValue(this.data.status)
         this.dataArray = this.data.ticket_topic.map(topic => topic.status);

@@ -83,6 +83,12 @@
             
             <!-- <app-checkbox-service [items]="yourArray" [dataArray]="yourDataArray"></app-checkbox-service> -->
         </div>
+        <div class="flex flex-col mt-2">
+            <mat-label class="font-bold">Notes</mat-label>
+            <mat-form-field>
+                <textarea matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3" [(ngModel)]="note"></textarea>
+            </mat-form-field>
+        </div>
         <div class="flex flex-col">
             <div class="flex flex-row justify-between mb-6">
                 <mat-label class="font-bold">Activity</mat-label>
