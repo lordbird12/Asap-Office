@@ -1,6 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -13,16 +14,20 @@
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
             <div class="flex justify-start items-center w-100 mt-5">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
                         <mat-icon svgIcon="search"></mat-icon>
-                        <input matInput [placeholder]="'ค้นหา'"  [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
+                        <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery"
+                            (ngModelChange)="applySearch()">
                     </mat-form-field>
                 </div>
             </div>
             <div class="flex">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center"
+                        (click)="uploadfile()">
                         <div class="w-[15px] h-[20px] items-center mt-1">
                             <img src="assets/icons/Vector.svg">
                         </div>
@@ -31,8 +36,10 @@
                         <span>อัปโหลด CSV</span>
                     </button>
                 </div>
-                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
-                    <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
+                <div
+                    class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
+                    <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'"
+                        (click)="addElement()">
                         <mat-icon>add_circle_outline</mat-icon>
                         <div class="font-light">
                             เพิ่มลูกค้า
@@ -41,13 +48,11 @@
                 </div>
             </div>
         </div>
-        <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    ทั้งหมด
-                </ng-template>
+        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+            <mat-tab label="ทั้งหมด">
                 <div class="flex flex-col flex-auto sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <table datatable [dtOptions]="dtOptions"
+                        class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
                                 <th class="font-light">ชื่อ</th>
@@ -63,18 +68,23 @@
                             <tr *ngFor="let item of dataRow; let i = index">
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
+                                </td>
                                 <td style="width: 100px; min-width: 100px;">
-                                    <div class="text-green-600 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900" *ngIf="item?.status === 'Active'">
+                                    <div class="text-green-600 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900"
+                                        *ngIf="item?.status === 'Active'">
                                         <span class="bg-green-200 p-1 rounded-md"> ใช้งานอยู่</span>
                                     </div>
-                                    <div class="text-red-500  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900" *ngIf="item?.status === 'Expire'">
-                                      <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>  
+                                    <div class="text-red-500  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
+                                        *ngIf="item?.status === 'Expire'">
+                                        <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
                                     </div>
                                 </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date | date : 'dd/MM/yyyy' }}
+                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
+                                    date : 'dd/MM/yyyy' }}
                                 </td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button (click)="edit(item.id)">
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
+                                        (click)="edit(item.id)">
                                         <mat-icon svgIcon="feather:edit-3"></mat-icon>
                                     </button>
 
@@ -88,146 +98,132 @@
                         </tbody>
                     </table>
                 </div>
-
-
-
             </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    ใช้งานอยู่
+            <mat-tab label="ใช้งานอยู่">
+                <div class="flex flex-col flex-auto sm:overflow-y-auto">
+                    <table datatable [dtOptions]="dtOptions"
+                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="font-light">ชื่อ</th>
+                                <th class="font-light">บริษัท</th>
+                                <th class="font-light">จำนวนรถ</th>
+                                <th class="font-light ">สถานะ</th>
+                                <th class="font-light ">วันหมดอายุ</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="dataRow?.length != 0">
+                            <tr *ngFor="let item of dataRow; let i = index">
+                                <td style="width: 100px; min-width: 100px;" class="font-light">Maria Rusk</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
+                                <td style="width: 100px; min-width: 100px;">
+                                    <div
+                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                        เปิดใช้งาน
+                                    </div>
+                                </td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">11/10/2023</td>
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
+                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                                    </button>
 
-                </ng-template>
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
-                    <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="font-light">ชื่อ</th>
-                                    <th class="font-light">บริษัท</th>
-                                    <th class="font-light">จำนวนรถ</th>
-                                    <th class="font-light ">สถานะ</th>
-                                    <th class="font-light ">วันหมดอายุ</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody *ngIf="dataRow?.length != 0">
-                                <tr *ngFor="let item of dataRow; let i = index">
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">Maria Rusk</td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
-                                    <td style="width: 100px; min-width: 100px;">
-                                        <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
-                                            เปิดใช้งาน
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">11/10/2023</td>
-                                    <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
-                                            <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody *ngIf="dataRow?.length == 0">
-                                <tr>
-                                    <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="dataRow?.length == 0">
+                            <tr>
+                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    หมดอายุ
+            <mat-tab label="หมดอายุ">
+                <div class="flex flex-col flex-auto  sm:overflow-y-auto">
+                    <table datatable [dtOptions]="dtOptions"
+                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="font-light">ชื่อ</th>
+                                <th class="font-light">บริษัท</th>
+                                <th class="font-light">จำนวนรถ</th>
+                                <th class="font-light ">สถานะ</th>
+                                <th class="font-light ">วันหมดอายุ</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="dataRow?.length != 0">
+                            <tr *ngFor="let item of dataRow; let i = index">
+                                <td style="width: 100px; min-width: 100px;" class="font-light">Maria Rusk</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
+                                <td style="width: 100px; min-width: 100px;">
+                                    <div
+                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                        เปิดใช้งาน
+                                    </div>
+                                </td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">11/10/2023</td>
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
+                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                                    </button>
 
-                </ng-template>
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
-                    <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="font-light">ชื่อ</th>
-                                    <th class="font-light">บริษัท</th>
-                                    <th class="font-light">จำนวนรถ</th>
-                                    <th class="font-light ">สถานะ</th>
-                                    <th class="font-light ">วันหมดอายุ</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody *ngIf="dataRow?.length != 0">
-                                <tr *ngFor="let item of dataRow; let i = index">
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">Maria Rusk</td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
-                                    <td style="width: 100px; min-width: 100px;">
-                                        <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
-                                            เปิดใช้งาน
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">11/10/2023</td>
-                                    <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
-                                            <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody *ngIf="dataRow?.length == 0">
-                                <tr>
-                                    <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="dataRow?.length == 0">
+                            <tr>
+                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    ระงับการใช้งาน
+            <mat-tab label="ระงับการใช้งาน">
+                <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+                    <table datatable [dtOptions]="dtOptions"
+                        class="table row-border hover w-full bg-white whitespace-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="font-light">ชื่อ</th>
+                                <th class="font-light">บริษัท</th>
+                                <th class="font-light">จำนวนรถ</th>
+                                <th class="font-light ">สถานะ</th>
+                                <th class="font-light ">วันหมดอายุ</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="dataRow?.length != 0">
+                            <tr *ngFor="let item of dataRow; let i = index">
+                                <td style="width: 100px; min-width: 100px;" class="font-light">Maria Rusk</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
+                                <td style="width: 100px; min-width: 100px;">
+                                    <div
+                                        class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
+                                        เปิดใช้งาน
+                                    </div>
+                                </td>
+                                <td style="width: 100px; min-width: 100px;" class="font-light">11/10/2023</td>
+                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
+                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                                    </button>
 
-                </ng-template>
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-10  bg-white">
-                    <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                        <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
-                            <thead>
-                                <tr>
-                                    <th class="font-light">ชื่อ</th>
-                                    <th class="font-light">บริษัท</th>
-                                    <th class="font-light">จำนวนรถ</th>
-                                    <th class="font-light ">สถานะ</th>
-                                    <th class="font-light ">วันหมดอายุ</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody *ngIf="dataRow?.length != 0">
-                                <tr *ngFor="let item of dataRow; let i = index">
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">Maria Rusk</td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">ไทยประกันชีวิต</td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">12</td>
-                                    <td style="width: 100px; min-width: 100px;">
-                                        <div class="text-green-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
-                                            เปิดใช้งาน
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px; min-width: 100px;" class="font-light">11/10/2023</td>
-                                    <td style="width: 100px; min-width: 100px;"> <button mat-icon-button>
-                                            <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                        </button>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tbody *ngIf="dataRow?.length == 0">
-                                <tr>
-                                    <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="dataRow?.length == 0">
+                            <tr>
+                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </mat-tab>
         </mat-tab-group>
+
         <!-- Main -->
     </div>
 </div>
