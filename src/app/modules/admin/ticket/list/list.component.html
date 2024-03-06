@@ -116,7 +116,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">{{ getLastElement(card) | timeDifference}}</span>
+                                    <span class="text-lg text-slate-500">{{ getLastElement(card)}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
@@ -130,7 +130,7 @@
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
+                                src="{{card.image ?? 'assets/images/no_image.jpg'}}"
                                     alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
@@ -167,7 +167,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">{{ getLastElement(card) | timeDifference}}</span>
+                                    <span class="text-lg text-slate-500">{{ getLastElement(card)}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
@@ -181,7 +181,7 @@
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto"
-                                    src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
+                                src="{{card.image ?? 'assets/images/no_image.jpg'}}"
                                     alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
@@ -218,7 +218,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
-                                    <span class="text-lg text-slate-500">{{ getLastElement(card) | timeDifference}}</span>
+                                    <span class="text-lg text-slate-500">{{ getLastElement(card)}}</span>
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">

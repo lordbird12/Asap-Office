@@ -323,10 +323,18 @@ export class ListComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
 
             if(result) {    
+                let dep = []
+                if (this.department.length > 0 ) {
+                    dep = this.department.map(item => item )
+                }
+                else 
+                {
+                    dep = [+this.user.department_id]
+                }
                 const emp = this.employeeDep.filter(item => item.isSelected)
-                const dep = this.department.map(item => item)
+                // const dep = this.department.map(item => item)
                 const data = {
-                    deps:  dep ?? this.user.department_id, 
+                    deps:   dep, 
                     users: emp.map(item => ({code: item.code}))
                 }
                 this.task = [
@@ -503,6 +511,48 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     getLastElement(data: any): any {
         const created_at = data.activitys[data.activitys.length - 1];
-        return created_at.updated_at
+        // return created_at.updated_at
+        return this.checkAndFormatDateTime(created_at.updated_at)
     }
+
+    checkAndFormatDateTime(inputDateTimeRaw: Date): string {
+        const inputDateTime = new Date(inputDateTimeRaw)
+        const today = new Date();
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+    
+        if (this.isSameDate(inputDateTime, today)) {
+          return 'วันนี้ ' + this.formatTime(inputDateTime);
+        } else if (this.isSameDate(inputDateTime, yesterday)) {
+          return 'เมื่อวาน ' + this.formatTime(inputDateTime);
+        } else {
+          return this.formatFullDateTime(inputDateTime);
+        }
+      }
+    
+      // Function to check if two dates are the same day
+      private isSameDate(date1: Date, date2: Date): boolean {
+   
+        return (
+          date1.getDate() === date2.getDate() &&
+          date1.getMonth() === date2.getMonth() &&
+          date1.getFullYear() === date2.getFullYear()
+        );
+      }
+    
+      // Function to format time as HH:mm
+      private formatTime(dateTime: Date): string {
+        const hours = dateTime.getHours().toString().padStart(2, '0');
+        const minutes = dateTime.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+      }
+    
+      // Function to format full date and time as dd/MM/yyyy HH:mm
+      private formatFullDateTime(dateTime: Date): string {
+        const day = dateTime.getDate().toString().padStart(2, '0');
+        const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
+        const year = dateTime.getFullYear().toString();
+        const time = this.formatTime(dateTime);
+        return `${day}/${month}/${year} ${time}`;
+      }
 }
