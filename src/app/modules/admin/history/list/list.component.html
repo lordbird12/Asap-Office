@@ -10,12 +10,13 @@
                 <div class="flex w-100">
                     <mat-form-field class="w-full">
                         <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                            <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="changeDate()">
+                            <input matStartDate formControlName="start" placeholder="Start date" >
                             <input matEndDate formControlName="end" placeholder="End date" (dateChange)="changeDate()">
                           </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
+                    <!-- {{this.range.value | json}} -->
                 </div>
             </div>
         </div>
@@ -32,7 +33,7 @@
                     </mat-form-field>
 
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
-                        <mat-select [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
+                        <mat-select [(ngModel)]="department" (selectionChange)="applySearch()">
 
                             <mat-option [value]="''"> ทุกแผนก</mat-option>
                             <mat-option [value]="'Bank'"> Bank</mat-option>
@@ -77,9 +78,8 @@
                         <td>{{ pages.begin + (i + 1) }}</td>
                         <td>{{ item.user_id ? item.user_id : "-" }}</td>
                         <td>{{ item.created_at ? item.created_at : "-" }}</td>
-                        <!-- <td>{{ item.created_at !== null ? (item.created_at | date : "dd-MM-yy, HH:mm"): "-"}}</td> -->
-                        <td>{{ item.description ? item.description : "-" }}</td>
-                        <td>Enterprise</td>
+                         <td>{{ item.description ? item.description : "-" }}</td>
+                        <td>{{item.user?.department?.name ?? '-'}}</td>
                     </tr>
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">

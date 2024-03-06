@@ -66,10 +66,11 @@ import moment from 'moment';
 })
 export class ListComponent implements OnInit, AfterViewInit {
     range = new FormGroup({
-        start: new FormControl<any>(null),
-        end: new FormControl<any>(null),
+        start: new FormControl<any>(new Date),
+        end: new FormControl<any>(new Date),
       });
     searchQuery: string = '';
+    department: string = '';
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
@@ -141,7 +142,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
-
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
@@ -158,6 +158,9 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                dataTablesParameters.date_start = moment(this.range.value.start).format('YYYY-MM-DD')
+                dataTablesParameters.date_stop = moment(this.range.value.end).format('YYYY-MM-DD')
+                dataTablesParameters.department = this.department
                 dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
@@ -196,11 +199,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     changeDate() {
-        
-        const formValue = this.range.value;
-        this.range.value.end = moment(this.range.value.end).format('YYYY-MM-DD')
-        this.range.value.start = moment(formValue.start).format('YYYY-MM-DD')
-        console.log(this.range.value)
+        this.rerender()
+        this._changeDetectorRef.markForCheck()
     }
     
 
