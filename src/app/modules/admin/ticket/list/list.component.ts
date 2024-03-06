@@ -75,7 +75,9 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
     providers: [UserImageService]
 })
 export class ListComponent implements OnInit, AfterViewInit {
+
     formFieldHelpers: string[] = ['fuse-mat-dense'];
+    car: string = ''
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
@@ -157,8 +159,27 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this.task[2].task.push(item)
                 }
             }
+            console.log(this.task)
             this._changeDetectorRef.markForCheck();
         })
+    }
+
+    searchCar() {
+
+        console.log(this.car)
+        const data = this.task[0].task.filter(item => item.car.license === this.car)
+        // this.task[0].task.push(data)
+        console.log(data)
+        if(data.length > 0) {
+            for (const item of data) {
+                if (item.status === 'New') {
+                    this.task[0].task.push(item)
+                }
+              
+            }
+            this._changeDetectorRef.markForCheck();
+          
+        }
     }
 
     ngAfterViewInit(): void {

@@ -215,8 +215,11 @@ export class FormComponent implements OnInit {
     files: File[] = [];
     url_logo: string;
     onSelect(event: { addedFiles: File[] }): void {
+  
         this.files.push(...event.addedFiles);
-
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
         // this.addForm.patchValue({
         //     image: this.files[0]
         // })
@@ -228,6 +231,7 @@ export class FormComponent implements OnInit {
         this.addForm.patchValue({
             image: file,
         });
+
     }
     back() {
         this._router.navigateByUrl('admin/car/list').then(() => {});

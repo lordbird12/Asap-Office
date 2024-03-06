@@ -106,7 +106,7 @@
                     [ngClass]="{'bg-[#fff9f9]': isChecked1[j], 'bg-white': !isChecked1[j],'border-red-500' : isChecked1[j]}"
                         *ngIf="card.status === 'Process'">
                         <div class="flex flex-row justify-between">
-                            <div class="flex flex-row"> 
+                            <div class="flex flex-row" (click)="editTicket(card)"> 
                                 <div class="flex p-4">
                                     <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
                                 </div>
@@ -131,14 +131,14 @@
                                     {{service.service?.name}}&nbsp;</span>
                             </div>
                         </div>
-                        <div class="flex flex-row">
+                        <div class="flex flex-row" (click)="editTicket(card)">
                             <div class="flex px-4">
                                 <div>
                                     <span class="text-lg font-bold">{{card.created_at | date: 'dd MMM yyyy HH:mm'}}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-row mt-4">
+                        <div class="flex flex-row mt-4" (click)="editTicket(card)">
                             <div class="flex flex-col mt-4">
                                 <div class="flex px-4">
                                     <div>
@@ -171,7 +171,7 @@
                         <div class="mx-4">
                             <hr class="my-3">
                         </div>
-                        <div class="flex flex-row justify-between">
+                        <div class="flex flex-row justify-between" (click)="editTicket(card)">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
                                     <span class="text-lg text-slate-500">{{ getLastElement(card)}}</span>
@@ -189,7 +189,7 @@
                     [ngClass]="{'bg-[#fff9f9]': isChecked2[j], 'bg-white': !isChecked2[j],'border-red-500' : isChecked2[j]}"
                     *ngIf="card.status === 'Waiting'">
                         <div class="flex flex-row justify-between">
-                            <div class="flex flex-row"> 
+                            <div class="flex flex-row" (click)="editTicket(card)"> 
                                 <div class="flex p-4">
                                     <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
                                 </div>
@@ -214,7 +214,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-row mt-4">
+                        <div class="flex flex-row mt-4" (click)="editTicket(card)">
                             <div class="flex flex-col mt-4">
                                 <div class="flex px-4">
                                     <div>
@@ -238,7 +238,7 @@
                         <div class="mx-4">
                             <hr class="my-3">
                         </div>
-                        <div class="flex flex-row justify-between">
+                        <div class="flex flex-row justify-between" (click)="editTicket(card)">
                             <div class="flex px-4 text-center justify-center" style="align-items: center;">
                                 <div>
                                     <span class="text-lg text-slate-500">{{ getLastElement(card)}}</span>
@@ -250,7 +250,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5" *ngIf="card.status === 'Finish'">
+                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5" *ngIf="card.status === 'Finish'" >
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">

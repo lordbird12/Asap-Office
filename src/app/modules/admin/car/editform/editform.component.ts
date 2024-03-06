@@ -232,11 +232,11 @@ export class EditFormComponent implements OnInit {
     files: File[] = [];
     url_logo: string;
     onSelect(event: { addedFiles: File[] }): void {
+        // this.files.push(...event.addedFiles);
         this.files.push(...event.addedFiles);
-
-        // this.addForm.patchValue({
-        //     image: this.files[0]
-        // })
+        setTimeout(() => {
+            this._changeDetectorRef.detectChanges();
+        }, 150);
 
         var reader = new FileReader();
         reader.readAsDataURL(this.files[0]);
