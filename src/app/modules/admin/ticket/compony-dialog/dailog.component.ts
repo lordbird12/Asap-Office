@@ -101,7 +101,7 @@ export class CompanyDialogComponent implements OnInit {
         if (this.selectedItems.length !== this.filteredData.length) {
             this.checkAll = false;
         }
-        console.log(this.selectedItems)
+        // console.log(this.selectedItems)
     }
     uncheckAllItems() {
         this.checkAll = false

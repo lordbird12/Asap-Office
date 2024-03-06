@@ -68,6 +68,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    companyList: any[]=[]
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     dtInstance: Promise<DataTables.Api>;
@@ -143,6 +144,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
+                this.companyList = result.map(item => item.id)
+                console.log('111',this.companyList)
                 this.rerender();
             }
         });
@@ -172,6 +175,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
+                dataTablesParameters.company = this.companyList;
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
