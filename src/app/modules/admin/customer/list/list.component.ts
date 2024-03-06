@@ -68,9 +68,15 @@ export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
+    dtOptions1: DataTables.Settings = {};
+    dtOptions2: DataTables.Settings = {};
+    dtOptions3: DataTables.Settings = {};
     positions: any[];
     selectedTabLabel: string;
     public dataRow: any[];
+    public dataRow1: any[];
+    public dataRow2: any[];
+    public dataRow3: any[];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -157,6 +163,132 @@ export class ListComponent implements OnInit, AfterViewInit {
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
+                        this.pages.current_page = resp.current_page;
+                        this.pages.last_page = resp.last_page;
+                        this.pages.per_page = resp.per_page;
+                        if (resp.current_page > 1) {
+                            this.pages.begin =
+                                resp.per_page * resp.current_page - 1;
+                        } else {
+                            this.pages.begin = 0;
+                        }
+
+                        callback({
+                            recordsTotal: resp.total,
+                            recordsFiltered: resp.total,
+                            data: [],
+                        });
+                        this._changeDetectorRef.markForCheck();
+                    });
+            },
+            columns: [
+                { data: 'action', orderable: false },
+                { data: 'No' },
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'tel' },
+            ],
+        };
+        this.dtOptions1= {
+            pagingType: 'full_numbers',
+            pageLength: 25,
+            serverSide: true,
+            processing: true,
+            searching: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+            },
+            ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.status = 'Active';
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
+                that._service
+                    .getPage(dataTablesParameters)
+                    .subscribe((resp: any) => {
+                        this.dataRow1 = resp.data;
+                        this.pages.current_page = resp.current_page;
+                        this.pages.last_page = resp.last_page;
+                        this.pages.per_page = resp.per_page;
+                        if (resp.current_page > 1) {
+                            this.pages.begin =
+                                resp.per_page * resp.current_page - 1;
+                        } else {
+                            this.pages.begin = 0;
+                        }
+
+                        callback({
+                            recordsTotal: resp.total,
+                            recordsFiltered: resp.total,
+                            data: [],
+                        });
+                        this._changeDetectorRef.markForCheck();
+                    });
+            },
+            columns: [
+                { data: 'action', orderable: false },
+                { data: 'No' },
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'tel' },
+            ],
+        };
+        this.dtOptions2= {
+            pagingType: 'full_numbers',
+            pageLength: 25,
+            serverSide: true,
+            processing: true,
+            searching: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+            },
+            ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.status = 'Expire';
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
+                that._service
+                    .getPage(dataTablesParameters)
+                    .subscribe((resp: any) => {
+                        this.dataRow2= resp.data;
+                        this.pages.current_page = resp.current_page;
+                        this.pages.last_page = resp.last_page;
+                        this.pages.per_page = resp.per_page;
+                        if (resp.current_page > 1) {
+                            this.pages.begin =
+                                resp.per_page * resp.current_page - 1;
+                        } else {
+                            this.pages.begin = 0;
+                        }
+
+                        callback({
+                            recordsTotal: resp.total,
+                            recordsFiltered: resp.total,
+                            data: [],
+                        });
+                        this._changeDetectorRef.markForCheck();
+                    });
+            },
+            columns: [
+                { data: 'action', orderable: false },
+                { data: 'No' },
+                { data: 'name' },
+                { data: 'email' },
+                { data: 'tel' },
+            ],
+        };
+        this.dtOptions3= {
+            pagingType: 'full_numbers',
+            pageLength: 25,
+            serverSide: true,
+            processing: true,
+            searching: false,
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+            },
+            ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.status = 'Block';
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
+                that._service
+                    .getPage(dataTablesParameters)
+                    .subscribe((resp: any) => {
+                        this.dataRow3 = resp.data;
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
