@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import {
     FormControl,
+    FormGroup,
     FormsModule,
     ReactiveFormsModule,
     UntypedFormBuilder,
@@ -36,6 +37,7 @@ import { tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment.development';
+import moment from 'moment';
 
 @Component({
     selector: 'employee-list',
@@ -63,6 +65,10 @@ import { environment } from 'environments/environment.development';
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    range = new FormGroup({
+        start: new FormControl<any>(null),
+        end: new FormControl<any>(null),
+      });
     searchQuery: string = '';
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
@@ -188,6 +194,17 @@ export class ListComponent implements OnInit, AfterViewInit {
     deleteElement() {
         // เขียนโค้ดสำหรับการลบออกองคุณ
     }
+
+    changeDate() {
+        
+        const formValue = this.range.value;
+        this.range.value.end = moment(this.range.value.end).format('YYYY-MM-DD')
+        this.range.value.start = moment(formValue.start).format('YYYY-MM-DD')
+        console.log(this.range.value)
+    }
+    
+
+
 
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);

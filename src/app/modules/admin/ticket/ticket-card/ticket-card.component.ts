@@ -50,7 +50,7 @@ export class TicketCardComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog,
     ) {
-        // console.log(this.data)
+        console.log(this.data.value.services)
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
@@ -63,7 +63,6 @@ export class TicketCardComponent implements OnInit {
             company: '',
             image: '',
             note: '',
-
             services: this._fb.array([])
         })
 
@@ -114,8 +113,9 @@ export class TicketCardComponent implements OnInit {
                 client_id: +this.data.value.client_id,
                 service_center_id: +this.data.value.service_center_id,
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
-                note: this.data.value.note ?? ''
+               
             })
+            this.checknote(this.data.value.services)
         } else {
             this.statusData.setValue('New')
         }
@@ -274,7 +274,6 @@ export class TicketCardComponent implements OnInit {
                 },
                 "dismissible": true
             });
-
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
@@ -313,10 +312,6 @@ export class TicketCardComponent implements OnInit {
                 }
             })
         }
-
-
-        // แสดง Snackbar ข้อความ "complete"
-
     }
 
     getDaysAgo(created_at: string): string {
@@ -348,6 +343,20 @@ export class TicketCardComponent implements OnInit {
     sortBy(property: string) {
         this.testData.reverse();
         this._changeDetectorRef.markForCheck();
+    }
+
+    checknote(Array: any) {
+        
+        const service_other = Array.find(item => item.service_id === "8")
+        console.log('Arary' , service_other);
+        if (service_other) {
+           this.form.patchValue({
+            note: service_other?.note ?? ''
+           })
+        } else {
+            return;
+        }
+    
     }
 
     yourArray1: any[] = [];

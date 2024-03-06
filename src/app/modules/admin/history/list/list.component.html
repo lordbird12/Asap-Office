@@ -9,11 +9,11 @@
                 </h2>
                 <div class="flex w-100">
                     <mat-form-field class="w-full">
-                        <mat-date-range-input [rangePicker]="picker">
-                            <input matStartDate placeholder="วันที่เริ่มต้น">
-                            <input matEndDate placeholder="วันที่สิ้นสุด">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="changeDate()">
+                            <input matEndDate formControlName="end" placeholder="End date" (dateChange)="changeDate()">
+                          </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </div>
