@@ -92,7 +92,7 @@ export class FormDialogComponent implements OnInit {
 
     exportfile() {
         window.open(
-            'https://asha-tech.co.th/asap/public/sample_file/cars.xlsx'
+            environment.baseURL + '/sample_file/service_centers.xlsx'
         );
     }
 
