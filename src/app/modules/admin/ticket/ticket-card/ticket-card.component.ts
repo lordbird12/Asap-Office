@@ -50,7 +50,7 @@ export class TicketCardComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog,
     ) {
-        console.log(this.data.value.services)
+        // console.log(this.data.value.services)
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
