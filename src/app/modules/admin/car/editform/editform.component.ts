@@ -149,11 +149,13 @@ export class EditFormComponent implements OnInit {
 
     onSaveClick(): void {
         this.flashMessage = null;
-
+        if (this.addForm.value.status === 'Unavailable') {
+            this.addForm.patchValue({ expire_date: [null], client_id: [null] });
+        }
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
-            title: 'เพิ่มข้อมูล',
-            message: 'คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ',
+            title: 'แก้ไขข้อมูล',
+            message: 'คุณต้องการแก้ไขข้อมูลใช่หรือไม่ ',
             icon: {
                 show: false,
                 name: 'heroicons_outline:exclamation',
