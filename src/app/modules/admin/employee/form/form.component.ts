@@ -74,6 +74,9 @@ export class FormComponent implements OnInit {
     item: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
+
+    ACTION: 'CREATE' | 'EDIT' = 'CREATE';
+
     constructor(
         private formBuilder: FormBuilder,
         private _service: PageService,
@@ -112,6 +115,7 @@ export class FormComponent implements OnInit {
         this.activatedRoute.params.subscribe((params) => {
             // console.log(params);
             this.id = params.id;
+            this.ACTION = 'EDIT';
             if (this.id) {
                 this._service.getById(this.id).subscribe((resp: any) => {
                     const item = resp;
