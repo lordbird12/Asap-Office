@@ -202,6 +202,11 @@ export const appRoutes: Route[] = [
                             import('app/modules/admin/carhistory/page.routes'),
                     },
                     {
+                        path: 'carhistory-ticket',
+                        loadChildren: () =>
+                            import('app/modules/admin/carhistory-ticket/page.routes'),
+                    },
+                    {
                         path: 'permission',
                         loadChildren: () =>
                             import('app/modules/admin/permission/page.routes'),

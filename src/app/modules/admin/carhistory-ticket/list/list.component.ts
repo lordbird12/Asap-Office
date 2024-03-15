@@ -10,6 +10,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
+    FormBuilder,
     FormControl,
     FormGroup,
     FormsModule,
@@ -30,18 +31,19 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { FormDialogComponent } from '../form-dialog/form-dialog.component';
+
 import { PageService } from '../page.service';
-import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { tap } from 'rxjs';
+
+import { Observable, map, startWith, tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { FormDialogComponent } from '../form-dialog/form-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { environment } from 'environments/environment.development';
-import moment from 'moment';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ChangeStatusPipe } from 'app/shared/status.pipe';
 
 @Component({
-    selector: 'employee-list',
+    selector: 'car-ticket-history',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -63,37 +65,100 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
-        MatCheckboxModule
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        ChangeStatusPipe,
+
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
-    range = new FormGroup({
-        start: new FormControl<any>(new Date),
-        end: new FormControl<any>(new Date),
-    });
-    searchQuery: string = '';
-    department: string = '';
     formFieldHelpers: string[] = ['fuse-mat-dense'];
+    addForm: FormGroup;
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
+    form: FormGroup;
+    dtInstance: Promise<DataTables.Api>;
+    tableRow: any[] = [
+        {
+            created_at: '2024-03-04T11:01:29.000000Z',
+            mile: '23000',
+            activity: 'เช็คระยะ',
+            service: 'Toyota บางนา',
+            create_by: 'โอลิเวีย  (แผนก Enterprise)',
+        },
+        {
+            created_at: '2024-03-04T11:01:29.000000Z',
+            mile: '23000',
+            activity: 'เช็คระยะ',
+            service: 'Toyota บางนา',
+            create_by: 'โอลิเวีย  (แผนก Enterprise)',
+        },
+        {
+            created_at: '2024-03-04T11:01:29.000000Z',
+            mile: '23000',
+            activity: 'เช็คระยะ',
+            service: 'Toyota บางนา',
+            create_by: 'โอลิเวีย  (แผนก Enterprise)',
+        },
+    ];
+    filteredOptionsProduct: Observable<string[]>;
+    selectedProduct: string = '';
+    productData: any[] = [];
+    categoryData: any[] = [];
+    productFilter: any[] = [];
+    cars: any;
+    car: any;
+    ProductControl = new FormControl('2กล-5442');
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
-    ) { }
+        private _router: Router,
+        private _fb: FormBuilder
+    ) {
+        this._service.getCarwithClient().subscribe((resp: any) => {
+            this.productData = resp.data;
+        });
+        this.form = this._fb.group({
+            car_img: '',
+            license_plate: '',
+            model_car: '',
+            name: '',
+            company: '',
+        });
+
+        this.addForm = this._fb.group({
+            filter: [null],
+            car_id: [],
+        });
+    }
 
     ngOnInit() {
         this.loadTable();
+        this.filteredOptionsProduct = this.ProductControl.valueChanges.pipe(
+            startWith(''),
+            map((value: any) => this._filterProduct(value || ''))
+        );
+    }
 
-        // this._service.getPosition().subscribe((resp: any)=>{
-        //     this.positions = resp.data
-        // })
+    HandlerPage(e: any) {
+        this._service.getcarbytext(e).subscribe((resp: any) => {
+            this.cars = resp;
+            if (this.cars.length == 1) {
+                this.car = this.cars[0]
+                this.rerender();
+                this._changeDetectorRef.markForCheck();
+            } else {
+                this.car = null;
+                this.rerender();
+                this._changeDetectorRef.markForCheck();
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -101,45 +166,62 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
-    editElement(element: any) {
-        this._router.navigate(['admin/history/form', element]);
-        // const dialogRef = this.dialog.open(EditDialogComponent, {
-        //     width: '400px', // กำหนดความกว้างของ Dialog
-        //     data: {
-        //         data: element,
-        //         position: this.positions,
-        //     }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
-        // });
-
-        // dialogRef.afterClosed().subscribe((result) => {
-        //     if (result) {
-        //         // เมื่อ Dialog ถูกปิด ดำเนินการตามผลลัพธ์ที่คุณได้รับจาก Dialog
-        //     }
-        // });
+    edit(Id: any) {
+        this._router.navigate(['admin/car/edit/' + Id]);
     }
 
-    exportfile() {
-        window.open(environment.baseURL + '/api/export_log');
+    private _filterProduct(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.productData.filter((option) =>
+            option.license_plate.toLowerCase().includes(filterValue)
+        );
+    }
+    data1: any;
+    displayProduct(subject) {
+        // console.log('product',subject);
+        if (!subject) return '';
+        let index = this.productData.findIndex(
+            (state) => state.license_plate === subject
+        );
+        // console.log(index)
+        this.data1 = this.productData[index];
+        console.log(this.data1);
+        return this.productData[index].license_plate;
     }
 
-    addElement() {
-        this._router.navigate(['admin/history/form']);
-        // const dialogRef = this.dialog.open(FormDialogComponent, {
-        //     width: '1000px',
-        //     height: '800px', // กำหนดความกว้างของ Dialog
-        // });
-
-        // dialogRef.afterClosed().subscribe((result) => {
-        //     if (result) {
-        //         //    console.log(result,'result')
-        //     }
-        // });
+    clear() {
+        this.ProductControl.setValue('');
     }
 
-    applySearch() {
-        // You may need to modify this based on your DataTables structure
-        this.rerender()
+    searchTable() {
+        // this.loadTable()
+        this.rerender();
+        this._changeDetectorRef.markForCheck();
     }
+
+    uploadfile() {
+        const dialogRef = this.dialog.open(FormDialogComponent, {
+            width: '500px',
+            height: '600px', // กำหนดความกว้างของ Dialog
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                // this.loadTable()
+                this.rerender();
+                this._changeDetectorRef.markForCheck();
+            }
+        });
+    }
+
+    exportFile() {
+        window.open(
+            environment.baseURL +
+                '/api/booking_export_history/' +
+                this.ProductControl.value ?? ''
+        );
+    }
+
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
@@ -148,7 +230,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
-        
         const that = this;
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -161,10 +242,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
-                dataTablesParameters.date_start = moment(new Date(this.range.value.start)).format('YYYY-MM-DD')
-                dataTablesParameters.date_stop= moment(new Date(this.range.value.end)).format('YYYY-MM-DD')
-                dataTablesParameters.department = this.department
-                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
+                dataTablesParameters.search_license_plate =
+                    this.car?.license ?? '';
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
@@ -188,14 +267,12 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
-                { data: null, orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'created_at' },
-                { data: 'description' },
-                { data: 'type' },
+                { data: 'date' },
+                { data: 'mile' },
+                { data: 'event' },
+                { data: 'service_center' },
+                { data: 'user' },
             ],
-            order: [[1, 'asc']]
         };
     }
 
@@ -203,36 +280,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         // เขียนโค้ดสำหรับการลบออกองคุณ
     }
 
-    changeDate() {
-        console.log(this.range.value);
-    //     const formValue =  this.range.value
-    //     this.range.value.start = moment(this.range.value.start).format('YYYY-MM-DD');
-    //     this.range.value.end = moment(this.range.value.end).format('YYYY-MM-DD');
-    //    console.log(this.range.value);
-       
-        this.rerender()
-        this._changeDetectorRef.markForCheck()
-    }
-
-    get someOneChecked() {
-        return this.dataRow?.filter(e => e.checked);
-    }
-
-    get someCheck() {
-        if (this.someOneChecked.length == 0) { return false; }
-
-        return this.someOneChecked.length > 0 && !this.checkAll;
-    }
-
-    get checkAll() {
-        return this.dataRow?.every(e => e.checked);
-    }
-
-    setAll(checked: boolean) {
-        this.dataRow.forEach(e => e.checked = checked);
-    }
-
-    
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
