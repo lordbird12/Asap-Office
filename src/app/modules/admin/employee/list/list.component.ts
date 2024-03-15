@@ -35,6 +35,8 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'employee-list',
@@ -59,6 +61,7 @@ import { Router } from '@angular/router';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatCheckboxModule,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -75,7 +78,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private asapConfirmationService: AsapConfirmationService,
     ) { }
 
     ngOnInit() {
@@ -189,15 +193,16 @@ export class ListComponent implements OnInit, AfterViewInit {
                         this._changeDetectorRef.markForCheck();
                     });
             },
-            // columns: [
-            //     { data: 'action', orderable: false },
-            //     { data: 'No' },
-            //     { data: 'name' },
-            //     { data: 'email' },
-            //     { data: 'tel' },
-            //     { data: 'create_by' },
-            //     { data: 'created_at' },
-            // ],
+            columns: [
+                { data: '', orderable: false },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+            ],
+            order: [[1, 'asc']]
         };
     }
 
@@ -208,4 +213,47 @@ export class ListComponent implements OnInit, AfterViewInit {
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
+
+    get someOneChecked() {
+        return this.dataRow?.filter(e => e.checked);
+    }
+
+    get someCheck() {
+        if (this.someOneChecked?.length == 0) { return false; }
+
+        return this.someOneChecked?.length > 0 && !this.checkAll;
+    }
+
+    get checkAll() {
+        return this.dataRow?.every(e => e.checked);
+    }
+
+    setAll(checked: boolean) {
+        this.dataRow?.forEach(e => e.checked = checked);
+    }
+
+    confirmDelete() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
+            message: 'รายชื่อพนักงานที่เลือกจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+            }
+        });
+    }
+
+    cancelCheck(){
+        this.setAll(false)
+    }
 }

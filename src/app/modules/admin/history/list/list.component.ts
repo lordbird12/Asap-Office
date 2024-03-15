@@ -237,7 +237,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     confirmDelete() {
         const confirmation = this.asapConfirmationService.open({
             title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
-            message: 'รายชื่อพนักงานที่เลือกจะถูกลบออกจากระบบถาวร',
+            message: 'ประวัติการทำรายการที่เลือกจะถูกลบออกจากระบบถาวร',
             icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
             actions: {
                 confirm: {
@@ -253,5 +253,9 @@ export class ListComponent implements OnInit, AfterViewInit {
             if (result == 'confirmed') {
             }
         });
+    }
+
+    cancelCheck(){
+        this.setAll(false)
     }
 }

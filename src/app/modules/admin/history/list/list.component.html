@@ -98,7 +98,7 @@
     </div>
 
     <div *ngIf="someOneChecked?.length" class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24">
-        <button class="rounded-md border-black border min-w-36" mat-stroked-button>
+        <button class="rounded-md border-black border min-w-36" mat-stroked-button (click)="cancelCheck()">
             ยกเลิก
         </button>
         <span class="text-lg font-bold mx-5">เลือกแล้ว {{someOneChecked.length}}</span>

@@ -42,14 +42,14 @@
 
             <!-- Cancel -->
             <ng-container *ngIf="data.actions.cancel.show">
-                <button mat-stroked-button [matDialogClose]="'cancelled'" class="rounded-xl w-full">
+                <button mat-stroked-button [matDialogClose]="'cancelled'" class="rounded-lg w-full">
                     {{data.actions.cancel.label}}
                 </button>
             </ng-container>
 
             <!-- Confirm -->
             <ng-container *ngIf="data.actions.confirm.show">
-                <button mat-flat-button [color]="data.actions.confirm.color" [matDialogClose]="'confirmed'" class="rounded-xl w-full">
+                <button mat-flat-button [color]="data.actions.confirm.color" [matDialogClose]="'confirmed'" class="rounded-lg w-full">
                     {{data.actions.confirm.label}}
                 </button>
             </ng-container>
