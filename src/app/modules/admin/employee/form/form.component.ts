@@ -364,6 +364,14 @@ export class FormComponent implements OnInit {
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
+                this._service.delete(this.id).subscribe({
+                    error: (err) => {
+
+                    },
+                    complete: () => {
+                        this._router.navigateByUrl('/admin/employee/list');
+                    }
+                })
             }
         });
     }

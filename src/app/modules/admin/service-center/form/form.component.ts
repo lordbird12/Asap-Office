@@ -488,8 +488,8 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
     remove() {
         const confirmation = this.asapConfirmationService.open({
-            title: `ยืนยันการลบพนักงาน`,
-            message: 'บัญชีพนักงานจะถูกลบออกจากระบบถาวร',
+            title: `ยืนยันการลบศูนย์บริการ`,
+            message: 'ศูนย์บริการจะถูกลบออกจากระบบถาวร',
             icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
             actions: {
                 confirm: {
@@ -503,6 +503,14 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
+                this._Service.delete(this.id).subscribe({
+                    error: (err) => {
+                        
+                    },
+                    complete: () => {
+                        this._router.navigateByUrl('/admin/service-center/list');
+                    }
+                })
             }
         });
     }

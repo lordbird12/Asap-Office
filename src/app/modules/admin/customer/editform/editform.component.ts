@@ -369,6 +369,12 @@ export class EditFormComponent implements OnInit {
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
+                this._service.delete(this.id).subscribe({
+                    error: (err) => {},
+                    complete: () => {
+                        this._router.navigateByUrl('/admin/customer/list');
+                    }
+                })
             }
         });
     }
