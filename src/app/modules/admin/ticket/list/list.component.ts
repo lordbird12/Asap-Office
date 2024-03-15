@@ -1,21 +1,7 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
-import {
-    AfterViewInit,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
-import {
-    FormControl,
-    FormsModule,
-    ReactiveFormsModule,
-    UntypedFormBuilder,
-    Validators,
-} from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation, } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -27,15 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { tap } from 'rxjs';
 import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
-import { TicketCardComponent } from '../ticket-card/ticket-card.component';
 import { CreateComponent } from '../create-card/ticket-card.component';
 import { DetailTicketComponent } from '../detail-card/ticket-card.component';
 import { environment } from 'environments/environment.development';
@@ -55,10 +38,10 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
         MatIconModule,
         FormsModule,
         MatFormFieldModule,
-        NgClass,
         MatInputModule,
-        TextFieldModule,
         ReactiveFormsModule,
+        NgClass,
+        TextFieldModule,
         MatButtonToggleModule,
         MatButtonModule,
         MatSelectModule,
@@ -77,7 +60,7 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 export class ListComponent implements OnInit, AfterViewInit {
 
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    car: string = ''
+    car: FormControl = new FormControl('');
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
@@ -108,9 +91,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     ]
     itemData: any[];
     employeeDep: any[] = [];
-    department : any [] = []
-    departmentData : any [] = []
-    
+    department: any[] = []
+    departmentData: any[] = []
+
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -133,15 +116,15 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         })
         this._service.getDepartment().subscribe((resp: any) => {
-           this.departmentData = resp.data;
+            this.departmentData = resp.data;
         })
     }
 
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
-        
+
         const data = {
-            deps: [+this.user.department_id] , 
+            deps: [+this.user.department_id],
             users: [{
                 code: this.user.code
             }]
@@ -159,34 +142,68 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this.task[2].task.push(item)
                 }
             }
-            console.log(this.task)
             this._changeDetectorRef.markForCheck();
         })
-    }
 
-    searchCar() {
-
-        console.log(this.car)
-        const data = this.task[0].task.filter(item => item.car.license === this.car)
-        // this.task[0].task.push(data)
-        console.log(data)
-        if(data.length > 0) {
-            for (const item of data) {
-                if (item.status === 'New') {
-                    this.task[0].task.push(item)
+        this.car.valueChanges.subscribe(
+            (result) => {
+                if (!!result) {
+                    const data = this.searchNameByCharacter(result, this.itemData);
+                    this.task[0].task = []
+                    this.task[1].task = []
+                    this.task[2].task = []
+                    for (const item of data) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[2].task.push(item)
+                        }
+                    }
+                } else {
+                    this.task[0].task = []
+                    this.task[1].task = []
+                    this.task[2].task = []
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        }
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[2].task.push(item)
+                        }
+                    }
                 }
-              
+                this._changeDetectorRef.markForCheck();
             }
-            this._changeDetectorRef.markForCheck();
-          
-        }
+        )
     }
+
+    // searchCar() {
+    //     const data = this.task[0].task.filter(item => item.car.license === this.car)
+    //     // this.task[0].task.push(data)
+    //     if (data.length > 0) {
+    //         for (const item of data) {
+    //             if (item.status === 'New') {
+    //                 this.task[0].task.push(item)
+    //             }
+
+    //         }
+    //         this._changeDetectorRef.markForCheck();
+
+    //     }
+    // }
 
     ngAfterViewInit(): void {
         this._changeDetectorRef.detectChanges();
     }
     empFilter(data: any) {
-      
+
         return data.filter(e => e.isSelected)
     }
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
@@ -276,20 +293,19 @@ export class ListComponent implements OnInit, AfterViewInit {
             { minWidth: '50%' }
         );
         dialogRef.afterClosed().subscribe(result => {
-            if(result) {    
+            if (result) {
                 let dep = []
-                if (this.department.length > 0 ) {
-                    dep = this.department.map(item => item )
+                if (this.department.length > 0) {
+                    dep = this.department.map(item => item)
                 }
-                else 
-                {
+                else {
                     dep = [+this.user.department_id]
                 }
                 const emp = this.employeeDep.filter(item => item.isSelected)
-                
+
                 const data = {
-                    deps:  dep,
-                    users: emp.map(item => ({code: item.code}))
+                    deps: dep,
+                    users: emp.map(item => ({ code: item.code }))
                 }
                 this.task = [
                     {
@@ -313,8 +329,8 @@ export class ListComponent implements OnInit, AfterViewInit {
                         status: 'Finish',
                         task: []
                     },
-            ];
-        
+                ];
+
                 this._service.getTicketByDep(data).subscribe((resp: any) => {
                     this.itemData = resp.data;
                     for (const item of this.itemData) {
@@ -343,20 +359,19 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
 
-            if(result) {    
+            if (result) {
                 let dep = []
-                if (this.department.length > 0 ) {
-                    dep = this.department.map(item => item )
+                if (this.department.length > 0) {
+                    dep = this.department.map(item => item)
                 }
-                else 
-                {
+                else {
                     dep = [+this.user.department_id]
                 }
                 const emp = this.employeeDep.filter(item => item.isSelected)
                 // const dep = this.department.map(item => item)
                 const data = {
-                    deps:   dep, 
-                    users: emp.map(item => ({code: item.code}))
+                    deps: dep,
+                    users: emp.map(item => ({ code: item.code }))
                 }
                 this.task = [
                     {
@@ -380,8 +395,8 @@ export class ListComponent implements OnInit, AfterViewInit {
                         status: 'Finish',
                         task: []
                     },
-            ];
-        
+                ];
+
                 this._service.getTicketByDep(data).subscribe((resp: any) => {
                     this.itemData = resp.data;
                     for (const item of this.itemData) {
@@ -422,8 +437,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             if (result) {
                 const deps = this.department.map(item => item)
                 const data = {
-                    deps:  deps,
-                    users: result.map(item => ({code: item.code}))
+                    deps: deps,
+                    users: result.map(item => ({ code: item.code }))
                 }
                 this.task = [
                     {
@@ -447,7 +462,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         status: 'Finish',
                         task: []
                     },
-            ];
+                ];
                 this._service.getTicketByDep(data).subscribe((resp: any) => {
                     this.itemData = resp.data;
                     console.log(this.itemData)
@@ -464,12 +479,12 @@ export class ListComponent implements OnInit, AfterViewInit {
                     }
                     this._changeDetectorRef.markForCheck();
                 })
-        }
+            }
         })
     }
 
     departmentDailog() {
-        
+
         const dialogRef = this.dialog.open(DepartmentDialogComponent,
             {
                 minWidth: '30%',
@@ -481,51 +496,51 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                    this.department = result.map(item => item.id)
-                    const emp = this.employeeDep.filter(item => item.isSelected)
-                    const data = {
-                        deps:  this.department , 
-                        users: emp.map(item => ({code: item.code}))
-                    }
-                    this.task = [
-                        {
-                            id: 1,
-                            name: 'งานใหม่ / Todo',
-                            detail: 'งานใหม่รอรับ',
-                            status: 'New',
-                            task: []
-                        },
-                        {
-                            id: 2,
-                            name: 'กำลังดำเนินงาน',
-                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                            status: 'Process',
-                            task: []
-                        },
-                        {
-                            id: 4,
-                            name: 'เสร็จสิ้น',
-                            detail: '-',
-                            status: 'Finish',
-                            task: []
-                        },
+                this.department = result.map(item => item.id)
+                const emp = this.employeeDep.filter(item => item.isSelected)
+                const data = {
+                    deps: this.department,
+                    users: emp.map(item => ({ code: item.code }))
+                }
+                this.task = [
+                    {
+                        id: 1,
+                        name: 'งานใหม่ / Todo',
+                        detail: 'งานใหม่รอรับ',
+                        status: 'New',
+                        task: []
+                    },
+                    {
+                        id: 2,
+                        name: 'กำลังดำเนินงาน',
+                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                        status: 'Process',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
+                        status: 'Finish',
+                        task: []
+                    },
                 ];
-                    this._service.getTicketByDep(data).subscribe((resp: any) => {
-                        this.itemData = resp.data;
-                        console.log(this.itemData)
-                        for (const item of this.itemData) {
-                            if (item.status === 'New') {
-                                this.task[0].task.push(item)
-                            }
-                            else if (item.status === 'Process') {
-                                this.task[1].task.push(item)
-                            }
-                            else if (item.status === 'Finish') {
-                                this.task[2].task.push(item)
-                            }
+                this._service.getTicketByDep(data).subscribe((resp: any) => {
+                    this.itemData = resp.data;
+                    console.log(this.itemData)
+                    for (const item of this.itemData) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
                         }
-                        this._changeDetectorRef.markForCheck();
-                    })
+                        else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[2].task.push(item)
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                })
             }
         })
     }
@@ -541,39 +556,49 @@ export class ListComponent implements OnInit, AfterViewInit {
         const today = new Date();
         const yesterday = new Date();
         yesterday.setDate(today.getDate() - 1);
-    
+
         if (this.isSameDate(inputDateTime, today)) {
-          return 'วันนี้ ' + this.formatTime(inputDateTime);
+            return 'วันนี้ ' + this.formatTime(inputDateTime);
         } else if (this.isSameDate(inputDateTime, yesterday)) {
-          return 'เมื่อวาน ' + this.formatTime(inputDateTime);
+            return 'เมื่อวาน ' + this.formatTime(inputDateTime);
         } else {
-          return this.formatFullDateTime(inputDateTime);
+            return this.formatFullDateTime(inputDateTime);
         }
-      }
-    
-      // Function to check if two dates are the same day
-      private isSameDate(date1: Date, date2: Date): boolean {
-   
+    }
+
+    // Function to check if two dates are the same day
+    private isSameDate(date1: Date, date2: Date): boolean {
+
         return (
-          date1.getDate() === date2.getDate() &&
-          date1.getMonth() === date2.getMonth() &&
-          date1.getFullYear() === date2.getFullYear()
+            date1.getDate() === date2.getDate() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getFullYear() === date2.getFullYear()
         );
-      }
-    
-      // Function to format time as HH:mm
-      private formatTime(dateTime: Date): string {
+    }
+
+    // Function to format time as HH:mm
+    private formatTime(dateTime: Date): string {
         const hours = dateTime.getHours().toString().padStart(2, '0');
         const minutes = dateTime.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
-      }
-    
-      // Function to format full date and time as dd/MM/yyyy HH:mm
-      private formatFullDateTime(dateTime: Date): string {
+    }
+
+    // Function to format full date and time as dd/MM/yyyy HH:mm
+    private formatFullDateTime(dateTime: Date): string {
         const day = dateTime.getDate().toString().padStart(2, '0');
         const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
         const year = dateTime.getFullYear().toString();
         const time = this.formatTime(dateTime);
         return `${day}/${month}/${year} ${time}`;
-      }
+    }
+
+    searchNameByCharacter(character, array) {
+        const results = [];
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].car.license.toLowerCase().includes(character.toLowerCase())) {
+                results.push(array[i]);
+            }
+        }
+        return results.length > 0 ? results : null; // If names are not found in any object
+    }
 }

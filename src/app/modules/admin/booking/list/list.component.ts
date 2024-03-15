@@ -78,6 +78,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     isCheckedControl = new FormControl(false);
     status = new FormControl('');
     public dataRow: any[];
+    searchCar = new FormControl('');
     task: any[] = [
         {
             id: 1,
@@ -113,6 +114,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     employeeDep: any[] = [];
 
     multiItems: any[] = [];
+
+    allTickets: any[] = [];
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
@@ -151,6 +154,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 const news = resp.data.news;
                 const all = resp.data.all;
                 // console.log(resp.data.all)
+                this.allTickets = [...resp.data.news, resp.data.all].flat();
 
                 for (const item of news) {
                     if (item.status === 'New') {
@@ -175,6 +179,50 @@ export class ListComponent implements OnInit, AfterViewInit {
             })
         }
 
+        this.searchCar.valueChanges.subscribe(
+            (change) => {
+                this.task[0].task = []
+                this.task[1].task = []
+                this.task[2].task = []
+                this.task[3].task = []
+                if (!!change) {
+                    const data = this.searchNameByCharacter(change, this.allTickets);
+                    for (const item of data) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        } else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                        else if (item.status === 'Cancel' ) {
+                            this.task[0].task.push(item)
+                        }
+                    }
+                } else {
+                    for (const item of this.allTickets) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item)
+                        } else if (item.status === 'Process') {
+                            this.task[1].task.push(item)
+                        }
+                        else if (item.status === 'Waiting') {
+                            this.task[2].task.push(item)
+                        }
+                        else if (item.status === 'Finish') {
+                            this.task[3].task.push(item)
+                        }
+                        else if (item.status === 'Cancel' ) {
+                            this.task[0].task.push(item)
+                        }
+                    }
+                }
+            }
+        );
     }
 
     ngAfterViewInit(): void {
@@ -192,10 +240,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.isChecked1[index] = !this.isChecked1[index];
         if(event.target.checked === true )  {
             this.multiItems.push(this.task[1].task[index])
-         
+
         } else {
             this.multiItems = this.multiItems.filter(item => item !== this.task[1].task[index]);
-        
+
         }
     }
     changeColor2(index: number,event: any): void {
@@ -205,7 +253,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             console.log(this.multiItems)
         } else {
             this.multiItems = this.multiItems.filter(item => item !== this.task[2].task[index]);
-          
+
         }
     }
     changeColor3(index: number): void {
@@ -371,7 +419,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     }
                     this._changeDetectorRef.markForCheck();
                 })
-               
+
             }
         })
     }
@@ -429,7 +477,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     const news = resp.data.news;
                     const all = resp.data.all;
                     // console.log(resp.data.all)
-    
+
                     for (const item of news) {
                         if (item.status === 'New') {
                             this.task[0].task.push(item)
@@ -469,7 +517,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         );
         dialogRef.afterClosed().subscribe(result => {
-          
+
             if (result) {
                 // this.employeeDep = result
                 const data =   {
@@ -508,7 +556,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this._service.getBookingByDep(this.user.department_id,data).subscribe((resp: any) => {
                     const news = resp.data.news;
                     const all = resp.data.all;
-    
+
                     for (const item of news) {
                         if (item.status === 'New') {
                             this.task[0].task.push(item)
@@ -531,7 +579,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this._changeDetectorRef.detectChanges();
                 })
                             // this._service.getBooking().subscribe((resp: any) => {
-                //     this.itemData = resp.data;  
+                //     this.itemData = resp.data;
                 //     this.task = [
                 //         {
                 //             id: 1,
@@ -586,14 +634,13 @@ export class ListComponent implements OnInit, AfterViewInit {
     getLastElement(data: any): any {
         const created_at = data.activitys[data.activitys.length - 1];
         // const created_at_test  = data.activitys[5];
-        console.log(created_at);
-        
+
         // return created_at.updated_at
         return this.checkAndFormatDateTime(created_at.updated_at)
     }
     lastSelectEmp: any[] = []
     empFilter(data: any) {
-      
+
         return data.filter(e => e.isSelected)
     }
     selectedItems: any[] = [];
@@ -624,7 +671,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 },
                 "dismissible": true
             });
-    
+
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
@@ -633,7 +680,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         const services = item.services.map(data => ({service_id: data.service_id}));
                         const formValue = item
                         this._service.updateStatus(formValue.id , this.status.value, reason, services).subscribe({
-                            
+
                             next: (resp: any) => {
                                 this.multiItems = [];
                                 this.isChecked1 = [];
@@ -675,7 +722,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                     const news = resp.data.news;
                                     const all = resp.data.all;
                                     // console.log(resp.data.all)
-                    
+
                                     for (const item of news) {
                                         if (item.status === 'New') {
                                             this.task[0].task.push(item)
@@ -716,7 +763,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                         "cancel": {
                                             "show": false,
                                             "label": "ยกเลิก",
-        
+
                                         }
                                     },
                                     "dismissible": true
@@ -724,11 +771,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                             }
                         })
                     })
-                
+
                 }
             })
         }
-    
+
     }
 
     CancelStatus() {
@@ -762,7 +809,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     },
                     "dismissible": true
                 });
-        
+
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
@@ -770,7 +817,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                             const reason = result
                             const formValue = item
                             const services = item.services.map(data => ({service_id: data.service_id}));
-                     
+
                             this._service.updateStatus(formValue.id , this.status.value, reason,  services).subscribe({
 
                                 next: (resp: any) => {
@@ -814,7 +861,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                         const news = resp.data.news;
                                         const all = resp.data.all;
                                         // console.log(resp.data.all)
-                        
+
                                         for (const item of news) {
                                             if (item.status === 'New') {
                                                 this.task[0].task.push(item)
@@ -855,7 +902,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                             "cancel": {
                                                 "show": false,
                                                 "label": "ยกเลิก",
-            
+
                                             }
                                         },
                                         "dismissible": true
@@ -863,7 +910,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                 }
                             })
                         })
-                    
+
                     }
                 })
             }
@@ -885,7 +932,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         const today = new Date();
         const yesterday = new Date();
         yesterday.setDate(today.getDate() - 1);
-    
+
         if (this.isSameDate(inputDateTime, today)) {
           return 'วันนี้ ' + this.formatTime(inputDateTime);
         } else if (this.isSameDate(inputDateTime, yesterday)) {
@@ -894,24 +941,24 @@ export class ListComponent implements OnInit, AfterViewInit {
           return this.formatFullDateTime(inputDateTime);
         }
       }
-    
+
       // Function to check if two dates are the same day
       private isSameDate(date1: Date, date2: Date): boolean {
-   
+
         return (
           date1.getDate() === date2.getDate() &&
           date1.getMonth() === date2.getMonth() &&
           date1.getFullYear() === date2.getFullYear()
         );
       }
-    
+
       // Function to format time as HH:mm
       private formatTime(dateTime: Date): string {
         const hours = dateTime.getHours().toString().padStart(2, '0');
         const minutes = dateTime.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
       }
-    
+
       // Function to format full date and time as dd/MM/yyyy HH:mm
       private formatFullDateTime(dateTime: Date): string {
         const day = dateTime.getDate().toString().padStart(2, '0');
@@ -920,4 +967,14 @@ export class ListComponent implements OnInit, AfterViewInit {
         const time = this.formatTime(dateTime);
         return `${day}/${month}/${year} ${time}`;
       }
+
+      searchNameByCharacter(character, array) {
+        const results = [];
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].car.license.toLowerCase().includes(character.toLowerCase())) {
+                results.push(array[i]);
+            }
+        }
+        return results.length > 0 ? results : null; // If names are not found in any object
+    }
 }
