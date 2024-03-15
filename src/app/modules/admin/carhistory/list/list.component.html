@@ -81,15 +81,26 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="font-light">วันเวลา</th>
+                        <th class="font-light">วันเวลาทึ่เข้ารับบริการ</th>
+                        <th class="font-light">วันเวลาทึ่ออกจากศูนย์บริการ</th>
                         <th class="font-light">ไมล์</th>
                         <th class="font-light">กิจกรรม</th>
                         <th class="font-light ">ศูนย์บริการ</th>
                         <th class="font-light ">พนักงานที่บริการ</th>
+                        <th class="font-light ">สถานะ</th>
+                        
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let item of dataRow; let i = index;">
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">{{ (item.book_date | date: 'dd/MM/yyyy') ?? ''}}
+                                </div>
+                                <div class="font-normal text-gray-500"> {{ item.book_time?.slice(0,5) ?? '00:00' }}
+                                </div>
+                            </div>
+                        </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
                                 <div class="text-base font-semibold">{{ (item.book_date | date: 'dd/MM/yyyy') ?? ''}}
@@ -116,6 +127,11 @@
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
                                 <div class="text-base font-semibold">{{ item.user?.fname ?? ''}} {{ item.user?.lname ?? '' }} ({{ item.user?.department?.name ?? '' }})</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-col ">
+                                <div class="text-base font-semibold">อยู่ระหว่างดำเนินการซ่อม</div>
                             </div>
                         </td>
                     </tr>

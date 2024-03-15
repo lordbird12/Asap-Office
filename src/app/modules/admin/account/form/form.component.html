@@ -143,12 +143,11 @@
                         <ng-template matTabContent>
                             <div
                                 class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-8 mb-4 flex flex-col my-2">
-
                                 <div class="flex flex-col mb-4">
-                                    <div class="md:w-full mb-3">
+                                    <div class="md:w-full">
                                         <mat-form-field class="w-full max-w-full">
-                                            <mat-label class=" font-light">รหัสผ่านเดิม</mat-label>
-                                            <input id="old_password" matInput type="password"
+                                            <!-- <mat-label class=" font-light"></mat-label> -->
+                                            <input id="old_password" matInput type="password" placeholder="รหัสผ่านเดิม"
                                                 [formControlName]="'old_password'" #passwordField1>
                                             <button mat-icon-button type="button"
                                                 (click)="passwordField1.type === 'password' ? passwordField1.type = 'text' : passwordField1.type = 'password'"
@@ -164,12 +163,11 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-
                                 <div class="flex flex-col mb-4">
-                                    <div class="md:w-full mb-3">
+                                    <div class="md:w-full ">
                                         <mat-form-field class="w-full">
-                                            <mat-label class=" font-light">รหัสผ่านใหม่</mat-label>
-                                            <input id="password" matInput type="password" [formControlName]="'password'"
+                                            <!-- <mat-label class=" font-light"></mat-label> -->
+                                            <input id="password" matInput type="password" [formControlName]="'password'" placeholder="รหัสผ่านใหม่"
                                                 #passwordField2>
                                             <button mat-icon-button type="button"
                                                 (click)="passwordField2.type === 'password' ? passwordField2.type = 'text' : passwordField2.type = 'password'"
@@ -185,12 +183,11 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-
                                 <div class="flex flex-col mb-4">
                                     <div class="md:w-full mb-3">
                                         <mat-form-field class="w-full">
-                                            <mat-label class=" font-light">ยืนยันรหัสผ่านใหม่</mat-label>
-                                            <input id="password" matInput type="password" [formControlName]="'password'"
+                                            <!-- <mat-label class=" font-light">ยืนยันรหัสผ่านใหม่</mat-label> -->
+                                            <input id="password" matInput type="password" [formControlName]="'password'" placeholder="ยืนยันรหัสผ่านใหม่"
                                                 #passwordField3>
                                             <button mat-icon-button type="button"
                                                 (click)="passwordField3.type === 'password' ? passwordField3.type = 'text' : passwordField3.type = 'password'"
@@ -206,20 +203,12 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-
                             </div>
                         </ng-template>
                     </mat-tab>
-
                 </mat-tab-group>
-
-
             </div>
-
         </div>
-
-
-
     </div>
     <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex flex-col">
         <div class="md:max-w-full">
