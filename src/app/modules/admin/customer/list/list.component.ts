@@ -28,8 +28,8 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { Router } from '@angular/router';
-import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
@@ -58,32 +58,32 @@ import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
         MatTableModule,
         DataTablesModule,
         MatCheckboxModule,
+        RouterLink,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+
+    status: string = null;
+
     searchQuery: string = ''
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
-    dtOptions1: DataTables.Settings = {};
-    dtOptions2: DataTables.Settings = {};
-    dtOptions3: DataTables.Settings = {};
     positions: any[];
     selectedTabLabel: string;
     public dataRow: any[];
-    public dataRow1: any[];
-    public dataRow2: any[];
-    public dataRow3: any[];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
-    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router,
+        private activatedRoute: ActivatedRoute,
         private asapConfirmationService: AsapConfirmationService,
-    ) {}
+    ) {
+        this.status = this.activatedRoute.snapshot.data.status;
+    }
 
     ngOnInit() {
         this.loadTable();
@@ -125,9 +125,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         });
     }
-    onTabChange(event: MatTabChangeEvent): void {
-        this.selectedTabLabel = event.tab.textLabel;
-    }
+
     addElement() {
         this._router.navigate(['admin/customer/form']);
         // const dialogRef = this.dialog.open(FormDialogComponent, {
@@ -142,7 +140,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         // });
     }
 
-    pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
         const that = this;
         this.dtOptions = {
@@ -155,21 +152,21 @@ export class ListComponent implements OnInit, AfterViewInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = null;
+                if (this.status == null) {
+                    dataTablesParameters.status = null;
+                } else if (this.status == 'active') {
+                    dataTablesParameters.status = 'Active';
+                } else if (this.status == 'expire') {
+                    dataTablesParameters.status = 'Expire';
+                } else if (this.status == 'block') {
+                    dataTablesParameters.status = 'Block';
+                }
+
                 dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
-                        this.pages.current_page = resp.current_page;
-                        this.pages.last_page = resp.last_page;
-                        this.pages.per_page = resp.per_page;
-                        if (resp.current_page > 1) {
-                            this.pages.begin =
-                                resp.per_page * resp.current_page - 1;
-                        } else {
-                            this.pages.begin = 0;
-                        }
 
                         callback({
                             recordsTotal: resp.total,
@@ -189,132 +186,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: '' },
             ],
             order: [[1, 'asc']]
-        };
-        this.dtOptions1= {
-            pagingType: 'full_numbers',
-            pageLength: 25,
-            serverSide: true,
-            processing: true,
-            searching: false,
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
-            },
-            ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = 'Active';
-                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
-                that._service
-                    .getPage(dataTablesParameters)
-                    .subscribe((resp: any) => {
-                        this.dataRow1 = resp.data;
-                        this.pages.current_page = resp.current_page;
-                        this.pages.last_page = resp.last_page;
-                        this.pages.per_page = resp.per_page;
-                        if (resp.current_page > 1) {
-                            this.pages.begin =
-                                resp.per_page * resp.current_page - 1;
-                        } else {
-                            this.pages.begin = 0;
-                        }
-
-                        callback({
-                            recordsTotal: resp.total,
-                            recordsFiltered: resp.total,
-                            data: [],
-                        });
-                        this._changeDetectorRef.markForCheck();
-                    });
-            },
-            columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
-            ],
-        };
-        this.dtOptions2= {
-            pagingType: 'full_numbers',
-            pageLength: 25,
-            serverSide: true,
-            processing: true,
-            searching: false,
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
-            },
-            ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = 'Expire';
-                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
-                that._service
-                    .getPage(dataTablesParameters)
-                    .subscribe((resp: any) => {
-                        this.dataRow2= resp.data;
-                        this.pages.current_page = resp.current_page;
-                        this.pages.last_page = resp.last_page;
-                        this.pages.per_page = resp.per_page;
-                        if (resp.current_page > 1) {
-                            this.pages.begin =
-                                resp.per_page * resp.current_page - 1;
-                        } else {
-                            this.pages.begin = 0;
-                        }
-
-                        callback({
-                            recordsTotal: resp.total,
-                            recordsFiltered: resp.total,
-                            data: [],
-                        });
-                        this._changeDetectorRef.markForCheck();
-                    });
-            },
-            columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
-            ],
-        };
-        this.dtOptions3= {
-            pagingType: 'full_numbers',
-            pageLength: 25,
-            serverSide: true,
-            processing: true,
-            searching: false,
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
-            },
-            ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = 'Block';
-                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
-                that._service
-                    .getPage(dataTablesParameters)
-                    .subscribe((resp: any) => {
-                        this.dataRow3 = resp.data;
-                        this.pages.current_page = resp.current_page;
-                        this.pages.last_page = resp.last_page;
-                        this.pages.per_page = resp.per_page;
-                        if (resp.current_page > 1) {
-                            this.pages.begin =
-                                resp.per_page * resp.current_page - 1;
-                        } else {
-                            this.pages.begin = 0;
-                        }
-
-                        callback({
-                            recordsTotal: resp.total,
-                            recordsFiltered: resp.total,
-                            data: [],
-                        });
-                        this._changeDetectorRef.markForCheck();
-                    });
-            },
-            columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
-            ],
         };
     }
 
@@ -378,7 +249,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
 
-    cancelCheck(){
+    cancelCheck() {
         this.setAll(false)
     }
 }

@@ -98,6 +98,7 @@ const config = {
             colors: {
                 gray: colors.slate,
                 kError: '#F04438',
+                kPrimary: '#FF4849',
             },
             flex: {
                 '0': '0 0 auto'

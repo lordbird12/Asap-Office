@@ -47,224 +47,88 @@
                 </div>
             </div>
         </div>
-        <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-            <mat-tab label="ทั้งหมด">
-                <div class="flex flex-col flex-auto sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
-                        <thead>
-                            <tr>
-                                <th class="w-1">
-                                    <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"  (change)="setAll($event.checked)" color="primary"></mat-checkbox>
-                                </th>
-                                <th class="font-light">ชื่อ</th>
-                                <th class="font-light">บริษัท</th>
-                                <th class="font-light">จำนวนรถ</th>
-                                <th class="font-light ">สถานะ</th>
-                                <th class="font-light ">วันหมดอายุ</th>
-                                <th></th>
+        <div class="flex flex-row p-6">
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == null}">
+                <a [routerLink]="['/admin/customer/list']" mat-button class="rounded-none text-kPrimary font-bold"
+                    [ngClass]="{'text-kPrimary font-bold': status == null}">ทั้งหมด</a>
+            </div>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'active'}">
+                <a [routerLink]="['/admin/customer/list/active']" mat-button class="rounded-none"
+                    [ngClass]="{'text-kPrimary font-bold': status == 'active'}">ใช้งานอยู่</a>
+            </div>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'expire'}">
+                <a [routerLink]="['/admin/customer/list/expire']" mat-button class="rounded-none"
+                    [ngClass]="{'text-kPrimary font-bold': status == 'expire'}">หมดอายุ</a>
+            </div>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'block'}">
+                <a [routerLink]="['/admin/customer/list/block']" mat-button class="rounded-none"
+                    [ngClass]="{'text-kPrimary font-bold': status == 'block'}">ระงับการใช้งาน</a>
+            </div>
+        </div>
 
-                            </tr>
-                        </thead>
-                        <tbody *ngIf="dataRow?.length != 0">
-                            <tr *ngFor="let item of dataRow; let i = index">
-                                <td>
-                                    <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
-                                </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
-                                </td>
-                                <td style="width: 100px; min-width: 100px;">
-                                    <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
-                                        *ngIf="item?.status === 'Active'">
-                                        <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Expire'">
-                                        <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Block'">
-                                        <span class="bg-red-200 p-1 rounded-md">ระงับการใช้งาน</span>
-                                    </div>
-                                </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
-                                    date : 'dd/MM/yyyy' }}
-                                </td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
-                                        (click)="edit(item.id)">
-                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                    </button>
+        <div class="flex flex-col flex-auto sm:overflow-y-auto p-6">
+            <table datatable [dtOptions]="dtOptions"
+                class="table row-border hover w-full bg-white whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="w-1">
+                            <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"
+                                (change)="setAll($event.checked)" color="primary"></mat-checkbox>
+                        </th>
+                        <th class="font-light">ชื่อ</th>
+                        <th class="font-light">บริษัท</th>
+                        <th class="font-light">จำนวนรถ</th>
+                        <th class="font-light ">สถานะ</th>
+                        <th class="font-light ">วันหมดอายุ</th>
+                        <th></th>
 
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody *ngIf="dataRow?.length == 0">
-                            <tr>
-                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </mat-tab>
-            <mat-tab label="ใช้งานอยู่">
-                <div class="flex flex-col flex-auto sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions1"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
-                        <thead>
-                            <tr>
-                                <th class="font-light">ชื่อ</th>
-                                <th class="font-light">บริษัท</th>
-                                <th class="font-light">จำนวนรถ</th>
-                                <th class="font-light ">สถานะ</th>
-                                <th class="font-light ">วันหมดอายุ</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody *ngIf="dataRow1?.length != 0">
-                            <tr *ngFor="let item of dataRow1    ; let i = index">
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
-                                </td>
-                                <td style="width: 100px; min-width: 100px;">
-                                    <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
-                                        *ngIf="item?.status === 'Active'">
-                                        <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Expire'">
-                                        <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Block'">
-                                        <span class="bg-red-200 p-1 rounded-md">ระงับการใช้งาน</span>
-                                    </div>
-                                </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
-                                    date : 'dd/MM/yyyy' }}</td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
-                                        (click)="edit(item.id)">
-                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                    </button>
+                    </tr>
+                </thead>
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td>
+                            <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
+                        </td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
+                        </td>
+                        <td style="width: 100px; min-width: 100px;">
+                            <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
+                                *ngIf="item?.status === 'Active'">
+                                <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
+                            </div>
+                            <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
+                                *ngIf="item?.status === 'Expire'">
+                                <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
+                            </div>
+                            <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
+                                *ngIf="item?.status === 'Block'">
+                                <span class="bg-red-200 p-1 rounded-md">ระงับการใช้งาน</span>
+                            </div>
+                        </td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
+                            date : 'dd/MM/yyyy' }}
+                        </td>
+                        <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
+                                (click)="edit(item.id)">
+                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                            </button>
 
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody *ngIf="dataRow?.length == 0">
-                            <tr>
-                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </mat-tab>
-            <mat-tab label="หมดอายุ">
-                <div class="flex flex-col flex-auto  sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions2"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
-                        <thead>
-                            <tr>
-                                <th class="font-light">ชื่อ</th>
-                                <th class="font-light">บริษัท</th>
-                                <th class="font-light">จำนวนรถ</th>
-                                <th class="font-light ">สถานะ</th>
-                                <th class="font-light ">วันหมดอายุ</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody *ngIf="dataRow2?.length != 0">
-                            <tr *ngFor="let item of dataRow2; let i = index">
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
-                                </td>
-                                <td style="width: 100px; min-width: 100px;">
-                                    <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
-                                        *ngIf="item?.status === 'Active'">
-                                        <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Expire'">
-                                        <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
-                                    </div>
-                                </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
-                                    date : 'dd/MM/yyyy' }}</td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
-                                        (click)="edit(item.id)">
-                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                    </button>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody *ngIf="dataRow2?.length == 0">
-                            <tr>
-                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </mat-tab>
-            <mat-tab label="ระงับการใช้งาน">
-                <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-                    <table datatable [dtOptions]="dtOptions3"
-                        class="table row-border hover w-full bg-white whitespace-nowrap">
-                        <thead>
-                            <tr>
-                                <th class="font-light">ชื่อ</th>
-                                <th class="font-light">บริษัท</th>
-                                <th class="font-light">จำนวนรถ</th>
-                                <th class="font-light ">สถานะ</th>
-                                <th class="font-light ">วันหมดอายุ</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody *ngIf="dataRow3?.length != 0">
-                            <tr *ngFor="let item of dataRow3; let i = index">
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
-                                </td>
-                                <td style="width: 100px; min-width: 100px;">
-                                    <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
-                                        *ngIf="item?.status === 'Active'">
-                                        <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Expire'">
-                                        <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
-                                    </div>
-                                    <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                        *ngIf="item?.status === 'Block'">
-                                        <span class="bg-red-200 p-1 rounded-md">ระงับการใช้งาน</span>
-                                    </div>
-                                </td>
-                                <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
-                                    date : 'dd/MM/yyyy' }}</td>
-                                <td style="width: 100px; min-width: 100px;"> <button mat-icon-button
-                                        (click)="edit(item.id)">
-                                        <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                    </button>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tbody *ngIf="dataRow3?.length == 0">
-                            <tr>
-                                <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </mat-tab>
-        </mat-tab-group>
-        <!-- Main -->
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div *ngIf="someOneChecked?.length" class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24">
+    <div *ngIf="someOneChecked?.length"
+        class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24">
         <button class="rounded-md border-black border min-w-36" mat-stroked-button (click)="cancelCheck()">
             ยกเลิก
         </button>

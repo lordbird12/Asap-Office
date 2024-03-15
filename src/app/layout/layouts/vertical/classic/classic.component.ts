@@ -70,7 +70,6 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
         private _fuseNavigationService: FuseNavigationService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-        console.log(this._router.url);
 
     }
 
