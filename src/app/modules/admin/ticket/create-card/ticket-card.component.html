@@ -2,7 +2,7 @@
     <form [formGroup]="form">
         <div class="flex flex-col overflow-y-auto p-6">
             <div class="flex flex-row justify-between items-center">
-    
+
                 <div class="flex flex-row items-center">
                     <div class="text-3xl font-bold mr-5">สร้าง Ticket</div>
                     <!-- <div class="text-base">(ID: 2221)</div> -->
@@ -13,7 +13,7 @@
                     </button>
                 </div>
             </div>
-    
+
             <div class="flex flex-col">
                 <mat-form-field class="flex-auto w-full">
                     <mat-label class="font-bold">ข้อมูลรถ</mat-label>
@@ -24,12 +24,13 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-    
-           <div class="flex flex-col">
+
+            <div class="flex flex-col">
                 <mat-label class="font-bold">ข้อมูลลูกค้า</mat-label>
                 <div class="flex flex-row">
                     <div class="flex p-4">
-                        <img class="h-15 w-15 rounded-full" src="{{this.form.value.image ?? 'assets/images/no_image.jpg'}}" alt="image description">
+                        <img class="h-15 w-15 rounded-full"
+                            src="{{this.form.value.image ?? 'assets/images/no_image.jpg'}}" alt="image description">
                     </div>
                     <div class="flex p-4 mt-2">
                         <div>
@@ -65,15 +66,20 @@
                     </label>
                 </div>
             </div>
-            <div class="flex flex-col mt-2">
-                <mat-label class="font-bold">Notes</mat-label>
-                <mat-form-field>
-                    <textarea matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3" formControlName="note"></textarea>
-                </mat-form-field>
-            </div>
-            
-            <button class="px-6 ml-3 rounded-md mt-5" mat-flat-button [color]="'primary'" (click)="onSaveClick()">บันทึก</button>
+            <ng-container *ngFor="let item of this.form.value.ticket_topics">
+                <div class="flex flex-col mt-2">
+                    <div class="flex flex-col" *ngIf="item.topic === 'อื่นๆ'">
+                        <mat-label class="font-bold">Notes</mat-label>
+                        <mat-form-field>
+                            <textarea matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3"
+                                formControlName="note"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </ng-container>
+            <button class="px-6 ml-3 rounded-md mt-5" mat-flat-button [color]="'primary'"
+                (click)="onSaveClick()">บันทึก</button>
         </div>
     </form>
- 
+
 </div>
