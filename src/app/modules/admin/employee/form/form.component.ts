@@ -32,6 +32,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, lastValueFrom } from 'rxjs';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'form-employee',
@@ -83,7 +84,8 @@ export class FormComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private asapConfirmationService: AsapConfirmationService
     ) {
         // this._service.getPermission().subscribe((resp: any) => {
         //     this.permissions = resp.data;
@@ -343,5 +345,26 @@ export class FormComponent implements OnInit {
         if (index >= 0) {
             this.files.splice(index, 1);
         }
+    }
+
+    remove() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบพนักงาน`,
+            message: 'บัญชีพนักงานจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+            }
+        });
     }
 }
