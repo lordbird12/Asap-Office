@@ -6,7 +6,6 @@
     </div>
     <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
-            <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
                 <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
                     ประวัติรถ
@@ -14,30 +13,17 @@
             </div>
         </div>
     </div>
-
     <!-- Main -->
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
             <div class="flex justify-start items-center w-[405px] mt-5">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <form [formGroup]="addForm">
-                        <mat-form-field class="w-full min-w-56">
+                        <mat-form-field class="w-[405px]">
                             <mat-icon svgIcon="heroicons_outline:magnifying-glass" class="search-icon"></mat-icon>
                             <input matInput [formControlName]="'filter'" (ngModelChange)="HandlerPage(this.addForm.value.filter)" placeholder="ค้นหาทะเบียนรถ" class="custom-placeholder">
                         </mat-form-field>
                     </form>
-                    <!-- <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full min-w-56">
-                        <mat-icon svgIcon="search"></mat-icon>
-                        <input type="text" matInput placeholder="ค้นหา" [matAutocomplete]="product" [formControl]="ProductControl" />
-                        <button *ngIf="ProductControl.value" matSuffix mat-icon-button aria-label="Clear" (click)="clear()">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                        <mat-autocomplete #product="matAutocomplete" [displayWith]="displayProduct.bind(this)" (optionSelected)="searchTable()">
-                            <mat-option *ngFor="let option of filteredOptionsProduct | async" [value]="option.license_plate">
-                                {{ option.license_plate }}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field> -->
                 </div>
             </div>
             <div class="flex">
@@ -81,8 +67,8 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="font-light">วันเวลาทึ่เข้ารับบริการ</th>
-                        <th class="font-light">วันเวลาทึ่ออกจากศูนย์บริการ</th>
+                        <th class="font-light">วันเวลาที่เข้ารับบริการ</th>
+                        <th class="font-light">วันเวลาที่เสร็จสิ้นเข้ารับบริการ</th>
                         <th class="font-light">ไมล์</th>
                         <th class="font-light">กิจกรรม</th>
                         <th class="font-light ">ศูนย์บริการ</th>
@@ -103,15 +89,16 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
-                                <div class="text-base font-semibold">{{ (item.book_date | date: 'dd/MM/yyyy') ?? ''}}
+                                <div class="text-base font-semibold">{{ (item.updated_at | date: 'dd/MM/yyyy') ?? ''}}
                                 </div>
-                                <div class="font-normal text-gray-500"> {{ item.book_time?.slice(0,5) ?? '00:00' }}
+                                <div class="font-normal text-gray-500"> {{ (item.updated_atdate| date: 'dd/MM/yyyy' )?? '00:00' }}
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
                                 <div class="text-base font-semibold">{{ (item.mile | number) ?? '0'}} km.</div>
+                                <!-- <div class="text-base font-semibold">{{ (item.mile | number) ?? '0'}} km.</div> -->
                             </div>
                         </td>
                         <td class="px-6 py-4">
@@ -131,7 +118,9 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
-                                <div class="text-base font-semibold">อยู่ระหว่างดำเนินการซ่อม</div>
+                                <div class="text-base font-semibold" >
+                                    {{item.booking?.status | ChangeStatus}}
+                                </div>
                             </div>
                         </td>
                     </tr>
