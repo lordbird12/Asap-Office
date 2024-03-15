@@ -139,39 +139,38 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.employeeDep.push(element)
             }
         })
-       this.user = JSON.parse(localStorage.getItem('user'));
-    //    console.log(this.user)
+        this.user = JSON.parse(localStorage.getItem('user'));
+        //    console.log(this.user)
     }
 
     ngOnInit() {
-        if(this.user) {
-            const data =   {
+        if (this.user) {
+            const data = {
                 users: [{
                     code: this.user.code
                 }]
             }
-            this._service.getBookingByDep(this.user.department_id,data).subscribe((resp: any) => {
-                const news = resp.data.news;
-                const all = resp.data.all;
+            this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
+                // const news = resp.data.news;
+                // const all = resp.data.all;
                 // console.log(resp.data.all)
                 this.allTickets = [...resp.data.news, resp.data.all].flat();
 
-                for (const item of news) {
+                for (const item of this.allTickets) {
                     if (item.status === 'New') {
                         this.task[0].task.push(item)
-                    }
-                }
-                for (const item of all) {
-                    if (item.status === 'Process') {
+                    } else if (item.status === 'Process') {
+                        this.isChecked1.push(false);
                         this.task[1].task.push(item)
                     }
                     else if (item.status === 'Waiting') {
+                        this.isChecked2.push(false);
                         this.task[2].task.push(item)
                     }
                     else if (item.status === 'Finish') {
                         this.task[3].task.push(item)
                     }
-                    else if (item.status === 'Cancel' ) {
+                    else if (item.status === 'Cancel') {
                         this.task[0].task.push(item)
                     }
                 }
@@ -199,7 +198,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Finish') {
                             this.task[3].task.push(item)
                         }
-                        else if (item.status === 'Cancel' ) {
+                        else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
                         }
                     }
@@ -216,7 +215,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Finish') {
                             this.task[3].task.push(item)
                         }
-                        else if (item.status === 'Cancel' ) {
+                        else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
                         }
                     }
@@ -238,19 +237,18 @@ export class ListComponent implements OnInit, AfterViewInit {
     isChecked3: boolean[] = []
     changeColor1(index: number, event: any): void {
         this.isChecked1[index] = !this.isChecked1[index];
-        if(event.target.checked === true )  {
+        if (event.target.checked === true) {
             this.multiItems.push(this.task[1].task[index])
-
+            this.status.setValue(this.task[1].task[index].status);
         } else {
             this.multiItems = this.multiItems.filter(item => item !== this.task[1].task[index]);
-
         }
     }
-    changeColor2(index: number,event: any): void {
+    changeColor2(index: number, event: any): void {
         this.isChecked2[index] = !this.isChecked2[index];
-        if(event.target.checked === true )  {
+        if (event.target.checked === true) {
             this.multiItems.push(this.task[2].task[index])
-            console.log(this.multiItems)
+            this.status.setValue(this.task[2].task[index].status);
         } else {
             this.multiItems = this.multiItems.filter(item => item !== this.task[2].task[index]);
 
@@ -361,8 +359,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         );
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                console.log('result',result)
-                const data =   {
+                console.log('result', result)
+                const data = {
                     users: this.employeeDep.filter(e => e.isSelected)
                 }
                 this.task = [
@@ -410,10 +408,10 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Waiting') {
                             this.task[2].task.push(item)
                         }
-                        else if (item.status === 'Finish' ) {
+                        else if (item.status === 'Finish') {
                             this.task[3].task.push(item)
                         }
-                        else if (item.status === 'Cancel' ) {
+                        else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
                         }
                     }
@@ -440,7 +438,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             // console.log('close');
             if (result) {
 
-                const data =   {
+                const data = {
                     users: this.employeeDep.filter(e => e.isSelected)
                 }
                 this.task = [
@@ -493,7 +491,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Finish') {
                             this.task[3].task.push(item)
                         }
-                        else if (item.status === 'Cancel' ) {
+                        else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
                         }
                     }
@@ -520,7 +518,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
             if (result) {
                 // this.employeeDep = result
-                const data =   {
+                const data = {
                     users: result
                 }
                 this.task = [
@@ -553,7 +551,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                         task: []
                     },
                 ]
-                this._service.getBookingByDep(this.user.department_id,data).subscribe((resp: any) => {
+                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
                     const news = resp.data.news;
                     const all = resp.data.all;
 
@@ -569,16 +567,16 @@ export class ListComponent implements OnInit, AfterViewInit {
                         else if (item.status === 'Waiting') {
                             this.task[2].task.push(item)
                         }
-                        else if (item.status === 'Finish' ) {
+                        else if (item.status === 'Finish') {
                             this.task[3].task.push(item)
                         }
-                        else if (item.status === 'Cancel' ) {
+                        else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
                         }
                     }
                     this._changeDetectorRef.detectChanges();
                 })
-                            // this._service.getBooking().subscribe((resp: any) => {
+                // this._service.getBooking().subscribe((resp: any) => {
                 //     this.itemData = resp.data;
                 //     this.task = [
                 //         {
@@ -647,7 +645,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
 
     multiSave() {
-        if(this.status.value === 'Cancel') {
+        if (this.status.value === 'Cancel') {
             this.CancelStatus()
         } else {
             const confirmation = this._fuseConfirmationService.open({
@@ -675,17 +673,17 @@ export class ListComponent implements OnInit, AfterViewInit {
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
-                    this.multiItems.map((item:any)=>{
+                    this.multiItems.map((item: any) => {
                         const reason = '';
-                        const services = item.services.map(data => ({service_id: data.service_id}));
+                        const services = item.services.map(data => ({ service_id: data.service_id }));
                         const formValue = item
-                        this._service.updateStatus(formValue.id , this.status.value, reason, services).subscribe({
+                        this._service.updateStatus(formValue.id, this.status.value, reason, services).subscribe({
 
                             next: (resp: any) => {
                                 this.multiItems = [];
                                 this.isChecked1 = [];
                                 this.isChecked2 = [];
-                                const data =   {
+                                const data = {
                                     users: this.employeeDep.filter(e => e.isSelected)
                                 }
                                 this.task = [
@@ -738,7 +736,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                         else if (item.status === 'Finish') {
                                             this.task[3].task.push(item)
                                         }
-                                        else if (item.status === 'Cancel' ) {
+                                        else if (item.status === 'Cancel') {
                                             this.task[0].task.push(item)
                                         }
                                     }
@@ -787,7 +785,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
         });
         dialogRef.afterClosed().subscribe(result => {
-            if(result) {
+            if (result) {
                 const confirmation = this._fuseConfirmationService.open({
                     "title": "เปลี่ยนสถานะ",
                     "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
@@ -813,18 +811,18 @@ export class ListComponent implements OnInit, AfterViewInit {
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
-                        this.multiItems.map((item:any)=>{
+                        this.multiItems.map((item: any) => {
                             const reason = result
                             const formValue = item
-                            const services = item.services.map(data => ({service_id: data.service_id}));
+                            const services = item.services.map(data => ({ service_id: data.service_id }));
 
-                            this._service.updateStatus(formValue.id , this.status.value, reason,  services).subscribe({
+                            this._service.updateStatus(formValue.id, this.status.value, reason, services).subscribe({
 
                                 next: (resp: any) => {
                                     this.multiItems = [];
                                     this.isChecked1 = [];
                                     this.isChecked2 = [];
-                                    const data =   {
+                                    const data = {
                                         users: this.employeeDep.filter(e => e.isSelected)
                                     }
                                     this.task = [
@@ -877,7 +875,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                             else if (item.status === 'Finish') {
                                                 this.task[3].task.push(item)
                                             }
-                                            else if (item.status === 'Cancel' ) {
+                                            else if (item.status === 'Cancel') {
                                                 this.task[0].task.push(item)
                                             }
                                         }
@@ -925,6 +923,14 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     onUncheckAllClick(): void {
         this.uncheckAll()
+        const checkboxes = document.querySelectorAll('input[type=checkbox]');
+        checkboxes.forEach((checkbox: any) => {
+            checkbox.checked = false;
+        });
+
+        this.isChecked1 = []
+        this.isChecked2 = []
+        this.status.setValue('')
     }
 
     checkAndFormatDateTime(inputDateTimeRaw: Date): string {
@@ -934,41 +940,41 @@ export class ListComponent implements OnInit, AfterViewInit {
         yesterday.setDate(today.getDate() - 1);
 
         if (this.isSameDate(inputDateTime, today)) {
-          return 'วันนี้ ' + this.formatTime(inputDateTime);
+            return 'วันนี้ ' + this.formatTime(inputDateTime);
         } else if (this.isSameDate(inputDateTime, yesterday)) {
-          return 'เมื่อวาน ' + this.formatTime(inputDateTime);
+            return 'เมื่อวาน ' + this.formatTime(inputDateTime);
         } else {
-          return this.formatFullDateTime(inputDateTime);
+            return this.formatFullDateTime(inputDateTime);
         }
-      }
+    }
 
-      // Function to check if two dates are the same day
-      private isSameDate(date1: Date, date2: Date): boolean {
+    // Function to check if two dates are the same day
+    private isSameDate(date1: Date, date2: Date): boolean {
 
         return (
-          date1.getDate() === date2.getDate() &&
-          date1.getMonth() === date2.getMonth() &&
-          date1.getFullYear() === date2.getFullYear()
+            date1.getDate() === date2.getDate() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getFullYear() === date2.getFullYear()
         );
-      }
+    }
 
-      // Function to format time as HH:mm
-      private formatTime(dateTime: Date): string {
+    // Function to format time as HH:mm
+    private formatTime(dateTime: Date): string {
         const hours = dateTime.getHours().toString().padStart(2, '0');
         const minutes = dateTime.getMinutes().toString().padStart(2, '0');
         return `${hours}:${minutes}`;
-      }
+    }
 
-      // Function to format full date and time as dd/MM/yyyy HH:mm
-      private formatFullDateTime(dateTime: Date): string {
+    // Function to format full date and time as dd/MM/yyyy HH:mm
+    private formatFullDateTime(dateTime: Date): string {
         const day = dateTime.getDate().toString().padStart(2, '0');
         const month = (dateTime.getMonth() + 1).toString().padStart(2, '0');
         const year = dateTime.getFullYear().toString();
         const time = this.formatTime(dateTime);
         return `${day}/${month}/${year} ${time}`;
-      }
+    }
 
-      searchNameByCharacter(character, array) {
+    searchNameByCharacter(character, array) {
         const results = [];
         for (let i = 0; i < array.length; i++) {
             if (array[i].car.license.toLowerCase().includes(character.toLowerCase())) {
@@ -976,5 +982,13 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         }
         return results.length > 0 ? results : null; // If names are not found in any object
+    }
+
+    get isCheckedWait() {
+        return this.isChecked2.includes(true);
+    }
+
+    get isCheckedProcess() {
+        return this.isChecked1.includes(true);
     }
 }

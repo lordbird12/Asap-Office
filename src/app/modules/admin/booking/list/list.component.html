@@ -56,8 +56,7 @@
                     {{item.detail }}
                 </p>
                 <ng-container *ngFor="let card of item.task; let j = index">
-                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100"
-                        *ngIf="card.status === 'New' || card.status === 'Cancel'">
+                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100" *ngIf="card.status === 'New' || card.status === 'Cancel'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
@@ -102,9 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2"
-                    [ngClass]="{'bg-[#fff9f9]': isChecked1[j], 'bg-white': !isChecked1[j],'border-red-500' : isChecked1[j]}"
-                        *ngIf="card.status === 'Process'">
+                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2" [ngClass]="{'bg-[#fff9f9]': isChecked1[j], 'bg-white': !isChecked1[j],'border-red-500' : isChecked1[j]}" *ngIf="card.status === 'Process'">
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-row" (click)="editTicket(card)">
                                 <div class="flex p-4">
@@ -121,7 +118,7 @@
                             </div>
                             <div class="relative">
                                 <input class="absolute top-0 right-0 m-5" type="checkbox"
-                                   [id]="'checkbox_' + j" (change)="changeColor1(j,$event)">
+                                   [id]="'checkbox_' + j" (change)="changeColor1(j,$event)" [disabled]="isCheckedWait">
                             </div>
                         </div>
                         <div class="flex flex-row mx-5 md:flex mb-6">
@@ -184,10 +181,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2"
-                    [ngClass]="{'bg-[#fff9f9]': isChecked2[j], 'bg-white': !isChecked2[j],'border-red-500' : isChecked2[j]}"
-                    *ngIf="card.status === 'Waiting'">
+                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2" [ngClass]="{'bg-[#fff9f9]': isChecked2[j], 'bg-white': !isChecked2[j],'border-red-500' : isChecked2[j]}" *ngIf="card.status === 'Waiting'">
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-row" (click)="editTicket(card)">
                                 <div class="flex p-4">
@@ -204,7 +198,7 @@
                             </div>
                             <div class="relative">
                                 <input class="absolute top-0 right-0 m-5" type="checkbox"
-                                     [id]="'checkbox_' + j" (change)="changeColor2(j, $event)">
+                                     [id]="'checkbox_' + j" (change)="changeColor2(j, $event)" [disabled]="isCheckedProcess">
                             </div>
                         </div>
                         <div class="flex flex-row" (click)="editTicket(card)">
@@ -308,9 +302,12 @@
                 </div>
             </div>
             <div class="flex w-1/3 justify-end items-center">
-                <mat-form-field class="min-w-56 mt-4 w-2/3">
+                <mat-form-field class="min-w-56 mt-4 w-2/3" appearance="outline">
+                    <mat-label>ปรับสถานะ</mat-label>
                     <mat-select [formControl]="status">
-                        <mat-option class="border-b-2" value="">เลือกสถานะ</mat-option>
+                        <mat-option class="border-b-2">
+                            <span class="text-black font-bold">เลือกสถานะที่ต้องการปรับ</span>
+                        </mat-option>
                         <mat-option value="Process">กำลังดำเนินงาน</mat-option>
                         <mat-option value="Waiting">รอเข้ารับบริการ</mat-option>
                         <mat-option value="Finish">เสร็จสิ้น</mat-option>
