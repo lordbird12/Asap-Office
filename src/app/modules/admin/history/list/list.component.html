@@ -66,9 +66,9 @@
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="w-1">
+                        <!-- <th class="w-1">
                             <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"  (change)="setAll($event.checked)" color="primary"></mat-checkbox>
-                        </th>
+                        </th> -->
                         <th>ลำดับ</th>
                         <th>ชื่อ</th>
                         <th>เวลา</th>
@@ -78,9 +78,9 @@
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
-                        <td>
+                        <!-- <td>
                             <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
-                        </td>
+                        </td> -->
                         <td>{{ pages.begin + (i + 1) }}</td>
                         <td>{{ item.user_id ? item.user_id : "-" }}</td>
                         <td>{{ item.created_at ? item.created_at : "-" }}</td>
@@ -90,7 +90,7 @@
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">
                     <tr>
-                        <td colspan="6" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                        <td colspan="5" class="no-data-available text-center">ไม่มีข้อมูล !</td>
                     </tr>
                 </tbody>
             </table>
