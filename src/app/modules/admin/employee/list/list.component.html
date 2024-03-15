@@ -1,99 +1,101 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <!-- Loader -->
-    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 flemin-w-0">
-            <!-- Title -->
-            <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
-                    พนักงาน
-                </h2>
-            </div>
+<div class="flex flex-col justify-between w-full">
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Header -->
+        <!-- Loader -->
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
         </div>
-    </div>
-    <!-- Main -->
-    <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
-        <div class="flex flex-row justify-between py-2 px-5">
-            <div class="flex justify-start items-center w-[405px] mt-5">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
-                        <mat-icon svgIcon="search"></mat-icon>
-                        <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery" (ngModelChange)="applySearch()" class="w-full">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
-                        <div class="w-[15px] h-[20px] items-center mt-1">
-                            <img src="assets/icons/Vector.svg">
-                        </div>
-                        &nbsp;
-                        &nbsp;
-                        <span>อัปโหลด CSV</span>
-                    </button>
-                </div>
-                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
-                    <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        <div class="font-light">
-                            เพิ่มพนักงาน
-                        </div>
-                    </button>
+        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+            <div class="flex-1 flemin-w-0">
+                <!-- Title -->
+                <div class="flex flex-row mt-2 justify-between">
+                    <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
+                        พนักงาน
+                    </h2>
                 </div>
             </div>
         </div>
-        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
-                <thead>
-                    <tr>
-                        <th class="w-1">
-                            <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"  (change)="setAll($event.checked)" color="primary"></mat-checkbox>
-                        </th>
-                        <th> </th>
-                        <th>ชื่อ</th>
-                        <th>ตำแหน่ง</th>
-                        <th>แผนก</th>
-                        <th>เข้าใช้งานล่าสุด</th>
-                        <th class="w-[100px]"> </th>
-                    </tr>
-                </thead>
-
-                <tbody *ngIf="dataRow?.length != 0">
-                    <tr *ngFor="let item of dataRow; let i = index">
-                        <td>
-                            <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
-                        </td>
-                        <td style="text-align: center;">
-                            <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
-                                <img src="{{item?.image}}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+        <!-- Main -->
+        <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
+            <div class="flex flex-row justify-between py-2 px-5">
+                <div class="flex justify-start items-center w-[405px] mt-5">
+                    <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
+                            <mat-icon svgIcon="search"></mat-icon>
+                            <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery" (ngModelChange)="applySearch()" class="w-full">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                        <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
+                            <div class="w-[15px] h-[20px] items-center mt-1">
+                                <img src="assets/icons/Vector.svg">
                             </div>
-                        </td>
-                        <td class="font-light">{{item?.fname}} {{item?.lname}}</td>
-                        <td class="font-light">{{item?.position?.name}}</td>
-                        <td class="font-light">{{item?.department?.name}}</td>
-                        <td class="font-light">{{ item?.updated_at ?? '-' }}</td>
+                            &nbsp;
+                            &nbsp;
+                            <span>อัปโหลด CSV</span>
+                        </button>
+                    </div>
+                    <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
+                        <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
+                            <mat-icon>add_circle_outline</mat-icon>
+                            <div class="font-light">
+                                เพิ่มพนักงาน
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+                <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="w-1">
+                                <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"  (change)="setAll($event.checked)" color="primary"></mat-checkbox>
+                            </th>
+                            <th> </th>
+                            <th>ชื่อ</th>
+                            <th>ตำแหน่ง</th>
+                            <th>แผนก</th>
+                            <th>เข้าใช้งานล่าสุด</th>
+                            <th class="w-[100px]"> </th>
+                        </tr>
+                    </thead>
 
-                        <td> <button mat-icon-button (click)="editElement(item.id)">
-                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                            </button>
+                    <tbody *ngIf="dataRow?.length != 0">
+                        <tr *ngFor="let item of dataRow; let i = index">
+                            <td>
+                                <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
+                            </td>
+                            <td style="text-align: center;">
+                                <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
+                                    <img src="{{item?.image}}" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </td>
+                            <td class="font-light">{{item?.fname}} {{item?.lname}}</td>
+                            <td class="font-light">{{item?.position?.name}}</td>
+                            <td class="font-light">{{item?.department?.name}}</td>
+                            <td class="font-light">{{ item?.updated_at ?? '-' }}</td>
 
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="dataRow?.length == 0">
-                    <tr>
-                        <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                    </tr>
-                </tbody>
-            </table>
+                            <td> <button mat-icon-button (click)="editElement(item.id)">
+                                    <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                                </button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="dataRow?.length == 0">
+                        <tr>
+                            <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <div *ngIf="someOneChecked?.length" class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24">
+    </div>
+    <div *ngIf="someOneChecked?.length" class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-white dark:bg-gray-700 sticky bottom-0 h-24">
         <button class="rounded-md border-black border min-w-36" mat-stroked-button (click)="cancelCheck()">
             ยกเลิก
         </button>
