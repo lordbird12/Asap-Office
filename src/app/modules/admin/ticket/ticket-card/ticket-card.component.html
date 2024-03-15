@@ -8,12 +8,12 @@
             </div>
             <div class="flex flex-row items-center" *ngIf="this.data.status === 'Edit'">
                 <div class="text-3xl font-bold mr-5">รายละเอียด</div>
-                <div class="text-base">(ID: {{this.data.value.code}})</div>
+                <div class="text-base">(ID: {{this.data?.value?.code}})</div>
             </div>
             <div class="flex flex-row items-center justify-center" *ngIf="this.data.status === 'Edit'">
                 <mat-form-field class="min-w-56 mt-4">
                     <mat-select (selectionChange)="changeStatus($event)" [formControl]="statusData">
-                        <mat-option class="border-b-2">เลือกสถานะ</mat-option>
+                        <mat-option class="border-b-2" value="New">เลือกสถานะ</mat-option>
                         <mat-option value="Process">กำลังดำเนินงาน</mat-option>
                         <mat-option value="Waiting">รอเข้ารับบริการ</mat-option>
                         <mat-option value="Finish">เสร็จสิ้น</mat-option>
@@ -52,14 +52,31 @@
                 </div>
             </div>
             <div class="flex flex-col" *ngIf="this.data.status === 'New'">
-                <mat-form-field class="flex-auto w-full">
+                <!-- <mat-form-field class="flex-auto w-full">
                     <mat-label class="font-bold">ข้อมูลรถ</mat-label>
                     <mat-select (selectionChange)="onChangeClient($event)">
                         <mat-option value="">เลือกรถ</mat-option>
                         <mat-option value="{{item.car_id}}"
                             *ngFor="let item of productData; let i = index">{{item.license_plate}}</mat-option>
                     </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="flex-auto w-full">
+                    <mat-label class="font-bold">ข้อมูลรถ</mat-label>
+                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChangeClient($event)"
+                       >
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option.license_plate}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
+
+                <!--Using items input-->
+                <!-- <ng-select [items]="cars" 
+                            bindLabel="name" 
+                            bindValue="id" 
+                            [(ngModel)]="selectedCar">
+                 </ng-select> -->
             </div>
 
             <div class="flex flex-col">
@@ -74,8 +91,8 @@
                         <mat-form-field class="flex-auto w-full">
                             <mat-select formControlName="time">
                                 <mat-option value="">เลือกเวลา</mat-option>
-                                <mat-option value="{{time}}"
-                                    *ngFor="let time of timeOptions; let i = index">{{time}}</mat-option>
+                                <mat-option value="{{time.code}}"
+                                    *ngFor="let time of timeOptions; let i = index">{{time.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -117,7 +134,7 @@
                         <mat-label class="font-bold">อื่น ๆ </mat-label>
                         <mat-form-field class="w-full">
                             <mat-label>รายละเอียดเพิ่มเติม</mat-label>
-                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3" 
+                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3"
                                 formControlName="note"></textarea>
                         </mat-form-field>
                     </div>

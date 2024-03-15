@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DropdownTimeComponent } from 'app/shared/dropdown-time/dropdown-time.component';
 import { PageService } from '../page.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormArray, FormBuilder, FormControl, FormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -16,12 +16,13 @@ import moment from 'moment';
 import { CheckboxServiceComponent } from 'app/shared/checkbox-service/checkbox.component';
 import { DateDiffPipe } from 'app/date-diff-pipe.pipe';
 import { CancelDialogComponent } from '../cancel-dialog/dailog.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @Component({
     selector: 'app-ticket-card',
     standalone: true,
-    imports: [CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule, CheckboxServiceComponent],
+    imports: [FormsModule, NgSelectModule,CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule, CheckboxServiceComponent],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss'],
 
@@ -31,7 +32,7 @@ export class TicketCardComponent implements OnInit {
     serviceData: any[] = [];
     serviceCenterData: any[] = [];
     clientData: any[] = [];
-    myControl = new FormControl('');
+    // myControl = new FormControl('');
     ProductControl = new FormControl('');
     statusData = new FormControl('');
     filteredOptionsProduct: Observable<string[]>;
@@ -41,6 +42,19 @@ export class TicketCardComponent implements OnInit {
     productFilter: any[] = [];
     form: FormGroup;
     service: { service_id: number }[] = [];
+
+    selectedCar: number;
+
+    cars = [
+        { id: 1, name: 'Volvo' },
+        { id: 2, name: 'Saab' },
+        { id: 3, name: 'Opel' },
+        { id: 4, name: 'Audi' },
+    ];
+
+    myControl = new FormControl<string | any>('');
+    options: any[] = [];
+    filteredOptions: Observable<any[]>;
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<TicketCardComponent>,
@@ -80,17 +94,29 @@ export class TicketCardComponent implements OnInit {
     yourArray: string[] = ['Item 1', 'Item 2', 'Item 3']; // ตัวอย่างของ Array
     yourDataArray: string[] = ['Item 2']; // ตัวอย่างของข้อมูลที่มีอยู่
     onChangeClient(event: any) {
-
-        let formvalue = this.productData.find(item => item.car_id === event.value)
+        const selectedOption = event.option.value;
         this.form.patchValue({
-            car_id: formvalue.car_id,
-            client_id: formvalue.client.id,
-            name: formvalue.client.name,
-            phone: formvalue.client.phone,
-            image: formvalue.car.pictureUrl,
-            company: formvalue.client.company,
+            car_id: selectedOption.car_id,
+            client_id: selectedOption.client.id,
+            name: selectedOption.client.name,
+            phone: selectedOption.client.phone,
+            image: selectedOption.car.pictureUrl,
+            company: selectedOption.client.company,
         })
+        this._changeDetectorRef.markForCheck()
     }
+
+    displayFn(user: any): string {
+        // console.log('user',user)
+        
+        return user && user.license_plate ? user.license_plate : '';
+      }
+    
+      private _filter(name: string): any[] {
+        const filterValue = name;
+    
+        return this.productData.filter(option => option.license_plate.toLowerCase().includes(filterValue));
+      }
 
     testData: any[] = []
     serviceData1: any[] = []
@@ -119,6 +145,11 @@ export class TicketCardComponent implements OnInit {
         } else {
             this.statusData.setValue('New')
         }
+
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value || '')),
+          );
     }
 
     convertTime(inputTime: string): string {
@@ -147,14 +178,62 @@ export class TicketCardComponent implements OnInit {
         );
     }
 
+    timeOptions: object[] = [
+        {
+           code: '08:00' ,
+           name: '8:00 am'
+        },
+        {
+           code: '09:00' ,
+           name: '9:00 am'
+        },
+        {
+           code: '10:00' ,
+           name: '10:00 am'
+        },
+        {
+           code: '11:00' ,
+           name: '11:00 am'
+        },
+        {
+            code: '12:00' ,
+            name: '12:00 pm'
+         },
+        {
+            code: '01:00' ,
+            name: '1:00 pm'
+         },
+         {
+            code: '02:00' ,
+            name: '2:00 pm'
+         },
+         {
+            code: '03:00' ,
+            name: '3:00 pm'
+         },
+         {
+            code: '04:00' ,
+            name: '4:00 pm'
+         },
+         {
+            code: '05:00' ,
+            name: '5:00 pm'
+         },
+         {
+            code: '06:00' ,
+            name: '6:00 pm'
+         },
+         {
+            code: '07:00' ,
+            name: '7:00 pm'
+         },
+    ];
 
-
-    timeOptions: string[] = [];
     generateTimeOptions(): void {
         for (let hour = 6; hour <= 20; hour++) {
             const formattedHour = hour < 10 ? `0${hour}` : `${hour}`;
             const time = `${formattedHour}:00`;
-            this.timeOptions.push(time);
+            // this.timeOptions.push(time);
         }
     }
 

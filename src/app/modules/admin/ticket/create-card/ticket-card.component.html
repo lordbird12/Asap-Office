@@ -15,13 +15,23 @@
             </div>
 
             <div class="flex flex-col">
-                <mat-form-field class="flex-auto w-full">
+                <!-- <mat-form-field class="flex-auto w-full">
                     <mat-label class="font-bold">ข้อมูลรถ</mat-label>
                     <mat-select formControlName="car_id" (selectionChange)="onChangeClient($event)">
                         <mat-option value="">เลือกรถ</mat-option>
                         <mat-option value="{{item.car_id}}"
                             *ngFor="let item of productData; let i = index">{{item.car.license}}</mat-option>
                     </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="flex-auto w-full">
+                    <mat-label class="font-bold">ข้อมูลรถ</mat-label>
+                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChangeClient($event)"
+                       >
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option.license_plate}}
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
             </div>
 

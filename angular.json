@@ -57,7 +57,8 @@
               "src/styles/styles.scss",
               "src/styles/tailwind.scss",
               "node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
-              "src/assets/styles/toastr.css"
+              "src/assets/styles/toastr.css",
+              "src/assets/styles/ng-select.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

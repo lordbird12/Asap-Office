@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
@@ -11,11 +11,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import moment from 'moment';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { Observable, map, startWith } from 'rxjs';
 
 @Component({
     selector: 'app-ticket-card',
     standalone: true,
-    imports: [CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, ReactiveFormsModule],
+    imports: [CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, ReactiveFormsModule,MatAutocompleteModule],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss']
 })
@@ -33,12 +35,16 @@ export class CreateComponent implements OnInit{
         'อื่นๆ',
     ]
     form : FormGroup;
+    myControl = new FormControl<string | any>('');
+    options: any[] = [];
+    filteredOptions: Observable<any[]>;
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<CreateComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _fb:FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) 
     {
         this.form = this._fb.group({
@@ -75,21 +81,37 @@ export class CreateComponent implements OnInit{
     }
 
     onChangeClient(event: any) {
-        let formvalue = this.productData.find(item =>  item.car_id === event.value)
-        console.log('formValue', formvalue)
+        const selectedOption = event.option.value;
         this.form.patchValue({
-            car_id:formvalue.car_id,
-            client_id: formvalue.client.id,
-            name: formvalue.client.name,
-            phone: formvalue.client.phone,
-            image: formvalue.car.pictureUrl,
-            company: formvalue.client.company,
+            car_id: selectedOption.car_id,
+            client_id: selectedOption.client.id,
+            name: selectedOption.client.name,
+            phone: selectedOption.client.phone,
+            image: selectedOption.car.pictureUrl,
+            company: selectedOption.client.company,
         })
+        this._changeDetectorRef.markForCheck()
     }
     
     ngOnInit(): void {
-
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter(value || '')),
+          );
     }
+
+
+    displayFn(user: any): string {
+        // console.log('user',user)
+        
+        return user && user.license_plate ? user.license_plate : '';
+      }
+    
+      private _filter(name: string): any[] {
+        const filterValue = name;
+    
+        return this.productData.filter(option => option.license_plate.toLowerCase().includes(filterValue));
+      }
 
     onClose() {
         this.dialogRef.close();
