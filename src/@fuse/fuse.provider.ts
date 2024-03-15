@@ -12,6 +12,7 @@ import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { FusePlatformService } from '@fuse/services/platform';
 import { FuseSplashScreenService } from '@fuse/services/splash-screen';
 import { FuseUtilsService } from '@fuse/services/utils';
+import { AsapConfirmationService } from './services/asap-confirmation';
 
 export type FuseProviderConfig = {
     mockApi?: {
@@ -57,6 +58,11 @@ export const provideFuse = (config: FuseProviderConfig): Array<Provider | Enviro
         {
             provide : ENVIRONMENT_INITIALIZER,
             useValue: () => inject(FuseConfirmationService),
+            multi   : true,
+        },
+        {
+            provide : ENVIRONMENT_INITIALIZER,
+            useValue: () => inject(AsapConfirmationService),
             multi   : true,
         },
 
