@@ -251,6 +251,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
+                const selectedIds = this.dataRow.filter(e => e.checked).map(e => e.id);
+                console.log(selectedIds);
             }
         });
     }

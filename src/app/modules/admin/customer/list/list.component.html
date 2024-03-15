@@ -54,6 +54,9 @@
                         class="table row-border hover w-full bg-white whitespace-nowrap">
                         <thead>
                             <tr>
+                                <th class="w-1">
+                                    <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"  (change)="setAll($event.checked)" color="primary"></mat-checkbox>
+                                </th>
                                 <th class="font-light">ชื่อ</th>
                                 <th class="font-light">บริษัท</th>
                                 <th class="font-light">จำนวนรถ</th>
@@ -65,6 +68,9 @@
                         </thead>
                         <tbody *ngIf="dataRow?.length != 0">
                             <tr *ngFor="let item of dataRow; let i = index">
+                                <td>
+                                    <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
+                                </td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
                                 <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
@@ -256,5 +262,16 @@
             </mat-tab>
         </mat-tab-group>
         <!-- Main -->
+    </div>
+
+    <div *ngIf="someOneChecked?.length" class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24">
+        <button class="rounded-md border-black border min-w-36" mat-stroked-button (click)="cancelCheck()">
+            ยกเลิก
+        </button>
+        <span class="text-lg font-bold mx-5">เลือกแล้ว {{someOneChecked.length}}</span>
+        <button class="inline-flex rounded-md min-w-36" mat-flat-button [color]="'primary'" (click)="confirmDelete()">
+            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_asha:delete'"></mat-icon>
+            <span class="ml-2">ลบรายการ</span>
+        </button>
     </div>
 </div>

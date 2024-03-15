@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
 import {
@@ -10,11 +9,8 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {
-    FormControl,
     FormsModule,
     ReactiveFormsModule,
-    UntypedFormBuilder,
-    Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -27,15 +23,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'car-list',
@@ -61,6 +57,7 @@ import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatCheckboxModule,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -84,7 +81,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private asapConfirmationService: AsapConfirmationService,
     ) {}
 
     ngOnInit() {
@@ -183,11 +181,14 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             columns: [
                 { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
+                { data: '' },
             ],
+            order: [[1, 'asc']]
         };
         this.dtOptions1= {
             pagingType: 'full_numbers',
@@ -336,5 +337,48 @@ export class ListComponent implements OnInit, AfterViewInit {
                 //    console.log(result,'result')
             }
         });
+    }
+
+    get someOneChecked() {
+        return this.dataRow?.filter(e => e.checked);
+    }
+
+    get someCheck() {
+        if (this.someOneChecked?.length == 0) { return false; }
+
+        return this.someOneChecked?.length > 0 && !this.checkAll;
+    }
+
+    get checkAll() {
+        return this.dataRow?.every(e => e.checked);
+    }
+
+    setAll(checked: boolean) {
+        this.dataRow?.forEach(e => e.checked = checked);
+    }
+
+    confirmDelete() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
+            message: 'บัญชีลูกค้าที่เลือกจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+            }
+        });
+    }
+
+    cancelCheck(){
+        this.setAll(false)
     }
 }

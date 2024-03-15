@@ -164,6 +164,8 @@ export class PageService {
             )
             .pipe(
                 switchMap((response: any) => {
+                    response.data.data.forEach(element => { element.checked = false });
+
                     return of(response.data);
                 })
             );
