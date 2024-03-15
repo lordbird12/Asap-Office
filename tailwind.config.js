@@ -102,7 +102,7 @@ const config = {
                 '0': '0 0 auto'
             },
             fontFamily: {
-                sans: `"Noto Sans Thai", ${defaultTheme.fontFamily.sans.join(',')}`,
+                sans: `"Sukhumvit Set", ${defaultTheme.fontFamily.sans.join(',')}`,
                 // mono: `"IBM Plex Mono", ${defaultTheme.fontFamily.mono.join(',')}`
             },
             opacity: {
