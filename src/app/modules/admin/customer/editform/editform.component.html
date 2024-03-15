@@ -1,206 +1,222 @@
-<form [formGroup]="addForm" class="w-full layout card">
-    <div class="flex flex-col flex-auto min-w-0">
+<div class="flex flex-col justify-between w-full">
+    <form [formGroup]="addForm" class="w-full layout card">
+        <div class="flex flex-col flex-auto min-w-0">
 
-        <!-- Header -->
-        <style>
-            /* Your existing styles for the header here */
-            
-            @media only screen and (max-width: 768px) {
-                .split-layout {
-                    flex-direction: column;
-                }
-                .split-layout .left-section,
-                .split-layout .right-section {
-                    flex: 1;
-                    padding: 10px;
-                }
-                .split-layout .vertical-line {
-                    display: none;
-                    /* Hide the vertical line on smaller screens */
-                }
-            }
-        </style>
+            <!-- Header -->
+            <style>
+                /* Your existing styles for the header here */
 
-        <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-            <div class="flex-1 flemin-w-0">
-                <!-- Title -->
-                <div class="flex flex-row mt-2 justify-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                        ลูกค้าในระบบ
-                    </h2>
+                @media only screen and (max-width: 768px) {
+                    .split-layout {
+                        flex-direction: column;
+                    }
+
+                    .split-layout .left-section,
+                    .split-layout .right-section {
+                        flex: 1;
+                        padding: 10px;
+                    }
+
+                    .split-layout .vertical-line {
+                        display: none;
+                        /* Hide the vertical line on smaller screens */
+                    }
+                }
+            </style>
+
+            <div
+                class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+                <div class="flex-1 flemin-w-0">
+                    <!-- Title -->
+                    <div class="flex flex-row mt-2 justify-center">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                            ลูกค้าในระบบ
+                        </h2>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex-auto px-4 sm:px-32 py-12 items-center overflow-x-auto">
-            <div class="bg-card md:shadow overflow-hidden rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2 overflow-x-auto">
-                <div class="md:max-w-full">
-                    <form [formGroup]="addForm">
+            <div class="flex-auto px-4 sm:px-32 py-12 items-center overflow-x-auto">
+                <div
+                    class="bg-card md:shadow overflow-hidden rounded-2xl px-8 pt-6 pb-8 mb-4 flex flex-col my-2 overflow-x-auto">
+                    <div class="md:max-w-full">
+                        <form [formGroup]="addForm">
 
-                        <div class="flex flex-row">
+                            <div class="flex flex-row">
 
-                            <div class="flex flex-col mx-3 md:flex mb-4 w-full">
+                                <div class="flex flex-col mx-3 md:flex mb-4 w-full">
 
-                                <div>
-                                    <div class="md:w-full px-3">
-                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class=" font-light">ชื่อบริษัท</mat-label>
-                                            <input matInput formControlName="company">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="md:w-full px-3">
-                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class=" font-light">ชื่อลูกค้า</mat-label>
-                                            <input matInput formControlName="name">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="flex">
+                                    <div>
                                         <div class="md:w-full px-3">
-                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full max-w-full">
-                                                <mat-label class=" font-light">เบอร์โทรศัพท์ติดต่อ</mat-label>
-                                                <input matInput formControlName="phone">
+                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                <mat-label class=" font-light">ชื่อบริษัท</mat-label>
+                                                <input matInput formControlName="company">
                                             </mat-form-field>
                                         </div>
                                         <div class="md:w-full px-3">
                                             <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                                <mat-label class=" font-light">Email</mat-label>
-                                                <input matInput formControlName="email">
+                                                <mat-label class=" font-light">ชื่อลูกค้า</mat-label>
+                                                <input matInput formControlName="name">
                                             </mat-form-field>
                                         </div>
-                                    </div>
-                                    <div class="md:w-full px-3">
-                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                            <mat-label class=" font-light">ประเภทกิจการ</mat-label>
-                                            <mat-select formControlName="department_id">
-                                                <mat-option *ngFor="let item of this.departments;" value="{{item.id}}">
-                                                    {{item.name}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-3 text-left">
-                                        สถานะบัญชี</h1>
-                                    <div class="w-full max-w-full">
-                                        <mat-radio-group aria-label="Select an option" formControlName="status">
-                                            <mat-radio-button value="Active">
-                                                <div class="font-light">ใช้งานอยู่</div>
-                                            </mat-radio-button>
-                                            <mat-radio-button value="Expire">
-                                                <div class="font-light">หมดอายุ</div>
-                                            </mat-radio-button>
-                                            <mat-radio-button value="Block">
-                                                <div class="font-light">ระงับการใช้งาน</div>
-                                            </mat-radio-button>
-                                        </mat-radio-group>
-                                    </div>
-
-                                    <div class="md:w-full px-3 pt-4">
-                                        <mat-label class=" font-light">วันหมดสัญญา</mat-label>
-                                        <mat-form-field class="w-full">
-                                            <input readonly [formControlName]="'expire_date'" matInput placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
-                                            <mat-datepicker-toggle matSuffix [for]="picker_start_date"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker_start_date></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
-                                    <div formArrayName="cars">
-                                        <div class="flex justify-between">
-                                            <div class="md:w-full px-3 flex">
-
-                                                <h1 class="text-xl font-semibold mb-4 pt-2 text-left whitespace-nowrap">
-                                                    รถที่ใช้งาน
-
-                                                </h1>
-                                                <div class="flex items-center justify-center mt-1 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
-                                                    {{car().length}}
-                                                </div>
+                                        <div class="flex">
+                                            <div class="md:w-full px-3">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full max-w-full">
+                                                    <mat-label class=" font-light">เบอร์โทรศัพท์ติดต่อ</mat-label>
+                                                    <input matInput formControlName="phone">
+                                                </mat-form-field>
                                             </div>
-                                            <div class="flex justify-end mr-3">
-                                                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate justify-end">
-                                                    <button class="px-6 ml-3 font-light rounded-md transparent-button" mat-flat-button (click)="openDialog()">
-                                                        <span style="color: #FF595A; vertical-align: middle;">
-                                                            <mat-icon class="icon"
-                                                                svgIcon="heroicons_outline:plus-small"></mat-icon>
-                                                        </span>
-                                                        <span class="button-text"
-                                                            style="color: #FF595A; vertical-align: middle;">เลือกรถ</span>
-                                                    </button>
-                                                </div>
-                                                <!-- <button class="px-6 ml-3 font-light " mat-flat-button (click)="openDialog()" [color]="'primary'">
-
-                                                    <mat-icon>add_circle_outline</mat-icon>
-
-                                                    <div class="font-light">
-                                                        เลือกรถ
-                                                    </div>
-                                                </button> -->
+                                            <div class="md:w-full px-3">
+                                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                    <mat-label class=" font-light">Email</mat-label>
+                                                    <input matInput formControlName="email">
+                                                </mat-form-field>
                                             </div>
                                         </div>
+                                        <div class="md:w-full px-3">
+                                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                                <mat-label class=" font-light">ประเภทกิจการ</mat-label>
+                                                <mat-select formControlName="department_id">
+                                                    <mat-option *ngFor="let item of this.departments;"
+                                                        value="{{item.id}}">
+                                                        {{item.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-3 text-left">
+                                            สถานะบัญชี</h1>
+                                        <div class="w-full max-w-full">
+                                            <mat-radio-group aria-label="Select an option" formControlName="status">
+                                                <mat-radio-button value="Active">
+                                                    <div class="font-light">ใช้งานอยู่</div>
+                                                </mat-radio-button>
+                                                <mat-radio-button value="Expire">
+                                                    <div class="font-light">หมดอายุ</div>
+                                                </mat-radio-button>
+                                                <mat-radio-button value="Block">
+                                                    <div class="font-light">ระงับการใช้งาน</div>
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
 
+                                        <div class="md:w-full px-3 pt-4">
+                                            <mat-label class=" font-light">วันหมดสัญญา</mat-label>
+                                            <mat-form-field class="w-full">
+                                                <input readonly [formControlName]="'expire_date'" matInput
+                                                    placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
+                                                <mat-datepicker-toggle matSuffix
+                                                    [for]="picker_start_date"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker_start_date></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                        <div formArrayName="cars">
+                                            <div class="flex justify-between">
+                                                <div class="md:w-full px-3 flex">
 
+                                                    <h1
+                                                        class="text-xl font-semibold mb-4 pt-2 text-left whitespace-nowrap">
+                                                        รถที่ใช้งาน
 
-                                        <ng-container *ngFor="let item of car().controls; let i = index;" [formGroupName]="i">
-                                            <div class="flex items-center pb-4 w-full">
-                                                <div class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
-                                                    {{i+1}}
-                                                </div>
-                                                <div class="flex p-4 ">
-                                                    <img class="h-15 w-auto" src="{{item.value.image}}" alt="image" style="object-fit: contain;">
-                                                </div>
-                                                <div class="ml-4 mt-2 flex-grow">
-                                                    <div class="whitespace-nowrap">{{item.value.name}}</div>
-                                                    <div class="whitespace-nowrap">{{item.value.license}} {{item.value.province}}
+                                                    </h1>
+                                                    <div
+                                                        class="flex items-center justify-center mt-1 ml-4 w-8 h-8 bg-red-500 rounded-full text-white">
+                                                        {{car().length}}
                                                     </div>
                                                 </div>
-                                                <!-- Delete button aligned to the right -->
-                                                <div class="border-2 p-4 border rounded-lg w-2 h-2 flex items-center justify-center ml-4">
-                                                    <button class="text-white" (click)="removeCar(i)">
-                                                        <mat-icon class="pt-2">close</mat-icon>
-                                                    </button>
+                                                <div class="flex justify-end mr-3">
+                                                    <div
+                                                        class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate justify-end">
+                                                        <button
+                                                            class="px-6 ml-3 font-light rounded-md transparent-button"
+                                                            mat-flat-button (click)="openDialog()">
+                                                            <span style="color: #FF595A; vertical-align: middle;">
+                                                                <mat-icon class="icon"
+                                                                    svgIcon="heroicons_outline:plus-small"></mat-icon>
+                                                            </span>
+                                                            <span class="button-text"
+                                                                style="color: #FF595A; vertical-align: middle;">เลือกรถ</span>
+                                                        </button>
+                                                    </div>
+                                                    <!-- <button class="px-6 ml-3 font-light " mat-flat-button (click)="openDialog()" [color]="'primary'">
+
+                                                        <mat-icon>add_circle_outline</mat-icon>
+
+                                                        <div class="font-light">
+                                                            เลือกรถ
+                                                        </div>
+                                                    </button> -->
                                                 </div>
                                             </div>
-                                            <mat-divider></mat-divider>
-                                        </ng-container>
 
+
+
+                                            <ng-container *ngFor="let item of car().controls; let i = index;"
+                                                [formGroupName]="i">
+                                                <div class="flex items-center pb-4 w-full">
+                                                    <div
+                                                        class="border-2 p-3 border rounded-lg w-2 h-2 flex justify-content-center items-center pl-2">
+                                                        {{i+1}}
+                                                    </div>
+                                                    <div class="flex p-4 ">
+                                                        <img class="h-15 w-auto" src="{{item.value.image}}" alt="image"
+                                                            style="object-fit: contain;">
+                                                    </div>
+                                                    <div class="ml-4 mt-2 flex-grow">
+                                                        <div class="whitespace-nowrap">{{item.value.name}}</div>
+                                                        <div class="whitespace-nowrap">{{item.value.license}}
+                                                            {{item.value.province}}
+                                                        </div>
+                                                    </div>
+                                                    <!-- Delete button aligned to the right -->
+                                                    <div
+                                                        class="border-2 p-4 border rounded-lg w-2 h-2 flex items-center justify-center ml-4">
+                                                        <button class="text-white" (click)="removeCar(i)">
+                                                            <mat-icon class="pt-2">close</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <mat-divider></mat-divider>
+                                            </ng-container>
+
+                                        </div>
                                     </div>
+
                                 </div>
 
                             </div>
 
-                        </div>
 
+                        </form>
 
-                    </form>
+                    </div>
+
 
                 </div>
-
 
             </div>
 
+
+
         </div>
+    </form>
 
-
-
-    </div>
-    <div class="bg-card md:shadow overflow-hidden px-4 pt-3 pb-4 flex flex-col">
-        <div class="md:max-w-full">
-
-            <div mat-dialog-actions class="flex justify-end mt-4">
-
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
-                    <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
-                        ยกเลิก
-                    </button>
-                </div>
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-                    <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-                        <div class="font-light">
-                            บันทึก
-                        </div>
-                    </button>
-                </div>
+    <div class="flex justify-between bg-card md:shadow overflow-hidden px-8 pt-3 pb-4">
+        <div class="inline-flex">
+            <div *ngIf="this.id" class="rounded-md border border-kPrimary">
+                <button class="rounded-md border-0 min-w-30" mat-stroked-button [color]="'primary'">
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:trash-2'"></mat-icon>
+                    <span class="ml-2">ลบรายการ</span>
+                </button>
             </div>
         </div>
-
-
+        <div class="flex gap-6">
+            <button class="rounded-md border-black border min-w-30" mat-stroked-button (click)="back()">
+                ยกเลิก
+            </button>
+            <button class="rounded-md min-w-30" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                บันทึก
+            </button>
+        </div>
     </div>
-</form>
+</div>
