@@ -8,7 +8,7 @@ export class ChangeStatusPipe implements PipeTransform {
   status = [
     { key: "New", value: "งานใหม่" },
     { key: "Process", value: "กำลังดำเนินงาน" },
-    { key: "Wait", value: "รอเข้ารับบริการ" },
+    { key: "Waiting", value: "รอเข้ารับบริการ" },
     { key: "Finish", value: "เสร็จสิ้น" },
     { key: "Cancel", value: "ยกเลิก" },
   ];
