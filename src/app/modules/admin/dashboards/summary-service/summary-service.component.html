@@ -45,7 +45,7 @@
                     <div class="text-xl font-semibold text-[#637381]">{{data.deps_totals[0].total | number}} ครั้ง</div>
                 </div> -->
                 <div *ngFor="let item of data.deps_totals; let i = index;" class="relative">
-                    <input class="absolute top-2 right-2 h-6 w-6" type="radio" [id]="'card_' + item.name" name="fav_language" [value]="item.id" [(ngModel)]="department">
+                    <input (click)="departmentClick(item)" class="absolute top-2 right-2 h-6 w-6" type="radio" [id]="'card_' + item.name" name="fav_language" [value]="item.id" [(ngModel)]="department">
                     <label [for]="'card_' + item.name">
                         <div [ngClass]="i == 0 ? 'border-t-[#4F4F4F]' : 'border-t-[#979797]'" class="flex flex-col radio-card justify-between rounded-sm border-t-2  p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
@@ -57,7 +57,7 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 sm:divide-x">
                 <div class="flex flex-col">
-                    <div class="text-base font-semibold mb-3">บริษัทในกลุ่มธนาคารที่เข้ารับบริการบ่อยสุด</div>
+                    <div class="text-base font-semibold mb-3">บริษัทในกลุ่ม {{getDepartment.name}} ที่เข้ารับบริการบ่อยสุด</div>
                     <div class="">
                         <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
                             [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"

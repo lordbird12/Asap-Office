@@ -102,7 +102,7 @@ export class SummaryServiceComponent implements OnInit {
                         next: (resp) => {
                             this.data = resp;
                         }
-                    })
+                    });
                 }
             }
         })
@@ -127,5 +127,13 @@ export class SummaryServiceComponent implements OnInit {
 
     get getDepartment() {
         return this.data.deps_totals.find(e => e.id == this.department)
+    }
+
+    departmentClick(item) {
+        this.service.getData().subscribe({
+            next: (resp) => {
+                this.data = resp;
+            }
+        });
     }
 }

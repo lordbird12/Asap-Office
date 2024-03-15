@@ -10,10 +10,12 @@ import { provideAuth } from 'app/core/auth/auth.provider';
 import { provideIcons } from 'app/core/icons/icons.provider';
 import { provideTransloco } from 'app/core/transloco/transloco.provider';
 import { mockApiServices } from 'app/mock-api';
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
+        provideToastr(),
         provideHttpClient(),
         provideRouter(appRoutes,
             withPreloading(PreloadAllModules),

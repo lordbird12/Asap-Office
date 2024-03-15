@@ -33,6 +33,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { forkJoin, lastValueFrom } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'form-employee',
     styleUrls: ['./form.component.scss'],
@@ -75,7 +76,6 @@ export class FormComponent implements OnInit {
     brandmodel: any[];
     province: any[];
     company: any[];
-    flashMessage: 'success' | 'error' | null = null;
     iduser: any;
     selectedFile: File = null;
     constructor(
@@ -83,7 +83,8 @@ export class FormComponent implements OnInit {
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _router: Router
+        private _router: Router,
+        private toastr: ToastrService
     ) {
         this.iduser = JSON.parse(localStorage.getItem('user'));
         this.addForm = this.formBuilder.group({
@@ -142,28 +143,11 @@ export class FormComponent implements OnInit {
         return this.formFieldHelpers.join(' ');
     }
 
-    showFlashMessage(type: 'success' | 'error'): void {
-        // Show the message
-        this.flashMessage = type;
-
-        // Mark for check
-        this._changeDetectorRef.markForCheck();
-
-        // Hide it after 3 seconds
-        setTimeout(() => {
-            this.flashMessage = null;
-
-            // Mark for check
-            this._changeDetectorRef.markForCheck();
-        }, 3000);
-    }
     getDisabledValue() {
         //your condition, in this case textarea will be disbaled.
         return true;
     }
     onSaveClick(): void {
-        this.flashMessage = null;
-
         // Open the confirmation dialog
         const confirmation = this._fuseConfirmationService.open({
             title: 'เพิ่มข้อมูล',
@@ -207,34 +191,35 @@ export class FormComponent implements OnInit {
                 );
                 this._service.updateuser(formData).subscribe({
                     next: (resp: any) => {
-                        this.showFlashMessage('success');
+                        this.toastr.success('ดำเนินการสำเร็จ');
+
                         this._router
                             .navigateByUrl('admin/account/form')
                             .then(() => {});
                     },
                     error: (err: any) => {
-                        this.addForm.enable();
-                        this._fuseConfirmationService.open({
-                            title: 'กรุณาระบุข้อมูล',
-                            message: err.error.message,
-                            icon: {
-                                show: true,
-                                name: 'heroicons_outline:exclamation',
-                                color: 'warning',
-                            },
-                            actions: {
-                                confirm: {
-                                    show: false,
-                                    label: 'ยืนยัน',
-                                    color: 'primary',
-                                },
-                                cancel: {
-                                    show: false,
-                                    label: 'ยกเลิก',
-                                },
-                            },
-                            dismissible: true,
-                        });
+                        this.toastr.error('ไม่สามารถบันทึกข้อมูล')
+                        // this._fuseConfirmationService.open({
+                        //     title: 'เกิดข้อผิดพลาด',
+                        //     message: err.error.message,
+                        //     icon: {
+                        //         show: true,
+                        //         name: 'heroicons_outline:exclamation',
+                        //         color: 'warning',
+                        //     },
+                        //     actions: {
+                        //         confirm: {
+                        //             show: false,
+                        //             label: 'ยืนยัน',
+                        //             color: 'primary',
+                        //         },
+                        //         cancel: {
+                        //             show: false,
+                        //             label: 'ยกเลิก',
+                        //         },
+                        //     },
+                        //     dismissible: true,
+                        // });
                     },
                 });
             }
