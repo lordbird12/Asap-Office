@@ -249,6 +249,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
+                
             }
         });
     }
