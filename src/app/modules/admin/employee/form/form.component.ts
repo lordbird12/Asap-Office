@@ -32,6 +32,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, lastValueFrom } from 'rxjs';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'form-employee',
@@ -74,13 +75,17 @@ export class FormComponent implements OnInit {
     item: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
+
+    ACTION: 'CREATE' | 'EDIT' = 'CREATE';
+
     constructor(
         private formBuilder: FormBuilder,
         private _service: PageService,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private activatedRoute: ActivatedRoute
+        private activatedRoute: ActivatedRoute,
+        private asapConfirmationService: AsapConfirmationService
     ) {
         // this._service.getPermission().subscribe((resp: any) => {
         //     this.permissions = resp.data;
@@ -112,6 +117,7 @@ export class FormComponent implements OnInit {
         this.activatedRoute.params.subscribe((params) => {
             // console.log(params);
             this.id = params.id;
+            this.ACTION = 'EDIT';
             if (this.id) {
                 this._service.getById(this.id).subscribe((resp: any) => {
                     const item = resp;
@@ -339,5 +345,34 @@ export class FormComponent implements OnInit {
         if (index >= 0) {
             this.files.splice(index, 1);
         }
+    }
+
+    remove() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบพนักงาน`,
+            message: 'บัญชีพนักงานจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+                this._service.delete(this.id).subscribe({
+                    error: (err) => {
+
+                    },
+                    complete: () => {
+                        this._router.navigateByUrl('/admin/employee/list');
+                    }
+                })
+            }
+        });
     }
 }

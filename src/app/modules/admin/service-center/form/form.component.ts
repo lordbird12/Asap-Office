@@ -33,6 +33,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { PageService } from '../page.service';
 import { CommonModule } from '@angular/common';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'form-product',
@@ -102,7 +103,8 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
         private _matDialog: MatDialog,
         private _router: Router,
         private activatedRoute: ActivatedRoute,
-        private _authService: AuthService
+        private _authService: AuthService,
+        private asapConfirmationService: AsapConfirmationService
     ) {
         this.formData = this._formBuilder.group({
             id: [''],
@@ -482,5 +484,34 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         }, 3000);
+    }
+
+    remove() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบศูนย์บริการ`,
+            message: 'ศูนย์บริการจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+                this._Service.delete(this.id).subscribe({
+                    error: (err) => {
+                        
+                    },
+                    complete: () => {
+                        this._router.navigateByUrl('/admin/service-center/list');
+                    }
+                })
+            }
+        });
     }
 }

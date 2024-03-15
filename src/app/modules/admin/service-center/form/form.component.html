@@ -1,120 +1,126 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 flemin-w-0">
-            <!-- Title -->
-            <div *ngIf="!this.id" class="flex flex-row mt-2 justify-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    สร้างศูนย์บริการ
-                </h2>
+<div class="flex flex-col justify-between w-full">
+    <div class="flex flex-col flex-auto">
+        <!-- Header -->
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+            <div class="flex-1 flemin-w-0">
+                <!-- Title -->
+                <div *ngIf="!this.id" class="flex flex-row mt-2 justify-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        สร้างศูนย์บริการ
+                    </h2>
+                </div>
+                <div *ngIf="this.id" class="flex flex-row mt-2 justify-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        แก้ไขศูนย์บริการ
+                    </h2>
+                </div>
             </div>
-            <div *ngIf="this.id" class="flex flex-row mt-2 justify-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    แก้ไขศูนย์บริการ
-                </h2>
+        </div>
+
+        <!-- Main -->
+        <div>
+            <div class="flex p-6 sm:p-10 justify-center ">
+                <div class="grid gap-4 w-full max-w-full md:max-w-2xl">
+                    <form
+                        class="bg-card rounded-2xl md:shadow overflow-hidden px-4 sm:px-8 pt-6 pb-8 mb-4 flex justrify-center flex-col my-2"
+                        [formGroup]="formData">
+                        <div class="flex flex-col md:flex-row mb-6 ">
+                            <div *ngIf="!this.id" class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">รหัสศูนย์บริการ</mat-label>
+                                    <input matInput formControlName="code">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                            <div *ngIf="this.id" class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">รหัสศูนย์บริการ</mat-label>
+                                    <input matInput formControlName="codeid">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                            <div class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">ชื่อศูนย์บริการ</mat-label>
+                                    <input matInput formControlName="name">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+
+
+                        </div>
+
+                        <div class="flex flex-col md:flex-row mb-6">
+                            <div class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
+                                    <input matInput formControlName="phone">
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col md:flex-row mb-6">
+                            <div class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">อีเมล</mat-label>
+                                    <input matInput formControlName="email">
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col md:flex-row mb-6">
+                            <div class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">ที่อยู่</mat-label>
+                                    <input matInput formControlName="address">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class="flex flex-col md:flex-row mb-6">
+                            <div class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">ละติจูด</mat-label>
+                                    <input matInput formControlName="lat">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                            <div class="md:w-full px-3 md:mb-0 mb-3">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                    <mat-label class=" font-light">ลองติจูด</mat-label>
+                                    <input matInput formControlName="lon">
+                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Main -->
-    <div>
-        <div class="flex p-6 sm:p-10 justify-center ">
-            <div class="grid gap-4 w-full max-w-full md:max-w-2xl">
-                <form
-                    class="bg-card rounded-2xl md:shadow overflow-hidden px-4 sm:px-8 pt-6 pb-8 mb-4 flex justrify-center flex-col my-2"
-                    [formGroup]="formData">
-                    <div class="flex flex-col md:flex-row mb-6 ">
-                        <div *ngIf="!this.id" class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">รหัสศูนย์บริการ</mat-label>
-                                <input matInput formControlName="code">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                        <div *ngIf="this.id" class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">รหัสศูนย์บริการ</mat-label>
-                                <input matInput formControlName="codeid">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                        <div class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">ชื่อศูนย์บริการ</mat-label>
-                                <input matInput formControlName="name">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-
-
-                    </div>
-
-                    <div class="flex flex-col md:flex-row mb-6">
-                        <div class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
-                                <input matInput formControlName="phone">
-                            </mat-form-field>
-                        </div>
-
-                    </div>
-                    <div class="flex flex-col md:flex-row mb-6">
-                        <div class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">อีเมล</mat-label>
-                                <input matInput formControlName="email">
-                            </mat-form-field>
-                        </div>
-
-                    </div>
-                    <div class="flex flex-col md:flex-row mb-6">
-                        <div class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">ที่อยู่</mat-label>
-                                <input matInput formControlName="address">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-
-                    </div>
-                    <div class="flex flex-col md:flex-row mb-6">
-                        <div class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">ละติจูด</mat-label>
-                                <input matInput formControlName="lat">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                        <div class="md:w-full px-3 md:mb-0 mb-3">
-                            <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                <mat-label class=" font-light">ลองติจูด</mat-label>
-                                <input matInput formControlName="lon">
-                                <!-- <mat-hint>This is a hint text</mat-hint> -->
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                </form>
-
+    <div class="flex justify-between bg-card md:shadow overflow-hidden px-8 pt-3 pb-4">
+        <div class="inline-flex">
+            <div *ngIf="this.id" class="rounded-md border border-kPrimary">
+                <button class="rounded-md border-0 min-w-30" mat-stroked-button [color]="'primary'" (click)="remove()">
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:trash-2'"></mat-icon>
+                    <span class="ml-2">ลบรายการ</span>
+                </button>
             </div>
-
         </div>
-    </div>
-    <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex justify-end">
-        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
-            style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
-            <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
+        <div class="flex gap-6">
+            <button class="rounded-md border-black border min-w-30" mat-stroked-button (click)="back()">
                 ยกเลิก
             </button>
-        </div>
-        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-            <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-                <div class="font-light">
-                    บันทึก
-                </div>
+            <button class="rounded-md min-w-30" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                บันทึก
             </button>
         </div>
-
     </div>
+
 </div>

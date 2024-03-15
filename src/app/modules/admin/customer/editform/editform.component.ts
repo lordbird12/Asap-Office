@@ -39,6 +39,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectCarComponent } from '../select-car/select-car.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'edit-form-customer',
@@ -89,7 +90,8 @@ export class EditFormComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         public activatedRoute: ActivatedRoute,
-        private breakpointObserver: BreakpointObserver
+        private breakpointObserver: BreakpointObserver,
+        private asapConfirmationService: AsapConfirmationService
     ) {
         this._service.getPermission().subscribe((resp: any) => {
             this.permissions = resp.data;
@@ -348,5 +350,32 @@ export class EditFormComponent implements OnInit {
         if (index >= 0) {
             this.files.splice(index, 1);
         }
+    }
+
+    remove() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบลูกค้า`,
+            message: 'บัญชีลูกค้าจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+                this._service.delete(this.id).subscribe({
+                    error: (err) => {},
+                    complete: () => {
+                        this._router.navigateByUrl('/admin/customer/list');
+                    }
+                })
+            }
+        });
     }
 }

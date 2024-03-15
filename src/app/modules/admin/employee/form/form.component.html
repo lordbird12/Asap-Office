@@ -1,153 +1,154 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 flemin-w-0">
-            <!-- Title -->
-            <div *ngIf="!this.id" class="flex flex-row mt-2 justify-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    สร้างพนักงาน
-                </h2>
+<div class="flex flex-col justify-between w-full">
+    <div class="flex flex-auto flex-col">
+        <!-- Header -->
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+            <div class="flex-1 flemin-w-0">
+                <!-- Title -->
+                <div *ngIf="!this.id" class="flex flex-row mt-2 justify-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        สร้างพนักงาน
+                    </h2>
+                </div>
+                <div *ngIf="this.id" class="flex flex-row mt-2 justify-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        แก้ไขพนักงาน
+                    </h2>
+                </div>
+                <!-- <div class="mt-2">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                        Fields
+                    </h2>
+                </div> -->
             </div>
-            <div *ngIf="this.id" class="flex flex-row mt-2 justify-center">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    แก้ไขพนักงาน
-                </h2>
-            </div>
-            <!-- <div class="mt-2">
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Fields
-                </h2>
-            </div> -->
+        </div>
+        <style>
+            /* เพิ่มเงื่อนไขในการแสดงแนวนอน */
+            @media (max-width: 600px) {
+                .grid {
+                    grid-template-columns: 1fr;
+                    /* แก้ไขจำนวนคอลัมน์ในกรอบ grid เป็น 1 เมื่อหน้าจอเล็กกว่าหรือเท่ากับ 600px */
+                }
+
+                /* แก้ไขส่วนของกรอบ form เพื่อให้แนวนอน */
+                .grid form {
+                    flex-direction: row;
+                }
+
+                /* แก้ไข element ใน form เพื่อให้แนวนอน */
+                .grid form .flex {
+                    flex-direction: row;
+                }
+
+                /* เพิ่มเงื่อนไขเพื่อปรับแนวนอนในส่วนอื่น ๆ ตามที่ต้องการ */
+            }
+        </style>
+        <!-- Main -->
+        <div class="grid gap-4 w-full p-16 sm:grid-cols-1 md:grid-cols-3">
+            <form class="bg-card rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-2 mb-2 my-2"
+                style="height: min-content; width: auto;" [formGroup]="addForm">
+                <div class="-mx-3 md:flex mb-6 justify-center items-center">
+                    <div class="row-span-6">
+                        <ngx-dropzone class="rounded-full mx-auto" style="width: 180px; height: 180px;"
+                            (change)="onSelect($event)">
+                            <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
+                            <div *ngFor="let f of files">
+                                <ngx-dropzone-image-preview class="rounded-full" [file]="f" [removable]="true"
+                                    (removed)="onRemove(f)"></ngx-dropzone-image-preview>
+                            </div>
+                        </ngx-dropzone>
+                        <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png, <br> สูงสุดไม่เกิน 3.1
+                            MB</div>
+                    </div>
+                </div>
+            </form>
+            <form class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+                [formGroup]="addForm">
+                <div class="flex flex-col md:flex-row mb-6">
+                    <div class="md:w-full px-3 md:mb-0 mb-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label class=" font-light">รหัสพนักงาน</mat-label>
+                            <input matInput formControlName="code">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full px-3 md:mb-0 mb-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label class=" font-light">ชื่อ</mat-label>
+                            <input matInput formControlName="fname">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label class=" font-light">นามสกุล</mat-label>
+                            <input matInput formControlName="lname">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row mb-6">
+                    <div class="md:w-full px-3 md:mb-0 mb-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
+                            <input matInput formControlName="phone">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full px-3">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label class=" font-light">อีเมล</mat-label>
+                            <input matInput formControlName="email">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div *ngIf="!this.id" class="md:w-full px-3 md:mb-0 mb-3">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label class=" font-light">รหัสผ่าน</mat-label>
+                        <input matInput formControlName="password">
+                    </mat-form-field>
+                </div>
+
+
+                <div class="md:w-full px-3 mb-6">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-label class=" font-light">ตำแหน่ง</mat-label>
+                        <mat-select formControlName="position_id">
+                            <mat-option *ngFor="let item of this.positions;" value="{{item.id}}">
+                                {{item.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">แผนก</h1>
+                <div class="mb-6">
+                    <mat-radio-group aria-label="Select an option" formControlName="department_id" class="flex flex-col">
+                        <mat-radio-button *ngFor="let item of departments" [value]="item.id">
+                            <div class="font-light">{{item.name}}</div>
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </form>
+
         </div>
     </div>
-    <style>
-        /* เพิ่มเงื่อนไขในการแสดงแนวนอน */
-        @media (max-width: 600px) {
-            .grid {
-                grid-template-columns: 1fr;
-                /* แก้ไขจำนวนคอลัมน์ในกรอบ grid เป็น 1 เมื่อหน้าจอเล็กกว่าหรือเท่ากับ 600px */
-            }
 
-            /* แก้ไขส่วนของกรอบ form เพื่อให้แนวนอน */
-            .grid form {
-                flex-direction: row;
-            }
-
-            /* แก้ไข element ใน form เพื่อให้แนวนอน */
-            .grid form .flex {
-                flex-direction: row;
-            }
-
-            /* เพิ่มเงื่อนไขเพื่อปรับแนวนอนในส่วนอื่น ๆ ตามที่ต้องการ */
-        }
-    </style>
-    <!-- Main -->
-    <div class="grid gap-4 w-full p-16 sm:grid-cols-1 md:grid-cols-3">
-        <form class="bg-card rounded-2xl md:shadow overflow-hidden px-4 pt-6 pb-2 mb-2 my-2"
-            style="height: min-content; width: auto;" [formGroup]="addForm">
-            <div class="-mx-3 md:flex mb-6 justify-center items-center">
-                <div class="row-span-6">
-                    <ngx-dropzone class="rounded-full mx-auto" style="width: 180px; height: 180px;"
-                        (change)="onSelect($event)">
-                        <ngx-dropzone-label>อัปโหลดรูปภาพ</ngx-dropzone-label>
-                        <div *ngFor="let f of files">
-                            <ngx-dropzone-image-preview class="rounded-full" [file]="f" [removable]="true"
-                                (removed)="onRemove(f)"></ngx-dropzone-image-preview>
-                        </div>
-                    </ngx-dropzone>
-                    <div class="text-center font-light mt-4">ไฟล์ที่รองรับ *.jpeg, *.jpg, *.png, <br> สูงสุดไม่เกิน 3.1
-                        MB</div>
-                </div>
+    <div class="flex justify-between bg-card md:shadow overflow-hidden px-8 pt-3 pb-4">
+        <div class="inline-flex">
+            <div *ngIf="this.ACTION == 'EDIT'" class="rounded-md border border-kPrimary">
+                <button class="rounded-md border-0 min-w-30" mat-stroked-button [color]="'primary'" (click)="remove()">
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:trash-2'"></mat-icon>
+                    <span class="ml-2">ลบรายการ</span>
+                </button>
             </div>
-        </form>
-        <form class="bg-card col-span-2 rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
-            [formGroup]="addForm">
-            <div class="flex flex-col md:flex-row mb-6">
-                <div class="md:w-full px-3 md:mb-0 mb-3">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                        <mat-label class=" font-light">รหัสพนักงาน</mat-label>
-                        <input matInput formControlName="code">
-                    </mat-form-field>
-                </div>
-                <div class="md:w-full px-3 md:mb-0 mb-3">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                        <mat-label class=" font-light">ชื่อ</mat-label>
-                        <input matInput formControlName="fname">
-                    </mat-form-field>
-                </div>
-                <div class="md:w-full px-3">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                        <mat-label class=" font-light">นามสกุล</mat-label>
-                        <input matInput formControlName="lname">
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row mb-6">
-                <div class="md:w-full px-3 md:mb-0 mb-3">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                        <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
-                        <input matInput formControlName="phone">
-                    </mat-form-field>
-                </div>
-                <div class="md:w-full px-3">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                        <mat-label class=" font-light">อีเมล</mat-label>
-                        <input matInput formControlName="email">
-                    </mat-form-field>
-                </div>
-            </div>
-
-
-            <div *ngIf="!this.id" class="md:w-full px-3 md:mb-0 mb-3">
-                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                    <mat-label class=" font-light">รหัสผ่าน</mat-label>
-                    <input matInput formControlName="password">
-                </mat-form-field>
-            </div>
-
-
-            <div class="md:w-full px-3 mb-6">
-                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                    <mat-label class=" font-light">ตำแหน่ง</mat-label>
-                    <mat-select formControlName="position_id">
-                        <mat-option *ngFor="let item of this.positions;" value="{{item.id}}">
-                            {{item.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <h1 mat-dialog-title class="text-xl font-semibold mb-4 ml-5 text-left">แผนก</h1>
-            <div class="mb-6">
-                <mat-radio-group aria-label="Select an option" formControlName="department_id" class="flex flex-col">
-                    <mat-radio-button *ngFor="let item of departments" [value]="item.id">
-                        <div class="font-light">{{item.name}}</div>
-                    </mat-radio-button>
-                </mat-radio-group>
-            </div>
-        </form>
-
-    </div>
-
-
-
-
-    <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex justify-end">
-        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
-            style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
-            <button class="px-6 rounded-md" mat-flat-button [color]="'white'" (click)="back()">
+        </div>
+        <div class="flex gap-6">
+            <button class="rounded-md border-black border min-w-30" mat-stroked-button (click)="back()">
                 ยกเลิก
             </button>
-        </div>
-        <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
-            <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
-                <div class="font-light">
-                    บันทึก
-                </div>
+            <button class="rounded-md min-w-30" mat-flat-button [color]="'primary'" (click)="onSaveClick()">
+                บันทึก
             </button>
         </div>
-
     </div>
 </div>
