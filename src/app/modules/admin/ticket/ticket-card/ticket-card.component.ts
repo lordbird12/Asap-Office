@@ -22,7 +22,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 @Component({
     selector: 'app-ticket-card',
     standalone: true,
-    imports: [FormsModule, NgSelectModule,CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule, CheckboxServiceComponent],
+    imports: [FormsModule, NgSelectModule, CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule, CheckboxServiceComponent],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss'],
 
@@ -53,8 +53,10 @@ export class TicketCardComponent implements OnInit {
     ];
 
     myControl = new FormControl<string | any>('');
+    myControl1 = new FormControl<string | any>('');
     options: any[] = [];
     filteredOptions: Observable<any[]>;
+    filteredOptions1: Observable<any[]>;
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<TicketCardComponent>,
@@ -105,18 +107,38 @@ export class TicketCardComponent implements OnInit {
         })
         this._changeDetectorRef.markForCheck()
     }
+    onChangeServiceCenter(event: any) {
+        const selectedOption = event.option.value;
+        console.log(selectedOption);
+        
+        this.form.patchValue({
+            service_center_id: selectedOption.id,
+        })
+        this._changeDetectorRef.markForCheck()
+    }
 
     displayFn(user: any): string {
         // console.log('user',user)
-        
+
         return user && user.license_plate ? user.license_plate : '';
-      }
-    
-      private _filter(name: string): any[] {
+    }
+
+    private _filter(name: string): any[] {
         const filterValue = name;
-    
+
         return this.productData.filter(option => option.license_plate.toLowerCase().includes(filterValue));
-      }
+    }
+    displayFn1(user: any): string {
+        // console.log('user',user)
+
+        return user && user.name ? user.name : '';
+    }
+
+    private _filter1(name: string): any[] {
+        const filterValue = name;
+
+        return this.serviceCenterData.filter(option => option.name.toLowerCase().includes(filterValue));
+    }
 
     testData: any[] = []
     serviceData1: any[] = []
@@ -139,7 +161,7 @@ export class TicketCardComponent implements OnInit {
                 client_id: +this.data.value.client_id,
                 service_center_id: +this.data.value.service_center_id,
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
-               
+
             })
             this.checknote(this.data.value.services)
         } else {
@@ -149,7 +171,11 @@ export class TicketCardComponent implements OnInit {
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
             map(value => this._filter(value || '')),
-          );
+        );
+        this.filteredOptions1 = this.myControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filter1(value || '')),
+        );
     }
 
     convertTime(inputTime: string): string {
@@ -180,53 +206,53 @@ export class TicketCardComponent implements OnInit {
 
     timeOptions: object[] = [
         {
-           code: '08:00' ,
-           name: '8:00 am'
+            code: '08:00',
+            name: '8:00 am'
         },
         {
-           code: '09:00' ,
-           name: '9:00 am'
+            code: '09:00',
+            name: '9:00 am'
         },
         {
-           code: '10:00' ,
-           name: '10:00 am'
+            code: '10:00',
+            name: '10:00 am'
         },
         {
-           code: '11:00' ,
-           name: '11:00 am'
+            code: '11:00',
+            name: '11:00 am'
         },
         {
-            code: '12:00' ,
+            code: '12:00',
             name: '12:00 pm'
-         },
+        },
         {
-            code: '01:00' ,
+            code: '01:00',
             name: '1:00 pm'
-         },
-         {
-            code: '02:00' ,
+        },
+        {
+            code: '02:00',
             name: '2:00 pm'
-         },
-         {
-            code: '03:00' ,
+        },
+        {
+            code: '03:00',
             name: '3:00 pm'
-         },
-         {
-            code: '04:00' ,
+        },
+        {
+            code: '04:00',
             name: '4:00 pm'
-         },
-         {
-            code: '05:00' ,
+        },
+        {
+            code: '05:00',
             name: '5:00 pm'
-         },
-         {
-            code: '06:00' ,
+        },
+        {
+            code: '06:00',
             name: '6:00 pm'
-         },
-         {
-            code: '07:00' ,
+        },
+        {
+            code: '07:00',
             name: '7:00 pm'
-         },
+        },
     ];
 
     generateTimeOptions(): void {
@@ -425,17 +451,17 @@ export class TicketCardComponent implements OnInit {
     }
 
     checknote(Array: any) {
-        
+
         const service_other = Array.find(item => item.service_id === "8")
-        console.log('Arary' , service_other);
+        console.log('Arary', service_other);
         if (service_other) {
-           this.form.patchValue({
-            note: service_other?.note ?? ''
-           })
+            this.form.patchValue({
+                note: service_other?.note ?? ''
+            })
         } else {
             return;
         }
-    
+
     }
 
     yourArray1: any[] = [];
@@ -446,7 +472,7 @@ export class TicketCardComponent implements OnInit {
         // this.status = !this.status;
         this.yourArray1 = updatedArray;
         console.log(this.yourArray1);
-        
+
     }
 
     CancelStatus() {
