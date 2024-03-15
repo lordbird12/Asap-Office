@@ -38,6 +38,7 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment.development';
 import moment from 'moment';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'employee-list',
@@ -62,13 +63,14 @@ import moment from 'moment';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatCheckboxModule
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
     range = new FormGroup({
         start: new FormControl<any>(new Date),
         end: new FormControl<any>(new Date),
-      });
+    });
     searchQuery: string = '';
     department: string = '';
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -84,7 +86,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.loadTable();
@@ -185,12 +187,14 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
+                { data: null, orderable: false },
                 { data: 'No' },
                 { data: 'name' },
                 { data: 'created_at' },
                 { data: 'description' },
                 { data: 'type' },
             ],
+            order: [[1, 'asc']]
         };
     }
 
@@ -202,10 +206,26 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.rerender()
         this._changeDetectorRef.markForCheck()
     }
+
+    get someOneChecked() {
+        return this.dataRow?.filter(e => e.checked);
+    }
+
+    get someCheck() {
+        if (this.someOneChecked.length == 0) { return false; }
+
+        return this.someOneChecked.length > 0 && !this.checkAll;
+    }
+
+    get checkAll() {
+        return this.dataRow?.every(e => e.checked);
+    }
+
+    setAll(checked: boolean) {
+        this.dataRow.forEach(e => e.checked = checked);
+    }
+
     
-
-
-
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
