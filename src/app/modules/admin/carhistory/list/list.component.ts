@@ -40,6 +40,7 @@ import { Router } from '@angular/router';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { environment } from 'environments/environment.development';
+import { ChangeStatusPipe } from 'app/shared/status.pipe';
 
 @Component({
     selector: 'car-list',
@@ -66,6 +67,8 @@ import { environment } from 'environments/environment.development';
         DataTablesModule,
         MatAutocompleteModule,
         ReactiveFormsModule,
+        ChangeStatusPipe,
+
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {

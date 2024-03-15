@@ -27,12 +27,12 @@
         <div class="flex flex-row justify-between py-2 px-5">
             <div class="flex justify-start items-center w-full mt-5">
                 <div class="flex flex-row text-md font-normal gap-3 tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-icon svgIcon="search"></mat-icon>
                         <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
                     </mat-form-field>
 
-                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-select [(ngModel)]="department" (selectionChange)="applySearch()">
 
                             <mat-option [value]="''"> ทุกแผนก</mat-option>
@@ -43,7 +43,7 @@
                             <mat-option [value]="'Short Term/Replacement'"> Short Term/Replacement</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <!-- <mat-form-field [ngClass]="formFieldHelpers" class="min-w-56">
+                    <!-- <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-select>
                             <mat-option [value]="''"> <span class="font-bold">แสดง</span> : ทุกคน</mat-option>
                             <mat-option [value]="''"> <span class="font-bold">แสดง</span> : บางคน</mat-option>
