@@ -64,12 +64,15 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _activatedRoute: ActivatedRoute,
-        private _router: Router,
+        public _router: Router,
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
         private _changeDetectorRef: ChangeDetectorRef
-    ) {}
+    ) {
+        console.log(this._router.url);
+
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
