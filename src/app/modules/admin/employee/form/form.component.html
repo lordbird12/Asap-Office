@@ -2,16 +2,16 @@
     <div class="flex flex-auto flex-col">
         <!-- Header -->
         <div
-            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
-            <div class="flex-1 flemin-w-0">
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between border-b bg-card dark:bg-transparent">
+            <div class="flex-1 flex min-w-0 items-center justify-center">
                 <!-- Title -->
                 <div *ngIf="!this.id" class="flex flex-row mt-2 justify-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate flex items-center h-20">
                         สร้างพนักงาน
                     </h2>
                 </div>
                 <div *ngIf="this.id" class="flex flex-row mt-2 justify-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate flex items-center h-20">
                         แก้ไขพนักงาน
                     </h2>
                 </div>

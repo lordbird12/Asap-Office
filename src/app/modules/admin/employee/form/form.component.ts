@@ -68,15 +68,51 @@ export class FormComponent implements OnInit {
     addForm: FormGroup;
     addForm2: FormGroup;
     isLoading: boolean = false;
-    positions: any[];
-    departments: any[];
+    positions1: any[];
+    positions: any[] = [
+        {
+            id: 1,
+            name: 'Staff'
+        },  
+        {
+            id: 2,
+            name: 'Call Center'
+        },
+        {
+            id: 3,
+            name: 'GM'
+        },
+    ]
+    departments: any[] = [
+        {
+            id: 1,
+            name: 'Bank',
+        },
+        {
+            id: 2,
+            name: 'Government/Hospital ',
+        },
+        {
+            id: 3,
+            name: 'Logistic',
+        },
+        {
+            id: 4,
+            name: 'General',
+        },
+        {
+            id: 5,
+            name: 'Short Term/Replacement',
+        },
+    ];
     permissions: any[];
     id: any;
     item: any;
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
-
+    departments1: any[]
     ACTION: 'CREATE' | 'EDIT' = 'CREATE';
+    seasons: string[] = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -87,10 +123,6 @@ export class FormComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private asapConfirmationService: AsapConfirmationService
     ) {
-        // this._service.getPermission().subscribe((resp: any) => {
-        //     this.permissions = resp.data;
-        // });
-
         this.addForm = this.formBuilder.group({
             id: [''],
             fname: [''],
@@ -100,7 +132,6 @@ export class FormComponent implements OnInit {
             image: [''],
             department_id: [''],
             position_id: [''],
-
             password: [''],
             old_password: [''],
             code: [''],
@@ -108,7 +139,9 @@ export class FormComponent implements OnInit {
     }
     async ngOnInit(): Promise<void> {
         const initialData = await lastValueFrom(
-            forkJoin(this._service.getDepartment(), this._service.getPosition())
+            forkJoin(
+                this._service.getDepartment(),
+                this._service.getPosition())
         );
 
         this.departments = initialData[0];

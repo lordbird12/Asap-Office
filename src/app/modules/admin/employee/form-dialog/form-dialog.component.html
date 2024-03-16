@@ -6,7 +6,7 @@
             <p class="text-md mb-4 ml-5">เลือกไฟล์ที่ต้องการอัปโหลด</p>
         </div>
         <div>
-            <mat-icon svgIcon="heroicons_outline:x-mark" (click)="onCancelClick()"></mat-icon>
+            <mat-icon svgIcon="heroicons_outline:x-mark" class="cursor-pointer" (click)="onCancelClick()"></mat-icon>
         </div>
     </div>
     <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180" *ngIf="display === true">
