@@ -151,6 +151,8 @@ export class TicketCardComponent implements OnInit {
         console.log(this.data.value);
 
         if (this.data.value && this.productData) {
+
+            // this.myControl1.setValue(3)
             this.testData = this.data.value.activitys;
             this.serviceData1 = this.data.value.services.map(item => item.service);
             this.yourArray1 = this.serviceData1

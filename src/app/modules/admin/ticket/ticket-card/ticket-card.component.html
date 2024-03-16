@@ -156,7 +156,7 @@
                 </mat-form-field> -->
                 <mat-form-field class="flex-auto w-full">
                     <mat-label class="font-bold">ศูนย์บริการ</mat-label>
-                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto1">
+                    <input type="text" matInput [formControl]="myControl1" [matAutocomplete]="auto1">
                     <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn1" (optionSelected)="onChangeServiceCenter($event)"
                        >
                         <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
@@ -187,7 +187,9 @@
                 <mat-label class="font-bold">ข้อมูลลูกค้า</mat-label>
                 <div class="flex flex-row">
                     <div class="flex p-4">
-                        <img class="h-15 w-15 rounded-full" src="{{this.data.value?.car?.pictureUrl}}"
+                        <img class="h-15 w-15 rounded-full" src="{{this.data.value?.car?.pictureUrl}}" *ngIf="this.data.value?.car?.pictureUrl"
+                            alt="image description">
+                        <img class="h-15 w-15 rounded-full" src="assets/images/no_image.jpg" *ngIf="!this.data.value?.car?.pictureUrl"
                             alt="image description">
                     </div>
                     <div class="flex p-4 mt-2">
