@@ -1,81 +1,110 @@
-<div class="flex flex-col flex-auto min-w-0">
-    <!-- Header -->
-    <!-- Loader -->
-    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
-        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
-    </div>
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
-        <div class="flex-1 flemin-w-0">
-            <!-- Title -->
-            <div class="flex flex-row mt-2 justify-between">
-                <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
-                    ศูนย์บริการ
-                </h2>
+<div class="flex flex-col justify-between w-full">
+    <div class="flex flex-col flex-auto min-w-0">
+        <!-- Header -->
+        <!-- Loader -->
+        <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+            <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+        </div>
+        <div
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+            <div class="flex-1 flemin-w-0">
+                <!-- Title -->
+                <div class="flex flex-row mt-2 justify-between">
+                    <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
+                        ศูนย์บริการ
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
+            <div class="flex flex-row justify-between py-2 px-5">
+                <div class="flex justify-start items-center w-[405px] mt-5">
+                    <div
+                        class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
+                            <mat-icon svgIcon="search"></mat-icon>
+                            <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery"
+                                (ngModelChange)="applySearch()">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div
+                        class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                        <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center"
+                            (click)="uploadfile()">
+                            <div class="w-[15px] h-[20px] items-center mt-1">
+                                <img src="assets/icons/Vector.svg">
+                            </div>
+                            &nbsp;
+                            &nbsp;
+                            <span>อัปโหลด CSV</span>
+                        </button>
+                    </div>
+                    <div
+                        class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
+                        <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button
+                            [color]="'primary'" (click)="addElement()">
+                            <mat-icon>add_circle_outline</mat-icon>
+                            <div class="font-light">
+                                เพิ่มศูนย์บริการ
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+                <table datatable [dtOptions]="dtOptions"
+                    class="table row-border hover w-full bg-white whitespace-nowrap">
+                    <thead>
+                        <tr>
+                            <th class="w-1">
+                                <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"
+                                    (change)="setAll($event.checked)" color="primary"></mat-checkbox>
+                            </th>
+                            <th class="w-[20px]">ชื่อ</th>
+                            <th class="w-[20px]">เบอร์ติดต่อ</th>
+                            <th class="w-[30px]">ที่อยู่</th>
+                            <th class="w-[10px]"> </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="dataRow?.length != 0">
+                        <tr *ngFor="let item of dataRow; let i = index">
+                            <td>
+                                <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
+                            </td>
+                            <td class="font-light">{{item?.name}}</td>
+                            <td class="font-light">{{item?.phone}}</td>
+                            <td class="font-light">{{item?.address}}</td>
+                            <td>
+                                <button mat-icon-button (click)="editElement(item.id)">
+                                    <mat-icon svgIcon="feather:edit-3"></mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tbody *ngIf="dataRow?.length == 0">
+                        <tr>
+                            <td colspan="5" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- Main -->
-    <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
-        <div class="flex flex-row justify-between py-2 px-5">
-            <div class="flex justify-start items-center w-[405px] mt-5">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
-                        <mat-icon svgIcon="search"></mat-icon>
-                        <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="flex">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
-                        <div class="w-[15px] h-[20px] items-center mt-1">
-                            <img src="assets/icons/Vector.svg">
-                        </div>
-                        &nbsp;
-                        &nbsp;
-                        <span>อัปโหลด CSV</span>
-                    </button>
-                </div>
-                <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
-                    <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
-                        <mat-icon>add_circle_outline</mat-icon>
-                        <div class="font-light">
-                            เพิ่มศูนย์บริการ
-                        </div>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
-            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
-                <thead>
-                    <tr>
-                        <th class="w-[20px]">ชื่อ</th>
-                        <th class="w-[20px]">เบอร์ติดต่อ</th>
-                        <th class="w-[30px]">ที่อยู่</th>
-                        <th class="w-[10px]"> </th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="dataRow?.length != 0">
-                    <tr *ngFor="let item of dataRow; let i = index">
-                        <td class="font-light">{{item?.name}}</td>
-                        <td class="font-light">{{item?.phone}}</td>
-                        <td class="font-light">{{item?.address}}</td>
-                        <td>
-                            <button mat-icon-button (click)="editElement(item.id)">
-                                <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-
-                <tbody *ngIf="dataRow?.length == 0">
-                    <tr>
-                        <td colspan="15" class="no-data-available text-center">ไม่มีข้อมูล !</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div *ngIf="someOneChecked?.length"
+        class="flex items-center justify-between w-full border-t mt-8 px-8 py-5 bg-white dark:bg-gray-700 sticky bottom-0 h-24">
+        <button class="rounded-md border-black border min-w-36" mat-stroked-button (click)="cancelCheck()">
+            ยกเลิก
+        </button>
+        <span class="text-lg font-bold mx-5">เลือกแล้ว {{someOneChecked.length}}</span>
+        <button class="inline-flex rounded-md min-w-36" mat-flat-button [color]="'primary'" (click)="confirmDelete()">
+            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_asha:delete'"></mat-icon>
+            <span class="ml-2">ลบรายการ</span>
+        </button>
     </div>
 </div>

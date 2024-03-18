@@ -25,8 +25,10 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PictureComponent } from '../../picture/picture.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
 
 @Component({
     selector: 'employee-list',
@@ -51,6 +53,8 @@ import { PictureComponent } from '../../picture/picture.component';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatCheckboxModule,
+        RouterLink,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -68,7 +72,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private asapConfirmationService: AsapConfirmationService
     ) {}
 
     ngOnInit() {
@@ -124,7 +129,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         });
     }
-    
+
     applySearch() {
         // You may need to modify this based on your DataTables structure
         this.rerender()
@@ -172,13 +177,14 @@ export class ListComponent implements OnInit, AfterViewInit {
                         this._changeDetectorRef.markForCheck();
                     });
             },
-            // columns: [
-            //     { data: 'action', orderable: false },
-            //     { data: 'No' },
-            //     { data: 'name' },
-            //     { data: 'create_by' },
-            //     { data: 'created_at' },
-            // ],
+            columns: [
+                { data: 'action', orderable: false },
+                { data: 'No' },
+                { data: 'name' },
+                { data: 'create_by' },
+                { data: 'created_at' },
+            ],
+            order: [[1, 'asc']]
         };
     }
 
@@ -199,5 +205,48 @@ export class ListComponent implements OnInit, AfterViewInit {
                 // Go up twice because card routes are setup like this; "card/CARD_ID"
                 // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
             });
+    }
+
+    get someOneChecked() {
+        return this.dataRow?.filter(e => e.checked);
+    }
+
+    get someCheck() {
+        if (this.someOneChecked?.length == 0) { return false; }
+
+        return this.someOneChecked?.length > 0 && !this.checkAll;
+    }
+
+    get checkAll() {
+        return this.dataRow?.every(e => e.checked);
+    }
+
+    setAll(checked: boolean) {
+        this.dataRow?.forEach(e => e.checked = checked);
+    }
+
+    confirmDelete() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
+            message: 'ศูนย์บริการที่เลือกจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+            }
+        });
+    }
+
+    cancelCheck() {
+        this.setAll(false)
     }
 }

@@ -204,12 +204,15 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
+                { data: '', orderable: false },
                 { data: 'action', orderable: false },
                 { data: 'No' },
                 { data: 'name' },
                 { data: 'email' },
                 { data: 'tel' },
+                { data: '' },
             ],
+            order: [[1, 'asc']]
         };
     }
 
