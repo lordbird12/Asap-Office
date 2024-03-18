@@ -34,8 +34,10 @@ import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { tap } from 'rxjs';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CompanyDialogComponent } from '../../ticket/compony-dialog/dailog.component';
+import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'car-list',
@@ -60,6 +62,8 @@ import { CompanyDialogComponent } from '../../ticket/compony-dialog/dailog.compo
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
+        MatCheckboxModule,
+        RouterLink,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -77,7 +81,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
-        private _router: Router
+        private _router: Router,
+        private asapConfirmationService: AsapConfirmationService
     ) {}
 
     ngOnInit() {
@@ -215,4 +220,47 @@ export class ListComponent implements OnInit, AfterViewInit {
     // handlePageEvent(event) {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
+
+    get someOneChecked() {
+        return this.dataRow?.filter(e => e.checked);
+    }
+
+    get someCheck() {
+        if (this.someOneChecked?.length == 0) { return false; }
+
+        return this.someOneChecked?.length > 0 && !this.checkAll;
+    }
+
+    get checkAll() {
+        return this.dataRow?.every(e => e.checked);
+    }
+
+    setAll(checked: boolean) {
+        this.dataRow?.forEach(e => e.checked = checked);
+    }
+
+    confirmDelete() {
+        const confirmation = this.asapConfirmationService.open({
+            title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
+            message: 'รถที่เลือกจะถูกลบออกจากระบบถาวร',
+            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            actions: {
+                confirm: {
+                    label: 'ลบ'
+                },
+                cancel: {
+                    label: 'ยกเลิก'
+                }
+            }
+        });
+
+        confirmation.afterClosed().subscribe((result) => {
+            if (result == 'confirmed') {
+            }
+        });
+    }
+
+    cancelCheck() {
+        this.setAll(false)
+    }
 }
