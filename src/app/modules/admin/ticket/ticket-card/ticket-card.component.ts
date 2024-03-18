@@ -174,7 +174,7 @@ export class TicketCardComponent implements OnInit {
             startWith(''),
             map(value => this._filter(value || '')),
         );
-        this.filteredOptions1 = this.myControl.valueChanges.pipe(
+        this.filteredOptions1 = this.myControl1.valueChanges.pipe(
             startWith(''),
             map(value => this._filter1(value || '')),
         );
