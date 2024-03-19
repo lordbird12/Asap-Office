@@ -137,7 +137,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             },
             {
                 id: 'admin.booking.history',
-                title: 'ประวัติภาพรวมงาน',
+                title: 'ประวัติการจองศูนย์บริการ',
                 type: 'basic',
                 icon: '',
                 link: '/admin/carhistory/list',
