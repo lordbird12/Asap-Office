@@ -301,6 +301,11 @@ export const appRoutes: Route[] = [
                                 'app/modules/admin/summary-service/page.routes'
                             ),
                     },
+                    {
+                        path: 'booking-gm',
+                        loadChildren: () =>
+                            import('app/modules/admin/booking-gm/page.routes'),
+                    },
                 ],
             },
         ],
