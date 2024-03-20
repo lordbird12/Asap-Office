@@ -20,8 +20,7 @@
                         <mat-option value="Cancel">ยกเลิก</mat-option>
                     </mat-select>
                 </mat-form-field>
-                &nbsp;
-                &nbsp;
+                &nbsp; &nbsp;
                 <button mat-icon-button [tabIndex]="-1" (click)="onClose()">
                     <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
                 </button>
@@ -55,8 +54,7 @@
                 <mat-form-field class="flex-auto w-full">
                     <mat-label class="font-bold">ข้อมูลรถ</mat-label>
                     <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChangeClient($event)"
-                       >
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChangeClient($event)">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                             {{option.license_plate}}
                         </mat-option>
@@ -76,8 +74,7 @@
                         <mat-form-field class="flex-auto w-full">
                             <mat-select formControlName="time">
                                 <mat-option value="">เลือกเวลา</mat-option>
-                                <mat-option value="{{time.code}}"
-                                    *ngFor="let time of timeOptions; let i = index">{{time.name}}</mat-option>
+                                <mat-option value="{{time.code}}" *ngFor="let time of timeOptions; let i = index">{{time.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -87,8 +84,7 @@
                 <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
                 <div class="grid grid-cols-4 gap-4">
                     <div *ngFor="let item of serviceData" class="relative w-30 h-30">
-                        <input id="myCheck_{{item.name}}" class="absolute top-0 right-0 m-2" type="checkbox"
-                            (change)="addFeature(item.id)" [checked]="isChecked(item.id)">
+                        <input id="myCheck_{{item.name}}" class="absolute top-0 right-0 m-2" type="checkbox" (change)="addFeature(item.id)" [checked]="isChecked(item.id)">
                         <label for="myCheck_{{item.name}}" class="w-fit cursor-pointer">
                             <div
                                 class="flex items-center checkbox-card justify-center w-30 h-30 bg-white rounded-md select-none pointer-events-none">
@@ -115,20 +111,18 @@
             </div> -->
             <div *ngIf="this.data.status === 'New'">
                 <div class="flex flex-col">
-                    <div>
+                    <div *ngIf="note_text">
                         <mat-label class="font-bold">อื่น ๆ </mat-label>
                         <mat-form-field class="w-full">
                             <mat-label>รายละเอียดเพิ่มเติม</mat-label>
-                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3"
-                                formControlName="note"></textarea>
+                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3" formControlName="note"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
             <div class="flex flex-col mb-6" *ngIf="this.data.status === 'Edit'">
                 <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
-                <app-checkbox-service [items]="this.serviceData" [dataArray]="this.serviceData1"
-                    (dataArrayChange)="handleDataArrayChange($event)"></app-checkbox-service>
+                <app-checkbox-service [items]="this.serviceData" [dataArray]="this.serviceData1" (dataArrayChange)="handleDataArrayChange($event)"></app-checkbox-service>
             </div>
             <div *ngIf="this.data.status === 'Edit'">
                 <div class="flex flex-col" *ngFor="let item of yourArray1">
@@ -136,8 +130,7 @@
                         <mat-label class="font-bold">อื่น ๆ </mat-label>
                         <mat-form-field class="w-full">
                             <mat-label>รายละเอียดเพิ่มเติม</mat-label>
-                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3"
-                                formControlName="note"></textarea>
+                            <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" [rows]="3" formControlName="note"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -157,8 +150,7 @@
                 <mat-form-field class="flex-auto w-full">
                     <mat-label class="font-bold">ศูนย์บริการ</mat-label>
                     <input type="text" matInput [formControl]="myControl1" [matAutocomplete]="auto1">
-                    <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn1" (optionSelected)="onChangeServiceCenter($event)"
-                       >
+                    <mat-autocomplete #auto1="matAutocomplete" [displayWith]="displayFn1" (optionSelected)="onChangeServiceCenter($event)">
                         <mat-option *ngFor="let option of filteredOptions1 | async" [value]="option">
                             {{option.name}}
                         </mat-option>
@@ -187,10 +179,8 @@
                 <mat-label class="font-bold">ข้อมูลลูกค้า</mat-label>
                 <div class="flex flex-row">
                     <div class="flex p-4">
-                        <img class="h-15 w-15 rounded-full" src="{{this.data.value?.car?.pictureUrl}}" *ngIf="this.data.value?.car?.pictureUrl"
-                            alt="image description">
-                        <img class="h-15 w-15 rounded-full" src="assets/images/no_image.jpg" *ngIf="!this.data.value?.car?.pictureUrl"
-                            alt="image description">
+                        <img class="h-15 w-15 rounded-full" src="{{this.data.value?.car?.pictureUrl}}" *ngIf="this.data.value?.car?.pictureUrl" alt="image description">
+                        <img class="h-15 w-15 rounded-full" src="assets/images/no_image.jpg" *ngIf="!this.data.value?.car?.pictureUrl" alt="image description">
                     </div>
                     <div class="flex p-4 mt-2">
                         <div>

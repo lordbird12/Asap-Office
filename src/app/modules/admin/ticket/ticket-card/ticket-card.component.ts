@@ -7,8 +7,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { DropdownTimeComponent } from 'app/shared/dropdown-time/dropdown-time.component';
 import { PageService } from '../page.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import {
+    MAT_DIALOG_DATA,
+    MatDialog,
+    MatDialogRef,
+} from '@angular/material/dialog';
+import {
+    FormArray,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    NgControl,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -18,15 +30,25 @@ import { DateDiffPipe } from 'app/date-diff-pipe.pipe';
 import { CancelDialogComponent } from '../cancel-dialog/dailog.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-
 @Component({
     selector: 'app-ticket-card',
     standalone: true,
-    imports: [FormsModule, NgSelectModule, CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, MatAutocompleteModule, ReactiveFormsModule, CheckboxServiceComponent],
+    imports: [
+        FormsModule,
+        NgSelectModule,
+        CommonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        MatIconModule,
+        DropdownTimeComponent,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        CheckboxServiceComponent,
+    ],
     templateUrl: './ticket-card.component.html',
     styleUrls: ['./ticket-card.component.scss'],
-
-
 })
 export class TicketCardComponent implements OnInit {
     serviceData: any[] = [];
@@ -44,6 +66,7 @@ export class TicketCardComponent implements OnInit {
     service: { service_id: number }[] = [];
 
     selectedCar: number;
+    note_text: boolean = false;
 
     cars = [
         { id: 1, name: 'Volvo' },
@@ -64,7 +87,7 @@ export class TicketCardComponent implements OnInit {
         private _fb: FormBuilder,
         private _fuseConfirmationService: FuseConfirmationService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private dialog: MatDialog,
+        private dialog: MatDialog
     ) {
         // console.log(this.data.value.services)
         this.form = this._fb.group({
@@ -79,19 +102,18 @@ export class TicketCardComponent implements OnInit {
             company: '',
             image: '',
             note: '',
-            services: this._fb.array([])
-        })
+            services: this._fb.array([]),
+        });
 
         this._service.getCar().subscribe((resp: any) => {
             this.productData = resp.data;
-        })
+        });
         this._service.getServiceCenter().subscribe((resp: any) => {
             this.serviceCenterData = resp.data;
-
-        })
+        });
         this._service.getCustomer().subscribe((resp: any) => {
             this.clientData = resp.data;
-        })
+        });
     }
     yourArray: string[] = ['Item 1', 'Item 2', 'Item 3']; // ตัวอย่างของ Array
     yourDataArray: string[] = ['Item 2']; // ตัวอย่างของข้อมูลที่มีอยู่
@@ -104,17 +126,17 @@ export class TicketCardComponent implements OnInit {
             phone: selectedOption.client.phone,
             image: selectedOption.car.pictureUrl,
             company: selectedOption.client.company,
-        })
-        this._changeDetectorRef.markForCheck()
+        });
+        this._changeDetectorRef.markForCheck();
     }
     onChangeServiceCenter(event: any) {
         const selectedOption = event.option.value;
         console.log(selectedOption);
-        
+
         this.form.patchValue({
             service_center_id: selectedOption.id,
-        })
-        this._changeDetectorRef.markForCheck()
+        });
+        this._changeDetectorRef.markForCheck();
     }
 
     displayFn(user: any): string {
@@ -126,7 +148,9 @@ export class TicketCardComponent implements OnInit {
     private _filter(name: string): any[] {
         const filterValue = name;
 
-        return this.productData.filter(option => option.license_plate.toLowerCase().includes(filterValue));
+        return this.productData.filter((option) =>
+            option.license_plate.toLowerCase().includes(filterValue)
+        );
     }
     displayFn1(user: any): string {
         // console.log('user',user)
@@ -137,46 +161,48 @@ export class TicketCardComponent implements OnInit {
     private _filter1(name: string): any[] {
         const filterValue = name;
 
-        return this.serviceCenterData.filter(option => option.name.toLowerCase().includes(filterValue));
+        return this.serviceCenterData.filter((option) =>
+            option.name.toLowerCase().includes(filterValue)
+        );
     }
 
-    testData: any[] = []
-    serviceData1: any[] = []
+    testData: any[] = [];
+    serviceData1: any[] = [];
     ngOnInit(): void {
         this.generateTimeOptions();
         // this.GetCar();
         this._service.getService().subscribe((resp: any) => {
             this.serviceData = resp.data;
-        })
+        });
         console.log(this.data.value);
 
         if (this.data.value && this.productData) {
-
             // this.myControl1.setValue(3)
             this.testData = this.data.value.activitys;
-            this.serviceData1 = this.data.value.services.map(item => item.service);
-            this.yourArray1 = this.serviceData1
-            this.statusData.setValue(this.data.value.status)
+            this.serviceData1 = this.data.value.services.map(
+                (item) => item.service
+            );
+            this.yourArray1 = this.serviceData1;
+            this.statusData.setValue(this.data.value.status);
             this.form.patchValue({
                 ...this.data.value,
                 car_id: +this.data.value.car_id,
                 client_id: +this.data.value.client_id,
                 service_center_id: +this.data.value.service_center_id,
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
-
-            })
-            this.checknote(this.data.value.services)
+            });
+            this.checknote(this.data.value.services);
         } else {
-            this.statusData.setValue('New')
+            this.statusData.setValue('New');
         }
 
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(''),
-            map(value => this._filter(value || '')),
+            map((value) => this._filter(value || ''))
         );
         this.filteredOptions1 = this.myControl1.valueChanges.pipe(
             startWith(''),
-            map(value => this._filter1(value || '')),
+            map((value) => this._filter1(value || ''))
         );
     }
 
@@ -189,7 +215,7 @@ export class TicketCardComponent implements OnInit {
     GetCar() {
         this._service.getCar().subscribe((resp: any) => {
             this.productData = resp.data;
-        })
+        });
     }
     displayProduct(subject) {
         if (!subject) return '';
@@ -201,59 +227,59 @@ export class TicketCardComponent implements OnInit {
 
     private _filterProduct(value: string): string[] {
         const filterValue = value;
-        return this.productData.filter((option) =>
-            option.license === filterValue
+        return this.productData.filter(
+            (option) => option.license === filterValue
         );
     }
 
     timeOptions: object[] = [
         {
             code: '08:00',
-            name: '8:00 am'
+            name: '8:00 am',
         },
         {
             code: '09:00',
-            name: '9:00 am'
+            name: '9:00 am',
         },
         {
             code: '10:00',
-            name: '10:00 am'
+            name: '10:00 am',
         },
         {
             code: '11:00',
-            name: '11:00 am'
+            name: '11:00 am',
         },
         {
             code: '12:00',
-            name: '12:00 pm'
+            name: '12:00 pm',
         },
         {
             code: '01:00',
-            name: '1:00 pm'
+            name: '1:00 pm',
         },
         {
             code: '02:00',
-            name: '2:00 pm'
+            name: '2:00 pm',
         },
         {
             code: '03:00',
-            name: '3:00 pm'
+            name: '3:00 pm',
         },
         {
             code: '04:00',
-            name: '4:00 pm'
+            name: '4:00 pm',
         },
         {
             code: '05:00',
-            name: '5:00 pm'
+            name: '5:00 pm',
         },
         {
             code: '06:00',
-            name: '6:00 pm'
+            name: '6:00 pm',
         },
         {
             code: '07:00',
-            name: '7:00 pm'
+            name: '7:00 pm',
         },
     ];
 
@@ -272,120 +298,154 @@ export class TicketCardComponent implements OnInit {
         const service = this.form.get('services') as FormArray;
 
         // ตรวจสอบว่า featureId มีอยู่ใน FormArray หรือไม่
-        const index = service.value.findIndex((value: any) => value.service_id === serviceId);
+        const index = service.value.findIndex(
+            (value: any) => value.service_id === serviceId
+        );
         // console.log(index)
         if (index === -1) {
             const value = this._fb.group({
                 service_id: serviceId,
+                note: '',
             });
             service.push(value);
+            if (serviceId == 8) {
+                this.note_text = true;
+            }
             // console.log(this.form.value)
-
         } else {
+            if (serviceId == 8) {
+                this.note_text = false;
+            }
             // ถ้ามีอยู่แล้วให้ลบออก
             service.removeAt(index);
         }
     }
     isChecked(serviceId: number): boolean {
         const service = this.form.get('services') as FormArray;
-        return service.value.some((value: any) => value.service_id === serviceId);
+        return service.value.some(
+            (value: any) => value.service_id === serviceId
+        );
     }
     changeStatus(event: any) {
-        this.statusData.setValue(event.value)
+        this.statusData.setValue(event.value);
     }
     onSaveClick(): void {
         if (this.data.value) {
             if (this.statusData.value === 'Cancel') {
-                this.CancelStatus()
+                this.CancelStatus();
             } else {
                 const confirmation = this._fuseConfirmationService.open({
-                    "title": "เปลี่ยนสถานะ",
-                    "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
-                    "icon": {
-                        "show": false,
-                        "name": "heroicons_outline:exclamation",
-                        "color": "warning"
+                    title: 'เปลี่ยนสถานะ',
+                    message: 'คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ',
+                    icon: {
+                        show: false,
+                        name: 'heroicons_outline:exclamation',
+                        color: 'warning',
                     },
-                    "actions": {
-                        "confirm": {
-                            "show": true,
-                            "label": "ยืนยัน",
-                            "color": "primary"
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'ยืนยัน',
+                            color: 'primary',
                         },
-                        "cancel": {
-                            "show": true,
-                            "label": "ยกเลิก"
-                        }
+                        cancel: {
+                            show: true,
+                            label: 'ยกเลิก',
+                        },
                     },
-                    "dismissible": true
+                    dismissible: true,
                 });
 
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         const reason = '';
-                        this.service = this.yourArray1.map(item => ({ service_id: item.id }))
-                        this._service.updateStatus(this.data.value.id, this.statusData.value, reason, this.service, this.form.value.note).subscribe({
-                            next: (resp: any) => {
-                                this.dialogRef.close(resp);
-                            },
-                            error: (err: any) => {
-                                this.form.enable();
-                                this._fuseConfirmationService.open({
-                                    "title": "กรุณาระบุข้อมูล",
-                                    "message": err.error.message,
-                                    "icon": {
-                                        "show": true,
-                                        "name": "heroicons_outline:exclamation",
-                                        "color": "warning"
-                                    },
-                                    "actions": {
-                                        "confirm": {
-                                            "show": false,
-                                            "label": "ยืนยัน",
-                                            "color": "primary"
+                        this.service = this.yourArray1.map((item) => ({
+                            service_id: item.id,
+                        }));
+
+                        this._service
+                            .updateStatus(
+                                this.data.value.id,
+                                this.statusData.value,
+                                reason,
+                                this.service,
+                                this.form.value.note
+                            )
+                            .subscribe({
+                                next: (resp: any) => {
+                                    this.dialogRef.close(resp);
+                                },
+                                error: (err: any) => {
+                                    this.form.enable();
+                                    this._fuseConfirmationService.open({
+                                        title: 'กรุณาระบุข้อมูล',
+                                        message: err.error.message,
+                                        icon: {
+                                            show: true,
+                                            name: 'heroicons_outline:exclamation',
+                                            color: 'warning',
                                         },
-                                        "cancel": {
-                                            "show": false,
-                                            "label": "ยกเลิก",
-
-                                        }
-                                    },
-                                    "dismissible": true
-                                });
-                            }
-                        })
+                                        actions: {
+                                            confirm: {
+                                                show: false,
+                                                label: 'ยืนยัน',
+                                                color: 'primary',
+                                            },
+                                            cancel: {
+                                                show: false,
+                                                label: 'ยกเลิก',
+                                            },
+                                        },
+                                        dismissible: true,
+                                    });
+                                },
+                            });
                     }
-                })
+                });
             }
-
         } else {
             const confirmation = this._fuseConfirmationService.open({
-                "title": "เพิ่มข้อมูล",
-                "message": "คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ",
-                "icon": {
-                    "show": false,
-                    "name": "heroicons_outline:exclamation",
-                    "color": "warning"
+                title: 'เพิ่มข้อมูล',
+                message: 'คุณต้องการเพิ่มข้อมูลใช่หรือไม่ ',
+                icon: {
+                    show: false,
+                    name: 'heroicons_outline:exclamation',
+                    color: 'warning',
                 },
-                "actions": {
-                    "confirm": {
-                        "show": true,
-                        "label": "ยืนยัน",
-                        "color": "primary"
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'ยืนยัน',
+                        color: 'primary',
                     },
-                    "cancel": {
-                        "show": true,
-                        "label": "ยกเลิก"
-                    }
+                    cancel: {
+                        show: true,
+                        label: 'ยกเลิก',
+                    },
                 },
-                "dismissible": true
+                dismissible: true,
             });
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
                     const updatedData = this.form.value;
-                    updatedData.date = moment(updatedData.date).format('YYYY-MM-DD');
+
+                    for (
+                        let index = 0;
+                        index < updatedData.services.length;
+                        index++
+                    ) {
+                        if (updatedData.services[index].service_id == 8) {
+                            updatedData.services[index].note =
+                                this.form.value.note;
+                        }
+                    }
+
+                
+                    updatedData.date = moment(updatedData.date).format(
+                        'YYYY-MM-DD'
+                    );
                     this._service.create(updatedData).subscribe({
                         next: (resp: any) => {
                             this.dialogRef.close(resp);
@@ -393,31 +453,30 @@ export class TicketCardComponent implements OnInit {
                         error: (err: any) => {
                             this.form.enable();
                             this._fuseConfirmationService.open({
-                                "title": "กรุณาระบุข้อมูล",
-                                "message": err.error.message,
-                                "icon": {
-                                    "show": true,
-                                    "name": "heroicons_outline:exclamation",
-                                    "color": "warning"
+                                title: 'กรุณาระบุข้อมูล',
+                                message: err.error.message,
+                                icon: {
+                                    show: true,
+                                    name: 'heroicons_outline:exclamation',
+                                    color: 'warning',
                                 },
-                                "actions": {
-                                    "confirm": {
-                                        "show": false,
-                                        "label": "ยืนยัน",
-                                        "color": "primary"
+                                actions: {
+                                    confirm: {
+                                        show: false,
+                                        label: 'ยืนยัน',
+                                        color: 'primary',
                                     },
-                                    "cancel": {
-                                        "show": false,
-                                        "label": "ยกเลิก",
-
-                                    }
+                                    cancel: {
+                                        show: false,
+                                        label: 'ยกเลิก',
+                                    },
                                 },
-                                "dismissible": true
+                                dismissible: true,
                             });
-                        }
-                    })
+                        },
+                    });
                 }
-            })
+            });
         }
     }
 
@@ -434,15 +493,18 @@ export class TicketCardComponent implements OnInit {
         } else if (hoursDifference < 24) {
             return `${hoursDifference} hour ago`;
         } else {
-            const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-            return daysDifference === 1 ? 'Yesterday' : `${daysDifference} days ago`;
+            const daysDifference = Math.floor(
+                timeDifference / (1000 * 60 * 60 * 24)
+            );
+            return daysDifference === 1
+                ? 'Yesterday'
+                : `${daysDifference} days ago`;
         }
     }
 
     // sortBy(property: string) {
     //     console.log(this.testData)
     //     this.testData.sort((a, b) => a[property].getTime() - b[property].getTime());
-
 
     //     this._changeDetectorRef.markForCheck();
     //   }
@@ -453,28 +515,24 @@ export class TicketCardComponent implements OnInit {
     }
 
     checknote(Array: any) {
-
-        const service_other = Array.find(item => item.service_id === "8")
+        const service_other = Array.find((item) => item.service_id === '8');
         console.log('Arary', service_other);
         if (service_other) {
             this.form.patchValue({
-                note: service_other?.note ?? ''
-            })
+                note: service_other?.note ?? '',
+            });
         } else {
             return;
         }
-
     }
 
     yourArray1: any[] = [];
-
 
     status: boolean = false;
     handleDataArrayChange(updatedArray: any[]): void {
         // this.status = !this.status;
         this.yourArray1 = updatedArray;
         console.log(this.yourArray1);
-
     }
 
     CancelStatus() {
@@ -484,68 +542,77 @@ export class TicketCardComponent implements OnInit {
                 data: 1,
             }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
         });
-        dialogRef.afterClosed().subscribe(result1 => {
+        dialogRef.afterClosed().subscribe((result1) => {
             if (result1) {
                 const confirmation = this._fuseConfirmationService.open({
-                    "title": "เปลี่ยนสถานะ",
-                    "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
-                    "icon": {
-                        "show": false,
-                        "name": "heroicons_outline:exclamation",
-                        "color": "warning"
+                    title: 'เปลี่ยนสถานะ',
+                    message: 'คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ',
+                    icon: {
+                        show: false,
+                        name: 'heroicons_outline:exclamation',
+                        color: 'warning',
                     },
-                    "actions": {
-                        "confirm": {
-                            "show": true,
-                            "label": "ยืนยัน",
-                            "color": "primary"
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'ยืนยัน',
+                            color: 'primary',
                         },
-                        "cancel": {
-                            "show": true,
-                            "label": "ยกเลิก"
-                        }
+                        cancel: {
+                            show: true,
+                            label: 'ยกเลิก',
+                        },
                     },
-                    "dismissible": true
+                    dismissible: true,
                 });
 
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
-                        const reason = result1
-                        this.service = this.yourArray1.map(item => ({ service_id: item.id }))
-                        this._service.updateStatus(this.data.value.id, this.statusData.value, reason, this.service, this.form.value.note).subscribe({
-                            next: (resp: any) => {
-                                this.dialogRef.close(resp);
-                            },
-                            error: (err: any) => {
-                                this.form.enable();
-                                this._fuseConfirmationService.open({
-                                    "title": "กรุณาระบุข้อมูล",
-                                    "message": err.error.message,
-                                    "icon": {
-                                        "show": true,
-                                        "name": "heroicons_outline:exclamation",
-                                        "color": "warning"
-                                    },
-                                    "actions": {
-                                        "confirm": {
-                                            "show": false,
-                                            "label": "ยืนยัน",
-                                            "color": "primary"
+                        const reason = result1;
+                        this.service = this.yourArray1.map((item) => ({
+                            service_id: item.id,
+                        }));
+                        this._service
+                            .updateStatus(
+                                this.data.value.id,
+                                this.statusData.value,
+                                reason,
+                                this.service,
+                                this.form.value.note
+                            )
+                            .subscribe({
+                                next: (resp: any) => {
+                                    this.dialogRef.close(resp);
+                                },
+                                error: (err: any) => {
+                                    this.form.enable();
+                                    this._fuseConfirmationService.open({
+                                        title: 'กรุณาระบุข้อมูล',
+                                        message: err.error.message,
+                                        icon: {
+                                            show: true,
+                                            name: 'heroicons_outline:exclamation',
+                                            color: 'warning',
                                         },
-                                        "cancel": {
-                                            "show": false,
-                                            "label": "ยกเลิก",
-
-                                        }
-                                    },
-                                    "dismissible": true
-                                });
-                            }
-                        })
+                                        actions: {
+                                            confirm: {
+                                                show: false,
+                                                label: 'ยืนยัน',
+                                                color: 'primary',
+                                            },
+                                            cancel: {
+                                                show: false,
+                                                label: 'ยกเลิก',
+                                            },
+                                        },
+                                        dismissible: true,
+                                    });
+                                },
+                            });
                     }
-                })
+                });
             }
-        })
+        });
     }
 }
