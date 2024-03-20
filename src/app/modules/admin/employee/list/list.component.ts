@@ -37,6 +37,7 @@ import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
+import { data } from 'jquery';
 
 @Component({
     selector: 'employee-list',
@@ -71,6 +72,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    flashMessage: 'success' | 'error' | null = null;
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -79,8 +81,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router,
-        private asapConfirmationService: AsapConfirmationService,
-    ) { }
+        private asapConfirmationService: AsapConfirmationService
+    ) {}
 
     ngOnInit() {
         this.loadTable();
@@ -92,13 +94,12 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     applySearch() {
         // You may need to modify this based on your DataTables structure
-        this.rerender()
+        this.rerender();
     }
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
-
     }
 
     ngAfterViewInit() {
@@ -202,7 +203,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: '' },
                 { data: '' },
             ],
-            order: [[1, 'asc']]
+            order: [[1, 'asc']],
         };
     }
 
@@ -215,46 +216,108 @@ export class ListComponent implements OnInit, AfterViewInit {
     // }
 
     get someOneChecked() {
-        return this.dataRow?.filter(e => e.checked);
+        return this.dataRow?.filter((e) => e.checked);
     }
 
     get someCheck() {
-        if (this.someOneChecked?.length == 0) { return false; }
+        if (this.someOneChecked?.length == 0) {
+            return false;
+        }
 
         return this.someOneChecked?.length > 0 && !this.checkAll;
     }
 
     get checkAll() {
-        return this.dataRow?.every(e => e.checked);
+        return this.dataRow?.every((e) => e.checked);
     }
 
     setAll(checked: boolean) {
-        this.dataRow?.forEach(e => e.checked = checked);
+        this.dataRow?.forEach((e) => (e.checked = checked));
     }
 
     confirmDelete() {
         const confirmation = this.asapConfirmationService.open({
             title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
             message: 'รายชื่อพนักงานที่เลือกจะถูกลบออกจากระบบถาวร',
-            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            icon: {
+                show: true,
+                name: 'heroicons_asha:delete2',
+                color: 'error',
+            },
             actions: {
                 confirm: {
-                    label: 'ลบ'
+                    label: 'ลบ',
                 },
                 cancel: {
-                    label: 'ยกเลิก'
-                }
-            }
+                    label: 'ยกเลิก',
+                },
+            },
         });
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
-                
+                const data_array = [];
+                this.dataRow.forEach((element) => {
+                    if (element.checked) {
+                        const data = {
+                            user_id: element.id,
+                            check: element.checked,
+                        };
+                        data_array.push(data);
+                    }
+                });
+
+
+                this._service.delete_all(data_array).subscribe({
+                    next: (resp: any) => {
+                        this.showFlashMessage('success');
+                        this.rerender();
+                    },
+                    error: (err: any) => {
+                        this.asapConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                    },
+                });
             }
         });
     }
 
-    cancelCheck(){
-        this.setAll(false)
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
+    }
+
+    cancelCheck() {
+        this.setAll(false);
     }
 }

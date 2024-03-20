@@ -56,6 +56,18 @@ export class PageService {
             );
     }
 
+    delete_all(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/user_delete_all', {
+                users: data,
+            })
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
     updateuser(data: FormData): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_user', data)
@@ -128,7 +140,9 @@ export class PageService {
             )
             .pipe(
                 switchMap((response: any) => {
-                    response.data.data.forEach(element => { element.checked = false });
+                    response.data.data.forEach((element) => {
+                        element.checked = false;
+                    });
 
                     return of(response.data);
                 })
