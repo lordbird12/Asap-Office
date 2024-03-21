@@ -16,20 +16,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+// import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatTableModule } from '@angular/material/table'
 import { MatTabsModule } from '@angular/material/tabs';
-import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
+// import { FuseFindByKeyPipeModule } from '@fuse/pipes/find-by-key';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
-import { SharedModule } from 'app/shared/shared.module';
-import { NgImageSliderModule } from 'ng-image-slider';
+// import { SharedModule } from 'app/shared/shared.module';
+// import { NgImageSliderModule } from 'ng-image-slider';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+// import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 
 import { MenuComponent } from './menu.component';
@@ -42,8 +42,8 @@ import { DataTablesModule } from 'angular-datatables';
 @NgModule({
   declarations: [
     MenuComponent,
-    NewComponent,
-    EditComponent,
+    // NewComponent,
+    // EditComponent,
     ListComponent
   ],
   imports: [
@@ -61,23 +61,23 @@ import { DataTablesModule } from 'angular-datatables';
     MatSelectModule,
     MatSlideToggleModule,
     MatTooltipModule,
-    SharedModule,
+    // SharedModule,
     DragDropModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatMomentDateModule,
+    // MatMomentDateModule,
     MatTableModule,
     MatTabsModule,
-    FuseFindByKeyPipeModule,
+    // FuseFindByKeyPipeModule,
     MatSidenavModule,
     MatButtonToggleModule,
     MatChipsModule,
     MatDividerModule,
-    NgImageSliderModule,
+    // NgImageSliderModule,
     NgxDropzoneModule,
     MatRadioModule,
     MatExpansionModule,
-    NgxMatTimepickerModule.setLocale('en-GB'),
+    // NgxMatTimepickerModule.setLocale('en-GB'),
     DataTablesModule
   ]
 })

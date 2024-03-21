@@ -198,8 +198,16 @@ export const appRoutes: Route[] = [
                     },
                     {
                         path: 'carhistory',
-                        loadChildren: () =>
-                            import('app/modules/admin/carhistory/page.routes'),
+                        canActivate: [],
+                        children: [
+                            {
+                                path: '',
+                                loadChildren: () =>
+                                    import(
+                                        'app/modules/admin/carhistory/page.module'
+                                    ).then((m) => m.Module),
+                            },
+                        ],
                     },
                     {
                         path: 'carhistory-ticket',

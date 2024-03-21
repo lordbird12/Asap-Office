@@ -74,13 +74,13 @@
                         <th class="font-light ">ศูนย์บริการ</th>
                         <th class="font-light ">พนักงานที่บริการ</th>
                         <th class="font-light ">สถานะ</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" *ngFor="let item of dataRow; let i = index;">
                         <td class="px-6 py-4">
-                            <div class="flex flex-col ">
+                            <div class="flex flex-col">
                                 <div class="text-base font-semibold">{{ (item.book_date | date: 'dd/MM/yyyy') ?? ''}}
                                 </div>
                                 <div class="font-normal text-gray-500"> {{ item.book_time?.slice(0,5) ?? '00:00' }}
@@ -88,7 +88,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex flex-col ">
+                            <div class="flex flex-col " appCustomTooltip="This is a custom tooltip!">
                                 <div class="text-base font-semibold">{{ (item.updated_at | date: 'dd/MM/yyyy') ?? ''}}
                                 </div>
                                 <div class="font-normal text-gray-500"> {{ (item.updated_at | date: 'HH:mm' )?? '00:00' }}
@@ -118,7 +118,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
-                                <div class="text-base font-semibold" >
+                                <div class="text-base font-semibold">
                                     {{item.booking?.status | ChangeStatus}}
                                 </div>
                             </div>
