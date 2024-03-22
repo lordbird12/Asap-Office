@@ -1,0 +1,14 @@
+.black-tooltip {
+    background: black;
+    color: white;
+}
+
+.custom-tooltip {
+    position: fixed;
+    background-color: black;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+}

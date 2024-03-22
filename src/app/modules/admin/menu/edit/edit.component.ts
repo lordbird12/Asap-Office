@@ -13,11 +13,11 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { sortBy, startCase } from 'lodash-es';
 import { AssetType, CustomerPagination } from '../menu.types';
 import { MenuService } from '../menu.service';
-import { ItemTypeService } from '../../item-type/item-type.service';
-import { LocationService } from '../../location/location.service';
-import { VendorService } from '../../vendor/vendor.service';
-import { PositionService } from '../../position/position.service';
-import { DepartmentService } from '../../department/department.service';
+// import { ItemTypeService } from '../../item-type/item-type.service';
+// import { LocationService } from '../../location/location.service';
+// import { VendorService } from '../../vendor/vendor.service';
+// import { PositionService } from '../../position/position.service';
+// import { DepartmentService } from '../../department/department.service';
 // import { ImportOSMComponent } from '../card/import-osm/import-osm.component';
 
 @Component({
@@ -59,7 +59,7 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
     filterForm: FormGroup;
     tagsEditMode: boolean = false;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    env_path = environment.API_URL;
+    // env_path = environment.API_URL;
 
     // me: any | null;
     // get roleType(): string {
@@ -84,11 +84,11 @@ export class EditComponent implements OnInit, AfterViewInit, OnDestroy {
         private _authService: AuthService,
 
         private _Service: MenuService,
-        private _ServiceItemtemType: ItemTypeService,
-        private _ServiceLocation: LocationService,
-        private _ServiceVendor: VendorService,
-        private _ServicePosition: PositionService,
-        private _ServiceDepartment: DepartmentService,
+        // private _ServiceItemtemType: ItemTypeService,
+        // private _ServiceLocation: LocationService,
+        // private _ServiceVendor: VendorService,
+        // private _ServicePosition: PositionService,
+        // private _ServiceDepartment: DepartmentService,
     ) {
 
 

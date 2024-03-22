@@ -19,9 +19,7 @@
     <link rel="icon" type="image/png" href="favicon-32x32.png?v=1">
 
     <!-- Fonts -->
-    <link
-            href="assets/fonts/sukhumvit-set/SukhumvitSet.css"
-            rel="stylesheet">
+    <link href="assets/fonts/sukhumvit-set/SukhumvitSet.css" rel="stylesheet">
     <!-- <link
             href="assets/fonts/Noto_Sans_Thai_font/stylesheet.css"
             rel="stylesheet"> -->
@@ -44,16 +42,39 @@
     <link href="assets/styles/splash-screen.css" rel="stylesheet">
 
     <style>
+        /* styles.css or styles.scss */
+        
+        .custom-tooltip {
+            position: absolute;
+            background-color: black;
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .tooltip-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 6px solid black;
+            right: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
          :is(.dark fuse-vertical-navigation-aside-item > .fuse-vertical-navigation-item-wrapper .fuse-vertical-navigation-item:not(.fuse-vertical-navigation-item-active-forced):not(.fuse-vertical-navigation-item-active):not(.fuse-vertical-navigation-item-disabled):hover),
          :is(.dark fuse-vertical-navigation-basic-item > .fuse-vertical-navigation-item-wrapper .fuse-vertical-navigation-item:not(.fuse-vertical-navigation-item-active-forced):not(.fuse-vertical-navigation-item-active):not(.fuse-vertical-navigation-item-disabled):hover),
          :is(.dark fuse-vertical-navigation-collapsable-item > .fuse-vertical-navigation-item-wrapper .fuse-vertical-navigation-item:not(.fuse-vertical-navigation-item-active-forced):not(.fuse-vertical-navigation-item-active):not(.fuse-vertical-navigation-item-disabled):hover) {
             background-color: #FF4849 !important;
         }
-
+        
          :is(.dark fuse-vertical-navigation-basic-item > .fuse-vertical-navigation-item-wrapper .fuse-vertical-navigation-item:not(.fuse-vertical-navigation-item-disabled).fuse-vertical-navigation-item-active) {
             background-color: #FF4849 !important;
         }
-
+        
          :host button {
             border-radius: 10px !important;
         }

@@ -191,6 +191,8 @@ export class TicketCardComponent implements OnInit {
                 service_center_id: +this.data.value.service_center_id,
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
             });
+            this.myControl1.setValue(+this.data.value.service_center_id)
+            console.log(this.myControl1.value)
             this.checknote(this.data.value.services);
         } else {
             this.statusData.setValue('New');

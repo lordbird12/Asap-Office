@@ -1,7 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -17,6 +22,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyListService } from '../company-list/company-list.service';
+import { SharedModule } from 'app/shared/shared.module';
 
 @Component({
     selector: 'app-company-detail',
@@ -41,9 +47,10 @@ import { CompanyListService } from '../company-list/company-list.service';
         RouterLink,
         CenterChartComponent,
         DataTablesModule,
+        SharedModule,
     ],
     templateUrl: './company-detail.component.html',
-    styleUrls: ['./company-detail.component.scss']
+    styleUrls: ['./company-detail.component.scss'],
 })
 export class CompanyDetailComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -51,12 +58,12 @@ export class CompanyDetailComponent implements OnInit {
     dtOptions: DataTables.Settings = {};
     dataRow: any[] = [];
     data = null;
-
+    showTool: number;
     company_id: number;
     form: FormGroup;
 
-    dapartmentName: string = ""
-    companyName: string = ""
+    dapartmentName: string = '';
+    companyName: string = '';
 
     constructor(
         private dialog: MatDialog,
@@ -64,7 +71,7 @@ export class CompanyDetailComponent implements OnInit {
         private _service: CompanyListService,
         private _router: Router,
         private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
+        private fb: FormBuilder
     ) {
         this.company_id = this.activatedRoute.snapshot.params.company_id;
 
@@ -73,27 +80,25 @@ export class CompanyDetailComponent implements OnInit {
 
         this.form = fb.group({
             startDate: [],
-            endDate: []
-        })
+            endDate: [],
+        });
     }
 
     ngOnInit(): void {
         this.loadTable();
         this.getDashboardSummaryByComp();
 
-        this.form.valueChanges.subscribe(
-            (data) => {
-                if (data.startDate && data.endDate) {
-                    this.loadTable();
-                    this.getDashboardSummaryByComp();
-                }
+        this.form.valueChanges.subscribe((data) => {
+            if (data.startDate && data.endDate) {
+                this.loadTable();
+                this.getDashboardSummaryByComp();
             }
-        )
+        });
     }
 
     calPerStyly(score: number) {
         let txt = Math.floor(score);
-        return txt > 0 ? txt + '%' : ""
+        return txt > 0 ? txt + '%' : '';
     }
 
     calPers(index: number): number {
@@ -102,6 +107,14 @@ export class CompanyDetailComponent implements OnInit {
         const percentages: number = (this.typeScore[index] / total) * 100;
 
         return percentages;
+    }
+
+    showTooltipShow(index: number): void {
+        this.showTool = index;
+    }
+
+    showTooltipNot(index: number): void {
+        this.showTool = 999;
     }
 
     getDashboardSummaryByComp() {
@@ -159,6 +172,6 @@ export class CompanyDetailComponent implements OnInit {
     }
 
     top_services(data: string): number {
-        return +this.data.top_services.find(e => e.name == data).total;
+        return +this.data.top_services.find((e) => e.name == data).total;
     }
 }

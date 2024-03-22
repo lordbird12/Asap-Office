@@ -138,10 +138,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
-
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.ajax.reload();
-        });
     }
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };

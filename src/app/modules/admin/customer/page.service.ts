@@ -169,4 +169,17 @@ export class PageService {
                 })
             );
     }
+
+    delete_all(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/client_delete_all', {
+                clients: data,
+            })
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
 }

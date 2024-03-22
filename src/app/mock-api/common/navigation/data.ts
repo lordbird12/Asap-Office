@@ -56,7 +56,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_asha:ticket',
         link: '/admin/booking-gm/list',
         hidden: () => {
-            // const storedPermission = JSON.parse(localStorage.getItem('permission'));
+            
             const position = JSON.parse(localStorage.getItem('user'));
             if (position.position_id === '1' || position.position_id === '2') {
                 return true;

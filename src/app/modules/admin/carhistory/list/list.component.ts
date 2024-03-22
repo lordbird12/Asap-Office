@@ -8,6 +8,11 @@ import {
     OnInit,
     ViewChild,
     ViewEncapsulation,
+    Directive,
+    ElementRef,
+    HostListener,
+    Renderer2,
+    Input,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -41,35 +46,14 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { environment } from 'environments/environment.development';
 import { ChangeStatusPipe } from 'app/shared/status.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'car-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
-    standalone: true,
-    imports: [
-        CommonModule,
-        MatIconModule,
-        FormsModule,
-        MatFormFieldModule,
-        NgClass,
-        MatInputModule,
-        TextFieldModule,
-        ReactiveFormsModule,
-        MatButtonToggleModule,
-        MatButtonModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatChipsModule,
-        MatDatepickerModule,
-        MatPaginatorModule,
-        MatTableModule,
-        DataTablesModule,
-        MatAutocompleteModule,
-        ReactiveFormsModule,
-        ChangeStatusPipe,
-
-    ],
+    styleUrls: ['./list.component.scss'],
+    standalone: false,
 })
 export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -150,7 +134,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         this._service.getcarbytext(e).subscribe((resp: any) => {
             this.cars = resp;
             if (this.cars.length == 1) {
-                this.car = this.cars[0]
+                this.car = this.cars[0];
                 this.rerender();
                 this._changeDetectorRef.markForCheck();
             } else {
