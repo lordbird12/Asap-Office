@@ -9,7 +9,7 @@
                 </h2>
                 <div class="flex w-100">
                     <mat-form-field class="w-full">
-                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" (click)="picker.open()">
                             <input matStartDate formControlName="start" placeholder="Start date" >
                             <input matEndDate formControlName="end" placeholder="End date" (dateChange)="changeDate()">
                           </mat-date-range-input>

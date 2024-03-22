@@ -177,7 +177,7 @@ export class TicketCardComponent implements OnInit {
         console.log(this.data.value);
 
         if (this.data.value && this.productData) {
-            // this.myControl1.setValue(3)
+            this.myControl1.setValue(this.data.value.service_center.name)
             this.testData = this.data.value.activitys;
             this.serviceData1 = this.data.value.services.map(
                 (item) => item.service
@@ -200,10 +200,13 @@ export class TicketCardComponent implements OnInit {
             startWith(''),
             map((value) => this._filter(value || ''))
         );
+        
         this.filteredOptions1 = this.myControl1.valueChanges.pipe(
             startWith(''),
             map((value) => this._filter1(value || ''))
+            
         );
+      
     }
 
     convertTime(inputTime: string): string {
