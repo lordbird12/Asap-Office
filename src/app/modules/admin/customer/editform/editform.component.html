@@ -63,7 +63,7 @@
                                             <div class="md:w-full px-3">
                                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full max-w-full">
                                                     <mat-label class=" font-light">เบอร์โทรศัพท์ติดต่อ</mat-label>
-                                                    <input matInput formControlName="phone">
+                                                    <input matInput formControlName="phone" type="number">
                                                 </mat-form-field>
                                             </div>
                                             <div class="md:w-full px-3">
@@ -102,8 +102,8 @@
 
                                         <div class="md:w-full px-3 pt-4">
                                             <mat-label class=" font-light">วันหมดสัญญา</mat-label>
-                                            <mat-form-field class="w-full">
-                                                <input readonly [formControlName]="'expire_date'" matInput
+                                            <mat-form-field class="w-full" >
+                                                <input readonly [formControlName]="'expire_date'" matInput (click)="picker_start_date.open()"
                                                     placeholder="วันหมดสัญญา" [matDatepicker]="picker_start_date">
                                                 <mat-datepicker-toggle matSuffix
                                                     [for]="picker_start_date"></mat-datepicker-toggle>

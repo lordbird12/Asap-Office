@@ -54,8 +54,8 @@
                         <div class="flex flex-col md:flex-row mb-6">
                             <div class="md:w-full px-3 md:mb-0 mb-3">
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                    <mat-label class=" font-light">เบอร์ติดต่อ</mat-label>
-                                    <input matInput formControlName="phone">
+                                    <mat-label class="font-light">เบอร์ติดต่อ</mat-label>
+                                    <input matInput formControlName="phone" type="number">
                                 </mat-form-field>
                             </div>
 
@@ -74,7 +74,7 @@
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                     <mat-label class=" font-light">ที่อยู่</mat-label>
                                     <input matInput formControlName="address">
-                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                    <textarea matInput [placeholder]="'กรอกรายละเอียดที่อยู่'" [rows]="3"></textarea>
                                 </mat-form-field>
                             </div>
 
@@ -83,15 +83,13 @@
                             <div class="md:w-full px-3 md:mb-0 mb-3">
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                     <mat-label class=" font-light">ละติจูด</mat-label>
-                                    <input matInput formControlName="lat">
-                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                    <input matInput formControlName="lat" type="number">
                                 </mat-form-field>
                             </div>
                             <div class="md:w-full px-3 md:mb-0 mb-3">
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                     <mat-label class=" font-light">ลองติจูด</mat-label>
-                                    <input matInput formControlName="lon">
-                                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                                    <input matInput formControlName="lon" type="number">
                                 </mat-form-field>
                             </div>
                         </div>
