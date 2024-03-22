@@ -27,6 +27,7 @@ import { DepartmentDialogComponent } from '../department-dialog/dailog.component
 import { UserImageService } from 'app/shared/image-last/user-image.service';
 import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
+import { OrderByCreatedAtPipe } from 'app/shared/order-by-created-at.pipe';
 
 @Component({
     selector: 'car-list',
@@ -53,7 +54,8 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
         DataTablesModule,
         MatDialogModule,
         LastUserImagePipe,
-        TimeDifferencePipe
+        TimeDifferencePipe,
+        OrderByCreatedAtPipe
     ],
     providers: [UserImageService]
 })
