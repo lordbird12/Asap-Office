@@ -136,7 +136,7 @@ export class PageService {
             );
     }
 
-    importCar(data : any): Observable<any> {
+    importCar(data: any): Observable<any> {
         return this._httpClient
             .post(environment.baseURL + '/api/import_cars', data)
             .pipe(
@@ -166,6 +166,18 @@ export class PageService {
             .pipe(
                 switchMap((response: any) => {
                     return of(response.data);
+                })
+            );
+    }
+
+    delete_all(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/car_delete_all', {
+                cars: data,
+            })
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
                 })
             );
     }
