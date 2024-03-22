@@ -47,7 +47,7 @@
             <div class="flex flex-row md:flex mb-6" *ngIf="this.data.value?.status === 'Cancel'">
                 <div class="flex flex-col rounded-lg w-full p-2 bg-gray-50">
                     <span class="flex text-lg items-center font-bold text-red-500">ยกเลิกโดยลูกค้า</span>
-                    <span class="flex text-lg items-center">{{this.data.value.reason?? 'อื่น ๆ'}}</span>
+                    <span class="flex text-lg items-center">{{this.data.value.reason ?? 'อื่น ๆ'}}</span>
                 </div>
             </div>
             <div class="flex flex-col" *ngIf="this.data.status === 'New'">
@@ -111,7 +111,7 @@
             </div> -->
             <div *ngIf="this.data.status === 'New'">
                 <div class="flex flex-col">
-                    <div *ngIf="note_text">
+                    <div>
                         <mat-label class="font-bold">อื่น ๆ </mat-label>
                         <mat-form-field class="w-full">
                             <mat-label>รายละเอียดเพิ่มเติม</mat-label>
