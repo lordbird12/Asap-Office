@@ -63,6 +63,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
+    flashMessage: 'success' | 'error' | null = null;
     // public dataRow: any[];
     dataRow: any[] = [];
     @ViewChild(DataTableDirective)
@@ -242,8 +243,65 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
+                const data_array = [];
+                this.dataRow.forEach((element) => {
+                    if (element.checked) {
+                        const data = {
+                            service_center_id: element.id,
+                            check: element.checked,
+                        };
+                        data_array.push(data);
+                    }
+                });
+
+
+                this._service.delete_all(data_array).subscribe({
+                    next: (resp: any) => {
+                        this.showFlashMessage('success');
+                        this.rerender();
+                    },
+                    error: (err: any) => {
+                        this.asapConfirmationService.open({
+                            title: 'กรุณาระบุข้อมูล',
+                            message: err.error.message,
+                            icon: {
+                                show: true,
+                                name: 'heroicons_outline:exclamation',
+                                color: 'warning',
+                            },
+                            actions: {
+                                confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                },
+                                cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                },
+                            },
+                            dismissible: true,
+                        });
+                    },
+                });
             }
         });
+    }
+
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
     }
 
     cancelCheck() {

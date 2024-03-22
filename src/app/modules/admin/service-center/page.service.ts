@@ -233,4 +233,16 @@ export class PageService {
                 })
             );
     }
+
+    delete_all(data: any): Observable<any> {
+        return this._httpClient
+            .post<any>(environment.baseURL + '/api/service_center_delete_all', {
+                service_centers: data,
+            })
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
 }

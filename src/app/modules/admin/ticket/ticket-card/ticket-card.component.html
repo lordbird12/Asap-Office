@@ -66,7 +66,7 @@
                 <mat-label class="font-bold">วันที่นัดหมาย</mat-label>
                 <div class="flex flex-row gap-3 ">
                     <mat-form-field class="flex-auto w-1/2">
-                        <input matInput [matDatepicker]="picker1" [placeholder]="'ระบุวัน'" formControlName="date">
+                        <input matInput [matDatepicker]="picker1" [placeholder]="'ระบุวัน'" formControlName="date" (click)="picker1.open()">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
