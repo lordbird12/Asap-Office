@@ -38,9 +38,11 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.component';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.component';
+import { OrderByCreatedAtPipe } from 'app/shared/order-by-created-at.pipe';
+import { OrderByUpdateAtPipe } from 'app/shared/order-by-updated-at.pipe';
 
 @Component({
-    selector: 'car-list',
+    selector: 'booking-list',
     templateUrl: './list.component.html',
     encapsulation: ViewEncapsulation.None,
     standalone: true,
@@ -65,7 +67,9 @@ import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.compone
         MatTableModule,
         DataTablesModule,
         LastUserImagePipe,
-        TimeDifferencePipe
+        TimeDifferencePipe,
+        OrderByCreatedAtPipe,
+        OrderByUpdateAtPipe
     ],
     providers: [UserImageService],
 
@@ -142,6 +146,13 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.user = JSON.parse(localStorage.getItem('user'));
         //    console.log(this.user)
     }
+
+    sortItemsByCreatedAt(items: any[]): any[] {
+        return items.sort((a, b) => {
+          // Assuming `created_at` property is a Date object
+          return b.created_at.getTime() - a.created_at.getTime();
+        });
+      }
 
     ngOnInit() {
         if (this.user) {

@@ -55,7 +55,7 @@
                 <p class="text-md mx-5 mb-2">
                     {{item.detail }}
                 </p>
-                <ng-container *ngFor="let card of item.task; let j = index">
+                <ng-container *ngFor="let card of item.task | orderByCreatedAt; let j = index">
                     <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100" *ngIf="card.status === 'New' || card.status === 'Cancel'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
