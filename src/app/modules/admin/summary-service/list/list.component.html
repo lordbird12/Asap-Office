@@ -28,7 +28,7 @@
 
                     <div class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate ml-3">
                         <mat-form-field>
-                            <input matInput [matDatepicker]="picker" placeholder="เลือกวันที่">
+                            <input matInput [matDatepicker]="picker" placeholder="เลือกวันที่" (click)="picker.open()">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>

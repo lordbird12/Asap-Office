@@ -10,7 +10,7 @@
             </button>
 
             <mat-form-field class="flex w-80" [ngClass]="formFieldHelpers" style="margin-bottom: -1.25em">
-                <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+                <mat-date-range-input [formGroup]="form" [rangePicker]="picker" (click)="picker.open()">
                     <input matStartDate placeholder="วันที่เริ่ม" formControlName="startDate">
                     <input matEndDate placeholder="วันที่สิ้นสุด" formControlName="endDate">
                 </mat-date-range-input>

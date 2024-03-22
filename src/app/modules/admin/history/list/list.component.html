@@ -8,15 +8,14 @@
                     ประวัติการทำรายการ
                 </h2>
                 <div class="flex w-100">
-                    <mat-form-field class="w-full">
-                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                            <input matStartDate formControlName="start" placeholder="Start date" >
-                            <input matEndDate formControlName="end" placeholder="End date" (dateChange)="changeDate()">
+                    <mat-form-field class="w-full"  >
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" (click)="picker.open()">
+                            <input matStartDate formControlName="start" placeholder="Start date" (click)="picker.open()">
+                            <input matEndDate formControlName="end" placeholder="End date"(click)="picker.open()" (dateChange)="changeDate()">
                           </mat-date-range-input>
                         <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
-                    <!-- {{this.range.value | json}} -->
                 </div>
             </div>
         </div>
