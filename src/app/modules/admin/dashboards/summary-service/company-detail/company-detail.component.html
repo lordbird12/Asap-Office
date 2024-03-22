@@ -234,7 +234,13 @@
                                     <br> {{item.created_at | date:'HH:mm'}}
                                 </td>
                                 <td>{{item.mile ?? 0}}</td>
-                                <td>{{item.status}}</td>
+                                <td>
+                                    <ng-container *ngIf="item?.booking?.services?.length != 0">
+                                        <ng-container *ngFor="let service of item?.booking?.services; let n = index">
+                                            <span class="mr-2">{{service?.service?.name}}</span>
+                                        </ng-container>
+                                    </ng-container>
+                                </td>
                                 <td>{{item.service_center}}</td>
                                 <td>{{item.age}}</td>
                             </tr>
