@@ -207,6 +207,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 //    console.log(result,'result')
+                this.rerender();
             }
         });
     }
