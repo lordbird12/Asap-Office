@@ -92,7 +92,7 @@ export class TicketCardComponent implements OnInit {
     date: string ='';
     time: string ='';
     phone: string ='';
-    service_center: string ='';
+    service_center_id: string ='';
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<TicketCardComponent>,
@@ -193,7 +193,7 @@ export class TicketCardComponent implements OnInit {
             this.date = this.data.value?.date;
             this.time = this.convertTime(this.data.value.time ?? '00:00:00');
             this.phone = this.data.value?.phone;
-            this.service_center = this.data.value?.service_center_id;
+            this.service_center_id = this.data.value?.service_center_id;
             this.testData = this.data.value.activitys;
 
             this.Array1 = this.data.value.services.map(item => {
@@ -418,7 +418,15 @@ export class TicketCardComponent implements OnInit {
                             formValue.phone = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
 
+                        if (this.service_center_id !== this.myControl1.value) {
+                            formValue.service_center_id = this.myControl1.value; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+                        } else {
+                            formValue.service_center_id = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
+                        }
 
+                        console.log(this.myControl1.value);
+                        return;
+                 
                         if (this.yourArray1) {
                             this.yourArray1.forEach(item => {
                                 const foundIndex = this.Array2.findIndex(service => service.service_id === item.id);
@@ -445,7 +453,7 @@ export class TicketCardComponent implements OnInit {
                                 formValue.time,
                                 formValue.date,
                                 formValue.phone,
-                                formValue.service_center,
+                                formValue.service_center_id,
                             )
                             .subscribe({
                                 next: (resp: any) => {
