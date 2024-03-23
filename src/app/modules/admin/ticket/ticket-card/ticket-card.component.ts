@@ -89,6 +89,9 @@ export class TicketCardComponent implements OnInit {
     options: any[] = [];
     filteredOptions: Observable<any[]>;
     filteredOptions1: Observable<any[]>;
+    date: string ='';
+    time: string ='';
+
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<TicketCardComponent>,
@@ -98,7 +101,7 @@ export class TicketCardComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog
     ) {
-        // console.log(this.data.value.services)
+      console.log(this.data.value)
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
@@ -119,6 +122,7 @@ export class TicketCardComponent implements OnInit {
         });
         this._service.getServiceCenter().subscribe((resp: any) => {
             this.serviceCenterData = resp.data;
+            // this.filteredOptions1 = resp.data
         });
         this._service.getCustomer().subscribe((resp: any) => {
             this.clientData = resp.data;
@@ -140,7 +144,7 @@ export class TicketCardComponent implements OnInit {
     }
     onChangeServiceCenter(event: any) {
         const selectedOption = event.option.value;
-        console.log(selectedOption);
+        // console.log(selectedOption);
 
         this.form.patchValue({
             service_center_id: selectedOption.id,
@@ -178,19 +182,37 @@ export class TicketCardComponent implements OnInit {
     testData: any[] = [];
     serviceData1: any[] = [];
     ngOnInit(): void {
-        this.compareArrays()
+
         this.generateTimeOptions();
         // this.GetCar();
         this._service.getService().subscribe((resp: any) => {
             this.serviceData = resp.data;
         });
         if (this.data.value && this.productData) {
-            this.myControl1.setValue(this.data.value.service_center.name)
+            this.date = this.data.value?.date;
+            this.time = this.convertTime(this.data.value.time ?? '00:00:00');
+           
             this.testData = this.data.value.activitys;
+
+            this.Array1 = this.data.value.services.map(item => {
+                return {
+                    service_id: +item.service_id,
+                    status: 'old'
+                };
+            });
+            // console.log('Array1', this.Array1);
+            this.Array2 = this.data.value.services.map(item => {
+                return {
+                    service_id: +item.service_id,
+                    status: 'old'
+                };
+            });
+            // console.log('Array2', this.Array2);
             this.serviceData1 = this.data.value.services.map(
                 (item) => item.service
             );
             this.yourArray1 = this.serviceData1;
+            // console.log('Array2', this.Array2)
             this.statusData.setValue(this.data.value.status);
             this.form.patchValue({
                 ...this.data.value,
@@ -199,8 +221,8 @@ export class TicketCardComponent implements OnInit {
                 service_center_id: +this.data.value.service_center_id,
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
             });
-            this.myControl1.setValue(+this.data.value.service_center_id)
-            console.log(this.myControl1.value)
+            this.myControl1.patchValue(this.data.value.service_center)
+
             this.checknote(this.data.value.services);
         } else {
             this.statusData.setValue('New');
@@ -212,7 +234,7 @@ export class TicketCardComponent implements OnInit {
         );
 
         this.filteredOptions1 = this.myControl1.valueChanges.pipe(
-            startWith(''),
+            startWith('1'),
             map((value) => this._filter1(value || ''))
 
         );
@@ -344,9 +366,8 @@ export class TicketCardComponent implements OnInit {
     }
     onSaveClick(): void {
 
-        console.log(this.yourArray1)
-return;
         if (this.data.value) {
+
             if (this.statusData.value === 'Cancel') {
                 this.CancelStatus();
             } else {
@@ -376,19 +397,45 @@ return;
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         const reason = '';
+                        let formValue = this.form.value
+                        let date_select = moment(new Date(this.form.value.date)).format('YYYY-MM-DD')
+      
+                        if (this.date !== date_select) {
+                            formValue.date = date_select; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+                        } else {
+                            formValue.date = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
+                        }
 
-                        this.service = this.yourArray1.map((item) => ({
-                            service_id: item.id,
-                        }));
+                        if (this.time !== formValue.time) {
+                            formValue.time = this.form.value.time; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+                        } else {
+                            formValue.time = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
+                        }
 
-                        console.log('service', this.service)
-
+                        console.log(formValue)
+                        return;
+                        if (this.yourArray1) {
+                            this.yourArray1.forEach(item => {
+                                const foundIndex = this.Array2.findIndex(service => service.service_id === item.id);
+                                if (foundIndex === -1) {
+                                    // ไม่พบ id ใน Array2, เพิ่มใหม่
+                                    this.Array2.push({
+                                        service_id: item.id,
+                                        status: 'new'
+                                    });
+                                } else {
+                              
+                                }
+                            });
+                            this.compareArrays()
+                            // console.log('array2', this.newArray);
+                        }
                         this._service
                             .updateStatus(
                                 this.data.value.id,
                                 this.statusData.value,
                                 reason,
-                                this.service,
+                                this.newArray,
                                 this.form.value.note
                             )
                             .subscribe({
@@ -535,7 +582,7 @@ return;
 
     checknote(Array: any) {
         const service_other = Array.find((item) => item.service_id === '8');
-        console.log('Arary', service_other);
+        // console.log('Arary', service_other);
         if (service_other) {
             this.form.patchValue({
                 note: service_other?.note ?? '',
@@ -548,9 +595,10 @@ return;
     yourArray1: any[] = [];
 
     status: boolean = false;
-    handleDataArrayChange(updatedArray: any[]): void {
-        this.yourArray1 = updatedArray;
-        
+
+    handleDataArrayChange(updatedArray: any): void {
+        // console.log(updatedArray)
+        this.yourArray1 = updatedArray
     }
 
     CancelStatus() {
@@ -587,6 +635,7 @@ return;
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
+            
                         const reason = result1;
                         this.service = this.yourArray1.map((item) => ({
                             service_id: item.id,
@@ -635,57 +684,65 @@ return;
     }
 
     Array1 = [
-        { service: 1, status: 'old' },
-        { service: 4, status: 'old' }
-      ];
-    
-      Array2 = [
-        { service: 1, status: 'old' },
-        { service: 2 },
-        { service: 3 }
-      ];
+
+    ];
+
+    Array2 = [
+
+    ];
     newArray: any[] = [];
 
     compareArrays(): void {
         this.newArray = [];
-    
+        this.Array2 = this.Array2.filter(service => {
+            return this.yourArray1.some(item => item.id === service.service_id);
+        });
         // Loop through yourArray1
         for (const item1 of this.Array1) {
-          let found = false;
-    
-          // Check if item1 exists in yourArray2
-          for (const item2 of this.Array2) {
-            if (item1.service === item2.service) {
-              this.newArray.push({ ...item2, status: 'old' });
-              found = true;
-              break;
+            let found = false;
+            // Check if item1 exists in yourArray2
+            for (const item2 of this.Array2) {
+                if (item1.service_id === item2.service_id) {
+                    this.newArray.push({ service_id: item2.service_id, status: 'old' });
+                    found = true;
+                    break;
+                }
             }
-          }
-    
-          // If item1 does not exist in yourArray2, add it with status 'remove'
-          if (!found) {
-            this.newArray.push({ ...item1, status: 'remove' });
-          }
+
+            // If item1 does not exist in yourArray2, add it with status 'remove'
+            if (!found) {
+                this.newArray.push({ ...item1, status: 'remove' });
+            }
         }
-    
+
         // Loop through yourArray2 to find new items
         for (const item2 of this.Array2) {
-          let found = false;
-    
-          // Check if item2 exists in newArray
-          for (const newItem of this.newArray) {
-            if (item2.service === newItem.service) {
-              found = true;
-              break;
+            let found = false;
+
+            // Check if item2 exists in newArray
+            for (const newItem of this.newArray) {
+                if (item2.service_id === newItem.service_id) {
+                    found = true;
+                    break;
+                }
             }
-          }
-    
-          // If item2 does not exist in newArray, add it with status 'new'
-          if (!found) {
-            this.newArray.push({ ...item2, status: 'new' });
-          }
+            // If item2 does not exist in newArray, add it with status 'new'
+            if (!found) {
+                this.newArray.push({ ...item2, status: 'new' });
+            }
         }
-        console.log(this.newArray);
+    }
+
+    onDateTimeChange(newDate: any) {
+        let date1 = ''
+        let date_select = moment(new Date(newDate.value)).format('YYYY-MM-DD')
+      
+        if (this.date !== date_select) {
+          date1 = date_select; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+        } else {
+            date1 = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
+        }
+       
         
       }
 }

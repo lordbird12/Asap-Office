@@ -62,11 +62,29 @@
                 </mat-form-field>
             </div>
 
-            <div class="flex flex-col">
+            <div class="flex flex-col" *ngIf="this.data.status === 'New'">
                 <mat-label class="font-bold">วันที่นัดหมาย</mat-label>
                 <div class="flex flex-row gap-3 ">
                     <mat-form-field class="flex-auto w-1/2">
                         <input matInput [matDatepicker]="picker1" [placeholder]="'ระบุวัน'" formControlName="date" (click)="picker1.open()">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                    <div class="w-1/2">
+                        <mat-form-field class="flex-auto w-full">
+                            <mat-select formControlName="time">
+                                <mat-option value="">เลือกเวลา</mat-option>
+                                <mat-option value="{{time.code}}" *ngFor="let time of timeOptions; let i = index">{{time.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col"  *ngIf="this.data.status === 'Edit'">
+                <mat-label class="font-bold">วันที่นัดหมาย</mat-label>
+                <div class="flex flex-row gap-3 ">
+                    <mat-form-field class="flex-auto w-1/2">
+                        <input matInput [matDatepicker]="picker1" [placeholder]="'ระบุวัน'" formControlName="date" (click)="picker1.open()" (dateChange)="onDateTimeChange($event)">
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
