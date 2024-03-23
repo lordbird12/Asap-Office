@@ -66,17 +66,28 @@ export class PageService {
             );
     }
 
-
-    updateStatus(id: any, status: string, reason: any,service: any, note:string,time: any, date: any): Observable<any> {
+    updateStatus(
+        id: any,
+        status: string,
+        reason: any,
+        service: any,
+        note: string,
+        time: any,
+        date: any,
+        phone: any,
+        service_center: any
+    ): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_booking_status', {
-                booking_id: id , 
-                status: status ,
-                reason: reason, 
-                services: service, 
+                booking_id: id,
+                status: status,
+                reason: reason,
+                services: service,
                 note: note,
                 time: time,
                 date: date,
+                phone: phone,
+                service_center: service_center,
             })
             .pipe(
                 tap((result) => {
@@ -86,7 +97,10 @@ export class PageService {
     }
     updateStatusTicket(id: any, status: string): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/update_ticket_status', {ticket_id: id , status: status})
+            .post<any>(environment.baseURL + '/api/update_ticket_status', {
+                ticket_id: id,
+                status: status,
+            })
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -139,7 +153,9 @@ export class PageService {
     }
     getKeywordCompany(data: string): Observable<any> {
         return this._httpClient
-            .get<any>(environment.baseURL + '/api/get_client_by_key_search/' + data)
+            .get<any>(
+                environment.baseURL + '/api/get_client_by_key_search/' + data
+            )
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -191,7 +207,7 @@ export class PageService {
     }
     getTicketByDep(data: any): Observable<any> {
         return this._httpClient
-            .post<any>(environment.baseURL + '/api/get_ticket_by_dep' , data)
+            .post<any>(environment.baseURL + '/api/get_ticket_by_dep', data)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -245,5 +261,4 @@ export class PageService {
                 })
             );
     }
-
 }
