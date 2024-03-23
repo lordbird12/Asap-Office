@@ -57,6 +57,7 @@ export class DetailTicketComponent implements OnInit {
     ngOnInit(): void {
         this.note = this.data.note
         this.activities = this.data.activitys
+        console.log(this.data.status);
         this.statusData.setValue(this.data.status)
         this.dataArray = this.data.ticket_topic.map(topic => topic.status);
       

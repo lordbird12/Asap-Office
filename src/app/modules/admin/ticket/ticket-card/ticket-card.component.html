@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col"  *ngIf="this.data.status === 'Edit'">
+            <div class="flex flex-col" *ngIf="this.data.status === 'Edit'">
                 <mat-label class="font-bold">วันที่นัดหมาย</mat-label>
                 <div class="flex flex-row gap-3 ">
                     <mat-form-field class="flex-auto w-1/2">
@@ -226,13 +226,14 @@
                         <li class="flex flex-row min-h-20">
                             <div class="flex flex-col items-center">
                                 <div class="flex w-10 h-10 mr">
-                                    <img class="rounded-full" src="{{item.user?.image}}" alt="">
+                                    <img class="rounded-full" [src]="item?.user?.image" alt="">
                                 </div>
                                 <div class="w-0.5 h-full bg-[#EAECF0]"></div>
                             </div>
                             <div class="flex flex-col ml-5 mb-10">
-                                <h2><b>{{item.create_by ?? 'admin'}}</b> {{getDaysAgo(item.created_at)}}</h2>
-                                <h2 class="text-[#667085]">{{item.status}}</h2>
+                                <h2><b>{{item?.user?.fname ?? 'admin'}}</b> {{getDaysAgo(item.created_at)}}</h2>
+                                <h2 [innerHTML]="item.status ?? 'เพิ่มรายการใหม่'"></h2>
+                                <!-- <h2 class="text-[#667085]">{{item.status ?? 'เพิ่มรายการใหม่'}}</h2> -->
                             </div>
                         </li>
                     </ng-container>
