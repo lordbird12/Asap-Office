@@ -418,14 +418,13 @@ export class TicketCardComponent implements OnInit {
                             formValue.phone = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
 
-                        if (this.service_center_id !== this.myControl1.value) {
-                            formValue.service_center_id = this.myControl1.value; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+                        if (this.service_center_id !== this.myControl1.value.id) {
+                            formValue.service_center_id = this.myControl1.value.id; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
                         } else {
                             formValue.service_center_id = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
 
-                        console.log(this.myControl1.value);
-                        return;
+                 
                  
                         if (this.yourArray1) {
                             this.yourArray1.forEach(item => {
