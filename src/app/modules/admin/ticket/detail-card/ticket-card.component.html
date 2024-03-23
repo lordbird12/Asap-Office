@@ -28,7 +28,7 @@
             <div class="flex flex-row mb-5 mt-2">
                 <div class="flex w-auto mr-5">
                     <img class="h-15 w-auto"
-                        src="https://www.grandprix.co.th/wp-content/uploads/2021/04/HONDA-ACCORD-PRICE-2021-CAR20-620x420@2x.png"
+                        src="{{this.data.car.image ?? 'assets/images/no_image.jpg'}}"
                         alt="image description">
                 </div>
                 <div class="flex flex-col">
@@ -79,7 +79,7 @@
         <div class="flex flex-col mb-6" *ngIf="this.data">
             <mat-label class="font-bold">รายละเอียดแจ้งซ่อม</mat-label>
             <!-- main.component.html -->
-            <app-checkbox-topic [items]="this.topics" [dataArray]="this.dataArray"></app-checkbox-topic>
+            <app-checkbox-topic [items]="this.topics" [dataArray]="this.dataArray" (dataArrayChange)="handleDataArrayChange($event)"></app-checkbox-topic>
             
             <!-- <app-checkbox-service [items]="yourArray" [dataArray]="yourDataArray"></app-checkbox-service> -->
         </div>

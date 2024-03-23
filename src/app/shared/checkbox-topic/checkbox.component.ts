@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +19,7 @@ export class CheckboxTopicComponent implements OnInit{
   timeOptions: string[] = [];
   @Input() topics: any[] = [];
   @Input() dataArray: any[] = [];
+  @Output() dataArrayChange = new EventEmitter<any[]>();
   items: any[] = [
     'รถเสียฉุกเฉิน',
     'อุบัติเหตุ',
@@ -29,24 +30,45 @@ export class CheckboxTopicComponent implements OnInit{
 
   ngOnInit(): void {
     // console.log('items',this.items)
-    console.log('dataArray',this.dataArray)
+    // console.log('dataArray',this.dataArray)
   }
 
   isChecked(item: any): boolean {
-    console.log(item)
+    // console.log(item)
     return this.dataArray.includes(item);
     // return this.dataArray.some(dataItem => dataItem.id === item);
   }
 
-  toggleCheckbox(item: string): void {
+  // toggleCheckbox(item: string): void {
 
-    if (this.isChecked(item)) {
+  //   if (this.isChecked(item)) {
       
+  //     this.dataArray = this.dataArray.filter(value => value !== item);
+  //   } else {
+      
+  //     this.dataArray.push(item);
+  //   }
+  // }
+
+  toggleCheckbox(item: any): void {
+
+    // คำนวณเฉพาะรายการที่ไม่ซ้ำใน Set
+    const uniqueItemsSet = new Set(this.dataArray.map(dataItem => dataItem));
+    // ตรวจสอบว่า item มีอยู่ใน uniqueItemsSet หรือไม่
+    const isChecked = uniqueItemsSet.has(item);
+    if (isChecked) {
+      // ถ้ามี, ให้ลบ item ออกจาก uniqueItemsSet
+      uniqueItemsSet.delete(item);
       this.dataArray = this.dataArray.filter(value => value !== item);
     } else {
-      
+      // ถ้าไม่มี, ให้เพิ่ม item เข้าไปใน uniqueItemsSet
+      uniqueItemsSet.add(item);
       this.dataArray.push(item);
     }
+    // แปลง Set กลับเป็น Array และกำหนดให้เป็นค่าใหม่ของ dataArray
+    this.dataArray = Array.from(uniqueItemsSet).map(id => this.dataArray.find(item => item === id));
+    // ทำการ emit ข้อมูลใหม่ไปยังคอมโพเนนต์
+    this.dataArrayChange.emit(this.dataArray);
   }
 
 }

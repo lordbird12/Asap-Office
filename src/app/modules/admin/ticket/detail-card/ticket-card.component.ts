@@ -59,7 +59,7 @@ export class DetailTicketComponent implements OnInit {
         this.activities = this.data.activitys
         this.statusData.setValue(this.data.status)
         this.dataArray = this.data.ticket_topic.map(topic => topic.status);
-        console.log('topics',this.dataArray)
+      
     }
 
     onClose() {
@@ -180,4 +180,9 @@ export class DetailTicketComponent implements OnInit {
         this.activities.reverse();
         this._changeDetectorRef.markForCheck();
       }
+      yourArray1: any[] = [];
+      handleDataArrayChange(updatedArray: any): void {
+          this.yourArray1 = updatedArray
+          console.log(this.yourArray1)
+    }
 }
