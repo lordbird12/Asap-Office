@@ -75,6 +75,15 @@ export class TicketCardComponent implements OnInit {
         { id: 4, name: 'Audi' },
     ];
 
+
+
+    //ทดสอบ 
+
+
+    //ทดสอบ 
+
+
+
     myControl = new FormControl<string | any>('');
     myControl1 = new FormControl<string | any>('');
     options: any[] = [];
@@ -169,13 +178,12 @@ export class TicketCardComponent implements OnInit {
     testData: any[] = [];
     serviceData1: any[] = [];
     ngOnInit(): void {
+        this.compareArrays()
         this.generateTimeOptions();
         // this.GetCar();
         this._service.getService().subscribe((resp: any) => {
             this.serviceData = resp.data;
         });
-        console.log(this.data.value);
-
         if (this.data.value && this.productData) {
             this.myControl1.setValue(this.data.value.service_center.name)
             this.testData = this.data.value.activitys;
@@ -202,13 +210,13 @@ export class TicketCardComponent implements OnInit {
             startWith(''),
             map((value) => this._filter(value || ''))
         );
-        
+
         this.filteredOptions1 = this.myControl1.valueChanges.pipe(
             startWith(''),
             map((value) => this._filter1(value || ''))
-            
+
         );
-      
+
     }
 
     convertTime(inputTime: string): string {
@@ -335,6 +343,9 @@ export class TicketCardComponent implements OnInit {
         this.statusData.setValue(event.value);
     }
     onSaveClick(): void {
+
+        console.log(this.yourArray1)
+return;
         if (this.data.value) {
             if (this.statusData.value === 'Cancel') {
                 this.CancelStatus();
@@ -365,9 +376,12 @@ export class TicketCardComponent implements OnInit {
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         const reason = '';
+
                         this.service = this.yourArray1.map((item) => ({
                             service_id: item.id,
                         }));
+
+                        console.log('service', this.service)
 
                         this._service
                             .updateStatus(
@@ -447,7 +461,7 @@ export class TicketCardComponent implements OnInit {
                         }
                     }
 
-                
+
                     updatedData.date = moment(updatedData.date).format(
                         'YYYY-MM-DD'
                     );
@@ -535,9 +549,8 @@ export class TicketCardComponent implements OnInit {
 
     status: boolean = false;
     handleDataArrayChange(updatedArray: any[]): void {
-        // this.status = !this.status;
         this.yourArray1 = updatedArray;
-        console.log(this.yourArray1);
+        
     }
 
     CancelStatus() {
@@ -620,4 +633,59 @@ export class TicketCardComponent implements OnInit {
             }
         });
     }
+
+    Array1 = [
+        { service: 1, status: 'old' },
+        { service: 4, status: 'old' }
+      ];
+    
+      Array2 = [
+        { service: 1, status: 'old' },
+        { service: 2 },
+        { service: 3 }
+      ];
+    newArray: any[] = [];
+
+    compareArrays(): void {
+        this.newArray = [];
+    
+        // Loop through yourArray1
+        for (const item1 of this.Array1) {
+          let found = false;
+    
+          // Check if item1 exists in yourArray2
+          for (const item2 of this.Array2) {
+            if (item1.service === item2.service) {
+              this.newArray.push({ ...item2, status: 'old' });
+              found = true;
+              break;
+            }
+          }
+    
+          // If item1 does not exist in yourArray2, add it with status 'remove'
+          if (!found) {
+            this.newArray.push({ ...item1, status: 'remove' });
+          }
+        }
+    
+        // Loop through yourArray2 to find new items
+        for (const item2 of this.Array2) {
+          let found = false;
+    
+          // Check if item2 exists in newArray
+          for (const newItem of this.newArray) {
+            if (item2.service === newItem.service) {
+              found = true;
+              break;
+            }
+          }
+    
+          // If item2 does not exist in newArray, add it with status 'new'
+          if (!found) {
+            this.newArray.push({ ...item2, status: 'new' });
+          }
+        }
+        console.log(this.newArray);
+        
+      }
 }
