@@ -365,9 +365,7 @@ export class TicketCardComponent implements OnInit {
         this.statusData.setValue(event.value);
     }
     onSaveClick(): void {
-
         if (this.data.value) {
-
             if (this.statusData.value === 'Cancel') {
                 this.CancelStatus();
             } else {
@@ -411,9 +409,6 @@ export class TicketCardComponent implements OnInit {
                         } else {
                             formValue.time = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
-
-                        console.log(formValue)
-                        return;
                         if (this.yourArray1) {
                             this.yourArray1.forEach(item => {
                                 const foundIndex = this.Array2.findIndex(service => service.service_id === item.id);
@@ -436,7 +431,10 @@ export class TicketCardComponent implements OnInit {
                                 this.statusData.value,
                                 reason,
                                 this.newArray,
-                                this.form.value.note
+                                this.form.value.note,
+                                formValue.time,
+                                formValue.date,
+
                             )
                             .subscribe({
                                 next: (resp: any) => {
@@ -635,7 +633,7 @@ export class TicketCardComponent implements OnInit {
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
-            
+                        let formValue = this.form.value;
                         const reason = result1;
                         this.service = this.yourArray1.map((item) => ({
                             service_id: item.id,
@@ -646,7 +644,9 @@ export class TicketCardComponent implements OnInit {
                                 this.statusData.value,
                                 reason,
                                 this.service,
-                                this.form.value.note
+                                this.form.value.note,
+                                formValue.time,
+                                formValue.date
                             )
                             .subscribe({
                                 next: (resp: any) => {
