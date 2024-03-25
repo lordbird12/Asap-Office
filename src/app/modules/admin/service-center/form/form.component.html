@@ -2,11 +2,11 @@
     <div class="flex flex-col flex-auto">
         <!-- Header -->
         <div
-            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+            class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 md:p-2 border-b bg-card dark:bg-transparent">
             <div class="flex-1 flemin-w-0">
                 <!-- Title -->
                 <div *ngIf="!this.id" class="flex flex-row mt-2 justify-center">
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                    <h2 class="flex text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate h-20 items-center">
                         สร้างศูนย์บริการ
                     </h2>
                 </div>
@@ -27,42 +27,38 @@
                         [formGroup]="formData">
                         <div class="flex flex-col md:flex-row mb-6 ">
                             <div *ngIf="!this.id" class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class=" font-light">รหัสศูนย์บริการ</mat-label>
                                     <input matInput formControlName="code">
                                     <!-- <mat-hint>This is a hint text</mat-hint> -->
                                 </mat-form-field>
                             </div>
                             <div *ngIf="this.id" class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class=" font-light">รหัสศูนย์บริการ</mat-label>
                                     <input matInput formControlName="codeid">
                                     <!-- <mat-hint>This is a hint text</mat-hint> -->
                                 </mat-form-field>
                             </div>
                             <div class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class=" font-light">ชื่อศูนย์บริการ</mat-label>
                                     <input matInput formControlName="name">
                                     <!-- <mat-hint>This is a hint text</mat-hint> -->
                                 </mat-form-field>
                             </div>
-
-
                         </div>
-
                         <div class="flex flex-col md:flex-row mb-6">
                             <div class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class="font-light">เบอร์ติดต่อ</mat-label>
                                     <input matInput formControlName="phone" type="text">
                                 </mat-form-field>
                             </div>
-
                         </div>
                         <div class="flex flex-col md:flex-row mb-6">
                             <div class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class=" font-light">อีเมล</mat-label>
                                     <input matInput formControlName="email">
                                 </mat-form-field>
@@ -70,8 +66,8 @@
 
                         </div>
                         <div class="md:flex mb-6">
-                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
-                                <mat-form-field class="w-full">
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0" >
+                                <mat-form-field class="w-full" appearance="outline">
                                     <mat-label>รายละเอียดเพิ่มเติม</mat-label>
                                     <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" formControlName="address" [rows]="3"></textarea>
                                 </mat-form-field>
@@ -79,23 +75,20 @@
                         </div>
                         <div class="flex flex-col md:flex-row mb-6">
                             <div class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class=" font-light">ละติจูด</mat-label>
                                     <input matInput formControlName="lat" type="number">
                                 </mat-form-field>
                             </div>
                             <div class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                     <mat-label class=" font-light">ลองติจูด</mat-label>
                                     <input matInput formControlName="lon" type="number">
                                 </mat-form-field>
                             </div>
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
         </div>
     </div>
