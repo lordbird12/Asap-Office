@@ -68,6 +68,10 @@ export class GeneralManagerComponent implements OnInit {
                 }
             }
         })
+
+        this.service.getEmployee().subscribe((resp:any)=>{
+            this.employees = resp
+        })
     }
 
     minutesToMMSS(minutes: number) {

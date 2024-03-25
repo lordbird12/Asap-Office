@@ -15,7 +15,8 @@
             <div class="grid grid-row-4 gap-4">
                 <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                     <mat-icon svgIcon="search"></mat-icon>
-                    <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchText"  (input)="updateSearchText(searchText)">
+                    <!-- <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchText"  (input)="updateSearchText(searchText)"> -->
+                    <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchTerm" (input)="filterCompanies(searchTerm)">
                 </mat-form-field>
             </div>
             <div class="grid grid-row-4 gap-4">
@@ -40,7 +41,7 @@
             </div>
             <mat-divider class="my-2"></mat-divider>
             <div class="grid grid-row-4 gap-4">
-                <div class="inline-flex items-center" *ngFor="let item of filteredData;">
+                <div class="inline-flex items-center" *ngFor="let item of filteredCompanys;">
                     <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="ripple-on"
                        >
                         <input id="ripple-on" type="checkbox" [(ngModel)]="item.isSelected" (change)="updateSelectedItems()"

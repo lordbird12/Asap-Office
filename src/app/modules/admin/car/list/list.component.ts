@@ -71,7 +71,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     flashMessage: 'success' | 'error' | null = null;
-    positions: any[];
+    componys: any[];
     public dataRow: any[];
     companyList: any[]=[]
     @ViewChild(DataTableDirective)
@@ -88,9 +88,11 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loadTable();
-        // this._service.getPosition().subscribe((resp: any)=>{
-        //     this.positions = resp.data
-        // })
+        this._service.getClient().subscribe((resp: any)=>{
+            this.componys = resp
+            console.log('123',this.componys);
+            
+        })
     }
 
     ngAfterViewInit(): void {
@@ -106,7 +108,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             width: '400px', // กำหนดความกว้างของ Dialog
             data: {
                 data: element,
-                position: this.positions,
+                position: this.componys,
             }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
         });
 

@@ -43,7 +43,7 @@
                                     <div class="md:w-full px-3 mb-6 md:mb-0">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                             <mat-label class=" font-light">รุ่นรถยนต์</mat-label>
-                                            <mat-select formControlName="brand_model_id">
+                                            <mat-select formControlName="brand_model_id" readonly>
                                                 <mat-option *ngFor="let item of this.brandmodel;" value="{{item.id}}">
                                                     {{item.name}}
                                                 </mat-option>
@@ -53,7 +53,7 @@
                                     <div class="md:w-full px-3">
                                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                                             <mat-label class=" font-light">ป้ายทะเบียนรถ</mat-label>
-                                            <input matInput formControlName="license">
+                                            <input matInput formControlName="license" readonly>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -109,21 +109,13 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
 
-
             </div>
-
         </div>
-
-
-
-
     </div>
     <div class="bg-card md:shadow overflow-hidden px-8 pt-3 pb-4 flex flex-col">
         <div class="md:max-w-full">
-
             <div mat-dialog-actions class="flex justify-end mt-4">
                 <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate"
                     style="border: 1px solid #ccc; padding: 1px; border-radius: 10px;">
@@ -131,7 +123,7 @@
                         ยกเลิก
                     </button>
                 </div>
-                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate">
+                <div class="text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate" hidden>
                     <button class="px-6 ml-3 font-light rounded-md" mat-flat-button [color]="'primary'"
                         (click)="onSaveClick()">
                         <div class="font-light">
@@ -141,7 +133,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </form>

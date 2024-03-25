@@ -181,4 +181,14 @@ export class PageService {
                 })
             );
     }
+
+    getClient(): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + `/api/get_client`)
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
 }

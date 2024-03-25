@@ -261,4 +261,15 @@ export class PageService {
                 })
             );
     }
+
+    getClient(): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_client')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
 }

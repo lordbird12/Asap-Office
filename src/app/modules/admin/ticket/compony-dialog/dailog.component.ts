@@ -32,6 +32,8 @@ export class CompanyDialogComponent implements OnInit {
     private searchTextSubject = new BehaviorSubject<string>('บ');
     searchText$ = this.searchTextSubject.asObservable();
     filteredData: any[] = [];
+    companys: any[] = []
+    filteredCompanys: any[] = []
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
@@ -39,7 +41,10 @@ export class CompanyDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _fuseConfirmationService: FuseConfirmationService,
     ) {
-        // console.log(this.data.value)
+        this._service.getClient().subscribe((resp: any)=>{
+            this.companys = resp.data
+            this.filteredCompanys = this.companys;
+        })
     }
 
     ngOnInit(): void {
@@ -70,6 +75,20 @@ export class CompanyDialogComponent implements OnInit {
         });
     }
 
+    filterCompanies(searchTerm: string) {
+        if (searchTerm.trim() !== '') {
+          // Filter companies based on search term
+          this.filteredCompanys = this.companys.filter(company =>
+            company.company.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          this._changeDetectorRef.markForCheck();
+        } else {
+          // If search input is empty, display all companies
+          this.filteredCompanys = this.companys;
+          this._changeDetectorRef.markForCheck();
+        }
+      }
+
     updateSearchText(searchText: string): void {
         this.searchTextSubject.next(searchText);
     }
@@ -79,6 +98,7 @@ export class CompanyDialogComponent implements OnInit {
         this._changeDetectorRef.markForCheck();
     }
     searchText = '';
+    searchTerm = '';
 
 
     onClose() {
@@ -87,7 +107,7 @@ export class CompanyDialogComponent implements OnInit {
     }
 
     checkAllItems() {
-        for (const item of this.filteredData) {
+        for (const item of this.filteredCompanys) {
             item.isSelected = this.checkAll;
         }
         this.updateSelectedItems();
@@ -95,8 +115,8 @@ export class CompanyDialogComponent implements OnInit {
     }
 
     updateSelectedItems() {
-        this.selectedItems = this.filteredData.filter(item => item.isSelected);
-        if (this.selectedItems.length !== this.filteredData.length) {
+        this.selectedItems = this.filteredCompanys.filter(item => item.isSelected);
+        if (this.selectedItems.length !== this.filteredCompanys.length) {
             this.checkAll = false;
         }
         // console.log(this.selectedItems)

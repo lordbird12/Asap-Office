@@ -16,7 +16,7 @@
                 <mat-select formControlName="user_id">
                     <mat-option value="">พนักงานทุกคน</mat-option>
                     <mat-option *ngFor="let item of employees;" value="{{item.id}}">
-                        {{item.name}}
+                        {{item.fname}}  {{item.lname}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

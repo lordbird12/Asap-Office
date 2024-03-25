@@ -25,6 +25,12 @@ export class GeneralManagerService {
                 map((resp: any) => resp.data)
             );
     }
+    getEmployee() {
+        return this.http.get(environment.baseURL + '/api/get_user')
+            .pipe(
+                map((resp: any) => resp.data)
+            );
+    }
 
     
 
