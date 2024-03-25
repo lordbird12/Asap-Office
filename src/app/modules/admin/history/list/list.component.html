@@ -81,7 +81,7 @@
                             <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
                         </td> -->
                         <td>{{ pages.begin + (i + 1) }}</td>
-                        <td>{{ item.user_id ? item.user_id : "-" }}</td>
+                        <td>{{ item.user ? item.user.fname : "-" }} {{ item.user ? item.user.lname  : "-" }}</td>
                         <td>{{ item.created_at ? item.created_at : "-" }}</td>
                          <td>{{ item.description ? item.description : "-" }}</td>
                         <td>{{item.user?.department?.name ?? '-'}}</td>
