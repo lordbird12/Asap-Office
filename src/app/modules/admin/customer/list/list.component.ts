@@ -186,7 +186,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: '' },
                 { data: '' },
             ],
-            order: [[1, 'asc']]
+            order: [[2, 'asc']]
         };
     }
 

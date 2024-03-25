@@ -55,7 +55,7 @@
                             <div class="md:w-full px-3 md:mb-0 mb-3">
                                 <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                                     <mat-label class="font-light">เบอร์ติดต่อ</mat-label>
-                                    <input matInput formControlName="phone" type="number">
+                                    <input matInput formControlName="phone" type="text">
                                 </mat-form-field>
                             </div>
 
@@ -69,15 +69,13 @@
                             </div>
 
                         </div>
-                        <div class="flex flex-col md:flex-row mb-6">
-                            <div class="md:w-full px-3 md:mb-0 mb-3">
-                                <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                    <mat-label class=" font-light">ที่อยู่</mat-label>
-                                    <input matInput formControlName="address">
-                                    <textarea matInput [placeholder]="'กรอกรายละเอียดที่อยู่'" [rows]="3"></textarea>
+                        <div class="md:flex mb-6">
+                            <div class="md:min-w-full px-3 mb-6 md:mb-0">
+                                <mat-form-field class="w-full">
+                                    <mat-label>รายละเอียดเพิ่มเติม</mat-label>
+                                    <textarea matInput [placeholder]="'กรอกรายละเอียดเพิ่มเติม'" formControlName="address" [rows]="3"></textarea>
                                 </mat-form-field>
                             </div>
-
                         </div>
                         <div class="flex flex-col md:flex-row mb-6">
                             <div class="md:w-full px-3 md:mb-0 mb-3">

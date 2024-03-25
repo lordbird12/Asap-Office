@@ -133,6 +133,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
                     console.log('getbyid', resp);
                     this.formData.patchValue({
                         ...this.item,
+                        address: resp.address,
                         codeid: this.item.code,
                     });
                 });

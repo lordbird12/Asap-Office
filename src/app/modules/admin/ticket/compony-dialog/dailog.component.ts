@@ -71,8 +71,6 @@ export class CompanyDialogComponent implements OnInit {
     }
 
     updateSearchText(searchText: string): void {
-        console.log('111', searchText);
-
         this.searchTextSubject.next(searchText);
     }
 
