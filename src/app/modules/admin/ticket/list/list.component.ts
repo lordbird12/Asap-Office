@@ -122,6 +122,15 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
     }
 
+    orderBy(array: any[]): any[] {
+        console.log('aray',array)
+        if (!Array.isArray(array) || array.length <= 1) {
+          return array;
+        }
+        return array.sort((a, b) => {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        }).reverse();
+      }
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
 
@@ -133,7 +142,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         }
         this._service.getTicketByDep(data).subscribe((resp: any) => {
             this.itemData = resp.data;
-            for (const item of this.itemData) {
+            for (const item of this.orderBy(this.itemData)) {
                 if (item.status === 'New') {
                     this.task[0].task.push(item)
                 }

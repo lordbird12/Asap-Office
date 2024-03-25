@@ -154,6 +154,16 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
       }
 
+      orderBy(array: any[]): any[] {
+        console.log('aray',array)
+        if (!Array.isArray(array) || array.length <= 1) {
+          return array;
+        }
+        return array.sort((a, b) => {
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        }).reverse();
+      }
+
     ngOnInit() {
         if (this.user) {
             const data = {
@@ -167,7 +177,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 // console.log(resp.data.all)
                 this.allTickets = [...resp.data.news, resp.data.all].flat();
 
-                for (const item of this.allTickets) {
+                for (const item of this.orderBy(this.allTickets)) {
                     if (item.status === 'New') {
                         this.task[0].task.push(item)
                     } else if (item.status === 'Process') {
