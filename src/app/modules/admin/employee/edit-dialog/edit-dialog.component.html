@@ -5,7 +5,7 @@
             <div class="flex-auto">
                 <div class="flex flex-col mx-3 md:flex mb-6">
                     <div class="md:w-full px-3 mb-6 md:mb-0">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>ตำแหน่ง</mat-label>
                             <mat-select [formControlName]="'position_id'">
                                 <mat-option *ngFor="let item of this.data.position;" [value]="item.id">
@@ -15,31 +15,31 @@
                         </mat-form-field>
                     </div>
                     <div class="md:w-full px-3">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>รหัสพนักงาน</mat-label>
                             <input matInput [placeholder]="'กรุณาระบุรหัสพนักงาน'" formControlName="code">
                         </mat-form-field>
                     </div>
                     <div class="md:w-full px-3">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>ชื่อ</mat-label>
                             <input matInput [placeholder]="'กรุณาระบุชื่อ'" formControlName="first_name">
                         </mat-form-field>
                     </div>
                     <div class="md:w-full px-3 mb-6 md:mb-0">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>นามสกุล</mat-label>
                             <input matInput [placeholder]="'กรุณาระบุนามสกุล'" formControlName="last_name">
                         </mat-form-field>
                     </div>
                     <div class="md:w-full px-3">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>เบอร์ติดต่อ</mat-label>
                             <input matInput [placeholder]="'กรุณาระบุเบอร์ติดต่อ'" formControlName="phone">
                         </mat-form-field>
                     </div>
                     <div class="md:w-full px-3">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>Username</mat-label>
                             <input matInput [placeholder]="'กรุณาระบุชื่อผู้ใช้งาน'" formControlName="username">
                         </mat-form-field>
