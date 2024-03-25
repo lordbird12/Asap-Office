@@ -12,15 +12,25 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxTopicComponent } from 'app/shared/checkbox-topic/checkbox.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
     selector: 'app-booking-cancel',
     standalone: true,
-    imports: [MatDividerModule, FormsModule, CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, CheckboxTopicComponent,ReactiveFormsModule],
+    imports: [MatDividerModule, 
+        MatRadioModule,
+        FormsModule,
+        CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, CheckboxTopicComponent,ReactiveFormsModule],
     templateUrl: './dailog.component.html',
     styleUrls: ['./dailog.component.scss']
 })
 export class CancelDialogComponent implements OnInit {
+    favoriteSeason: string;
+    seasons: string[] = [
+        'ศูนย์ซ่อมบริการปิด', 
+        'ไม่สามารถติดต่อลูกค้าได้', 
+        'ลูกค้าต้องการยกเลิก', 
+        'อื่นๆ โปรดระบุเหตุผล'];
     serviceData: any[] = []
     serviceCenterData: any[] = []
     activities: any[] = []
@@ -50,7 +60,7 @@ export class CancelDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.items = this.data.value
-        this.updateSelectedItems()
+        // this.updateSelectedItems()
     }
 
     onClose() {
