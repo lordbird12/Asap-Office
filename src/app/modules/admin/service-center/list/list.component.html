@@ -78,11 +78,9 @@
                             <td class="font-light">{{item?.name}}</td>
                             <td class="font-light">{{item?.phone}}</td>
                             <td class="font-light">{{item?.address}}</td>
-                            <td>
-                                <button mat-icon-button (click)="editElement(item.id)">
-                                    <mat-icon svgIcon="feather:edit-3"></mat-icon>
-                                </button>
-                            </td>
+                            <td> 
+                                <img class="w-10 h-10 cursor-pointer"  src="assets/icons/button_edit.svg" alt="Icon" (click)="edit(item.id)"/>
+                              </td>
                         </tr>
                     </tbody>
 
