@@ -33,6 +33,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { environment } from 'environments/environment.development';
+import { catchError } from 'rxjs';
 
 @Component({
     selector: 'app-select-car',
@@ -146,20 +147,49 @@ export class FormDialogComponent implements OnInit {
                         reportProgress: true,
                         observe: 'events',
                     })
-                    .subscribe((event: HttpEvent<any>) => {
-                        switch (event.type) {
-                            case HttpEventType.UploadProgress:
-                                if (event.total) {
-                                    this.uploadProgress = Math.round(
-                                        (100 * event.loaded) / event.total
-                                    );
+                    .subscribe(
+                        {
+                            next:    (event: HttpEvent<any>) => {
+                                switch (event.type) {
+                                    case HttpEventType.UploadProgress:
+                                        if (event.total) {
+                                            this.uploadProgress = Math.round(
+                                                (100 * event.loaded) / event.total
+                                            );
+                                        }
+                                        break;
+                                    case HttpEventType.Response:
+                                        this.dialogRef.close();
+                                        break;
                                 }
-                                break;
-                            case HttpEventType.Response:
-                                this.dialogRef.close();
-                                break;
+                            },
+                            error: (err: any) => {
+                              this._fuseConfirmationService.open({
+                                title: 'เกิดข้อผิดพลาด',
+                                message: 'กรุณาตรวจสอบข้อมูลให้ครบถ้วน',
+                                icon: {
+                                  show: true,
+                                  name: 'heroicons_outline:exclamation',
+                                  color: 'warning',
+                                },
+                                actions: {
+                                  confirm: {
+                                    show: false,
+                                    label: 'ยืนยัน',
+                                    color: 'primary',
+                                  },
+                                  cancel: {
+                                    show: false,
+                                    label: 'ยกเลิก',
+                                  },
+                                },
+                                dismissible: true,
+                              });
+                              this.dialogRef.close();
+                            },
+                            
                         }
-                    });
+                    );
                 // this._service.importCar(formData).subscribe({
                 //     next: (resp: any) => {
                 //         this.showFlashMessage('success');
