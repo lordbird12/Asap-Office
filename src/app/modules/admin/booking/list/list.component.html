@@ -48,14 +48,14 @@
         </div>
         <div class="flex flex-row grow gap-2 mx-3 mb-5">
             <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto gap-4"
-                *ngFor="let item of task; let i = index">
+                *ngFor="let item of task| orderByCreatedAt; let i = index">
                 <p class="text-xl font-bold mx-5 mt-5 mb-2">
                     {{item.name}} <span class="font-light text-gray-500">({{item.task.length}})</span>
                 </p>
                 <p class="text-md mx-5 mb-2">
                     {{item.detail }}
                 </p>
-                <ng-container *ngFor="let card of item.task | orderByCreatedAt; let j = index">
+                <ng-container *ngFor="let card of item.task ; let j = index">
                     <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100" *ngIf="card.status === 'New' || card.status === 'Cancel'">
                         <div class="flex flex-row">
                             <div class="flex p-4">

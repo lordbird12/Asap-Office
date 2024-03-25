@@ -71,7 +71,7 @@ import { OrderByUpdateAtPipe } from 'app/shared/order-by-updated-at.pipe';
         OrderByCreatedAtPipe,
         OrderByUpdateAtPipe
     ],
-    providers: [UserImageService],
+    providers: [UserImageService,OrderByCreatedAtPipe],
 
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -163,7 +163,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
             this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
                 // const news = resp.data.news;
-                // const all = resp.data.all;
+                const all = resp.data.all;
                 // console.log(resp.data.all)
                 this.allTickets = [...resp.data.news, resp.data.all].flat();
 
