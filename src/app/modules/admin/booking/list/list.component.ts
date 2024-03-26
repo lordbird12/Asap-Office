@@ -696,7 +696,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 if (result === 'confirmed') {
                     this.multiItems.map((item: any) => {
                         const reason = '';
-                        const services = item.services.map(data => ({ service_id: data.service_id }));
+                        const services = item.services.map(data => ({ service_id: data.service_id ,status: 'old' }));
                         const formValue = item
                         this._service.updateStatus(formValue.id, this.status.value, reason, services).subscribe({
 
