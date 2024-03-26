@@ -75,24 +75,19 @@ export class TicketCardComponent implements OnInit {
         { id: 4, name: 'Audi' },
     ];
 
+    //ทดสอบ
 
-
-    //ทดสอบ 
-
-
-    //ทดสอบ 
-
-
+    //ทดสอบ
 
     myControl = new FormControl<string | any>('');
     myControl1 = new FormControl<string | any>('');
     options: any[] = [];
     filteredOptions: Observable<any[]>;
     filteredOptions1: Observable<any[]>;
-    date: string ='';
-    time: string ='';
-    phone: string ='';
-    service_center_id: string ='';
+    date: string = '';
+    time: string = '';
+    phone: string = '';
+    service_center_id: string = '';
     constructor(
         private _service: PageService,
         private dialogRef: MatDialogRef<TicketCardComponent>,
@@ -102,7 +97,7 @@ export class TicketCardComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog
     ) {
-      console.log(this.data.value)
+        console.log(this.data.value);
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
@@ -183,7 +178,6 @@ export class TicketCardComponent implements OnInit {
     testData: any[] = [];
     serviceData1: any[] = [];
     ngOnInit(): void {
-
         this.generateTimeOptions();
         // this.GetCar();
         this._service.getService().subscribe((resp: any) => {
@@ -196,17 +190,17 @@ export class TicketCardComponent implements OnInit {
             this.service_center_id = this.data.value?.service_center_id;
             this.testData = this.data.value.activitys;
 
-            this.Array1 = this.data.value.services.map(item => {
+            this.Array1 = this.data.value.services.map((item) => {
                 return {
                     service_id: +item.service_id,
-                    status: 'old'
+                    status: 'old',
                 };
             });
             // console.log('Array1', this.Array1);
-            this.Array2 = this.data.value.services.map(item => {
+            this.Array2 = this.data.value.services.map((item) => {
                 return {
                     service_id: +item.service_id,
-                    status: 'old'
+                    status: 'old',
                 };
             });
             // console.log('Array2', this.Array2);
@@ -223,7 +217,7 @@ export class TicketCardComponent implements OnInit {
                 service_center_id: +this.data.value.service_center_id,
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
             });
-            this.myControl1.patchValue(this.data.value.service_center)
+            this.myControl1.patchValue(this.data.value.service_center);
 
             this.checknote(this.data.value.services);
         } else {
@@ -238,9 +232,7 @@ export class TicketCardComponent implements OnInit {
         this.filteredOptions1 = this.myControl1.valueChanges.pipe(
             startWith('1'),
             map((value) => this._filter1(value || ''))
-
         );
-
     }
 
     convertTime(inputTime: string): string {
@@ -397,9 +389,11 @@ export class TicketCardComponent implements OnInit {
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         const reason = '';
-                        let formValue = this.form.value
-                        let date_select = moment(new Date(this.form.value.date)).format('YYYY-MM-DD')
-      
+                        let formValue = this.form.value;
+                        let date_select = moment(
+                            new Date(this.form.value.date)
+                        ).format('YYYY-MM-DD');
+
                         if (this.date !== date_select) {
                             formValue.date = date_select; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
                         } else {
@@ -418,28 +412,30 @@ export class TicketCardComponent implements OnInit {
                             formValue.phone = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
 
-                        if (this.service_center_id !== this.myControl1.value.id) {
-                            formValue.service_center_id = this.myControl1.value.id; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+                        if (
+                            this.service_center_id !== this.myControl1.value.id
+                        ) {
+                            formValue.service_center_id =
+                                this.myControl1.value.id; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
                         } else {
                             formValue.service_center_id = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
 
-                 
-                 
                         if (this.yourArray1) {
-                            this.yourArray1.forEach(item => {
-                                const foundIndex = this.Array2.findIndex(service => service.service_id === item.id);
+                            this.yourArray1.forEach((item) => {
+                                const foundIndex = this.Array2.findIndex(
+                                    (service) => service.service_id === item.id
+                                );
                                 if (foundIndex === -1) {
                                     // ไม่พบ id ใน Array2, เพิ่มใหม่
                                     this.Array2.push({
                                         service_id: item.id,
-                                        status: 'new'
+                                        status: 'new',
                                     });
                                 } else {
-                              
                                 }
                             });
-                            this.compareArrays()
+                            this.compareArrays();
                             // console.log('array2', this.newArray);
                         }
                         this._service
@@ -452,7 +448,7 @@ export class TicketCardComponent implements OnInit {
                                 formValue.time,
                                 formValue.date,
                                 formValue.phone,
-                                formValue.service_center_id,
+                                formValue.service_center_id
                             )
                             .subscribe({
                                 next: (resp: any) => {
@@ -523,7 +519,6 @@ export class TicketCardComponent implements OnInit {
                                 this.form.value.note;
                         }
                     }
-
 
                     updatedData.date = moment(updatedData.date).format(
                         'YYYY-MM-DD'
@@ -614,7 +609,7 @@ export class TicketCardComponent implements OnInit {
 
     handleDataArrayChange(updatedArray: any): void {
         // console.log(updatedArray)
-        this.yourArray1 = updatedArray
+        this.yourArray1 = updatedArray;
     }
 
     CancelStatus() {
@@ -652,7 +647,13 @@ export class TicketCardComponent implements OnInit {
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         let formValue = this.form.value;
-                        const reason = result1;
+                        let reason = '';
+                        if (result1.status == 'อื่นๆ โปรดระบุเหตุผล') {
+                            reason = result1.reason;
+                        } else {
+                            reason = result1.status;
+                        }
+
                         this.service = this.yourArray1.map((item) => ({
                             service_id: item.id,
                         }));
@@ -703,19 +704,17 @@ export class TicketCardComponent implements OnInit {
         });
     }
 
-    Array1 = [
+    Array1 = [];
 
-    ];
-
-    Array2 = [
-
-    ];
+    Array2 = [];
     newArray: any[] = [];
 
     compareArrays(): void {
         this.newArray = [];
-        this.Array2 = this.Array2.filter(service => {
-            return this.yourArray1.some(item => item.id === service.service_id);
+        this.Array2 = this.Array2.filter((service) => {
+            return this.yourArray1.some(
+                (item) => item.id === service.service_id
+            );
         });
         // Loop through yourArray1
         for (const item1 of this.Array1) {
@@ -723,7 +722,10 @@ export class TicketCardComponent implements OnInit {
             // Check if item1 exists in yourArray2
             for (const item2 of this.Array2) {
                 if (item1.service_id === item2.service_id) {
-                    this.newArray.push({ service_id: item2.service_id, status: 'old' });
+                    this.newArray.push({
+                        service_id: item2.service_id,
+                        status: 'old',
+                    });
                     found = true;
                     break;
                 }
@@ -754,15 +756,13 @@ export class TicketCardComponent implements OnInit {
     }
 
     onDateTimeChange(newDate: any) {
-        let date1 = ''
-        let date_select = moment(new Date(newDate.value)).format('YYYY-MM-DD')
-      
+        let date1 = '';
+        let date_select = moment(new Date(newDate.value)).format('YYYY-MM-DD');
+
         if (this.date !== date_select) {
-          date1 = date_select; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+            date1 = date_select; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
         } else {
             date1 = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
         }
-       
-        
-      }
+    }
 }

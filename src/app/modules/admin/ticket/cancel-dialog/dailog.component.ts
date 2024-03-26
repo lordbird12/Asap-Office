@@ -9,7 +9,7 @@ import { DropdownTimeComponent } from 'app/shared/dropdown-time/dropdown-time.co
 import { PageService } from '../page.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxTopicComponent } from 'app/shared/checkbox-topic/checkbox.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
@@ -17,23 +17,34 @@ import { MatRadioModule } from '@angular/material/radio';
 @Component({
     selector: 'app-booking-cancel',
     standalone: true,
-    imports: [MatDividerModule, 
+    imports: [
+        MatDividerModule,
         MatRadioModule,
         FormsModule,
-        CommonModule, MatSelectModule, MatInputModule, MatDatepickerModule, MatButtonModule, MatIconModule, DropdownTimeComponent, CheckboxTopicComponent,ReactiveFormsModule],
+        CommonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        MatIconModule,
+        DropdownTimeComponent,
+        CheckboxTopicComponent,
+        ReactiveFormsModule,
+    ],
     templateUrl: './dailog.component.html',
-    styleUrls: ['./dailog.component.scss']
+    styleUrls: ['./dailog.component.scss'],
 })
 export class CancelDialogComponent implements OnInit {
     favoriteSeason: string;
     seasons: string[] = [
-        'ศูนย์ซ่อมบริการปิด', 
-        'ไม่สามารถติดต่อลูกค้าได้', 
-        'ลูกค้าต้องการยกเลิก', 
-        'อื่นๆ โปรดระบุเหตุผล'];
-    serviceData: any[] = []
-    serviceCenterData: any[] = []
-    activities: any[] = []
+        'ศูนย์ซ่อมบริการปิด',
+        'ไม่สามารถติดต่อลูกค้าได้',
+        'ลูกค้าต้องการยกเลิก',
+        'อื่นๆ โปรดระบุเหตุผล',
+    ];
+    serviceData: any[] = [];
+    serviceCenterData: any[] = [];
+    activities: any[] = [];
     dataArray: any[] = [];
     topics: any[] = [
         'รถเสียฉุกเฉิน',
@@ -42,24 +53,28 @@ export class CancelDialogComponent implements OnInit {
         'ติดตามงานบริหารรถยนต์',
         'อื่นๆ',
     ];
-    items: any[] = []
+    items: any[] = [];
     statusData = new FormControl('');
     checkAll = false;
     selectedItems: any[] = [];
-
+    form: FormGroup;
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private dialogRef: MatDialogRef<CancelDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private _fuseConfirmationService: FuseConfirmationService,
+        private _fb: FormBuilder,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {
+        this.form = this._fb.group({
+            reason: '',
+        });
 
-        console.log('dta', this.data.value);
     }
 
     ngOnInit(): void {
-        this.items = this.data.value
+        
+        this.items = this.data.value;
         // this.updateSelectedItems()
     }
 
@@ -76,21 +91,24 @@ export class CancelDialogComponent implements OnInit {
     }
 
     updateSelectedItems() {
-        this.selectedItems = this.items.filter(item => item.isSelected);
-        if(this.selectedItems.length !== this.items.length) {
+        this.selectedItems = this.items.filter((item) => item.isSelected);
+        if (this.selectedItems.length !== this.items.length) {
             this.checkAll = false;
         }
     }
     uncheckAllItems() {
-        this.checkAll = false
+        this.checkAll = false;
         for (const item of this.items) {
-          item.isSelected = false;
+            item.isSelected = false;
         }
         this.updateSelectedItems();
-      }
+    }
 
     onSaveClick(): void {
-        // alert(this.statusData.value)
-        this.dialogRef.close(this.statusData.value)
+        const data = {
+            status: this.statusData.value,
+            reason: this.form.value.reason,
+        };
+        this.dialogRef.close(data);
     }
 }
