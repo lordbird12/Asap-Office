@@ -113,7 +113,7 @@ export class EditFormComponent implements OnInit {
                 this.addForm.patchValue({
                     ...item,
                     id: id,
-                    expire_date: '2023-05-17',
+                    // expire_date: '',
                     image: '',
                 });
             });
