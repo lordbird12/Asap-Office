@@ -71,7 +71,7 @@ import { OrderByUpdateAtPipe } from 'app/shared/order-by-updated-at.pipe';
         OrderByCreatedAtPipe,
         OrderByUpdateAtPipe
     ],
-    providers: [UserImageService,OrderByCreatedAtPipe],
+    providers: [UserImageService, OrderByCreatedAtPipe],
 
 })
 export class ListComponent implements OnInit, AfterViewInit {
@@ -149,21 +149,36 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     sortItemsByCreatedAt(items: any[]): any[] {
         return items.sort((a, b) => {
-          // Assuming `created_at` property is a Date object
-          return b.created_at.getTime() - a.created_at.getTime();
+            // Assuming `created_at` property is a Date object
+            return b.created_at.getTime() - a.created_at.getTime();
         });
-      }
+    }
 
-      orderBy(array: any[]): any[] {
-        console.log('aray',array)
+    // orderBy(array: any[]): any[] {
+    //     if (!Array.isArray(array) || array.length <= 1) {
+    //         return array;
+    //     }
+    //     return array.sort((a, b) => {
+    //         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+    //     }).reverse();
+    // }
+
+    orderBy(array: any[]): any[] {
         if (!Array.isArray(array) || array.length <= 1) {
-          return array;
+            return array;
         }
         return array.sort((a, b) => {
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+            const dateA = new Date(`${a.date}T${a.time}`);
+            const dateB = new Date(`${b.date}T${b.time}`);
+            return dateB.getTime() - dateA.getTime();
         }).reverse();
-      }
+    }
 
+    isDatePast(date: Date): boolean {
+        const date_card = new Date(date)
+        // console.log(new Date());
+        return date_card < new Date(); // เช็คว่าวันที่ใน card.date มีค่าน้อยกว่าวันปัจจุบันหรือไม่
+    }
     ngOnInit() {
         if (this.user) {
             const data = {
@@ -189,7 +204,18 @@ export class ListComponent implements OnInit, AfterViewInit {
                         this.task[2].task.push(item)
                     }
                     else if (item.status === 'Finish') {
-                        this.task[3].task.push(item)
+                        // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
+
                     }
                     else if (item.status === 'Cancel') {
                         this.task[0].task.push(item)
@@ -217,7 +243,11 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
+                            console.log(item)
+                            if (item.update > new Date()) {
+                                this.task[3].task.push(item)
+                            }
+
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -495,14 +525,13 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
                     const news = resp.data.news;
                     const all = resp.data.all;
-                    // console.log(resp.data.all)
 
-                    for (const item of news) {
+                    for (const item of this.orderBy(news)) {
                         if (item.status === 'New') {
                             this.task[0].task.push(item)
                         }
                     }
-                    for (const item of all) {
+                    for (const item of this.orderBy(all)) {
                         if (item.status === 'Process') {
                             this.task[1].task.push(item)
                         }
@@ -510,7 +539,10 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
+                            if (item.updated_at >= new Date()) {
+                                this.task[3].task.push(item)
+                            }
+
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -576,12 +608,12 @@ export class ListComponent implements OnInit, AfterViewInit {
                     const news = resp.data.news;
                     const all = resp.data.all;
 
-                    for (const item of news) {
+                    for (const item of this.orderBy(news)) {
                         if (item.status === 'New') {
                             this.task[0].task.push(item)
                         }
                     }
-                    for (const item of all) {
+                    for (const item of this.orderBy(all)) {
                         if (item.status === 'Process') {
                             this.task[1].task.push(item)
                         }
@@ -589,7 +621,9 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
+                            if (item.updated_at >= new Date()) {
+                                this.task[3].task.push(item)
+                            }
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -597,55 +631,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                     }
                     this._changeDetectorRef.detectChanges();
                 })
-                // this._service.getBooking().subscribe((resp: any) => {
-                //     this.itemData = resp.data;
-                //     this.task = [
-                //         {
-                //             id: 1,
-                //             name: 'งานใหม่ / Todo',
-                //             detail: 'งานใหม่รอรับ',
-                //             status: 'Process',
-                //             task: []
-                //         },
-                //         {
-                //             id: 2,
-                //             name: 'กำลังดำเนินงาน',
-                //             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                //             status: 'Waiting',
-                //             task: []
-                //         },
-                //         {
-                //             id: 3,
-                //             name: 'รอเข้ารับบริการ',
-                //             detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                //             status: 'Finish',
-                //             task: []
-                //         },
-                //         {
-                //             id: 4,
-                //             name: 'เสร็จสิ้น',
-                //             detail: '-',
-                //             status: 'Cancel',
-                //             task: []
-                //         },
-                //     ]
-                //     // cons ole.log('itemData', this.itemData)
-                //     for (const item of this.itemData) {
-                //         if (item.status === 'New') {
-                //             this.task[0].task.push(item)
-                //         }
-                //         else if (item.status === 'Process') {
-                //             this.task[1].task.push(item)
-                //         }
-                //         else if (item.status === 'Waiting') {
-                //             this.task[2].task.push(item)
-                //         }
-                //         else if (item.status === 'Finish') {
-                //             this.task[3].task.push(item)
-                //         }
-                //     }
-                //     this._changeDetectorRef.markForCheck();
-                // })
             }
         })
     }
@@ -696,7 +681,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 if (result === 'confirmed') {
                     this.multiItems.map((item: any) => {
                         const reason = '';
-                        const services = item.services.map(data => ({ service_id: data.service_id ,status: 'old' }));
+                        const services = item.services.map(data => ({ service_id: data.service_id, status: 'old' }));
                         const formValue = item
                         this._service.updateStatus(formValue.id, this.status.value, reason, services).subscribe({
 

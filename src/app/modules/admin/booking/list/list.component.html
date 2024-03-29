@@ -72,8 +72,13 @@
 
                         <div class="flex flex-row mb-3">
                             <div class="flex px-4">
+                                <!-- <div>
+                                    <span class="text-lg font-bold">{{card.date}} {{card.time}}</span>
+                                </div> -->
                                 <div>
-                                    <span class="text-lg font-bold">{{card.created_at | date: 'dd MMM yyyy HH:mm'}}</span>
+                                    <span class="text-lg font-bold" [ngClass]="{ 'text-red': isDatePast(card.date) }">
+                                        {{ card.date | date: 'dd MMM yyyy' }} {{ card.time.slice(0,5) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +136,9 @@
                         <div class="flex flex-row" (click)="editTicket(card)">
                             <div class="flex px-4">
                                 <div>
-                                    <span class="text-lg font-bold">{{card.created_at | date: 'dd MMM yyyy HH:mm'}}</span>
+                                    <span class="text-lg font-bold" [ngClass]="{ 'text-red': isDatePast(card.date) }">
+                                        {{ card.date | date: 'dd MMM yyyy' }} {{ card.time.slice(0,5) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +211,9 @@
                         <div class="flex flex-row" (click)="editTicket(card)">
                             <div class="flex px-4">
                                 <div>
-                                    <span class="text-lg font-bold">{{card.created_at | date: 'dd MMM yyyy HH:mm'}}</span>
+                                    <span class="text-lg font-bold" [ngClass]="{ 'text-red': isDatePast(card.date) }">
+                                        {{ card.date | date: 'dd MMM yyyy' }} {{ card.time.slice(0,5) }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
