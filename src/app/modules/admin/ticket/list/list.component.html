@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-row grow gap-2 mx-3 mb-5">
+        <!-- <div class="flex flex-row grow gap-2 mx-3 mb-5" [hidden]="true">
             <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto"
                 *ngFor="let item of task; let i = index">
                 <p class="text-xl font-bold mx-5 mt-5 mb-2">
@@ -91,7 +91,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- {{card.ticket_topic | json}} -->
                         <div class="flex flex-row mx-5 md:flex mb-6">
                             <div class="flex bg-slate-50 rounded-lg w-full p-2" >
                                 <div *ngFor="let topic of card.ticket_topic;">
@@ -243,6 +242,53 @@
                     </div>
                 </ng-container>
             </div>
+        </div> -->
+        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+            <table datatable [dtOptions]="dtOptions"
+                class="table row-border hover w-full bg-white whitespace-nowrap">
+                <thead>
+                    <tr>
+                        <th class="w-1">
+                            <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"
+                                (change)="setAll($event.checked)" color="primary"></mat-checkbox>
+                        </th>
+                        <th> </th>
+                        <th>ชื่อ</th>
+                        <th>ตำแหน่ง</th>
+                        <th>แผนก</th>
+                        <th>เข้าใช้งานล่าสุด</th>
+                        <th class="w-[100px]"> </th>
+                    </tr>
+                </thead>
+
+                <tbody *ngIf="dataRow?.length != 0">
+                    <tr *ngFor="let item of dataRow; let i = index">
+                        <td>
+                            <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
+                        </td>
+                        <td style="text-align: center;">
+                            <div
+                                style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
+                                <img src="{{item?.image}}"
+                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        </td>
+                        <td class="font-light">{{item?.fname}} {{item?.lname}}</td>
+                        <td class="font-light">{{item?.position?.name}}</td>
+                        <td class="font-light">{{item?.department?.name}}</td>
+                        <td class="font-light">{{ item?.updated_at ?? '-' }}</td>
+                        <td>
+                            <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon"
+                                (click)="editElement(item.id)" />
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="dataRow?.length == 0">
+                    <tr>
+                        <td colspan="7" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

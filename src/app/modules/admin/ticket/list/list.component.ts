@@ -28,6 +28,7 @@ import { UserImageService } from 'app/shared/image-last/user-image.service';
 import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { OrderByCreatedAtPipe } from 'app/shared/order-by-created-at.pipe';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
     selector: 'car-list',
@@ -55,7 +56,8 @@ import { OrderByCreatedAtPipe } from 'app/shared/order-by-created-at.pipe';
         MatDialogModule,
         LastUserImagePipe,
         TimeDifferencePipe,
-        OrderByCreatedAtPipe
+        OrderByCreatedAtPipe,
+        MatCheckboxModule
     ],
     providers: [UserImageService]
 })
@@ -133,7 +135,7 @@ export class ListComponent implements OnInit, AfterViewInit {
       }
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
-
+        this.loadTable()
         const data = {
             deps: [+this.user.department_id],
             users: [{
@@ -264,6 +266,8 @@ export class ListComponent implements OnInit, AfterViewInit {
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
+                        console.log('1',resp.data);
+                       
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
@@ -612,4 +616,25 @@ export class ListComponent implements OnInit, AfterViewInit {
         }
         return results.length > 0 ? results : null; // If names are not found in any object
     }
+
+    get someOneChecked() {
+        return this.dataRow?.filter((e) => e.checked);
+    }
+
+    get someCheck() {
+        if (this.someOneChecked?.length == 0) {
+            return false;
+        }
+
+        return this.someOneChecked?.length > 0 && !this.checkAll;
+    }
+
+    get checkAll() {
+        return this.dataRow?.every((e) => e.checked);
+    }
+
+    setAll(checked: boolean) {
+        this.dataRow?.forEach((e) => (e.checked = checked));
+    }
+
 }
