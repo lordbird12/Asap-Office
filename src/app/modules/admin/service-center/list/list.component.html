@@ -55,6 +55,7 @@
                             <th class="w-1">
                                 <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck" (change)="setAll($event.checked)" color="primary"></mat-checkbox>
                             </th>
+                            <th class="w-[15px]">บริษัท</th>
                             <th class="w-[20px]">ชื่อ</th>
                             <th class="w-[10px]">เบอร์ติดต่อ 1</th>
                             <th class="w-[10px]">เบอร์ติดต่อ 2</th>
@@ -69,6 +70,7 @@
                             <td>
                                 <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
                             </td>
+                            <td class="font-light">{{item?.brand ?? "-"}}</td>
                             <td class="font-light">{{item?.name}}</td>
                             <td class="font-light">{{item?.phone ?? "-"}}</td>
                             <td class="font-light">{{item?.phone2 ?? "-"}}</td>
@@ -83,7 +85,7 @@
 
                     <tbody *ngIf="dataRow?.length == 0">
                         <tr>
-                            <td colspan="8" class="no-data-available text-center">ไม่มีข้อมูล !</td>
+                            <td colspan="9" class="no-data-available text-center">ไม่มีข้อมูล !</td>
                         </tr>
                     </tbody>
                 </table>

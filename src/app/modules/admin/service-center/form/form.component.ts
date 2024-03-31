@@ -118,6 +118,7 @@ export class FormComponent implements OnInit, AfterViewInit, OnDestroy {
             lon: [''],
             address: [''],
             code: [''],
+            brand: [''],
             codeid: { disabled: true, value: '' },
         });
     }
