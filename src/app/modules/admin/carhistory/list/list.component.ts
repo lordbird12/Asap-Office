@@ -202,7 +202,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         window.open(
             environment.baseURL +
                 '/api/booking_export_history/' +
-                this.ProductControl.value ?? ''
+                this.car.license ?? ''
         );
     }
 

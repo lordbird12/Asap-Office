@@ -28,7 +28,7 @@
             </div>
             <div class="flex">
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
-                    <button class="flex flex-row text-gray-500 px-3 border-2 border-gray-300 rounded-xl items-center" (click)="exportFile()">
+                    <button class="flex flex-row text-gray-500 px-3 border-2 border-gray-300 rounded-xl items-center" [disabled]="!this.car" (click)="exportFile()">
                         <mat-icon class="icon-size-6 text-gray-500"
                             svgIcon="heroicons_outline:document-arrow-down"></mat-icon>
                         &nbsp;
@@ -74,7 +74,7 @@
                         <!-- <th class="font-light ">ศูนย์บริการ</th> -->
                         <th class="font-light ">พนักงานที่บริการ</th>
                         <th class="font-light ">สถานะ</th>
-                        
+
                     </tr>
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
@@ -120,7 +120,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex flex-col ">
-                                <div class="text-base font-semibold" >
+                                <div class="text-base font-semibold">
                                     {{item.status | ChangeStatus}}
                                 </div>
                             </div>
