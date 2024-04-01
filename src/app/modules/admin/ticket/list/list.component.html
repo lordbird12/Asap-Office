@@ -20,7 +20,8 @@
     <div class="flex flex-col relative shadow-md sm:rounded-lg m-5 bg-white h-full">
         <div class="flex flex-row p-5  sm:overflow-y-auto justify-between h-25">
             <div class="flex flex-row justify-startw-200 mt-5">
-                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center mr-2">
+                <div
+                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center mr-2">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-icon svgIcon="search"></mat-icon>
                         <input type="text" matInput [placeholder]="'ค้นหา'" [formControl]="car">
@@ -28,10 +29,10 @@
                 </div>
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate w-fit">
                     <button class="px-6 ml-3 rounded-md border-2 border-gray-500 " (click)="departmentDailog()"
-                        mat-stroked-button color="accent" >
+                        mat-stroked-button color="accent">
                         <div class="flex flex-row justify-between items-center">
                             <span>แสดง: ทุกแผนก</span>
-                        <span><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon></span>
+                            <span><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon></span>
                         </div>
                     </button>
                     <!-- {{this.department | json}} -->
@@ -263,8 +264,7 @@
         </div>
 
         <div class="flex flex-col flex-auto sm:overflow-y-auto p-6">
-            <table datatable [dtOptions]="dtOptions"
-                class="table row-border hover w-full bg-white whitespace-nowrap">
+            <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
                         <th class="font-light">รุ่นรถ</th>
@@ -281,28 +281,16 @@
                         <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.car?.license}}</td>
                         <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.car?.name}}</td>
                         <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.profile?.name}}</td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.profile?.phone}}</td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.tel}}</td>
-                        <td style="width: 100px; min-width: 100px;">
-                            <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
-                                *ngIf="item?.status === 'Active'">
-                                <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
-                            </div>
-                            <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                *ngIf="item?.status === 'Expire'">
-                                <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
-                            </div>
-                            <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
-                                *ngIf="item?.status === 'Block'">
-                                <span class="bg-red-200 p-1 rounded-md">ระงับการใช้งาน</span>
-                            </div>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.phone}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">
+                            <ng-container *ngFor="let topic of item.ticket_topics; let j = index">
+                                <p>{{j+1}}. {{topic.status ?? ''}}</p>
+                            </ng-container>
                         </td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
-                            date : 'dd/MM/yyyy' }}
+                        <td>
+                            <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon"
+                            (click)="detailTicket(item)" />
                         </td>
-                        <td> 
-                            <img class="w-10 h-10 cursor-pointer"  src="assets/icons/button_edit.svg" alt="Icon" (click)="edit(item.id)"/>
-                          </td>
                     </tr>
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">
