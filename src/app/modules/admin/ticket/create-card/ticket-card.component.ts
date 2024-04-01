@@ -28,11 +28,23 @@ export class CreateComponent implements OnInit{
     productData: any[] = []
     statusData = new FormControl('');
     topics: any[] = [
-        'รถเสียฉุกเฉิน',
-        'อุบัติเหตุ',
-        'ติดตามรถทดแทน',
-        'ติดตามงานบริหารรถยนต์',
-        'อื่นๆ',
+   'อุบัติเหตุ',
+   'งานปัญหา (ระบุในรายละเอียด)',
+   'ติดตามสถานะงานซ่อม',
+   'ขอรถทดแทน / ติดตามรถทดแทน',
+   'ติดตามป้ายภาษี / พรบ. / กรมธรรม์',
+   'ติดตามใบสั่งซ่อม / ติดตามใบเสนอราคา',
+   'ศูนย์บริการเสนอราคาเพิ่มเติม',
+   'ลืมของไว้ในรถ',
+   'ลืมกุญแจรถยนต์ / กุญแจรถยนต์หาย',
+   'โอนสาย รถเช่าระยะสั้น / รถเช่าสนามบิน /asap app',
+   'ร้องเรียนพนักงาน',
+   'ติดตามค่าปรับ',
+   'ติดตามรถยนต์เข้าไปใส่อะไหล่',
+   'สอบถามราคารถเช่า',
+   'โอนสาย (แผนกอื่น)',
+   'สายหลุด',
+   'อื่นๆ (Other : ระบุเพิ่มเติมในรายละเอียด)',
     ]
     form : FormGroup;
     myControl = new FormControl<string | any>('');
@@ -85,8 +97,8 @@ export class CreateComponent implements OnInit{
         this.form.patchValue({
             car_id: selectedOption.car_id,
             client_id: selectedOption.client.id,
-            name: selectedOption.client.name,
-            phone: selectedOption.client.phone,
+            // name: selectedOption.client.name,
+            // phone: selectedOption.client.phone,
             image: selectedOption.car.pictureUrl,
             company: selectedOption.client.company,
         })
@@ -132,10 +144,9 @@ export class CreateComponent implements OnInit{
         if (index === -1) {
             const value = this._fb.group({
                 topic: serviceId,
+                status: '',
             }); 
             service.push(value);
-            console.log(this.form.value)
-           
         } else {
           // ถ้ามีอยู่แล้วให้ลบออก
           service.removeAt(index);

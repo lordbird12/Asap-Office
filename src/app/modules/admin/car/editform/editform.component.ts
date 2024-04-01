@@ -73,6 +73,7 @@ export class EditFormComponent implements OnInit {
     brandmodel: any[];
     province: any[];
     company: any[];
+    brand: any[];
     flashMessage: 'success' | 'error' | null = null;
     selectedFile: File = null;
     constructor(
@@ -92,6 +93,7 @@ export class EditFormComponent implements OnInit {
             client_id: [null],
             image: [null],
             status: [null],
+            brand: ''
         });
     }
     async ngOnInit(): Promise<void> {
@@ -99,20 +101,23 @@ export class EditFormComponent implements OnInit {
             forkJoin(
                 this._service.getBrandModel(),
                 this._service.getProvince(),
-                this._service.getCompany()
+                this._service.getCompany(),
+                // this._service.getBrand(),
             )
         );
         this.brandmodel = initialData[0];
         this.province = initialData[1];
         this.company = initialData[2];
+        // this.brand = initialData[3];
         this.activatedRoute.params.subscribe((params) => {
             const id = params.id;
             this._service.getById(id).subscribe((resp: any) => {
                 const item = resp;
-                console.log(resp);
+                console.log('111',resp);
                 this.addForm.patchValue({
                     ...item,
                     id: id,
+                    brand: item.brand,
                     // expire_date: '',
                     image: '',
                 });

@@ -56,18 +56,15 @@
                                             <input matInput formControlName="license" readonly>
                                         </mat-form-field>
                                     </div>
+                                    <div class="md:w-full px-3">
+                                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
+                                            <mat-label class=" font-light">ศูนย์บริการ</mat-label>
+                                            <input matInput formControlName="brand" readonly>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
                      
-                                <!-- <div class="md:w-full px-3 mb-6 md:mb-0">
-                                    <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                                        <mat-label class=" font-light">จังหวัดตามป้ายทะเบียน</mat-label>
-                                        <mat-select formControlName="province_id">
-                                            <mat-option *ngFor="let item of this.province;" value="{{item.id}}">
-                                                {{item.name}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div> -->
+                                
                             </div>
 
 

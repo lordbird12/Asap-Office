@@ -10,23 +10,35 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-checkbox-topic',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss']
 })
-export class CheckboxTopicComponent implements OnInit{
+export class CheckboxTopicComponent implements OnInit {
 
   timeOptions: string[] = [];
   @Input() topics: any[] = [];
   @Input() dataArray: any[] = [];
   @Output() dataArrayChange = new EventEmitter<any[]>();
   items: any[] = [
-    'รถเสียฉุกเฉิน',
     'อุบัติเหตุ',
-    'ติดตามรถทดแทน',
-    'ติดตามงานบริหารรถยนต์',
-    'อื่นๆ',
-];
+    'งานปัญหา (ระบุในรายละเอียด)',
+    'ติดตามสถานะงานซ่อม',
+    'ขอรถทดแทน / ติดตามรถทดแทน',
+    'ติดตามป้ายภาษี / พรบ. / กรมธรรม์',
+    'ติดตามใบสั่งซ่อม / ติดตามใบเสนอราคา',
+    'ศูนย์บริการเสนอราคาเพิ่มเติม',
+    'ลืมของไว้ในรถ',
+    'ลืมกุญแจรถยนต์ / กุญแจรถยนต์หาย',
+    'โอนสาย รถเช่าระยะสั้น / รถเช่าสนามบิน /asap app',
+    'ร้องเรียนพนักงาน',
+    'ติดตามค่าปรับ',
+    'ติดตามรถยนต์เข้าไปใส่อะไหล่',
+    'สอบถามราคารถเช่า',
+    'โอนสาย (แผนกอื่น)',
+    'สายหลุด',
+    'อื่นๆ (Other : ระบุเพิ่มเติมในรายละเอียด)',
+  ];
 
   ngOnInit(): void {
     // console.log('items',this.items)
@@ -42,10 +54,10 @@ export class CheckboxTopicComponent implements OnInit{
   // toggleCheckbox(item: string): void {
 
   //   if (this.isChecked(item)) {
-      
+
   //     this.dataArray = this.dataArray.filter(value => value !== item);
   //   } else {
-      
+
   //     this.dataArray.push(item);
   //   }
   // }

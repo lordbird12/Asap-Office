@@ -135,6 +135,15 @@ export class PageService {
                 })
             );
     }
+    getBrand(): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + '/api/get_brand')
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
 
     importCar(data: any): Observable<any> {
         return this._httpClient

@@ -243,10 +243,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            console.log(item)
-                            if (item.update > new Date()) {
-                                this.task[3].task.push(item)
-                            }
+                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
 
                         }
                         else if (item.status === 'Cancel') {
@@ -264,7 +271,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
+                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -460,7 +477,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            this.task[3].task.push(item)
+                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -539,10 +566,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            if (item.updated_at >= new Date()) {
-                                this.task[3].task.push(item)
-                            }
+                            // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
 
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -621,9 +655,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                         else if (item.status === 'Finish') {
-                            if (item.updated_at >= new Date()) {
-                                this.task[3].task.push(item)
-                            }
+                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
                         }
                         else if (item.status === 'Cancel') {
                             this.task[0].task.push(item)
@@ -740,7 +782,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                                             this.task[2].task.push(item)
                                         }
                                         else if (item.status === 'Finish') {
-                                            this.task[3].task.push(item)
+                                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
                                         }
                                         else if (item.status === 'Cancel') {
                                             this.task[0].task.push(item)
@@ -879,7 +931,17 @@ export class ListComponent implements OnInit, AfterViewInit {
                                                 this.task[2].task.push(item)
                                             }
                                             else if (item.status === 'Finish') {
-                                                this.task[3].task.push(item)
+                                                 // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                        let today: Date = new Date();
+                        today.setHours(0, 0, 0, 0);
+
+                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+
+                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                        if (updatedAtDate >= today) {
+                            this.task[3].task.push(item);
+                        }
                                             }
                                             else if (item.status === 'Cancel') {
                                                 this.task[0].task.push(item)

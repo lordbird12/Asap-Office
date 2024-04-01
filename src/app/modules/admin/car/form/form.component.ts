@@ -88,6 +88,7 @@ export class FormComponent implements OnInit {
             expire_date: [null],
             client_id: [null],
             image: [null],
+            brand: [null],
             status: 'Available',
         });
     }
