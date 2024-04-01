@@ -243,44 +243,66 @@
                 </ng-container>
             </div>
         </div> -->
-        <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
+        <div class="flex flex-row p-6">
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == null}">
+                <a [routerLink]="['/admin/ticket/list']" mat-button class="rounded-none text-kPrimary font-bold"
+                    [ngClass]="{'text-kPrimary font-bold': status == null}">ทั้งหมด</a>
+            </div>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'active'}">
+                <a [routerLink]="['/admin/ticket/list/active']" mat-button class="rounded-none"
+                    [ngClass]="{'text-kPrimary font-bold': status == 'active'}">งานใหม่ / Todo</a>
+            </div>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'expire'}">
+                <a [routerLink]="['/admin/ticket/list/expire']" mat-button class="rounded-none"
+                    [ngClass]="{'text-kPrimary font-bold': status == 'expire'}">กำลังดำเนินงาน</a>
+            </div>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'block'}">
+                <a [routerLink]="['/admin/ticket/list/block']" mat-button class="rounded-none"
+                    [ngClass]="{'text-kPrimary font-bold': status == 'block'}">เสร็จสิ้น</a>
+            </div>
+        </div>
+
+        <div class="flex flex-col flex-auto sm:overflow-y-auto p-6">
             <table datatable [dtOptions]="dtOptions"
                 class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
                     <tr>
-                        <th class="w-1">
-                            <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck"
-                                (change)="setAll($event.checked)" color="primary"></mat-checkbox>
-                        </th>
-                        <th> </th>
-                        <th>ชื่อ</th>
-                        <th>ตำแหน่ง</th>
-                        <th>แผนก</th>
-                        <th>เข้าใช้งานล่าสุด</th>
-                        <th class="w-[100px]"> </th>
+                        <th class="font-light">รุ่นรถ</th>
+                        <th class="font-light">ทะเบียนรถ</th>
+                        <th class="font-light">ชื่อ - นามสกุล</th>
+                        <th class="font-light">เบอร์ติดต่อ</th>
+                        <th class="font-light ">กิจกรรม</th>
+                        <th></th>
+
                     </tr>
                 </thead>
-
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
-                        <td>
-                            <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
-                        </td>
-                        <td style="text-align: center;">
-                            <div
-                                style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; display: inline-block; position: relative;">
-                                <img src="{{item?.image}}"
-                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; object-fit: cover;">
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.car?.license}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.car?.name}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.profile?.name}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.profile?.phone}}</td>
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.tel}}</td>
+                        <td style="width: 100px; min-width: 100px;">
+                            <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900"
+                                *ngIf="item?.status === 'Active'">
+                                <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>
+                            </div>
+                            <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
+                                *ngIf="item?.status === 'Expire'">
+                                <span class="bg-red-200 p-1 rounded-md">หมดอายุ</span>
+                            </div>
+                            <div class="text-[#B71D18]  text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-300 dark:text-red-900"
+                                *ngIf="item?.status === 'Block'">
+                                <span class="bg-red-200 p-1 rounded-md">ระงับการใช้งาน</span>
                             </div>
                         </td>
-                        <td class="font-light">{{item?.fname}} {{item?.lname}}</td>
-                        <td class="font-light">{{item?.position?.name}}</td>
-                        <td class="font-light">{{item?.department?.name}}</td>
-                        <td class="font-light">{{ item?.updated_at ?? '-' }}</td>
-                        <td>
-                            <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon"
-                                (click)="editElement(item.id)" />
+                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.expire_date |
+                            date : 'dd/MM/yyyy' }}
                         </td>
+                        <td> 
+                            <img class="w-10 h-10 cursor-pointer"  src="assets/icons/button_edit.svg" alt="Icon" (click)="edit(item.id)"/>
+                          </td>
                     </tr>
                 </tbody>
                 <tbody *ngIf="dataRow?.length == 0">

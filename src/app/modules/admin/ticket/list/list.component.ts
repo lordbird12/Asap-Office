@@ -18,7 +18,7 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { DataTablesModule } from 'angular-datatables';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CreateComponent } from '../create-card/ticket-card.component';
 import { DetailTicketComponent } from '../detail-card/ticket-card.component';
 import { environment } from 'environments/environment.development';
@@ -57,12 +57,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         LastUserImagePipe,
         TimeDifferencePipe,
         OrderByCreatedAtPipe,
-        MatCheckboxModule
+        MatCheckboxModule,
+        RouterLink
     ],
     providers: [UserImageService]
 })
 export class ListComponent implements OnInit, AfterViewInit {
-
+    status: string = null;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     car: FormControl = new FormControl('');
     isLoading: boolean = false;

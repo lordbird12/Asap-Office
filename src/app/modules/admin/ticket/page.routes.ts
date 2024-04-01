@@ -24,6 +24,27 @@ export default [
                     // vendors   : () => inject(InventoryService).getVendors(),
                 },
             },
+            {
+                path: 'list/active',
+                component: ListComponent,
+                data: {
+                    status: 'active'
+                }
+            },
+            {
+                path: 'list/expire',
+                component: ListComponent,
+                data: {
+                    status: 'expire'
+                }
+            },
+            {
+                path: 'list/block',
+                component: ListComponent,
+                data: {
+                    status: 'block'
+                }
+            },
         ],
     },
     {
