@@ -238,8 +238,8 @@
                                     <ng-container *ngIf="item?.booking?.services?.length != 0">
                                         <ng-container *ngFor="let service of item?.booking?.services; let n = index">
 
-                                            <span class="mr-2" *ngIf="service.service_id != 8">{{service?.service?.name}}</span>
-                                            <span class="mr-2" *ngIf="service.service_id == 8">{{service?.note}}</span>
+                                            <span class="mr-2" *ngIf="service.service_id != 8">{{service?.service?.name}}<ng-container *ngIf="n != item?.booking?.services.length">,</ng-container></span>
+                                            <span class="mr-2" *ngIf="service.service_id == 8">{{service?.note}}<ng-container *ngIf="n != item?.booking?.services.length">,</ng-container></span>
 
                                         </ng-container>
                                     </ng-container>

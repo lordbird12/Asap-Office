@@ -218,7 +218,7 @@
                             <tr *ngFor="let item of dataRow; let i = index">
                                 <td>{{item.license_plate}}</td>
                                 <td>{{item.created_at | date:'dd/MM/YYYY HH:mm'}}</td>
-                                <td>{{item.mile ?? 0}}</td>
+                                <td>{{item.mile ?? 0}} km</td>
                                 <td>
                                     <div [innerHTML]="item.status"></div>
                                 </td>
