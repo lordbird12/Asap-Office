@@ -63,7 +63,7 @@ export class CenterDetailComponent implements OnInit {
     dataRow: any[] = [];
     data = null;
     public chartOptions: Partial<ChartOptions>;
-
+    showTool: number;
     centerName: string = "";
     id: number;
 
@@ -182,5 +182,13 @@ export class CenterDetailComponent implements OnInit {
 
     exportExcel() {
         window.open(environment.baseURL + '/api/export_book_activity_service_center/' + this.id);
+    }
+
+    showTooltipShow(index: number): void {
+        this.showTool = index;
+    }
+
+    showTooltipNot(index: number): void {
+        this.showTool = 999;
     }
 }

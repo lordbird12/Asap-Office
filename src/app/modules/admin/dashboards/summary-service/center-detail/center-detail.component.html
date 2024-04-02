@@ -216,7 +216,28 @@
                         </thead>
                         <tbody *ngIf="dataRow?.length != 0">
                             <tr *ngFor="let item of dataRow; let i = index">
-                                <td>{{item.license_plate}}</td>
+                                <td (mouseover)="showTooltipShow(i)" (mouseout)="showTooltipNot(i)">
+                                    <div *ngIf="showTool == i" class="tooltip-box c-box--arrow-left">
+                                        <table>
+                                            <tr>
+                                                <td style="width:49%;">
+                                                    <p class="text-sm">วันเริ่มสัญญา</p>
+                                                    <span>{{item.created_at | date:'dd/MM/YYYY'}}</span>
+                                                </td>
+                                                <td style="width:2%;">
+                                                    <div class="vl"></div>
+                                                </td>
+                                                <td style="width:49%;">
+                                                    <p class="text-sm">วันหมดสัญญา</p>
+                                                    <span>{{item.created_at | date:'dd/MM/YYYY'}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    {{item.license_plate}}
+                                    <br> {{item.brand}}
+
+                                </td>
                                 <td>{{item.created_at | date:'dd/MM/YYYY HH:mm'}}</td>
                                 <td>{{item.mile ?? 0}} km</td>
                                 <td>
