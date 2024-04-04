@@ -18,7 +18,6 @@ import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { Router, RouterLink } from '@angular/router';
 import { CreateComponent } from '../create-card/ticket-card.component';
 import { DetailTicketComponent } from '../detail-card/ticket-card.component';
 import { environment } from 'environments/environment.development';
@@ -29,6 +28,7 @@ import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { OrderByCreatedAtPipe } from 'app/shared/order-by-created-at.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
     selector: 'car-list',
@@ -109,6 +109,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router,
         private userImageService: UserImageService,
+        private activatedRoute: ActivatedRoute,
     ) {
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
@@ -126,6 +127,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         this._service.getDepartment().subscribe((resp: any) => {
             this.departmentData = resp.data;
         })
+        this.status = this.activatedRoute.snapshot.data.status;
     }
 
     orderBy(array: any[]): any[] {
@@ -265,7 +267,15 @@ export class ListComponent implements OnInit, AfterViewInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = null;
+                if (this.status == null) {
+                    dataTablesParameters.status = null;
+                } else if (this.status == 'new') {
+                    dataTablesParameters.status = 'New';
+                } else if (this.status == 'process') {
+                    dataTablesParameters.status = 'Process';
+                } else if (this.status == 'finish') {
+                    dataTablesParameters.status = 'Finish';
+                }
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {

@@ -25,24 +25,24 @@ export default [
                 },
             },
             {
-                path: 'list/active',
+                path: 'list/new',
                 component: ListComponent,
                 data: {
-                    status: 'active'
+                    status: 'new'
                 }
             },
             {
-                path: 'list/expire',
+                path: 'list/process',
                 component: ListComponent,
                 data: {
-                    status: 'expire'
+                    status: 'process'
                 }
             },
             {
-                path: 'list/block',
+                path: 'list/finish',
                 component: ListComponent,
                 data: {
-                    status: 'block'
+                    status: 'finish'
                 }
             },
         ],

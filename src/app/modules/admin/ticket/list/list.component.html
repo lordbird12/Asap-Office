@@ -241,14 +241,14 @@
             <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == null}">
                 <a [routerLink]="['/admin/ticket/list']" mat-button class="rounded-none text-kPrimary font-bold" [ngClass]="{'text-kPrimary font-bold': status == null}">ทั้งหมด</a>
             </div>
-            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'active'}">
-                <a [routerLink]="['/admin/ticket/list/active']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'active'}">งานใหม่ / Todo</a>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'new'}">
+                <a [routerLink]="['/admin/ticket/list/new']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'new'}">งานใหม่ / Todo</a>
             </div>
-            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'expire'}">
-                <a [routerLink]="['/admin/ticket/list/expire']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'expire'}">กำลังดำเนินงาน</a>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'process'}">
+                <a [routerLink]="['/admin/ticket/list/process']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'process'}">กำลังดำเนินงาน</a>
             </div>
-            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'block'}">
-                <a [routerLink]="['/admin/ticket/list/block']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'block'}">เสร็จสิ้น</a>
+            <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'finish'}">
+                <a [routerLink]="['/admin/ticket/list/finish']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'finish'}">เสร็จสิ้น</a>
             </div>
         </div>
 
