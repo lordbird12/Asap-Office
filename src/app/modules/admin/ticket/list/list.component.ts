@@ -17,7 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Router, RouterLink } from '@angular/router';
 import { CreateComponent } from '../create-card/ticket-card.component';
 import { DetailTicketComponent } from '../detail-card/ticket-card.component';
@@ -98,7 +98,10 @@ export class ListComponent implements OnInit, AfterViewInit {
     employeeDep: any[] = [];
     department: any[] = []
     departmentData: any[] = []
-
+    flashMessage: 'success' | 'error' | null = null;
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    dtInstance: Promise<DataTables.Api>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -288,11 +291,13 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
+                { data: 'brand' },
+                { data: 'license' },
                 { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
+                { data: 'phone' },
+                { data: 'event' },
+                { data: 'action', orderable: false },
+
             ],
         };
     }
@@ -360,8 +365,12 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item)
                         }
                     }
+                  
                     this._changeDetectorRef.markForCheck();
                 })
+
+                this.showFlashMessage('success');
+                this.rerender();
             }
         })
     }
@@ -638,4 +647,29 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.dataRow?.forEach((e) => (e.checked = checked));
     }
 
+    showFlashMessage(type: 'success' | 'error'): void {
+        // Show the message
+        this.flashMessage = type;
+
+        // Mark for check
+        this._changeDetectorRef.markForCheck();
+
+        // Hide it after 3 seconds
+        setTimeout(() => {
+            this.flashMessage = null;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        }, 3000);
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
 }

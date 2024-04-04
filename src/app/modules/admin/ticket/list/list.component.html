@@ -4,8 +4,7 @@
     <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -20,16 +19,14 @@
     <div class="flex flex-col relative shadow-md sm:rounded-lg m-5 bg-white h-full">
         <div class="flex flex-row p-5  sm:overflow-y-auto justify-between h-25">
             <div class="flex flex-row justify-startw-200 mt-5">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center mr-2">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center mr-2">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-icon svgIcon="search"></mat-icon>
                         <input type="text" matInput [placeholder]="'ค้นหา'" [formControl]="car">
                     </mat-form-field>
                 </div>
                 <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate w-fit">
-                    <button class="px-6 ml-3 rounded-md border-2 border-gray-500 " (click)="departmentDailog()"
-                        mat-stroked-button color="accent">
+                    <button class="px-6 ml-3 rounded-md border-2 border-gray-500 " (click)="departmentDailog()" mat-stroked-button color="accent">
                         <div class="flex flex-row justify-between items-center">
                             <span>แสดง: ทุกแผนก</span>
                             <span><mat-icon svgIcon="heroicons_outline:chevron-down"></mat-icon></span>
@@ -43,23 +40,19 @@
                     <div class="flex items-center" (click)="employeeDialog('test')">
                         <div class="flex flex-row items-center -space-x-2 relative">
                             <div *ngFor="let emp of empFilter(employeeDep).slice(0,3);let i = index">
-                                <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]"
-                                    src="{{emp.image}}">
+                                <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]" src="{{emp.image}}">
                             </div>
-                            <div *ngIf="empFilter(employeeDep).length > 3"
-                                class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
+                            <div *ngIf="empFilter(employeeDep).length > 3" class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
                                 + {{empFilter(employeeDep).length - 3}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button (click)="createTicket()" class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'"
-                        *ngIf="this.user.position_id === '2'">
+                    <button (click)="createTicket()" class="px-6 ml-3 rounded-md" mat-flat-button [color]="'primary'" *ngIf="this.user.position_id === '2'">
                         <mat-icon svgIcon="feather:plus"></mat-icon>&nbsp; สร้าง Ticket
                     </button>
-                    <button (click)="exportExcel()" class="px-6 ml-3 rounded-md border-2 border-gray-500 "
-                        mat-stroked-button color="accent" *ngIf="this.user.position_id === '3'">
+                    <button (click)="exportExcel()" class="px-6 ml-3 rounded-md border-2 border-gray-500 " mat-stroked-button color="accent" *ngIf="this.user.position_id === '3'">
                         <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
                     </button>
                 </div>
@@ -246,20 +239,16 @@
         </div> -->
         <div class="flex flex-row p-6">
             <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == null}">
-                <a [routerLink]="['/admin/ticket/list']" mat-button class="rounded-none text-kPrimary font-bold"
-                    [ngClass]="{'text-kPrimary font-bold': status == null}">ทั้งหมด</a>
+                <a [routerLink]="['/admin/ticket/list']" mat-button class="rounded-none text-kPrimary font-bold" [ngClass]="{'text-kPrimary font-bold': status == null}">ทั้งหมด</a>
             </div>
             <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'active'}">
-                <a [routerLink]="['/admin/ticket/list/active']" mat-button class="rounded-none"
-                    [ngClass]="{'text-kPrimary font-bold': status == 'active'}">งานใหม่ / Todo</a>
+                <a [routerLink]="['/admin/ticket/list/active']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'active'}">งานใหม่ / Todo</a>
             </div>
             <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'expire'}">
-                <a [routerLink]="['/admin/ticket/list/expire']" mat-button class="rounded-none"
-                    [ngClass]="{'text-kPrimary font-bold': status == 'expire'}">กำลังดำเนินงาน</a>
+                <a [routerLink]="['/admin/ticket/list/expire']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'expire'}">กำลังดำเนินงาน</a>
             </div>
             <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'block'}">
-                <a [routerLink]="['/admin/ticket/list/block']" mat-button class="rounded-none"
-                    [ngClass]="{'text-kPrimary font-bold': status == 'block'}">เสร็จสิ้น</a>
+                <a [routerLink]="['/admin/ticket/list/block']" mat-button class="rounded-none" [ngClass]="{'text-kPrimary font-bold': status == 'block'}">เสร็จสิ้น</a>
             </div>
         </div>
 
@@ -278,18 +267,17 @@
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.car?.license}}</td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.car?.name}}</td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.client?.profile?.name}}</td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.phone}}</td>
-                        <td style="width: 100px; min-width: 100px;" class="font-light">
+                        <td class="font-light">{{item?.car?.brand?.name}}</td>
+                        <td class="font-light">{{item?.car?.license}}</td>
+                        <td class="font-light">{{item?.name}}</td>
+                        <td class="font-light">{{item?.phone}}</td>
+                        <td class="font-light">
                             <ng-container *ngFor="let topic of item.ticket_topics; let j = index">
                                 <p>{{j+1}}. {{topic.status ?? ''}}</p>
                             </ng-container>
                         </td>
                         <td>
-                            <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon"
-                            (click)="detailTicket(item)" />
+                            <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="detailTicket(item)" />
                         </td>
                     </tr>
                 </tbody>
