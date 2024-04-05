@@ -156,7 +156,7 @@ export class FormDialogComponent implements OnInit {
                                 }
                                 break;
                             case HttpEventType.Response:
-                                this.dialogRef.close();
+                                this.dialogRef.close(true);
                                 break;
                         }
                     });
