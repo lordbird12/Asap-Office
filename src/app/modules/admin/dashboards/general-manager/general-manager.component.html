@@ -16,7 +16,7 @@
                 <mat-select formControlName="user_id">
                     <mat-option value="">พนักงานทุกคน</mat-option>
                     <mat-option *ngFor="let item of employees;" value="{{item.id}}">
-                        {{item.fname}}  {{item.lname}}
+                        {{item.fname}} {{item.lname}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -38,14 +38,13 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl"
-        style="box-shadow: 0px 0px 30px 0px #22222214;">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl" style="box-shadow: 0px 0px 30px 0px #22222214;">
 
 
         <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
             <div class="flex flex-row justify-between">
                 <div class="font-medium">ภาพรวม Ticket</div>
-                <a [routerLink]="['/admin/booking-gm/list']" routerLinkActive="router-link-active" >
+                <a [routerLink]="['/admin/booking-gm/list']" routerLinkActive="router-link-active">
                     <div class="flex flex-row gap-1 items-center">
                         <div class="font-medium text-[#FF4849]">ดูเพิ่มเติม</div>
                         <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,19 +62,18 @@
                             <img src="assets\images\all.png" alt="">
                         </div>
                         <div class="flex flex-col justify-between pl-6">
-                            <div class="text-xs">จำนวนเคสทั้งหมด</div>
+                            <div class="text-md">จำนวนเคสทั้งหมด</div>
                             <div class="font-bold">{{data.summary_ticket.all.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="flex flex-row items-center gap-1">
                                     <div class="text-xs">{{data.summary_ticket.all.percent}}%</div>
-                                    <svg width="7" height="4" viewBox="0 0 7 4" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                    <svg width="7" height="4" viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" clip-rule="evenodd"
                                             d="M6.65905 3.17075C6.94193 3.49404 6.71234 4 6.28276 4H1.48653C1.05695 4 0.827359 3.49404 1.11024 3.17075L3.50836 0.430043C3.70756 0.20238 4.06173 0.20238 4.26093 0.430044L6.65905 3.17075Z"
                                             fill="#344054" />
                                     </svg>
                                 </div>
-                                <div class="text-xs">จาก 7 วันที่แล้ว</div>
+                                <div class="text-md">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
                     </div>
@@ -86,11 +84,11 @@
                             <img src="assets\images\procress.png" alt="">
                         </div>
                         <div class="flex flex-col justify-between pl-6">
-                            <div class="text-xs">กำลังดำเนินการ</div>
+                            <div class="text-md">กำลังดำเนินการ</div>
                             <div class="font-bold">{{data.summary_ticket.process.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.process.percent}}%</div>
-                                <div class="text-xs">จาก 7 วันที่แล้ว</div>
+                                <div class="text-md">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
                     </div>
@@ -101,11 +99,11 @@
                             <img src="assets\images\pending.png" alt="">
                         </div>
                         <div class="flex flex-col justify-between pl-6">
-                            <div class="text-xs">รอเข้ารับบริการ</div>
+                            <div class="text-md">รอเข้ารับบริการ</div>
                             <div class="font-bold">{{data.summary_ticket.waiting.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.waiting.percent}}%</div>
-                                <div class="text-xs">จาก 7 วันที่แล้ว</div>
+                                <div class="text-md">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
                     </div>
@@ -116,11 +114,11 @@
                             <img src="assets\images\success.png" alt="">
                         </div>
                         <div class="flex flex-col justify-between pl-6">
-                            <div class="text-xs">เสร็จสิ้น</div>
+                            <div class="text-md">เสร็จสิ้น</div>
                             <div class="font-bold">{{data.summary_ticket.finish.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.finish.percent}}%</div>
-                                <div class="text-xs">จาก 7 วันที่แล้ว</div>
+                                <div class="text-md">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
                     </div>
@@ -130,8 +128,7 @@
 
     </div>
 
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl"
-        style="box-shadow: 0px 0px 30px 0px #22222214;">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl" style="box-shadow: 0px 0px 30px 0px #22222214;">
 
         <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
             <app-kpi-chart [data]="data"></app-kpi-chart>
@@ -157,13 +154,11 @@
                             <th class="text-start w-1/12">ระยะเวลาเฉลี่ย ในการปิดงาน</th>
                             <th class="text-start w-2/12">
                                 <div class="flex flex-row items-center gap-1">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M13.9635 5.37072C13.8719 5.08724 13.6204 4.88589 13.3229 4.85908L9.28216 4.49217L7.68432 0.752285C7.56651 0.4782 7.29819 0.300781 7.00007 0.300781C6.70195 0.300781 6.43364 0.4782 6.31582 0.752926L4.71798 4.49217L0.67656 4.85908C0.379616 4.88653 0.128816 5.08724 0.0366355 5.37072C-0.0555452 5.65421 0.0295858 5.96514 0.254216 6.16115L3.30857 8.83983L2.40791 12.8072C2.34201 13.0989 2.45523 13.4005 2.69727 13.5754C2.82737 13.6694 2.97958 13.7173 3.13307 13.7173C3.26542 13.7173 3.39669 13.6816 3.51451 13.6111L7.00007 11.5279L10.4844 13.6111C10.7393 13.7645 11.0607 13.7505 11.3022 13.5754C11.5444 13.3999 11.6575 13.0983 11.5916 12.8072L10.6909 8.83983L13.7453 6.16168C13.9699 5.96514 14.0557 5.65474 13.9635 5.37072Z"
                                             fill="#FFC107" />
-                                    </svg>
-                                    คะแนนความพึงพอใจ
+                                    </svg> คะแนนความพึงพอใจ
                                 </div>
                             </th>
                         </tr>
@@ -173,8 +168,7 @@
                             <td class="py-4">{{i+1}}</td>
                             <td>
                                 <div class="flex flex-row items-center gap-4">
-                                    <img *ngIf="person.image" class="inline-block h-8 w-8 rounded-full ring-2 ring-white" [src]="person.image" alt="">
-                                    {{person.fname}}
+                                    <img *ngIf="person.image" class="inline-block h-8 w-8 rounded-full ring-2 ring-white" [src]="person.image" alt=""> {{person.fname}}
                                 </div>
                             </td>
                             <td class="py-4">{{person.team}}</td>
