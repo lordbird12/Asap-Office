@@ -267,7 +267,7 @@
                 </thead>
                 <tbody *ngIf="dataRow?.length != 0">
                     <tr *ngFor="let item of dataRow; let i = index">
-                        <td class="font-light">{{item?.car?.brand?.name}}</td>
+                        <td class="font-light">{{item?.car?.brand_model?.name}}</td>
                         <td class="font-light">{{item?.car?.license}}</td>
                         <td class="font-light">{{item?.name}}</td>
                         <td class="font-light">{{item?.phone}}</td>
@@ -276,8 +276,8 @@
                                 <p>{{j+1}}. {{topic.status ?? ''}}</p>
                             </ng-container>
                         </td>
-                        <td>
-                            <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="detailTicket(item)" />
+                        <td style="width:80px !important">
+                            <img style="width:50px !important;height:50px !important; max-width:unset !important;" class="cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="detailTicket(item)" />
                         </td>
                     </tr>
                 </tbody>

@@ -71,7 +71,7 @@ export class DetailTicketComponent implements OnInit {
         this.activities = this.data.activitys
         console.log(this.data.status);
         this.statusData.setValue(this.data.status)
-        this.dataArray = this.data.ticket_topic.map(topic => topic.status);
+        this.dataArray = this.data.ticket_topics.map(topic => topic.status);
       
     }
 

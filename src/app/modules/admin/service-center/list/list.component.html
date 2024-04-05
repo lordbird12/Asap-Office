@@ -62,7 +62,7 @@
                             <th class="w-[10px]">เบอร์ติดต่อ 3</th>
                             <th class="w-[10px]">เบอร์ติดต่อ 4</th>
                             <th class="w-auto">ที่อยู่</th>
-                            <th class="w-[5px]">แก้ไข</th>
+                            <th class="w-[5px]"></th>
                         </tr>
                     </thead>
                     <tbody *ngIf="dataRow?.length != 0">
@@ -77,8 +77,8 @@
                             <td class="font-light">{{item?.phone3 ?? "-"}}</td>
                             <td class="font-light">{{item?.phone4 ?? "-"}}</td>
                             <td class="font-light">{{item?.address}}</td>
-                            <td>
-                                <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="editElement(item.id)" />
+                            <td style="width:80px !important">
+                                <img style="width:50px !important;height:50px !important; max-width:unset !important;" class="cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="editElement(item.id)" />
                             </td>
                         </tr>
                     </tbody>
