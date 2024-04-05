@@ -395,6 +395,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
 
             if (result) {
+                this.rerender();
                 let dep = []
                 if (this.department.length > 0) {
                     dep = this.department.map(item => item)

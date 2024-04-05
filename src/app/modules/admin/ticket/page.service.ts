@@ -95,11 +95,13 @@ export class PageService {
                 })
             );
     }
-    updateStatusTicket(id: any, status: string): Observable<any> {
+    updateStatusTicket(id: any, status: string, topics: any,phone:string): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_ticket_status', {
                 ticket_id: id,
                 status: status,
+                topics: topics,
+                phone: phone,
             })
             .pipe(
                 tap((result) => {
@@ -177,7 +179,7 @@ export class PageService {
         return this._httpClient
             .post(
                 environment.baseURL + '/api/ticket_page',
-                dataTablesParameters,
+                dataTablesParameters
             )
             .pipe(
                 switchMap((response: any) => {
@@ -270,5 +272,4 @@ export class PageService {
                 })
             );
     }
-
 }
