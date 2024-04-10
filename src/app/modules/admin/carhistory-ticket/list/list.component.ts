@@ -215,10 +215,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     exportFile() {
+ 
         window.open(
             environment.baseURL +
-                '/api/booking_export_history/' +
-                this.ProductControl.value ?? ''
+                '/api/ticket_export_history/' +
+                this.car.license ?? ''
         );
     }
 
