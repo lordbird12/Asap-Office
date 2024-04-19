@@ -95,13 +95,14 @@ export class PageService {
                 })
             );
     }
-    updateStatusTicket(id: any, status: string, topics: any,phone:string): Observable<any> {
+    updateStatusTicket(id: any, status: string, topics: any,phone:string,note:string): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_ticket_status', {
                 ticket_id: id,
                 status: status,
                 topics: topics,
                 phone: phone,
+                note: note,
             })
             .pipe(
                 tap((result) => {

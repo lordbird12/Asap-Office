@@ -89,11 +89,13 @@ export class DetailTicketComponent implements OnInit {
 
         this.form = this._fb.group({
             phone: '',
+            note: '',
         });
     }
     serviceData1: any[] = [];
 
     ngOnInit(): void {
+        console.log(this.data);
         this.note = this.data.note;
         this.activities = this.data.activitys;
         this.phone = this.data.phone;
@@ -119,6 +121,7 @@ export class DetailTicketComponent implements OnInit {
         this.yourArray1 = this.serviceData1;
         this.form.patchValue({
             phone: +this.phone,
+            note: this.note,
         });
     }
 
@@ -217,6 +220,12 @@ export class DetailTicketComponent implements OnInit {
                     formValue.phone = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                 }
 
+                if (this.note !== formValue.note) {
+                    formValue.note = this.form.value.note; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
+                } else {
+                    formValue.note = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
+                }
+
                 if (this.yourArray1) {
                     this.yourArray1.forEach((item) => {
                         const foundIndex = this.Array2.findIndex(
@@ -238,7 +247,7 @@ export class DetailTicketComponent implements OnInit {
                 }
 
                 this._service
-                    .updateStatusTicket(this.data.id, this.statusData.value,this.newArray,formValue.phone)
+                    .updateStatusTicket(this.data.id, this.statusData.value,this.newArray,formValue.phone,formValue.note)
                     .subscribe({
                         next: (resp: any) => {
                             this.dialogRef.close(resp);
