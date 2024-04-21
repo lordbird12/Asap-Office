@@ -73,6 +73,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     flashMessage: 'success' | 'error' | null = null;
     componys: any[];
     public dataRow: any[];
+    user:any;
     companyList: any[]=[]
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
@@ -87,11 +88,10 @@ export class ListComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.loadTable();
         this._service.getClient().subscribe((resp: any)=>{
-            this.componys = resp
-            console.log('123',this.componys);
-            
+            this.componys = resp            
         })
     }
 
@@ -207,7 +207,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
-                { data: '', orderable: false },
                 { data: 'action', orderable: false },
                 { data: 'No' },
                 { data: 'name' },

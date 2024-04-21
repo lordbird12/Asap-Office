@@ -72,6 +72,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     selectedTabLabel: string;
+    user:any;
     public dataRow: any[];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
@@ -87,6 +88,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.loadTable();
         // this._service.getPosition().subscribe((resp: any)=>{
         //     this.positions = resp.data
@@ -178,7 +180,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     });
             },
             columns: [
-                { data: 'action', orderable: false },
+                // { data: 'action', orderable: false },
                 { data: '' },
                 { data: '' },
                 { data: '' },

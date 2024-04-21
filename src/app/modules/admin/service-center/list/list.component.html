@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="flex">
-                    <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                    <div *ngIf="user.position_id != 2" class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                         <button class="flex flex-row px-6 ml-3 border-2 border-gray-300 rounded-xl items-center" (click)="uploadfile()">
                             <div class="w-[15px] h-[20px] items-center mt-1">
                                 <img src="assets/icons/Vector.svg">
@@ -38,7 +38,7 @@
                             <span>อัปโหลด CSV</span>
                         </button>
                     </div>
-                    <div class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
+                    <div *ngIf="user.position_id != 2" class="flex text-3xl md:text-4xl font-light tracking-tight leading-7 sm:leading-10 truncate items-center">
                         <button class="px-6 ml-3 font-light rounded-md items-center " mat-flat-button [color]="'primary'" (click)="addElement()">
                             <mat-icon>add_circle_outline</mat-icon>
                             <div class="font-light">
@@ -52,7 +52,7 @@
                 <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                     <thead>
                         <tr>
-                            <th class="w-1">
+                            <th *ngIf="user.position_id != 2" class="w-1">
                                 <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck" (change)="setAll($event.checked)" color="primary"></mat-checkbox>
                             </th>
                             <th class="w-[15px]">ศูนย์บริการ</th>
@@ -67,7 +67,7 @@
                     </thead>
                     <tbody *ngIf="dataRow?.length != 0">
                         <tr *ngFor="let item of dataRow; let i = index">
-                            <td>
+                            <td *ngIf="user.position_id != 2">
                                 <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
                             </td>
                             <td class="font-light">{{item?.brand ?? "-"}}</td>

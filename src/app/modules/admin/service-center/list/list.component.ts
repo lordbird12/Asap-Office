@@ -64,6 +64,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     flashMessage: 'success' | 'error' | null = null;
+    user:any;
     // public dataRow: any[];
     dataRow: any[] = [];
     @ViewChild(DataTableDirective)
@@ -78,6 +79,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.loadTable();
         // this._service.getPosition().subscribe((resp: any) => {
         //     this.positions = resp.data;
