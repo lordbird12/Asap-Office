@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,31 +16,33 @@ import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyListService } from './company-list.service';
+import { environment } from 'environments/environment.development';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-company-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    FormsModule,
-    MatFormFieldModule,
-    NgClass,
-    MatInputModule,
-    TextFieldModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatTableModule,
-    DataTablesModule,
-    RouterLink
-  ],
-  templateUrl: './company-list.component.html',
-  styleUrls: ['./company-list.component.scss']
+    selector: 'app-company-list',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatIconModule,
+        FormsModule,
+        MatFormFieldModule,
+        NgClass,
+        MatInputModule,
+        TextFieldModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatTableModule,
+        DataTablesModule,
+        RouterLink,
+    ],
+    templateUrl: './company-list.component.html',
+    styleUrls: ['./company-list.component.scss'],
 })
 export class CompanyListComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -49,21 +51,23 @@ export class CompanyListComponent implements OnInit {
     positions: any[];
     // public dataRow: any[];
     dataRow: any[] = [];
-
+    searchQuery: string = '';
+    department: string = '';
     id: number;
 
-    departmentName: string = "";
-
+    departmentName: string = '';
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: CompanyListService,
         private _router: Router,
-        private activatedRoute: ActivatedRoute,
+        private activatedRoute: ActivatedRoute
     ) {
         this.id = this.activatedRoute.snapshot.params.id;
         this.departmentName = this.activatedRoute.snapshot.queryParams.name;
-
     }
 
     ngOnInit(): void {
@@ -105,5 +109,22 @@ export class CompanyListComponent implements OnInit {
         };
     }
 
+    exportExcel() {
+        window.open(
+            environment.baseURL + '/api/export_dashboard_book/' + this.id
+        );
+    }
+
     uploadfile() {}
+
+    applySearch() {
+        // You may need to modify this based on your DataTables structure
+        this.rerender();
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
 }

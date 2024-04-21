@@ -16,7 +16,14 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, NgApexchartsModule } from 'ng-apexcharts';
+import {
+    ApexAxisChartSeries,
+    ApexChart,
+    ApexDataLabels,
+    ApexPlotOptions,
+    ApexXAxis,
+    NgApexchartsModule,
+} from 'ng-apexcharts';
 import { CenterListService } from '../center-list/center-list.service';
 import { environment } from 'environments/environment.development';
 
@@ -51,10 +58,10 @@ export type ChartOptions = {
         RouterLink,
         CenterChartComponent,
         DataTablesModule,
-        NgApexchartsModule
+        NgApexchartsModule,
     ],
     templateUrl: './center-detail.component.html',
-    styleUrls: ['./center-detail.component.scss']
+    styleUrls: ['./center-detail.component.scss'],
 })
 export class CenterDetailComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -64,7 +71,7 @@ export class CenterDetailComponent implements OnInit {
     data = null;
     public chartOptions: Partial<ChartOptions>;
     showTool: number;
-    centerName: string = "";
+    centerName: string = '';
     id: number;
 
     series: any[] = [];
@@ -74,7 +81,7 @@ export class CenterDetailComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: CenterListService,
         private _router: Router,
-        private activatedRoute: ActivatedRoute,
+        private activatedRoute: ActivatedRoute
     ) {
         this.id = this.activatedRoute.snapshot.params.id;
         this.centerName = this.activatedRoute.snapshot.queryParams.name;
@@ -84,7 +91,11 @@ export class CenterDetailComponent implements OnInit {
     ngOnInit(): void {
         this.loadTable();
 
-        this.series = this.data.most_clients.map(e => ({ x: e.name, y: +e.total, fillColor: '#FF4849' }));
+        this.series = this.data.most_clients.map((e) => ({
+            x: e.name,
+            y: +e.total,
+            fillColor: '#FF4849',
+        }));
 
         this.typeScore = [
             this.top_services('เปลี่ยนยาง'),
@@ -100,12 +111,12 @@ export class CenterDetailComponent implements OnInit {
         this.chartOptions = {
             series: [
                 {
-                    name: "จำนวนการใช้บริการ",
-                    data: [...this.series]
-                }
+                    name: 'จำนวนการใช้บริการ',
+                    data: [...this.series],
+                },
             ],
             chart: {
-                type: "bar",
+                type: 'bar',
                 height: 350,
             },
             plotOptions: {
@@ -122,7 +133,7 @@ export class CenterDetailComponent implements OnInit {
 
     calPerStyly(score: number) {
         let txt = Math.floor(score);
-        return txt > 0 ? txt + '%' : ""
+        return txt > 0 ? txt + '%' : '';
     }
 
     calPers(index: number): number {
@@ -169,18 +180,34 @@ export class CenterDetailComponent implements OnInit {
     }
 
     top_services(data: string): number {
-        return +this.data.top_services.find(e => e.name == data).total;
+        return +this.data.top_services.find((e) => e.name == data).total;
     }
 
     most_top_service() {
-        return this.data.top_services.reduce((max, obj) => +obj.total > +max.total ? obj : max, this.data.top_services[0]);
+        return this.data.top_services.reduce(
+            (max, obj) => (+obj.total > +max.total ? obj : max),
+            this.data.top_services[0]
+        );
     }
 
     get total_service() {
-        return this.data.top_services.reduce((total, curr) => total + +curr.total, 0);
+        return this.data.top_services.reduce(
+            (total, curr) => total + +curr.total,
+            0
+        );
     }
 
     exportExcel() {
+        window.open(
+            environment.baseURL +
+                '/api/export_service_center_by_comp/' +
+                this.id +
+                '/1/1'
+        );
+    }
+
+    
+    exportExcel2() {
         window.open(environment.baseURL + '/api/export_book_activity_service_center/' + this.id);
     }
 

@@ -10,7 +10,7 @@
         </div>
 
         <div class="flex flex-row gap-4">
-            <button class="px-6 rounded-md border border-gray-500 " mat-stroked-button color="accent">
+            <button class="px-6 rounded-md border border-gray-500 " mat-stroked-button color="accent" (click)="exportExcel()">
                 <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
             </button>
 
@@ -27,17 +27,30 @@
 
     <!-- Main -->
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
-        <!-- <div class="flex flex-row justify-between py-2 px-5">
-            <div class="flex justify-start items-center w-[405px] mt-5">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+        <div class="flex flex-row justify-between py-2 px-5">
+            <div class="flex justify-start items-center w-full mt-5">
+                <div class="flex flex-row text-md font-normal gap-3 tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-icon svgIcon="search"></mat-icon>
-                        <input matInput [placeholder]="'ค้นหา'">
+                        <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
                     </mat-form-field>
+
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[255px] min-h-[40px]">
+                        <mat-select [(ngModel)]="department" (selectionChange)="applySearch()">
+
+                            <mat-option [value]="''"> ทุกแผนก</mat-option>
+                            <mat-option [value]="'1'"> Bank</mat-option>
+                            <mat-option [value]="'2'"> Government / Hospital</mat-option>
+                            <mat-option [value]="'3'"> Logistic</mat-option>
+                            <mat-option [value]="'4'"> General</mat-option>
+                            <mat-option [value]="'5'"> Short Term/Replacement</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
                 </div>
+
             </div>
-        </div> -->
+        </div>
         <div class="flex flex-col flex-auto p-5  sm:overflow-y-auto">
             <table datatable [dtOptions]="dtOptions" class="table row-border hover w-full bg-white whitespace-nowrap">
                 <thead>
