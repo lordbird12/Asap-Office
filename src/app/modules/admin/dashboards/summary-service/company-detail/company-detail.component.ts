@@ -23,6 +23,7 @@ import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyListService } from '../company-list/company-list.service';
 import { SharedModule } from 'app/shared/shared.module';
+import { environment } from 'environments/environment.development';
 
 @Component({
     selector: 'app-company-detail',
@@ -173,5 +174,14 @@ export class CompanyDetailComponent implements OnInit {
 
     top_services(data: string): number {
         return +this.data.top_services.find((e) => e.name == data).total;
+    }
+
+    exportExcel() {
+        window.open(
+            environment.baseURL +
+                '/api/export_service_center_by_service_center/' +
+                this.company_id +
+                '/1/1'
+        );
     }
 }

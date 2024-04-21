@@ -18,4 +18,5 @@ export class TooltipContentComponent {
     this.isVisible = false;
     console.log(1);
   }
+
 }
