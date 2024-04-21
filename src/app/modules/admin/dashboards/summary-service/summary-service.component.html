@@ -21,8 +21,7 @@
         </div>
     </div>
 
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl"
-        style="box-shadow: 0px 0px 30px 0px #22222214;">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto rounded-2xl" style="box-shadow: 0px 0px 30px 0px #22222214;">
 
         <div class="flex flex-col flex-auto bg-card gap-8 w-full p-8">
             <div class="flex flex-row justify-between">
@@ -49,7 +48,7 @@
                     <label [for]="'card_' + item.name">
                         <div [ngClass]="i == 0 ? 'border-t-[#4F4F4F]' : 'border-t-[#979797]'" class="flex flex-col radio-card justify-between rounded-sm border-t-2  p-3 h-24 cursor-pointer mr-1"
                             style="box-shadow: 0px 4px 12px 0px #19191C0A;">
-                            <div class="text-sm font-normal">{{item.name}}</div>
+                            <div class="text-md font-medium">{{item.name}}</div>
                             <div class="text-xl font-semibold text-[#637381]">{{item.total | number}} ครั้ง</div>
                         </div>
                     </label>
@@ -59,9 +58,7 @@
                 <div class="flex flex-col">
                     <div class="text-base font-semibold mb-3">บริษัทในกลุ่ม {{getDepartment.name}} ที่เข้ารับบริการบ่อยสุด</div>
                     <div class="">
-                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
-                            [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions"
-                            [xaxis]="chartOptions.xaxis"></apx-chart>
+                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis"></apx-chart>
                     </div>
                 </div>
                 <div class="flex flex-col pl-8">
@@ -69,36 +66,28 @@
                     <div class="text-base font-semibold">
 
                         <div class="flex flex-row w-full h-10 my-5 rounded-lg text-base font-semibold text-white">
-                            <div class="flex bg-[#FF4849] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(0)) ? 'pl-4' : ''" [style.width]="calPers(0) + '%'">
+                            <div class="flex bg-[#FF4849] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(0)) ? 'pl-4' : ''" [style.width]="calPers(0) + '%'">
                                 {{calPerStyly(calPers(0))}}
                             </div>
-                            <div class="flex bg-[#2B4D66] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(1)) ? 'pl-4' : ''" [style.width]="calPers(1) + '%'">
+                            <div class="flex bg-[#2B4D66] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(1)) ? 'pl-4' : ''" [style.width]="calPers(1) + '%'">
                                 {{calPerStyly(calPers(1))}}
                             </div>
-                            <div class="flex bg-[#33C455] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(2)) ? 'pl-4' : ''" [style.width]="calPers(2) + '%'">
+                            <div class="flex bg-[#33C455] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(2)) ? 'pl-4' : ''" [style.width]="calPers(2) + '%'">
                                 {{calPerStyly(calPers(2))}}
                             </div>
-                            <div class="flex bg-[#FFB600] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(3)) ? 'pl-4' : ''" [style.width]="calPers(3) + '%'">
+                            <div class="flex bg-[#FFB600] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(3)) ? 'pl-4' : ''" [style.width]="calPers(3) + '%'">
                                 {{calPerStyly(calPers(3))}}
                             </div>
-                            <div class="flex bg-[#6692FB] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(4)) ? 'pl-4' : ''" [style.width]="calPers(4) + '%'">
+                            <div class="flex bg-[#6692FB] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(4)) ? 'pl-4' : ''" [style.width]="calPers(4) + '%'">
                                 {{calPerStyly(calPers(4))}}
                             </div>
-                            <div class="flex bg-[#00B8D9] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(5)) ? 'pl-4' : ''" [style.width]="calPers(5) + '%'">
+                            <div class="flex bg-[#00B8D9] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(5)) ? 'pl-4' : ''" [style.width]="calPers(5) + '%'">
                                 {{calPerStyly(calPers(5))}}
                             </div>
-                            <div class="flex bg-[#B76E00] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(6)) ? 'pl-4' : ''" [style.width]="calPers(6) + '%'">
+                            <div class="flex bg-[#B76E00] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(6)) ? 'pl-4' : ''" [style.width]="calPers(6) + '%'">
                                 {{calPerStyly(calPers(6))}}
                             </div>
-                            <div class="flex bg-[#BBBACE] h-10 text-center items-center"
-                                [ngClass]="calPerStyly(calPers(7)) ? 'pl-4' : ''" [style.width]="calPers(7) + '%'">
+                            <div class="flex bg-[#BBBACE] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(7)) ? 'pl-4' : ''" [style.width]="calPers(7) + '%'">
                                 {{calPerStyly(calPers(7))}}
                             </div>
                         </div>
@@ -107,8 +96,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#FF4849] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#FF4849] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#FF4849] rounded-full"></div>
                                         </div>
                                         <div class="flex">เปลี่ยนยาง</div>
@@ -120,8 +108,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#2b4d66] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#2b4d66] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#2B4D66] rounded-full"></div>
                                         </div>
                                         <div class="flex">เปลี่ยนแบตเตอรี่</div>
@@ -133,8 +120,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#33C455] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#33C455] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#33C455] rounded-full"></div>
                                         </div>
                                         <div class="flex">เช็คระยะ</div>
@@ -146,8 +132,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#FFB600] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#FFB600] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#FFB600] rounded-full"></div>
                                         </div>
                                         <div class="flex">เช็คระบบแอร์</div>
@@ -159,8 +144,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#6692FB] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#6692FB] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#6692FB] rounded-full"></div>
                                         </div>
                                         <div class="flex">เช็คระบบเบรค</div>
@@ -172,8 +156,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#00B8D9] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#00B8D9] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#00B8D9] rounded-full"></div>
                                         </div>
                                         <div class="flex">เช็คระบบไฟ</div>
@@ -185,8 +168,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#B76E00] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#B76E00] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#B76E00] rounded-full"></div>
                                         </div>
                                         <div class="flex">เช็คช่วงล่าง</div>
@@ -198,8 +180,7 @@
                             <li class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div
-                                            class="flex items-center justify-center w-4 h-4 bg-[#BBBACE] bg-opacity-30 rounded-full">
+                                        <div class="flex items-center justify-center w-4 h-4 bg-[#BBBACE] bg-opacity-30 rounded-full">
                                             <div class="flex w-2 h-2 bg-[#BBBACE] rounded-full"></div>
                                         </div>
                                         <div class="flex">อื่นๆ</div>

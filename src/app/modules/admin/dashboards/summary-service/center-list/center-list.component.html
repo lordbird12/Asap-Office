@@ -30,8 +30,7 @@
     <div class="relative overflow-x-auto shadow-md sm:  rounded-lg m-5  bg-white">
         <div class="flex flex-row justify-between py-2 px-5">
             <div class="flex justify-start items-center w-[405px] mt-5">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-icon svgIcon="search"></mat-icon>
                         <input matInput [placeholder]="'ค้นหา'">
@@ -49,6 +48,7 @@
                         <th class="">จำนวนรถเข้ารับบริการ</th>
                         <th class="">จำนวนรถในพอร์ต</th>
                         <th class="">ค่าเฉลี่ยการเข้ารับบริการ</th>
+                        <!-- <th class="">สถานะ</th> -->
                         <th class=""></th>
                     </tr>
                 </thead>
@@ -56,9 +56,7 @@
                     <tr *ngFor="let item of dataRow; let i = index">
                         <td>
                             <div *ngIf="i < 3" class="flex w-8 h-8 items-center justify-center rounded-full bg-white">
-                                <div [ngClass]="i == 0 ? 'bg-[#FBAF5D]' : i == 1 ? 'bg-[#919AA9]' : i == 2 ? 'bg-[#CE7430]' : ''"
-                                    class="flex w-7 h-7 items-center justify-center rounded-full text-white font-semibold"
-                                    style="box-shadow: 0px 2.3888888359069824px 4.777777671813965px 0px #0000000F;">
+                                <div [ngClass]="i == 0 ? 'bg-[#FBAF5D]' : i == 1 ? 'bg-[#919AA9]' : i == 2 ? 'bg-[#CE7430]' : ''" class="flex w-7 h-7 items-center justify-center rounded-full text-white font-semibold" style="box-shadow: 0px 2.3888888359069824px 4.777777671813965px 0px #0000000F;">
                                     {{i+1}}
                                 </div>
                             </div>
@@ -71,6 +69,7 @@
                         <td class="font-light">{{item.total_car}}</td>
                         <td class="font-light">{{item.total_port}}</td>
                         <td class="font-light">{{item.total_avg}}</td>
+                        <!-- <td class="font-light">{{item.ex_status}}</td> -->
                         <td>
                             <div class="flex flex-row gap-1 items-center">
                                 <div class="font-medium text-[#FF4849]">
@@ -78,8 +77,7 @@
                                         ดูเพิ่มเติม
                                     </a>
                                 </div>
-                                <svg width="10" height="14" viewBox="0 0 10 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
+                                <svg width="10" height="14" viewBox="0 0 10 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" clip-rule="evenodd"
                                         d="M4.29286 3.96477C3.90234 3.57424 3.26918 3.57424 2.87865 3.96477C2.48813 4.35529 2.48813 4.98846 2.87865 5.37898L4.99994 7.50028L2.87862 9.6216C2.4881 10.0121 2.4881 10.6453 2.87862 11.0358C3.26915 11.4263 3.90231 11.4263 4.29284 11.0358L7.11516 8.21349C7.11721 8.21147 7.11925 8.20945 7.12129 8.20741C7.50571 7.82299 7.51172 7.20345 7.13931 6.81168C7.1334 6.80546 7.12739 6.7993 7.12129 6.7932C7.12128 6.79319 7.12127 6.79318 7.12127 6.79317C7.1212 6.7931 7.12113 6.79303 7.12106 6.79296L4.29286 3.96477Z"
                                         fill="#FF4849" />
