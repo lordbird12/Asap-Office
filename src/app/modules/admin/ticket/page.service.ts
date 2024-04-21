@@ -75,7 +75,7 @@ export class PageService {
         time: any,
         date: any,
         phone: any,
-        service_center_id: any
+        service_center_id: any,
     ): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_booking_status', {
@@ -88,6 +88,7 @@ export class PageService {
                 date: date,
                 phone: phone,
                 service_center_id: service_center_id,
+                reason_by:'A'
             })
             .pipe(
                 tap((result) => {
