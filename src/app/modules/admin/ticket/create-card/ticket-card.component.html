@@ -26,8 +26,7 @@
                 <mat-form-field class="flex-auto w-full" appearance="outline">
                     <mat-label class="font-bold">ข้อมูลรถ</mat-label>
                     <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
-                        (optionSelected)="onChangeClient($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChangeClient($event)">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                             {{option.license_plate}}
                         </mat-option>
@@ -63,8 +62,7 @@
                 <mat-label class="font-bold">รายละเอียด</mat-label>
                 <div class="grid grid-rows-6 grid-flow-col gap-4">
                     <div class="inline-flex items-center" *ngFor="let item of topics;">
-                        <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="ripple-on"
-                            data-ripple-dark="true">
+                        <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="ripple-on" data-ripple-dark="true">
                             <input id="ripple-on" type="checkbox" (change)="addFeature(item)"
                                 [checked]="isChecked(item)"
                                 class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-900 checked:bg-gray-900 checked:before:bg-gray-900 hover:before:opacity-10" />
@@ -84,19 +82,17 @@
                     </div>
                 </div>
             </div>
-            <ng-container >
+            <ng-container>
                 <div class="flex flex-col mt-2">
                     <div class="flex flex-col">
                         <mat-label class="font-bold">Notes</mat-label>
                         <mat-form-field>
-                            <textarea matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3"
-                                formControlName="note"></textarea>
+                            <textarea matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3" formControlName="note"></textarea>
                         </mat-form-field>
                     </div>
                 </div>
             </ng-container>
-            <button class="px-6 ml-3 rounded-md mt-5" mat-flat-button [color]="'primary'"
-                (click)="onSaveClick()">บันทึก</button>
+            <button class="px-6 rounded-md mt-5" mat-flat-button [color]="'primary'" (click)="onSaveClick()">บันทึก</button>
         </div>
     </form>
 </div>

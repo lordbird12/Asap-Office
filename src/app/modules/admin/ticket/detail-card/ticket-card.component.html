@@ -49,9 +49,9 @@
         </div>
         <form [formGroup]="form">
 
-            <mat-form-field class="flex-auto" appearance="outline">
+            <mat-form-field class="flex-auto" appearance="outline" class="w-full">
                 <mat-label>เบอร์โทรศัพท์ติดต่อ</mat-label>
-                <input matInput [placeholder]="'เบอร์โทรศัพท์ติดต่อ'" formControlName="phone" [value]="this.data.phone">
+                <input matInput [placeholder]="'เบอร์โทรศัพท์ติดต่อ'" class="w-full" formControlName="phone" [value]="this.data.phone">
             </mat-form-field>
 
         </form>
@@ -84,12 +84,15 @@
             <!-- <app-checkbox-service [items]="yourArray" [dataArray]="yourDataArray"></app-checkbox-service> -->
         </div>
         <div class="flex flex-col mt-2">
-            <form [formGroup]="form">
-                <mat-label class="font-bold">Notes</mat-label>
-                <mat-form-field>
-                    <textarea matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3" formControlName="note"></textarea>
-                </mat-form-field>
-            </form>
+            <div class="flex flex-col">
+                <form [formGroup]="form">
+                    <mat-label class="font-bold">Notes</mat-label>
+                    <br>
+                    <mat-form-field class="w-full">
+                        <textarea class="w-full" matInput [placeholder]="'หมายเหตุเพิ่มเติม (ถ้ามี)'" [rows]="3" formControlName="note"></textarea>
+                    </mat-form-field>
+                </form>
+            </div>
         </div>
         <div class="flex flex-col">
             <div class="flex flex-row justify-between mb-6">
@@ -118,6 +121,6 @@
                 </ng-container>
             </ol>
         </div>
-        <button class="px-6 ml-3 rounded-md mt-5" mat-flat-button [color]="'primary'" (click)="onSaveClick()">บันทึก</button>
+        <button class="px-6 rounded-md mt-5" mat-flat-button [color]="'primary'" (click)="onSaveClick()">บันทึก</button>
     </div>
 </div>

@@ -105,6 +105,7 @@ export class CreateComponent implements OnInit {
 
     onChangeClient(event: any) {
         const selectedOption = event.option.value;
+console.log(selectedOption);
         this.form.patchValue({
             car_id: selectedOption.car_id,
             client_id: selectedOption.client.id,
@@ -133,7 +134,7 @@ export class CreateComponent implements OnInit {
         const filterValue = name;
 
         return this.productData.filter((option) =>
-            option.license_plate.toLowerCase().includes(filterValue)
+            option.license_plate?.toLowerCase().includes(filterValue)
         );
     }
 
