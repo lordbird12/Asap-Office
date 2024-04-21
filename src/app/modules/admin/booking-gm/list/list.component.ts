@@ -87,30 +87,30 @@ export class ListComponent implements OnInit, AfterViewInit {
             id: 1,
             name: 'งานใหม่ / Todo',
             detail: 'งานใหม่รอรับ',
-            status: 'Process',
+            status: 'New',
             task: []
         },
         {
             id: 2,
             name: 'กำลังดำเนินงาน',
             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-            status: 'Waiting',
+            status: 'Process',
             task: []
         },
         {
             id: 3,
             name: 'รอเข้ารับบริการ',
             detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+            status: 'Waiting',
+            task: []
+        },
+        {
+            id: 4,
+            name: 'เสร็จสิ้น',
+            detail: '-',
             status: 'Finish',
             task: []
         },
-        // {
-        //     id: 4,
-        //     name: 'เสร็จสิ้น',
-        //     detail: '-',
-        //     status: 'Cancel',
-        //     task: []
-        // },
     ]
     itemData: any;
     user: any;
@@ -372,20 +372,27 @@ export class ListComponent implements OnInit, AfterViewInit {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
-                        status: 'Process',
+                        status: 'New',
                         task: []
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                        status: 'Waiting',
+                        status: 'Process',
                         task: []
                     },
                     {
                         id: 3,
                         name: 'รอเข้ารับบริการ',
                         detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                        status: 'Waiting',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
                         status: 'Finish',
                         task: []
                     },
@@ -421,6 +428,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     editTicket(value: FormGroup) {
+       
         // console.log(value)
         const dialogRef = this.dialog.open(TicketCardComponent,
             {
@@ -444,20 +452,27 @@ export class ListComponent implements OnInit, AfterViewInit {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
-                        status: 'Process',
+                        status: 'New',
                         task: []
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                        status: 'Waiting',
+                        status: 'Process',
                         task: []
                     },
                     {
                         id: 3,
                         name: 'รอเข้ารับบริการ',
                         detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                        status: 'Waiting',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
                         status: 'Finish',
                         task: []
                     },
@@ -518,20 +533,27 @@ export class ListComponent implements OnInit, AfterViewInit {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
-                        status: 'Process',
+                        status: 'New',
                         task: []
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                        status: 'Waiting',
+                        status: 'Process',
                         task: []
                     },
                     {
                         id: 3,
                         name: 'รอเข้ารับบริการ',
                         detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                        status: 'Waiting',
+                        task: []
+                    },
+                    {
+                        id: 4,
+                        name: 'เสร็จสิ้น',
+                        detail: '-',
                         status: 'Finish',
                         task: []
                     },

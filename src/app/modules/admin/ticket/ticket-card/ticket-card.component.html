@@ -242,6 +242,6 @@
                 </ol>
             </div>
         </form>
-        <button class="px-6 rounded-md mt-5" mat-flat-button [color]="'primary'" (click)="onSaveClick()">บันทึก</button>
+        <button *ngIf="user.position_id != 3" class="px-6 rounded-md mt-5" mat-flat-button [color]="'primary'" (click)="onSaveClick()">บันทึก</button>
     </div>
 </div>

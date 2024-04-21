@@ -64,7 +64,7 @@ export class TicketCardComponent implements OnInit {
     productFilter: any[] = [];
     form: FormGroup;
     service: { service_id: number }[] = [];
-
+    user: any;
     selectedCar: number;
     note_text: boolean = false;
 
@@ -178,6 +178,7 @@ export class TicketCardComponent implements OnInit {
     testData: any[] = [];
     serviceData1: any[] = [];
     ngOnInit(): void {
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.generateTimeOptions();
         // this.GetCar();
         this._service.getService().subscribe((resp: any) => {

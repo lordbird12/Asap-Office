@@ -1,7 +1,6 @@
 <div class="flex flex-col flex-auto min-w-0 h-full justify-between relative">
     <!-- Header -->
-    <div
-        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
+    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-3 sm:px-10 border-b bg-card dark:bg-transparent">
         <div class="flex-1 flemin-w-0">
             <!-- Title -->
             <div class="flex flex-row mt-2 justify-between">
@@ -10,8 +9,7 @@
                 </h2>
                 <form [formGroup]="formGroup">
                     <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60"
-                            style="margin-bottom: -1.25em">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
                             <mat-select formControlName="department_id">
                                 <mat-option value="">ทุกแผนก</mat-option>
                                 <mat-option *ngFor="let item of departmests;" value="{{item.id}}">
@@ -29,8 +27,7 @@
     <div class="flex flex-col relative shadow-lg sm:rounded-lg m-5 bg-white h-full">
         <div class="flex flex-row p-5  sm:overflow-y-auto justify-between h-25">
             <div class="flex justify-start items-center w-[405px] mt-5">
-                <div
-                    class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
+                <div class="flex text-md font-normal tracking-tight leading-7 sm:leading-10 truncate justify-center items-center">
                     <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
                         <mat-icon svgIcon="search"></mat-icon>
                         <input matInput [placeholder]="'ค้นหา'" [formControl]="searchCar">
@@ -42,27 +39,23 @@
                     <div class="flex items-center" (click)="employeeDialog('test')">
                         <div class="flex flex-row items-center -space-x-2 relative">
                             <div *ngFor="let emp of empFilter(employeeDep).slice(0,3);let i = index">
-                                <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]"
-                                    src="{{emp.image}}">
+                                <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]" src="{{emp.image}}">
                             </div>
-                            <div *ngIf="empFilter(employeeDep).length > 3"
-                                class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
+                            <div *ngIf="empFilter(employeeDep).length > 3" class="flex w-15 h-15 rounded-full object-cover bg-[#FF595A24] items-center justify-center border-4 border-white relative z-[1] text-red-400">
                                 + {{empFilter(employeeDep).length - 3}}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="px-6 ml-3 rounded-md" mat-stroked-button [color]="'secondary'"
-                        (click)="createTicket()">
+                    <button class="px-6 ml-3 rounded-md" mat-stroked-button [color]="'secondary'" (click)="createTicket()">
                         <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
                     </button>
                 </div>
             </div>
         </div>
         <div class="flex flex-row grow gap-2 mx-3 mb-5">
-            <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto gap-4"
-                *ngFor="let item of task; let i = index">
+            <div class="grow bg-slate-50 w-1/4 mx-2 rounded-xl overflow-y-auto gap-4" *ngFor="let item of task; let i = index">
                 <p class="text-xl font-bold mx-5 mt-5 mb-2">
                     {{item.name}} <span class="font-light text-gray-500">({{item.task.length}})</span>
                 </p>
@@ -70,8 +63,7 @@
                     {{item.detail }}
                 </p>
                 <ng-container *ngFor="let card of item.task; let j = index">
-                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100"
-                        *ngIf="card.status === 'New' || card.status === 'Cancel'">
+                    <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100" *ngIf="card.status === 'New' || card.status === 'Cancel'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
                                 <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
@@ -111,17 +103,13 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <button
-                                    class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50"
-                                    (click)="editTicket(card)">
+                                <button class="border-2 border-[#00AB47] w-full rounded-md p-2 text-[#00AB47] hover:bg-slate-50" (click)="editTicket(card)">
                                     <span class="font-light"> รับงาน</span>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2"
-                        [ngClass]="{'bg-[#fff9f9]': isChecked1[j], 'bg-white': !isChecked1[j],'border-red-500' : isChecked1[j]}"
-                        *ngIf="card.status === 'Process'">
+                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2" [ngClass]="{'bg-[#fff9f9]': isChecked1[j], 'bg-white': !isChecked1[j],'border-red-500' : isChecked1[j]}" *ngIf="card.status === 'Process'">
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-row" (click)="editTicket(card)">
                                 <div class="flex p-4">
@@ -137,13 +125,11 @@
                                 </div>
                             </div>
                             <div class="relative">
-                                <input class="absolute top-0 right-0 m-5" type="checkbox" [id]="'checkbox_' + j"
-                                    (change)="changeColor1(j,$event)" [disabled]="isCheckedWait">
+                                <input class="absolute top-0 right-0 m-5" type="checkbox" [id]="'checkbox_' + j" (change)="changeColor1(j,$event)" [disabled]="isCheckedWait">
                             </div>
                         </div>
                         <div class="flex flex-row mx-5 md:flex mb-6">
-                            <div class="flex truncate md:text-clip rounded-lg w-full p-2" (click)="editTicket(card)"
-                                [ngClass]="{'bg-gray-50': isChecked1[j], 'bg-gray-100': !isChecked1[j]}">
+                            <div class="flex truncate md:text-clip rounded-lg w-full p-2" (click)="editTicket(card)" [ngClass]="{'bg-gray-50': isChecked1[j], 'bg-gray-100': !isChecked1[j]}">
                                 <span class="flex text-lg items-center" *ngFor="let service of card.services">
                                     {{service.service?.name}}&nbsp;</span>
                             </div>
@@ -197,14 +183,11 @@
                             </div>
                             <div class="flex px-4 mb-2">
                                 <!-- <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}" alt="image description"> -->
-                                <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}"
-                                    alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}" alt="image description">
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2"
-                        [ngClass]="{'bg-[#fff9f9]': isChecked2[j], 'bg-white': !isChecked2[j],'border-red-500' : isChecked2[j]}"
-                        *ngIf="card.status === 'Waiting'">
+                    <div class="flex flex-col mx-5  rounded-xl mb-5 shadow-xl cursor-pointer border-2" [ngClass]="{'bg-[#fff9f9]': isChecked2[j], 'bg-white': !isChecked2[j],'border-red-500' : isChecked2[j]}" *ngIf="card.status === 'Waiting'">
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-row" (click)="editTicket(card)">
                                 <div class="flex p-4">
@@ -220,8 +203,7 @@
                                 </div>
                             </div>
                             <div class="relative">
-                                <input class="absolute top-0 right-0 m-5" type="checkbox" [id]="'checkbox_' + j"
-                                    (change)="changeColor2(j, $event)" [disabled]="isCheckedProcess">
+                                <input class="absolute top-0 right-0 m-5" type="checkbox" [id]="'checkbox_' + j" (change)="changeColor2(j, $event)" [disabled]="isCheckedProcess">
                             </div>
                         </div>
                         <div class="flex flex-row" (click)="editTicket(card)">
@@ -263,8 +245,7 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}"
-                                    alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}" alt="image description">
                             </div>
                         </div>
                     </div>
@@ -291,8 +272,7 @@
                             </div>
                         </div>
                         <div class="flex flex-row mx-5 md:flex mb-6 mt-2">
-                            <div class="flex bg-[#ECFDF3] text-green-500 rounded-full w-fit p-2"
-                                *ngIf="card.status === 'Finish'">
+                            <div class="flex bg-[#ECFDF3] text-green-500 rounded-full w-fit p-2" *ngIf="card.status === 'Finish'">
                                 <span class="flex text-full items-center">• เสร็จสิ้น</span>
                             </div>
                         </div>
@@ -312,8 +292,7 @@
                                 </div>
                             </div>
                             <div class="flex px-4 mb-2">
-                                <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}"
-                                    alt="image description">
+                                <img class="h-8 w-8 rounded-full" src="{{card | lastUserImage}}" alt="image description">
                             </div>
                         </div>
                     </div>
@@ -321,8 +300,7 @@
             </div>
         </div>
     </div>
-    <div class="flex w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24"
-        *ngIf="this.multiItems.length > 0">
+    <div class="flex w-full border-t mt-8 px-8 py-5 bg-gray-50 dark:bg-gray-700 sticky bottom-0 h-24" *ngIf="this.multiItems.length > 0">
         <div class="flex w-3/4 justify-start items-center">
             <div class="flex flex-row justify-between w-full items-center">
                 <button class="rounded-md border-black border" mat-stroked-button (click)="onUncheckAllClick()">
