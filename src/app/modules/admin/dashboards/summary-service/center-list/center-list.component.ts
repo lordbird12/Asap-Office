@@ -16,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CenterListService } from './center-list.service';
+import { environment } from 'environments/environment.development';
 
 @Component({
   selector: 'app-center-list',
@@ -97,4 +98,10 @@ export class CenterListComponent implements OnInit {
     }
 
     uploadfile() {}
+
+    exportExcel() {
+        window.open(
+            environment.baseURL + '/api/export_dashboard_book/1'
+        );
+    }
 }

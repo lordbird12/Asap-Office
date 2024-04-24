@@ -184,4 +184,8 @@ export class CompanyDetailComponent implements OnInit {
                 '/1/1'
         );
     }
+
+    exportExcel2() {
+        window.open(environment.baseURL + '/api/export_book_activity_service_center/' + this.company_id);
+    }
 }
