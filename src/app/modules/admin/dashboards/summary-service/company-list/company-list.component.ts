@@ -85,7 +85,7 @@ export class CompanyListComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.department_id = +this.id;
+                dataTablesParameters.ex_status = this.department;
                 that._service
                     .dashboardBookingPage(dataTablesParameters)
                     .subscribe((resp: any) => {
