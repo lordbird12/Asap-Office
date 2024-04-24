@@ -64,13 +64,13 @@ import { AsapConfirmationService } from '@fuse/services/asap-confirmation';
         MatPaginatorModule,
         MatTableModule,
         DataTablesModule,
-        MatCheckboxModule
+        MatCheckboxModule,
     ],
 })
 export class ListComponent implements OnInit, AfterViewInit {
     range = new FormGroup({
-        start: new FormControl<any>(new Date),
-        end: new FormControl<any>(new Date),
+        start: new FormControl<any>(new Date()),
+        end: new FormControl<any>(new Date()),
     });
     searchQuery: string = '';
     department: string = '';
@@ -87,8 +87,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: PageService,
         private _router: Router,
-        private asapConfirmationService: AsapConfirmationService,
-    ) { }
+        private asapConfirmationService: AsapConfirmationService
+    ) {}
 
     ngOnInit() {
         this.loadTable();
@@ -121,7 +121,14 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     exportfile() {
-        window.open(environment.baseURL + '/api/export_log');
+        const user = JSON.parse(localStorage.getItem('user'));
+        window.open(
+            environment.baseURL +
+                '/api/export_log/' +
+                user.position_id +
+                '/' +
+                user.code
+        );
     }
 
     addElement() {
@@ -140,7 +147,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     applySearch() {
         // You may need to modify this based on your DataTables structure
-        this.rerender()
+        this.rerender();
     }
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -150,7 +157,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     loadTable(): void {
-
         const that = this;
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -163,9 +169,13 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
-                dataTablesParameters.date_start = moment(new Date(this.range.value.start)).format('YYYY-MM-DD')
-                dataTablesParameters.date_stop = moment(new Date(this.range.value.end)).format('YYYY-MM-DD')
-                dataTablesParameters.department = this.department
+                dataTablesParameters.date_start = moment(
+                    new Date(this.range.value.start)
+                ).format('YYYY-MM-DD');
+                dataTablesParameters.date_stop = moment(
+                    new Date(this.range.value.end)
+                ).format('YYYY-MM-DD');
+                dataTablesParameters.department = this.department;
                 dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
@@ -210,52 +220,60 @@ export class ListComponent implements OnInit, AfterViewInit {
         //     this.range.value.end = moment(this.range.value.end).format('YYYY-MM-DD');
         //    console.log(this.range.value);
 
-        this.rerender()
-        this._changeDetectorRef.markForCheck()
+        this.rerender();
+        this._changeDetectorRef.markForCheck();
     }
 
     get someOneChecked() {
-        return this.dataRow?.filter(e => e.checked);
+        return this.dataRow?.filter((e) => e.checked);
     }
 
     get someCheck() {
-        if (this.someOneChecked?.length == 0) { return false; }
+        if (this.someOneChecked?.length == 0) {
+            return false;
+        }
 
         return this.someOneChecked?.length > 0 && !this.checkAll;
     }
 
     get checkAll() {
-        return this.dataRow?.every(e => e.checked);
+        return this.dataRow?.every((e) => e.checked);
     }
 
     setAll(checked: boolean) {
-        this.dataRow?.forEach(e => e.checked = checked);
+        this.dataRow?.forEach((e) => (e.checked = checked));
     }
 
     confirmDelete() {
         const confirmation = this.asapConfirmationService.open({
             title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
             message: 'ประวัติการทำรายการที่เลือกจะถูกลบออกจากระบบถาวร',
-            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            icon: {
+                show: true,
+                name: 'heroicons_asha:delete2',
+                color: 'error',
+            },
             actions: {
                 confirm: {
-                    label: 'ลบ'
+                    label: 'ลบ',
                 },
                 cancel: {
-                    label: 'ยกเลิก'
-                }
-            }
+                    label: 'ยกเลิก',
+                },
+            },
         });
 
         confirmation.afterClosed().subscribe((result) => {
             if (result == 'confirmed') {
-                const selectedIds = this.dataRow.filter(e => e.checked).map(e => e.id);
+                const selectedIds = this.dataRow
+                    .filter((e) => e.checked)
+                    .map((e) => e.id);
                 console.log(selectedIds);
             }
         });
     }
 
-    cancelCheck(){
-        this.setAll(false)
+    cancelCheck() {
+        this.setAll(false);
     }
 }
