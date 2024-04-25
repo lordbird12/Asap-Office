@@ -63,6 +63,7 @@
                             <th *ngIf="user.position_id != 2" class="w-1">
                                 <mat-checkbox [checked]="checkAll" [indeterminate]="someCheck" (change)="setAll($event.checked)" color="primary"></mat-checkbox>
                             </th>
+                            <th class="font-light">รหัส</th>
                             <th class="font-light">ชื่อ</th>
                             <th class="font-light">บริษัท</th>
                             <th class="font-light">จำนวนรถ</th>
@@ -77,9 +78,10 @@
                             <td *ngIf="user.position_id != 2">
                                 <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
                             </td>
+                            <td style="width: 50px; min-width: 150px00px;" class="font-light">{{item?.code}}</td>
                             <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.name}}</td>
                             <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.company}}</td>
-                            <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length}}
+                            <td style="width: 100px; min-width: 100px;" class="font-light">{{item?.cars?.length-1}}
                             </td>
                             <td style="width: 100px; min-width: 100px;">
                                 <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900" *ngIf="item?.status === 'Active'">

@@ -73,8 +73,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     flashMessage: 'success' | 'error' | null = null;
     componys: any[];
     public dataRow: any[];
-    user:any;
-    companyList: any[]=[]
+    user: any;
+    companyList: any[] = [];
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     dtInstance: Promise<DataTables.Api>;
@@ -90,9 +90,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
         this.loadTable();
-        this._service.getClient().subscribe((resp: any)=>{
-            this.componys = resp            
-        })
+        this._service.getClient().subscribe((resp: any) => {
+            this.componys = resp;
+        });
     }
 
     ngAfterViewInit(): void {
@@ -152,8 +152,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.companyList = result.map(item => item.id)
-                console.log('111',this.companyList)
+                this.companyList = result.map((item) => item.id);
+                console.log('111', this.companyList);
                 this.rerender();
             }
         });
@@ -208,13 +208,13 @@ export class ListComponent implements OnInit, AfterViewInit {
             },
             columns: [
                 { data: 'action', orderable: false },
-                { data: 'No' },
                 { data: 'name' },
-                { data: 'email' },
-                { data: 'tel' },
+                { data: 'license' },
+                { data: 'status' },
+                { data: 'client_id' },
                 { data: '' },
             ],
-            order: [[1, 'asc']]
+            order: [[1, 'asc']],
         };
     }
 
@@ -227,36 +227,42 @@ export class ListComponent implements OnInit, AfterViewInit {
     // }
 
     get someOneChecked() {
-        return this.dataRow?.filter(e => e.checked);
+        return this.dataRow?.filter((e) => e.checked);
     }
 
     get someCheck() {
-        if (this.someOneChecked?.length == 0) { return false; }
+        if (this.someOneChecked?.length == 0) {
+            return false;
+        }
 
         return this.someOneChecked?.length > 0 && !this.checkAll;
     }
 
     get checkAll() {
-        return this.dataRow?.every(e => e.checked);
+        return this.dataRow?.every((e) => e.checked);
     }
 
     setAll(checked: boolean) {
-        this.dataRow?.forEach(e => e.checked = checked);
+        this.dataRow?.forEach((e) => (e.checked = checked));
     }
 
     confirmDelete() {
         const confirmation = this.asapConfirmationService.open({
             title: `ยืนยันการลบ ${this.someOneChecked.length} รายการ`,
             message: 'รถที่เลือกจะถูกลบออกจากระบบถาวร',
-            icon: { show: true, name: 'heroicons_asha:delete2', color: 'error' },
+            icon: {
+                show: true,
+                name: 'heroicons_asha:delete2',
+                color: 'error',
+            },
             actions: {
                 confirm: {
-                    label: 'ลบ'
+                    label: 'ลบ',
                 },
                 cancel: {
-                    label: 'ยกเลิก'
-                }
-            }
+                    label: 'ยกเลิก',
+                },
+            },
         });
 
         confirmation.afterClosed().subscribe((result) => {
@@ -271,7 +277,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                         data_array.push(data);
                     }
                 });
-
 
                 this._service.delete_all(data_array).subscribe({
                     next: (resp: any) => {
@@ -307,7 +312,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     cancelCheck() {
-        this.setAll(false)
+        this.setAll(false);
     }
 
     showFlashMessage(type: 'success' | 'error'): void {
