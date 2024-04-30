@@ -91,6 +91,9 @@
                                 <div *ngIf="item.status == 'Unavailable'" class="w-fit bg-gray-200 text-gray-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-green-900">
                                     ว่าง
                                 </div>
+                                <div *ngIf="item.status == 'Freeze'" class="w-fit bg-red-200 text-red-500 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-300 dark:text-red-900">
+                                    ยกเลิกใช้งาน
+                                </div>
                             </td>
                             <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
                             <td>
