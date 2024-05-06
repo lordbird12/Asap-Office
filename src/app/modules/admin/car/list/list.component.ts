@@ -139,9 +139,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                this.rerender();
-            }
+            this.rerender();
         });
     }
     companyDialog() {
@@ -151,9 +149,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
 
         dialogRef.afterClosed().subscribe((result) => {
+          
             if (result) {
                 this.companyList = result.map((item) => item.id);
-                console.log('111', this.companyList);
                 this.rerender();
             }
         });
