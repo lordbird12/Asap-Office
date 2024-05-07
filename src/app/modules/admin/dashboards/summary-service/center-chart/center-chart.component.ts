@@ -27,7 +27,7 @@ export class CenterChartComponent implements OnInit {
     public chartOptions: Partial<ChartOptions>;
 
     ngOnInit(): void {
-        console.log(this.data);
+
         this.chartOptions = {
             series: [
                 {
