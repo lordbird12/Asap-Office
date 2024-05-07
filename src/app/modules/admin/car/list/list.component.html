@@ -97,7 +97,7 @@
                             </td>
                             <td class="font-light">{{item.client?.company}}<br>{{item.client?.phone}}</td>
                             <td>
-                                <img class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="edit(item.id)" />
+                                <img *ngIf="user.position_id != 2" class="w-10 h-10 cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="edit(item.id)" />
                             </td>
                         </tr>
                     </tbody>

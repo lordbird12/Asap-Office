@@ -78,7 +78,7 @@
                             <td class="font-light">{{item?.phone4 ?? "-"}}</td>
                             <td class="font-light">{{item?.address}}</td>
                             <td style="width:80px !important">
-                                <img style="width:50px !important;height:50px !important; max-width:unset !important;" class="cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="editElement(item.id)" />
+                                <img *ngIf="user.position_id != 2" style="width:50px !important;height:50px !important; max-width:unset !important;" class="cursor-pointer" src="assets/icons/button_edit.svg" alt="Icon" (click)="editElement(item.id)" />
                             </td>
                         </tr>
                     </tbody>
