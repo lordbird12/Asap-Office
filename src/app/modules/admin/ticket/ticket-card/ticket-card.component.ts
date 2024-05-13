@@ -268,48 +268,148 @@ export class TicketCardComponent implements OnInit {
             name: '8:00 am',
         },
         {
+            code: '08:15',
+            name: '8:15 am',
+        },
+        {
+            code: '08:30',
+            name: '8:30 am',
+        },
+        {
+            code: '08:45',
+            name: '8:45 am',
+        },
+        {
             code: '09:00',
             name: '9:00 am',
+        },
+        {
+            code: '09:15',
+            name: '9:15 am',
+        },
+        {
+            code: '09:30',
+            name: '9:30 am',
+        },
+        {
+            code: '09:45',
+            name: '9:45 am',
         },
         {
             code: '10:00',
             name: '10:00 am',
         },
         {
+            code: '10:15',
+            name: '10:15 am',
+        },
+        {
+            code: '10:30',
+            name: '10:30 am',
+        },
+        {
+            code: '10:45',
+            name: '10:45 am',
+        },
+        {
             code: '11:00',
             name: '11:00 am',
+        },
+        {
+            code: '11:15',
+            name: '11:15 am',
+        },
+        {
+            code: '11:30',
+            name: '11:30 am',
+        },
+        {
+            code: '11:45',
+            name: '11:45 am',
         },
         {
             code: '12:00',
             name: '12:00 pm',
         },
         {
-            code: '01:00',
+            code: '12:15',
+            name: '12:15 am',
+        },
+        {
+            code: '12:30',
+            name: '12:30 am',
+        },
+        {
+            code: '12:45',
+            name: '12:45 am',
+        },
+        {
+            code: '13:00',
             name: '1:00 pm',
         },
         {
-            code: '02:00',
+            code: '13:15',
+            name: '1:15 am',
+        },
+        {
+            code: '13:30',
+            name: '1:30 am',
+        },
+        {
+            code: '13:45',
+            name: '1:45 am',
+        },
+        {
+            code: '14:00',
             name: '2:00 pm',
         },
         {
-            code: '03:00',
+            code: '14:15',
+            name: '2:15 am',
+        },
+        {
+            code: '14:30',
+            name: '2:30 am',
+        },
+        {
+            code: '14:45',
+            name: '2:45 am',
+        },
+        {
+            code: '15:00',
             name: '3:00 pm',
         },
         {
-            code: '04:00',
+            code: '15:15',
+            name: '3:15 am',
+        },
+        {
+            code: '15:30',
+            name: '3:30 am',
+        },
+        {
+            code: '15:45',
+            name: '3:45 am',
+        },
+        {
+            code: '16:00',
             name: '4:00 pm',
         },
         {
-            code: '05:00',
+            code: '16:15',
+            name: '4:15 am',
+        },
+        {
+            code: '16:30',
+            name: '4:30 am',
+        },
+        {
+            code: '04:45',
+            name: '4:45 am',
+        },
+        {
+            code: '16:00',
             name: '5:00 pm',
-        },
-        {
-            code: '06:00',
-            name: '6:00 pm',
-        },
-        {
-            code: '07:00',
-            name: '7:00 pm',
         },
     ];
 

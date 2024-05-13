@@ -30,7 +30,6 @@ import { MatTableModule } from '@angular/material/table';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import { PageService } from '../page.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
-import { DataTablesModule } from 'angular-datatables';
 import { Router } from '@angular/router';
 import { TicketCardComponent } from '../../ticket/ticket-card/ticket-card.component';
 import { UserImageService } from 'app/shared/image-last/user-image.service';
@@ -39,6 +38,7 @@ import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { EmployeeDialogComponent } from '../../ticket/employee-filter/dailog.component';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CancelDialogComponent } from '../../ticket/cancel-dialog/dailog.component';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 
 @Component({
     selector: 'car-list',
@@ -79,6 +79,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     isCheckedControl = new FormControl(false);
     status = new FormControl('');
     departmests = [];
+    department: string = '';
     public dataRow: any[];
     searchCar = new FormControl('');
     formGroup:FormGroup
@@ -120,6 +121,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     allTickets: any[] = [];
 
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
@@ -1002,5 +1005,17 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     exportFile() {
 
+    }
+
+    applySearch() {
+        alert(this.department);
+        // You may need to modify this based on your DataTables structure
+        this.rerender();
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
     }
 }
