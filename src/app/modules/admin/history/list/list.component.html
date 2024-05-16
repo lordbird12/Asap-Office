@@ -8,12 +8,12 @@
                     ประวัติการทำรายการ
                 </h2>
                 <div class="flex w-100">
-                    <mat-form-field class="w-full"  >
+                    <mat-form-field class="w-full">
                         <mat-date-range-input [formGroup]="range" [rangePicker]="picker" (click)="picker.open()">
                             <input matStartDate formControlName="start" placeholder="Start date" (click)="picker.open()">
-                            <input matEndDate formControlName="end" placeholder="End date"(click)="picker.open()" (dateChange)="changeDate()">
-                          </mat-date-range-input>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+                            <input matEndDate formControlName="end" placeholder="End date" (click)="picker.open()" (dateChange)="changeDate()">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </div>
@@ -31,7 +31,7 @@
                         <input matInput [placeholder]="'ค้นหา'" [(ngModel)]="searchQuery" (ngModelChange)="applySearch()">
                     </mat-form-field>
 
-                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]">
+                    <mat-form-field [ngClass]="formFieldHelpers" class="min-w-[405px] min-h-[40px]" *ngIf="user.position_id != 2">
                         <mat-select [(ngModel)]="department" (selectionChange)="applySearch()">
 
                             <mat-option [value]="''"> ทุกแผนก</mat-option>
@@ -81,9 +81,9 @@
                             <mat-checkbox color="primary" [(ngModel)]="item.checked"></mat-checkbox>
                         </td> -->
                         <td>{{ pages.begin + (i + 1) }}</td>
-                        <td>{{ item.user ? item.user.fname : "-" }} {{ item.user ? item.user.lname  : "-" }}</td>
+                        <td>{{ item.user ? item.user.fname : "-" }} {{ item.user ? item.user.lname : "-" }}</td>
                         <td>{{ item.created_at ? item.created_at : "-" }}</td>
-                         <td>{{ item.description ? item.description : "-" }}</td>
+                        <td>{{ item.description ? item.description : "-" }}</td>
                         <td>{{item.user?.department?.name ?? '-'}}</td>
                     </tr>
                 </tbody>

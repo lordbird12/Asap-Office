@@ -79,6 +79,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     dtOptions: DataTables.Settings = {};
     positions: any[];
     public dataRow: any[];
+    user:any;
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -91,6 +92,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.loadTable();
 
         // this._service.getPosition().subscribe((resp: any)=>{

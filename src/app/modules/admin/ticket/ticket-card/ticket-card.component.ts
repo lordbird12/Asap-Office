@@ -115,6 +115,7 @@ export class TicketCardComponent implements OnInit {
 
         this._service.getCar().subscribe((resp: any) => {
             this.productData = resp.data;
+            console.log(this.productData);
         });
         this._service.getServiceCenter().subscribe((resp: any) => {
             this.serviceCenterData = resp.data;
@@ -156,6 +157,7 @@ export class TicketCardComponent implements OnInit {
 
     private _filter(name: string): any[] {
         const filterValue = name;
+        console.log(this.productData);
 
         return this.productData.filter((option) =>
             option.license_plate.toLowerCase().includes(filterValue)
@@ -514,13 +516,15 @@ export class TicketCardComponent implements OnInit {
                         }
 
                         if (
-                            this.service_center_id !== this.myControl1.value.id
+                            Number(this.service_center_id) !==
+                            this.myControl1.value.id
                         ) {
                             formValue.service_center_id =
                                 this.myControl1.value.id; // ตัวแปร date ถูกอัพเดทเมื่อมีการเปลี่ยนแปลง
                         } else {
                             formValue.service_center_id = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
+
 
                         if (this.yourArray1) {
                             this.yourArray1.forEach((item) => {
