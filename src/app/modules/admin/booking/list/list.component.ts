@@ -83,6 +83,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     status = new FormControl('');
     public dataRow: any[];
     searchCar = new FormControl('');
+    showTool: number;
     task: any[] = [
         {
             id: 1,
@@ -1058,5 +1059,13 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     get isCheckedProcess() {
         return this.isChecked1.includes(true);
+    }
+
+    showTooltipShow(index: number): void {
+        this.showTool = index;
+    }
+
+    showTooltipNot(index: number): void {
+        this.showTool = 999;
     }
 }

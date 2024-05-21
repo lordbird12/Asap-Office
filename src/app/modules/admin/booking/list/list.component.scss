@@ -10,7 +10,7 @@ input[type="checkbox"] {
     box-shadow: 0px 3.7333333492279053px 28px 0px #1B19560F;
 }
 
-input[type="checkbox"]:checked ~ * .checkbox-card {
+input[type="checkbox"]:checked~* .checkbox-card {
     border: 1px solid #FF4849 !important;
     background-color: #fff9f9 !important;
 }
@@ -18,10 +18,10 @@ input[type="checkbox"]:checked ~ * .checkbox-card {
 .cdk-overlay-pane {
     padding-bottom: 1rem;
 }
+
 .text-red {
     color: red;
     // animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-
     // @keyframes ping {
     //   90%, 100% {
     //     transform: scale(2);
@@ -29,3 +29,199 @@ input[type="checkbox"]:checked ~ * .checkbox-card {
     //   }
     // }
 }
+
+.tooltip-box {
+    position: absolute;
+    padding: 2px;
+    background-color: black;
+    color: white;
+    // top: 72px;
+    // margin-left: 190px;
+    border-radius: 5px;
+    margin-right: -230px;
+    /* Adjust as necessary */
+}
+
+.tooltip {
+    position: relative;
+    /* making the .tooltip span a container for the tooltip text */
+    // border-bottom: 1px dashed #000;
+    /* little indicater to indicate it's hoverable */
+}
+
+.tooltip:before {
+    content: attr(data-text);
+    /* here's the magic */
+    position: absolute;
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+    /* move to right */
+    left: 100%;
+    margin-right: 155px;
+    /* and add a small left margin */
+    /* basic styles */
+    width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    background: #000;
+    color: #fff;
+    text-align: center;
+    display: none;
+    /* hide by default */
+}
+
+.tooltip:hover:before {
+    display: block;
+}
+
+.tooltip.left:before {
+    /* reset defaults */
+    right: initial;
+    margin: initial;
+    /* set new values */
+    left: 100%;
+    margin-right: 15px;
+}
+
+.tooltip-box:after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    margin-left: -19px;
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+    /* the arrow */
+    border: 10px solid #000;
+    border-color: transparent black transparent transparent;
+    display: none;
+}
+
+.tooltip:hover:before,
+.tooltip:hover:after {
+    display: block;
+}
+
+.vl {
+    border-left: 2px solid white;
+    height: 40px;
+}
+
+
+/* This mixin is for generating CSS arrows on a box */
+
+@mixin box-arrow($arrowDirection, $arrowColor, $arrowSize: 10px) {
+    // position: relative;
+    z-index: 10;
+    &::after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        z-index: 10;
+        border: 0;
+        @if $arrowDirection==bottom or $arrowDirection==top {
+            border-left: $arrowSize solid transparent;
+            border-right: $arrowSize solid transparent;
+            margin-left: 0;
+            left: 50%;
+            @if $arrowDirection==bottom {
+                border-top: $arrowSize solid $arrowColor;
+                bottom: -$arrowSize;
+            }
+            @if $arrowDirection==top {
+                border-bottom: $arrowSize solid $arrowColor;
+                top: -$arrowSize;
+            }
+        }
+        @if $arrowDirection==left or $arrowDirection==right {
+            border-top: $arrowSize solid transparent;
+            border-bottom: $arrowSize solid transparent;
+            margin-top: 0;
+            top: 50%;
+            @if $arrowDirection==left {
+                border-right: $arrowSize solid $arrowColor;
+                left: 12px;
+            }
+            @if $arrowDirection==right {
+                border-left: $arrowSize solid $arrowColor;
+                left: auto;
+                right: -$arrowSize;
+            }
+        }
+    }
+}
+
+// set some variables to reuse
+$boxbkg: black;
+$bodybkg: #f9f6ef;
+$btncolor: #d87517;
+//   body {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: space-around;
+//     padding: 5vmin;
+//     margin: 0;
+//     font-family: 'Source Sans Pro', sans-serif;
+//     background: $bodybkg;
+//   }
+.c-header {
+    width: 100%;
+    text-align: center;
+    font-size: calc(100% + 1vmin);
+    h1 {
+        font-weight: 700;
+        color: #333;
+    }
+}
+
+.c-box {
+    background: $boxbkg;
+    font-size: 150%;
+    text-align: center;
+    color: #fff;
+    flex-basis: 30%;
+    padding: 5vmin;
+    margin: 5vmin;
+    &--arrow-top {
+        @include box-arrow(top, $boxbkg);
+    }
+    &--arrow-right {
+        @include box-arrow(right, $boxbkg);
+    }
+    &--arrow-bottom {
+        @include box-arrow(bottom, $boxbkg);
+    }
+    &--arrow-left {
+        @include box-arrow(left, $boxbkg);
+    }
+}
+
+//   .c-footer {
+//     width: 100%;
+//     text-align: center;
+//   }
+//   .c-btn {
+//     background: $btncolor;
+//     display: inline-block;
+//     color: #fff;
+//     font-weight: 700;
+//     text-decoration: none;
+//     text-transform: uppercase;
+//     letter-spacing: .1em;
+//     padding: .75em 1.5em .85em;
+//     font-size: 120%;
+//     line-height: 140%;
+//     border-radius: 2px;
+//     border: 3px solid $btncolor;
+//     box-shadow: 0 4px 0 0 rgba(0,0,0,.1);
+//     transition: .2s all ease-out;
+//     &:hover {
+//       color: $btncolor;
+//       background: #fff;
+//       box-shadow: 0 6px 0 0 rgba(0,0,0,.2);
+//       border: 3px solid $btncolor;
+//     }
+//   }

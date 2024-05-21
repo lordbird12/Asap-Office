@@ -111,7 +111,7 @@ export class CompanyListComponent implements OnInit {
 
     exportExcel() {
         window.open(
-            environment.baseURL + '/api/export_dashboard_services/' + this.id
+            environment.baseURL + '/api/export_dashboard_services_group/' + this.id
         );
     }
 
