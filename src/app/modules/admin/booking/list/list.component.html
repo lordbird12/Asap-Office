@@ -149,19 +149,21 @@
                                             &nbsp;
                                             ({{card.service_center.phone ?? ''}})
                                         </span>
-                                        <span class="flex text-md items-start justify-end p-3" (mouseover)="showTooltipShow(j)" (mouseout)="showTooltipNot(j)">
+                                        <span *ngIf="card.car.brand !== card.service_center.brand" class="flex text-md items-start justify-end p-3" (mouseover)="showTooltipShow(j)" (mouseout)="showTooltipNot(j)">
                                             <mat-icon svgIcon="feather:shock" class="icon-size-4 mt-1">
                                             </mat-icon>
                                             <div *ngIf="showTool == j" class="tooltip-box c-box--arrow-left">
                                                 <table>
                                                     <tr>
                                                         <td style="width:100%;">
-                                                            <p class="text-sm">กรุณาติดต่อลูกค้าเพื่อเปลี่ยนแปลงศูนย์บริการ</p>
+                                                            <p class="text-sm">
+                                                                กรุณาติดต่อลูกค้าเพื่อเปลี่ยนแปลงศูนย์บริการ</p>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
                                         </span>
+
                                     </div>
                                 </div>
                                 <div class="flex px-4">
