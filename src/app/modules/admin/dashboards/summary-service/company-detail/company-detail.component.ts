@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import {
@@ -18,12 +18,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CompanyListService } from '../company-list/company-list.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { environment } from 'environments/environment.development';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-company-detail',
@@ -62,10 +63,14 @@ export class CompanyDetailComponent implements OnInit {
     showTool: number;
     company_id: number;
     form: FormGroup;
+    search: any;
 
     dapartmentName: string = '';
     companyName: string = '';
-
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    dtInstance: Promise<DataTables.Api>;
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -148,6 +153,7 @@ export class CompanyDetailComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.search_text = this.search;
                 dataTablesParameters.client_id = this.company_id;
                 that._service
                     .carCompPage(dataTablesParameters)
@@ -186,6 +192,22 @@ export class CompanyDetailComponent implements OnInit {
     }
 
     exportExcel2() {
-        window.open(environment.baseURL + '/api/export_book_activity_service_center2/' + this.company_id);
+        window.open(
+            environment.baseURL +
+                '/api/export_book_activity_service_center2/' +
+                this.company_id
+        );
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
+    }
+
+    onKeyChange(event: any): void {
+        this.search = event.target.value;
+        this.rerender();
+        // You can perform other operations based on the input value here
     }
 }

@@ -43,12 +43,7 @@ export class CompanyListService {
         return this.http
             .post(
                 environment.baseURL + '/api/car_comp_page',
-                dataTablesParameters,
-                {
-                    params: {
-                        client_id: dataTablesParameters.client_id
-                    }
-                }
+                dataTablesParameters
             )
             .pipe(
                 switchMap((response: any) => {
