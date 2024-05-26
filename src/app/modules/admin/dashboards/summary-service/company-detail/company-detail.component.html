@@ -213,14 +213,14 @@
                                             <tr>
                                                 <td style="width:49%;">
                                                     <p class="text-sm">วันเริ่มสัญญา</p>
-                                                    <span>{{item.start_date | date:'dd/MM/YYYY'}}</span>
+                                                    <span>{{item?.car?.start_date | date:'dd/MM/YYYY'}}</span>
                                                 </td>
                                                 <td style="width:2%;">
                                                     <div class="vl"></div>
                                                 </td>
                                                 <td style="width:49%;">
                                                     <p class="text-sm">วันหมดสัญญา</p>
-                                                    <span>{{item.expire_date | date:'dd/MM/YYYY'}}</span>
+                                                    <span>{{item?.car?.expire_date | date:'dd/MM/YYYY'}}</span>
                                                 </td>
                                             </tr>
                                         </table>
