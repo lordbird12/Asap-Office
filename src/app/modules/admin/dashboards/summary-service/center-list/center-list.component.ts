@@ -19,29 +19,29 @@ import { CenterListService } from './center-list.service';
 import { environment } from 'environments/environment.development';
 
 @Component({
-  selector: 'app-center-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    FormsModule,
-    MatFormFieldModule,
-    NgClass,
-    MatInputModule,
-    TextFieldModule,
-    ReactiveFormsModule,
-    MatButtonToggleModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatDatepickerModule,
-    MatTableModule,
-    DataTablesModule,
-    RouterLink
-  ],
-  templateUrl: './center-list.component.html',
-  styleUrls: ['./center-list.component.scss']
+    selector: 'app-center-list',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatIconModule,
+        FormsModule,
+        MatFormFieldModule,
+        NgClass,
+        MatInputModule,
+        TextFieldModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatTableModule,
+        DataTablesModule,
+        RouterLink,
+    ],
+    templateUrl: './center-list.component.html',
+    styleUrls: ['./center-list.component.scss'],
 })
 export class CenterListComponent implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -66,14 +66,15 @@ export class CenterListComponent implements OnInit {
         const that = this;
         this.dtOptions = {
             pagingType: 'full_numbers',
-            pageLength: 25,
+            pageLength: 5000,
             serverSide: true,
             processing: true,
+            searching: false, // Hide the search box
+            lengthChange: false, // Hide the page length change control
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.type = 'Good';
                 that._service
                     .serviceCenterBookPage(dataTablesParameters)
                     .subscribe((resp: any) => {
@@ -87,21 +88,20 @@ export class CenterListComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                     });
             },
-            // columns: [
-            //     { data: 'action', orderable: false },
-            //     { data: 'No' },
-            //     { data: 'name' },
-            //     { data: 'create_by' },
-            //     { data: 'created_at' },
-            // ],
+            columns: [
+                { data: 'action', orderable: false },
+                { data: 'action', orderable: false },
+                { data: 'No', orderable: false },
+                { data: 'name', orderable: false },
+                { data: 'create_by', orderable: false },
+                { data: 'created_at', orderable: false },
+            ],
         };
     }
 
     uploadfile() {}
 
     exportExcel() {
-        window.open(
-            environment.baseURL + '/api/export_dashboard_book/1'
-        );
+        window.open(environment.baseURL + '/api/export_dashboard_book/1');
     }
 }
