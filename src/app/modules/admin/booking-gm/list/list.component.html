@@ -19,14 +19,14 @@
                         </mat-form-field> -->
 
                         <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
-                            <mat-select [(ngModel)]="department" (selectionChange)="applySearch()">
+                            <mat-select [(ngModel)]="department" (selectionChange)="applySearch($event)">
 
-                                <mat-option [value]="''"> ทุกแผนก</mat-option>
-                                <mat-option [value]="'1'"> Bank</mat-option>
-                                <mat-option [value]="'2'"> Government / Hospital</mat-option>
-                                <mat-option [value]="'3'"> Logistic</mat-option>
-                                <mat-option [value]="'4'"> General</mat-option>
-                                <mat-option [value]="'5'"> Short Term/Replacement</mat-option>
+                                <mat-option value=""> ทุกแผนก</mat-option>
+                                <mat-option value="1"> Bank</mat-option>
+                                <mat-option value="2"> Government / Hospital</mat-option>
+                                <mat-option value="3"> Logistic</mat-option>
+                                <mat-option value="4"> General</mat-option>
+                                <mat-option value="5"> Short Term/Replacement</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </h2>
