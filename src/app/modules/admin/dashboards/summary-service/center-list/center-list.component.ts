@@ -107,7 +107,7 @@ export class CenterListComponent implements OnInit {
     uploadfile() {}
 
     exportExcel() {
-        window.open(environment.baseURL + '/api/export_dashboard_book/1');
+        window.open(environment.baseURL + '/api/export_dashboard_book2');
     }
 
     onKeyChange(event: any): void {
