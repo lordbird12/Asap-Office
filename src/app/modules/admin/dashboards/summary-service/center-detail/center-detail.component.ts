@@ -151,6 +151,8 @@ export class CenterDetailComponent implements OnInit {
             pageLength: 25,
             serverSide: true,
             processing: true,
+            searching: false, // Hide the search box
+            lengthChange: false, // Hide the page length change control
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },

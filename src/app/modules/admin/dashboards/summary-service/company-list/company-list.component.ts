@@ -78,7 +78,7 @@ export class CompanyListComponent implements OnInit {
         const that = this;
         this.dtOptions = {
             pagingType: 'full_numbers',
-            pageLength: 25,
+            pageLength: 5000,
             serverSide: true,
             processing: true,
             searching: false, // Hide the search box
@@ -102,13 +102,14 @@ export class CompanyListComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                     });
             },
-            // columns: [
-            //     { data: 'action', orderable: false },
-            //     { data: 'No' },
-            //     { data: 'name' },
-            //     { data: 'create_by' },
-            //     { data: 'created_at' },
-            // ],
+            columns: [
+                { data: 'action', orderable: false },
+                { data: 'action', orderable: false },
+                { data: 'No', orderable: false },
+                { data: 'name', orderable: false },
+                { data: 'create_by', orderable: false },
+                { data: 'created_at', orderable: false },
+            ],
         };
     }
 
