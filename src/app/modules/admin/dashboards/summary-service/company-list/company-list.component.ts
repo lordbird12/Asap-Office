@@ -81,6 +81,8 @@ export class CompanyListComponent implements OnInit {
             pageLength: 25,
             serverSide: true,
             processing: true,
+            searching: false, // Hide the search box
+            lengthChange: false, // Hide the page length change control
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
@@ -122,6 +124,11 @@ export class CompanyListComponent implements OnInit {
         // You may need to modify this based on your DataTables structure
         this.rerender();
     }
+
+    // applySearch() {
+    //     // You may need to modify this based on your DataTables structure
+    //     this.rerender();
+    // }
 
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
