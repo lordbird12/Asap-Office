@@ -1,6 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
-import { DataTablesModule } from 'angular-datatables';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +16,8 @@ import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { CenterListService } from './center-list.service';
 import { environment } from 'environments/environment.development';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-center-list',
@@ -48,9 +49,12 @@ export class CenterListComponent implements OnInit {
     isLoading: boolean = false;
     dtOptions: DataTables.Settings = {};
     positions: any[];
-    // public dataRow: any[];
+    search: any;
     dataRow: any[] = [];
-
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    dtInstance: Promise<DataTables.Api>;
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -75,6 +79,7 @@ export class CenterListComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.search_text = this.search;
                 that._service
                     .serviceCenterBookPage(dataTablesParameters)
                     .subscribe((resp: any) => {
@@ -103,5 +108,17 @@ export class CenterListComponent implements OnInit {
 
     exportExcel() {
         window.open(environment.baseURL + '/api/export_dashboard_book/1');
+    }
+
+    onKeyChange(event: any): void {
+        this.search = event.target.value;
+        this.rerender();
+        // You can perform other operations based on the input value here
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
     }
 }

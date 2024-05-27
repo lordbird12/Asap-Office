@@ -54,7 +54,7 @@ export class CompanyListComponent implements OnInit {
     searchQuery: string = '';
     department: string = '';
     id: number;
-
+    search: any;
     departmentName: string = '';
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
@@ -87,6 +87,7 @@ export class CompanyListComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.search_text = this.search;
                 dataTablesParameters.department_id = this.id;
                 dataTablesParameters.ex_status = this.department;
                 that._service
@@ -135,5 +136,11 @@ export class CompanyListComponent implements OnInit {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
+    }
+
+    onKeyChange(event: any): void {
+        this.search = event.target.value;
+        this.rerender();
+        // You can perform other operations based on the input value here
     }
 }
