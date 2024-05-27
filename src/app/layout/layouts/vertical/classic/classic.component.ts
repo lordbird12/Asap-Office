@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
@@ -32,7 +32,7 @@ import { RouterLink } from '@angular/router';
 @Component({
     selector: 'classic-layout',
     templateUrl: './classic.component.html',
-    encapsulation: ViewEncapsulation.None,
+    // encapsulation: ViewEncapsulation.None,
     standalone: true,
     imports: [
         FuseCardComponent,
@@ -51,6 +51,7 @@ import { RouterLink } from '@angular/router';
         RouterOutlet,
         QuickChatComponent,
         RouterLink,
+        NgClass
     ],
 })
 export class ClassicLayoutComponent implements OnInit, OnDestroy {
@@ -69,15 +70,13 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
         private _changeDetectorRef: ChangeDetectorRef
-    ) {
-
-    }
+    ) {}
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
     isCardVisible: boolean = true;
-
+    num: number = 1;
     toggleCardVisibility() {
         this.isCardVisible = !this.isCardVisible;
     }
@@ -134,7 +133,8 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
      *
      * @param name
      */
-    toggleNavigation(name: string): void {
+    toggleNavigation(name: string, num: any): void {
+        
         // Get the navigation
         const navigation =
             this._fuseNavigationService.getComponent<FuseVerticalNavigationComponent>(
@@ -145,6 +145,9 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy {
             // Toggle the opened status
             navigation.toggle();
         }
+
+        this.num = num;
+        this._changeDetectorRef.markForCheck();
     }
 
     openProfile(): void {
