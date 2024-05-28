@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DataTablesModule } from 'angular-datatables';
 import { CenterChartComponent } from '../center-chart/center-chart.component';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -26,6 +25,8 @@ import {
 } from 'ng-apexcharts';
 import { CenterListService } from '../center-list/center-list.service';
 import { environment } from 'environments/environment.development';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { MatPaginator } from '@angular/material/paginator';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -73,9 +74,12 @@ export class CenterDetailComponent implements OnInit {
     showTool: number;
     centerName: string = '';
     id: number;
-
+    search: any;
     series: any[] = [];
-
+    @ViewChild(DataTableDirective)
+    dtElement: DataTableDirective;
+    dtInstance: Promise<DataTables.Api>;
+    @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     constructor(
         private dialog: MatDialog,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -157,6 +161,7 @@ export class CenterDetailComponent implements OnInit {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
             },
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.search_text = this.search;
                 dataTablesParameters.service_center_id = this.id;
                 that._service
                     .carServiceCenterPage(dataTablesParameters)
@@ -219,5 +224,17 @@ export class CenterDetailComponent implements OnInit {
 
     showTooltipNot(index: number): void {
         this.showTool = 999;
+    }
+
+    onKeyChange(event: any): void {
+        this.search = event.target.value;
+        this.rerender();
+        // You can perform other operations based on the input value here
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            dtInstance.ajax.reload();
+        });
     }
 }
