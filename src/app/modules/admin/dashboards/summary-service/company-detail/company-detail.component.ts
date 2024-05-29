@@ -129,6 +129,8 @@ export class CompanyDetailComponent implements OnInit {
             .subscribe((resp: any) => {
                 this.data = resp;
 
+                console.log(this.data);
+
                 this.typeScore = [
                     this.top_services('เปลี่ยนยาง'),
                     this.top_services('เปลี่ยนแบตเตอรี่'),
