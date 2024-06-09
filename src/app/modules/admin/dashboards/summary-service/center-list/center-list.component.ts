@@ -94,7 +94,7 @@ export class CenterListComponent implements OnInit {
                     });
             },
             columns: [
-                { data: 'action', orderable: false },
+                // { data: 'action', orderable: false },
                 { data: 'action', orderable: false },
                 { data: 'No', orderable: false },
                 { data: 'name', orderable: false },

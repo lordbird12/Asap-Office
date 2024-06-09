@@ -54,11 +54,11 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>บริษัท</th>
+                        <th class="w-3/6">บริษัท</th>
                         <th class="">จำนวนการเข้ารับบริการ</th>
                         <th class="">จำนวนรถเข้ารับบริการ</th>
-                        <th class="">จำนวนรถในพอร์ต</th>
-                        <th class="">ค่าเฉลี่ยการเข้ารับบริการ</th>
+                        <!-- <th class="">จำนวนรถในพอร์ต</th> -->
+                        <!-- <th class="">ค่าเฉลี่ยการเข้ารับบริการ</th> -->
                         <th class="">สถานะ</th>
                         <th class=""></th>
                     </tr>
@@ -78,8 +78,8 @@
                         <td class="font-light">{{item.company}}</td>
                         <td class="font-light">{{item.total_book}}</td>
                         <td class="font-light">{{item.total_car}}</td>
-                        <td class="font-light">{{item.total_port}}</td>
-                        <td class="font-light">{{item.total_avg}}</td>
+                        <!-- <td class="font-light">{{item.total_port}}</td> -->
+                        <!-- <td class="font-light">{{item.total_avg}}</td> -->
                         <td class="font-light">
                             <div class="text-[#1B806A] text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-[#36B37E] dark:text-green-900" *ngIf="item?.ex_status === 'ใช้งานปกติ'">
                                 <span class="bg-green-100 p-1 rounded-md"> ใช้งานอยู่</span>

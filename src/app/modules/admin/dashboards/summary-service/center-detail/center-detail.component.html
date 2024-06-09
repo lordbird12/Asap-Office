@@ -206,7 +206,8 @@
                         <thead>
                             <tr>
                                 <th class="w-auto">ทะเบียนรถ</th>
-                                <th class="w-auto">วันเวลา</th>
+                                <th class="w-auto">วันแจ้งเข้ารับบริการ</th>
+                                <th class="w-auto">วันเข้ารับบริการ</th>
                                 <th class="w-auto">ไมล์</th>
                                 <th class="w-auto">กิจกรรม</th>
                                 <th class="w-auto">บริษัท</th>
@@ -239,6 +240,7 @@
 
                                 </td>
                                 <td>{{item.created_at | date:'dd/MM/YYYY HH:mm'}}</td>
+                                <td>{{item.booking?.date | date:'dd/MM/YYYY'}}</td>
                                 <td>{{item.mile ?? 0}} km</td>
                                 <td>
                                     <div [innerHTML]="item.status"></div>
