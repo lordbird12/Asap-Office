@@ -239,8 +239,8 @@
                                     <br> {{item.brand}}
 
                                 </td>
-                                <td>{{item.created_at | date:'dd/MM/YYYY HH:mm'}}</td>
-                                <td>{{item.booking?.date | date:'dd/MM/YYYY'}}</td>
+                                <td>{{item.booking_date | date:'dd/MM/YYYY HH:mm'}}</td>
+                                <td>{{item.service_date | date:'dd/MM/YYYY HH:mm'}}</td>
                                 <td>{{item.mile ?? 0}} km</td>
                                 <td>
                                     <div [innerHTML]="item.status"></div>

@@ -135,11 +135,38 @@ export class PageService {
                 })
             );
     }
+    getData(key: any): Observable<any> {
+        if (!key) {
+            key = '*';
+        }
+        return this._httpClient
+            .get(
+                environment.baseURL +
+                    '/api/get_service_center_by_key_search/' +
+                    key
+            )
+            .pipe(
+                switchMap((response: any) => {
+                    return of(response.data);
+                })
+            );
+    }
+    getServiceCenter(): Observable<any> {
+        return this._httpClient
+            .get(environment.baseURL + '/api/get_service_center')
+            .pipe(
+                switchMap((response: any) => {
+                    console.log(response.data);
+                    return of(response.data);
+                })
+            );
+    }
     getBrand(): Observable<any> {
         return this._httpClient
             .get(environment.baseURL + '/api/get_brand')
             .pipe(
                 switchMap((response: any) => {
+                    
                     return of(response.data);
                 })
             );

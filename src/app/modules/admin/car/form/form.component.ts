@@ -9,6 +9,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
     FormBuilder,
+    FormControl,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
@@ -31,6 +32,18 @@ import { PageService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import {
+    MatAutocompleteModule,
+    MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
+import {
+    debounceTime,
+    distinctUntilChanged,
+    switchMap,
+    tap,
+} from 'rxjs/operators';
 
 @Component({
     selector: 'form-employee',
@@ -56,12 +69,17 @@ import { Router } from '@angular/router';
         MatRadioModule,
         CommonModule,
         NgxDropzoneModule,
+        MatAutocompleteModule,
     ],
 })
 export class FormComponent implements OnInit {
     /**
      * Constructor
      */
+    options$: Observable<string[]>;
+    myControl = new FormControl();
+    options: string[] = [];
+    filteredOptions: Observable<string[]>;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     addForm: FormGroup;
     addForm2: FormGroup;
@@ -70,6 +88,7 @@ export class FormComponent implements OnInit {
     departments: any[];
     permissions: any[];
     brandmodel: any[];
+    brands: any[];
     province: any[];
     company: any[];
     flashMessage: 'success' | 'error' | null = null;
@@ -93,6 +112,9 @@ export class FormComponent implements OnInit {
         });
     }
     ngOnInit(): void {
+        this._service.getBrand().subscribe((resp: any) => {
+            this.brands = resp;
+        });
         this._service.getBrandModel().subscribe((resp: any) => {
             this.brandmodel = resp;
         });
@@ -102,12 +124,33 @@ export class FormComponent implements OnInit {
         this._service.getCompany().subscribe((resp: any) => {
             this.company = resp;
         });
+
+        this.options$ = this.myControl.valueChanges.pipe(
+            debounceTime(300), // Add a small delay before making the API call to avoid sending too many requests
+            distinctUntilChanged(), // Only emit if the value has changed
+            tap(() => {
+                // You can perform any actions here when the value changes, like showing a loading spinner
+            }),
+            switchMap((value) => {
+                // Call the API with the input value
+                return this._service.getData(value).pipe(
+                    tap((data) => console.log(data)) // Log the data received from the API
+                );
+            })
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+    onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+        const selectedOptionId = event.option.value;
+        console.log(selectedOptionId);
+        let arr: string[] = selectedOptionId.toString().split(":");
 
+        this.myControl.setValue(arr[1]);
+        // Do something with the selected option ID
+    }
     /**
      * Get the form field helpers as string
      */
@@ -216,7 +259,6 @@ export class FormComponent implements OnInit {
     files: File[] = [];
     url_logo: string;
     onSelect(event: { addedFiles: File[] }): void {
-  
         this.files.push(...event.addedFiles);
         setTimeout(() => {
             this._changeDetectorRef.detectChanges();
@@ -232,7 +274,6 @@ export class FormComponent implements OnInit {
         this.addForm.patchValue({
             image: file,
         });
-
     }
     back() {
         this._router.navigateByUrl('admin/car/list').then(() => {});
@@ -242,5 +283,12 @@ export class FormComponent implements OnInit {
         if (index >= 0) {
             this.files.splice(index, 1);
         }
+    }
+
+    private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+        return this.options.filter((option) =>
+            option.toLowerCase().includes(filterValue)
+        );
     }
 }
