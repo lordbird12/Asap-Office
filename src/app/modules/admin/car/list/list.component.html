@@ -67,6 +67,7 @@
                             <th class="font-light"></th>
                             <th class="font-light">รุ่นรถยนต์</th>
                             <th class="font-light">ป้ายทะเบียน</th>
+                            <th class="font-light">อายุรถ</th>
                             <th class="font-light">สถานะ</th>
                             <th class="font-light ">บริษัทลูกค้า/เบอร์โทรติดต่อ</th>
                             <th></th>
@@ -84,6 +85,7 @@
                             </td>
                             <td class="font-light">{{item.brand_model?.name}}</td>
                             <td class="font-light">{{item?.license}}</td>
+                            <td class="font-light">{{item?.age}}</td>
                             <td>
                                 <div *ngIf="item.status == 'Available'" class="w-fit bg-green-200 text-green-700 text-md font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-300 dark:text-green-900">
                                     ใช้งานอยู่
