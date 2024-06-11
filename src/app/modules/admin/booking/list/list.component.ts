@@ -69,10 +69,9 @@ import { OrderByUpdateAtPipe } from 'app/shared/order-by-updated-at.pipe';
         LastUserImagePipe,
         TimeDifferencePipe,
         OrderByCreatedAtPipe,
-        OrderByUpdateAtPipe
+        OrderByUpdateAtPipe,
     ],
     providers: [UserImageService, OrderByCreatedAtPipe],
-
 })
 export class ListComponent implements OnInit, AfterViewInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
@@ -90,30 +89,30 @@ export class ListComponent implements OnInit, AfterViewInit {
             name: 'งานใหม่ / Todo',
             detail: 'งานใหม่รอรับ',
             status: 'Process',
-            task: []
+            task: [],
         },
         {
             id: 2,
             name: 'กำลังดำเนินงาน',
             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
             status: 'Waiting',
-            task: []
+            task: [],
         },
         {
             id: 3,
             name: 'รอเข้ารับบริการ',
             detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
             status: 'Finish',
-            task: []
+            task: [],
         },
         {
             id: 4,
             name: 'เสร็จสิ้น',
             detail: '-',
             status: 'Cancel',
-            task: []
+            task: [],
         },
-    ]
+    ];
     itemData: any;
     user: any;
     employeeDep: any[] = [];
@@ -129,7 +128,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router,
         private userImageService: UserImageService,
-        private _fuseConfirmationService: FuseConfirmationService,
+        private _fuseConfirmationService: FuseConfirmationService
     ) {
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
@@ -140,10 +139,10 @@ export class ListComponent implements OnInit, AfterViewInit {
                     image: resp.data[index].image,
                     code: resp.data[index].code,
                     isSelected: resp.data[index].code === this.user.code,
-                }
-                this.employeeDep.push(element)
+                };
+                this.employeeDep.push(element);
             }
-        })
+        });
         this.user = JSON.parse(localStorage.getItem('user'));
         //    console.log(this.user)
     }
@@ -168,129 +167,131 @@ export class ListComponent implements OnInit, AfterViewInit {
         if (!Array.isArray(array) || array.length <= 1) {
             return array;
         }
-        return array.sort((a, b) => {
-            const dateA = new Date(`${a.date}T${a.time}`);
-            const dateB = new Date(`${b.date}T${b.time}`);
-            return dateB.getTime() - dateA.getTime();
-        }).reverse();
+        return array
+            .sort((a, b) => {
+                const dateA = new Date(`${a.date}T${a.time}`);
+                const dateB = new Date(`${b.date}T${b.time}`);
+                return dateB.getTime() - dateA.getTime();
+            })
+            .reverse();
     }
 
     isDatePast(date: Date): boolean {
-        const date_card = new Date(date)
+        const date_card = new Date(date);
         // console.log(new Date());
         return date_card < new Date(); // เช็คว่าวันที่ใน card.date มีค่าน้อยกว่าวันปัจจุบันหรือไม่
     }
     ngOnInit() {
         if (this.user) {
             const data = {
-                users: [{
-                    code: this.user.code
-                }]
-            }
-            this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                // const news = resp.data.news;
-                const all = resp.data.all;
-                // console.log(resp.data.all)
-                this.allTickets = [...resp.data.news, resp.data.all].flat();
+                users: [
+                    {
+                        code: this.user.code,
+                    },
+                ],
+            };
+            this._service
+                .getBookingByDep(this.user.department_id, data)
+                .subscribe((resp: any) => {
+                    // const news = resp.data.news;
+                    const all = resp.data.all;
+                    // console.log(resp.data.all)
+                    this.allTickets = [...resp.data.news, resp.data.all].flat();
 
-                for (const item of this.orderBy(this.allTickets)) {
+                    for (const item of this.orderBy(this.allTickets)) {
+                        if (item.status === 'New') {
+                            this.task[0].task.push(item);
+                        } else if (item.status === 'Process') {
+                            this.isChecked1.push(false);
+                            this.task[1].task.push(item);
+                        } else if (item.status === 'Waiting') {
+                            this.isChecked2.push(false);
+                            this.task[2].task.push(item);
+                        } else if (item.status === 'Finish') {
+                            // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                            let today: Date = new Date();
+                            today.setHours(0, 0, 0, 0);
+
+                            // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                            let updatedAtDate: Date = new Date(
+                                item.updated_at.substring(0, 10)
+                            );
+
+                            // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                            if (updatedAtDate >= today) {
+                                this.task[3].task.push(item);
+                            }
+                        } else if (item.status === 'Cancel') {
+                            this.task[0].task.push(item);
+                        }
+                    }
+                    this._changeDetectorRef.detectChanges();
+                });
+        }
+
+        this.searchCar.valueChanges.subscribe((change) => {
+            this.task[0].task = [];
+            this.task[1].task = [];
+            this.task[2].task = [];
+            this.task[3].task = [];
+            if (!!change) {
+                const data = this.searchNameByCharacter(
+                    change,
+                    this.allTickets
+                );
+                for (const item of data) {
                     if (item.status === 'New') {
-                        this.task[0].task.push(item)
+                        this.task[0].task.push(item);
                     } else if (item.status === 'Process') {
-                        this.isChecked1.push(false);
-                        this.task[1].task.push(item)
-                    }
-                    else if (item.status === 'Waiting') {
-                        this.isChecked2.push(false);
-                        this.task[2].task.push(item)
-                    }
-                    else if (item.status === 'Finish') {
+                        this.task[1].task.push(item);
+                    } else if (item.status === 'Waiting') {
+                        this.task[2].task.push(item);
+                    } else if (item.status === 'Finish') {
                         // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
                         let today: Date = new Date();
                         today.setHours(0, 0, 0, 0);
 
                         // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+                        let updatedAtDate: Date = new Date(
+                            item.updated_at.substring(0, 10)
+                        );
 
                         // เปรียบเทียบวันที่โดยไม่สนใจเวลา
                         if (updatedAtDate >= today) {
                             this.task[3].task.push(item);
                         }
-
-                    }
-                    else if (item.status === 'Cancel') {
-                        this.task[0].task.push(item)
+                    } else if (item.status === 'Cancel') {
+                        this.task[0].task.push(item);
                     }
                 }
-                this._changeDetectorRef.detectChanges();
-            })
-        }
-
-        this.searchCar.valueChanges.subscribe(
-            (change) => {
-                this.task[0].task = []
-                this.task[1].task = []
-                this.task[2].task = []
-                this.task[3].task = []
-                if (!!change) {
-                    const data = this.searchNameByCharacter(change, this.allTickets);
-                    for (const item of data) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        } else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+            } else {
+                for (const item of this.allTickets) {
+                    if (item.status === 'New') {
+                        this.task[0].task.push(item);
+                    } else if (item.status === 'Process') {
+                        this.task[1].task.push(item);
+                    } else if (item.status === 'Waiting') {
+                        this.task[2].task.push(item);
+                    } else if (item.status === 'Finish') {
+                        // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
                         let today: Date = new Date();
                         today.setHours(0, 0, 0, 0);
 
                         // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+                        let updatedAtDate: Date = new Date(
+                            item.updated_at.substring(0, 10)
+                        );
 
                         // เปรียบเทียบวันที่โดยไม่สนใจเวลา
                         if (updatedAtDate >= today) {
                             this.task[3].task.push(item);
                         }
-
-                        }
-                        else if (item.status === 'Cancel') {
-                            this.task[0].task.push(item)
-                        }
-                    }
-                } else {
-                    for (const item of this.allTickets) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        } else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                        let today: Date = new Date();
-                        today.setHours(0, 0, 0, 0);
-
-                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
-
-                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                        if (updatedAtDate >= today) {
-                            this.task[3].task.push(item);
-                        }
-                        }
-                        else if (item.status === 'Cancel') {
-                            this.task[0].task.push(item)
-                        }
+                    } else if (item.status === 'Cancel') {
+                        this.task[0].task.push(item);
                     }
                 }
             }
-        );
+        });
     }
 
     ngAfterViewInit(): void {
@@ -301,26 +302,29 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.selectedIdx = index;
     }
 
-    isChecked1: boolean[] = []
-    isChecked2: boolean[] = []
-    isChecked3: boolean[] = []
+    isChecked1: boolean[] = [];
+    isChecked2: boolean[] = [];
+    isChecked3: boolean[] = [];
     changeColor1(index: number, event: any): void {
         this.isChecked1[index] = !this.isChecked1[index];
         if (event.target.checked === true) {
-            this.multiItems.push(this.task[1].task[index])
+            this.multiItems.push(this.task[1].task[index]);
             this.status.setValue(this.task[1].task[index].status);
         } else {
-            this.multiItems = this.multiItems.filter(item => item !== this.task[1].task[index]);
+            this.multiItems = this.multiItems.filter(
+                (item) => item !== this.task[1].task[index]
+            );
         }
     }
     changeColor2(index: number, event: any): void {
         this.isChecked2[index] = !this.isChecked2[index];
         if (event.target.checked === true) {
-            this.multiItems.push(this.task[2].task[index])
+            this.multiItems.push(this.task[2].task[index]);
             this.status.setValue(this.task[2].task[index].status);
         } else {
-            this.multiItems = this.multiItems.filter(item => item !== this.task[2].task[index]);
-
+            this.multiItems = this.multiItems.filter(
+                (item) => item !== this.task[2].task[index]
+            );
         }
     }
     changeColor3(index: number): void {
@@ -417,265 +421,257 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     createTicket() {
-        const dialogRef = this.dialog.open(TicketCardComponent,
-            {
-                minWidth: '50%',
-                width: '500px',
-                data: {
-                    status: 'New'
-                }
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
+        const dialogRef = this.dialog.open(TicketCardComponent, {
+            minWidth: '50%',
+            width: '500px',
+            data: {
+                status: 'New',
+            },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log('result', result)
+                console.log('result', result);
                 const data = {
-                    users: this.employeeDep.filter(e => e.isSelected)
-                }
+                    users: this.employeeDep.filter((e) => e.isSelected),
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Waiting',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 3,
                         name: 'รอเข้ารับบริการ',
                         detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Cancel',
-                        task: []
+                        task: [],
                     },
-                ]
-                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                    const news = resp.data.news;
-                    const all = resp.data.all;
-                    for (const item of news) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
+                ];
+                this._service
+                    .getBookingByDep(this.user.department_id, data)
+                    .subscribe((resp: any) => {
+                        const news = resp.data.news;
+                        const all = resp.data.all;
+                        for (const item of news) {
+                            if (item.status === 'New') {
+                                this.task[0].task.push(item);
+                            }
                         }
-                    }
-                    for (const item of all) {
-                        if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                        let today: Date = new Date();
-                        today.setHours(0, 0, 0, 0);
+                        for (const item of all) {
+                            if (item.status === 'Process') {
+                                this.task[1].task.push(item);
+                            } else if (item.status === 'Waiting') {
+                                this.task[2].task.push(item);
+                            } else if (item.status === 'Finish') {
+                                // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                                let today: Date = new Date();
+                                today.setHours(0, 0, 0, 0);
 
-                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+                                // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                                let updatedAtDate: Date = new Date(
+                                    item.updated_at.substring(0, 10)
+                                );
 
-                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                        if (updatedAtDate >= today) {
-                            this.task[3].task.push(item);
+                                // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                                if (updatedAtDate >= today) {
+                                    this.task[3].task.push(item);
+                                }
+                            } else if (item.status === 'Cancel') {
+                                this.task[0].task.push(item);
+                            }
                         }
-                        }
-                        else if (item.status === 'Cancel') {
-                            this.task[0].task.push(item)
-                        }
-                    }
-                    this._changeDetectorRef.markForCheck();
-                })
-
+                        this._changeDetectorRef.markForCheck();
+                    });
             }
-        })
+        });
     }
 
     editTicket(value: FormGroup) {
         // console.log(value)
-        const dialogRef = this.dialog.open(TicketCardComponent,
-            {
-                minWidth: '50%',
-                width: '500px',
-                data: {
-                    status: 'Edit',
-                    value: value,
-                },
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
+        const dialogRef = this.dialog.open(TicketCardComponent, {
+            minWidth: '50%',
+            width: '500px',
+            data: {
+                status: 'Edit',
+                value: value,
+            },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             // console.log('close');
             if (result) {
-
                 const data = {
-                    users: this.employeeDep.filter(e => e.isSelected)
-                }
+                    users: this.employeeDep.filter((e) => e.isSelected),
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Waiting',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 3,
                         name: 'รอเข้ารับบริการ',
                         detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Cancel',
-                        task: []
+                        task: [],
                     },
-                ]
-                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                    const news = resp.data.news;
-                    const all = resp.data.all;
+                ];
+                this._service
+                    .getBookingByDep(this.user.department_id, data)
+                    .subscribe((resp: any) => {
+                        const news = resp.data.news;
+                        const all = resp.data.all;
 
-                    for (const item of this.orderBy(news)) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
+                        for (const item of this.orderBy(news)) {
+                            if (item.status === 'New') {
+                                this.task[0].task.push(item);
+                            }
                         }
-                    }
-                    for (const item of this.orderBy(all)) {
-                        if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                        let today: Date = new Date();
-                        today.setHours(0, 0, 0, 0);
+                        for (const item of this.orderBy(all)) {
+                            if (item.status === 'Process') {
+                                this.task[1].task.push(item);
+                            } else if (item.status === 'Waiting') {
+                                this.task[2].task.push(item);
+                            } else if (item.status === 'Finish') {
+                                // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                                let today: Date = new Date();
+                                today.setHours(0, 0, 0, 0);
 
-                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+                                // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                                let updatedAtDate: Date = new Date(
+                                    item.updated_at.substring(0, 10)
+                                );
 
-                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                        if (updatedAtDate >= today) {
-                            this.task[3].task.push(item);
+                                // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                                if (updatedAtDate >= today) {
+                                    this.task[3].task.push(item);
+                                }
+                            } else if (item.status === 'Cancel') {
+                                this.task[0].task.push(item);
+                            }
                         }
-                        }
-                        else if (item.status === 'Cancel') {
-                            this.task[0].task.push(item)
-                        }
-                    }
-                    this._changeDetectorRef.detectChanges();
-                })
+                        this._changeDetectorRef.detectChanges();
+                    });
                 this._changeDetectorRef.markForCheck();
             }
-
-        })
-
+        });
     }
     employeeDialog(value) {
-        console.log(this.employeeDep)
-        const dialogRef = this.dialog.open(EmployeeDialogComponent,
-            {
-                minWidth: '30%',
-                data: {
-                    status: 'Edit',
-                    value: this.employeeDep,
-                },
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
-
+        console.log(this.employeeDep);
+        const dialogRef = this.dialog.open(EmployeeDialogComponent, {
+            minWidth: '30%',
+            data: {
+                status: 'Edit',
+                value: this.employeeDep,
+            },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 // this.employeeDep = result
                 const data = {
-                    users: result
-                }
+                    users: result,
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Waiting',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 3,
                         name: 'รอเข้ารับบริการ',
                         detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Cancel',
-                        task: []
+                        task: [],
                     },
-                ]
-                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                    const news = resp.data.news;
-                    const all = resp.data.all;
+                ];
+                this._service
+                    .getBookingByDep(this.user.department_id, data)
+                    .subscribe((resp: any) => {
+                        const news = resp.data.news;
+                        const all = resp.data.all;
 
-                    for (const item of this.orderBy(news)) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
+                        for (const item of this.orderBy(news)) {
+                            if (item.status === 'New') {
+                                this.task[0].task.push(item);
+                            }
                         }
-                    }
-                    for (const item of this.orderBy(all)) {
-                        if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Waiting') {
-                            this.task[2].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                        let today: Date = new Date();
-                        today.setHours(0, 0, 0, 0);
+                        for (const item of this.orderBy(all)) {
+                            if (item.status === 'Process') {
+                                this.task[1].task.push(item);
+                            } else if (item.status === 'Waiting') {
+                                this.task[2].task.push(item);
+                            } else if (item.status === 'Finish') {
+                                // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                                let today: Date = new Date();
+                                today.setHours(0, 0, 0, 0);
 
-                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
+                                // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                                let updatedAtDate: Date = new Date(
+                                    item.updated_at.substring(0, 10)
+                                );
 
-                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                        if (updatedAtDate >= today) {
-                            this.task[3].task.push(item);
+                                // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                                if (updatedAtDate >= today) {
+                                    this.task[3].task.push(item);
+                                }
+                            } else if (item.status === 'Cancel') {
+                                this.task[0].task.push(item);
+                            }
                         }
-                        }
-                        else if (item.status === 'Cancel') {
-                            this.task[0].task.push(item)
-                        }
-                    }
-                    this._changeDetectorRef.detectChanges();
-                })
+                        this._changeDetectorRef.detectChanges();
+                    });
             }
-        })
+        });
     }
 
     getLastElement(data: any): any {
@@ -683,40 +679,38 @@ export class ListComponent implements OnInit, AfterViewInit {
         // const created_at_test  = data.activitys[5];
 
         // return created_at.updated_at
-        return this.checkAndFormatDateTime(created_at.updated_at)
+        return this.checkAndFormatDateTime(created_at.updated_at);
     }
-    lastSelectEmp: any[] = []
+    lastSelectEmp: any[] = [];
     empFilter(data: any) {
-
-        return data.filter(e => e.isSelected)
+        return data.filter((e) => e.isSelected);
     }
     selectedItems: any[] = [];
 
-
     multiSave() {
         if (this.status.value === 'Cancel') {
-            this.CancelStatus()
+            this.CancelStatus();
         } else {
             const confirmation = this._fuseConfirmationService.open({
-                "title": "เปลี่ยนสถานะ",
-                "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
-                "icon": {
-                    "show": false,
-                    "name": "heroicons_outline:exclamation",
-                    "color": "warning"
+                title: 'เปลี่ยนสถานะ',
+                message: 'คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ',
+                icon: {
+                    show: false,
+                    name: 'heroicons_outline:exclamation',
+                    color: 'warning',
                 },
-                "actions": {
-                    "confirm": {
-                        "show": true,
-                        "label": "ยืนยัน",
-                        "color": "primary"
+                actions: {
+                    confirm: {
+                        show: true,
+                        label: 'ยืนยัน',
+                        color: 'primary',
                     },
-                    "cancel": {
-                        "show": true,
-                        "label": "ยกเลิก"
-                    }
+                    cancel: {
+                        show: true,
+                        label: 'ยกเลิก',
+                    },
                 },
-                "dismissible": true
+                dismissible: true,
             });
 
             // Subscribe to the confirmation dialog closed action
@@ -724,115 +718,154 @@ export class ListComponent implements OnInit, AfterViewInit {
                 if (result === 'confirmed') {
                     this.multiItems.map((item: any) => {
                         const reason = '';
-                        const services = item.services.map(data => ({ service_id: data.service_id, status: 'old' }));
-                        const formValue = item
-                        this._service.updateStatus(formValue.id, this.status.value, reason, services).subscribe({
-
-                            next: (resp: any) => {
-                                this.multiItems = [];
-                                this.isChecked1 = [];
-                                this.isChecked2 = [];
-                                const data = {
-                                    users: this.employeeDep.filter(e => e.isSelected)
-                                }
-                                this.task = [
-                                    {
-                                        id: 1,
-                                        name: 'งานใหม่ / Todo',
-                                        detail: 'งานใหม่รอรับ',
-                                        status: 'Process',
-                                        task: []
-                                    },
-                                    {
-                                        id: 2,
-                                        name: 'กำลังดำเนินงาน',
-                                        detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                                        status: 'Waiting',
-                                        task: []
-                                    },
-                                    {
-                                        id: 3,
-                                        name: 'รอเข้ารับบริการ',
-                                        detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                                        status: 'Finish',
-                                        task: []
-                                    },
-                                    {
-                                        id: 4,
-                                        name: 'เสร็จสิ้น',
-                                        detail: '-',
-                                        status: 'Cancel',
-                                        task: []
-                                    },
-                                ]
-                                this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                                    const news = resp.data.news;
-                                    const all = resp.data.all;
-                                    // console.log(resp.data.all)
-
-                                    for (const item of news) {
-                                        if (item.status === 'New') {
-                                            this.task[0].task.push(item)
-                                        }
-                                    }
-                                    for (const item of all) {
-                                        if (item.status === 'Process') {
-                                            this.task[1].task.push(item)
-                                        }
-                                        else if (item.status === 'Waiting') {
-                                            this.task[2].task.push(item)
-                                        }
-                                        else if (item.status === 'Finish') {
-                                             // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                        let today: Date = new Date();
-                        today.setHours(0, 0, 0, 0);
-
-                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
-
-                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                        if (updatedAtDate >= today) {
-                            this.task[3].task.push(item);
-                        }
-                                        }
-                                        else if (item.status === 'Cancel') {
-                                            this.task[0].task.push(item)
-                                        }
-                                    }
-                                    this._changeDetectorRef.detectChanges();
-                                })
-                            },
-                            error: (err: any) => {
-                                this._fuseConfirmationService.open({
-                                    "title": "กรุณาระบุข้อมูล",
-                                    "message": err.error.message,
-                                    "icon": {
-                                        "show": true,
-                                        "name": "heroicons_outline:exclamation",
-                                        "color": "warning"
-                                    },
-                                    "actions": {
-                                        "confirm": {
-                                            "show": false,
-                                            "label": "ยืนยัน",
-                                            "color": "primary"
+                        const services = item.services.map((data) => ({
+                            service_id: data.service_id,
+                            status: 'old',
+                        }));
+                        const formValue = item;
+                        this._service
+                            .updateStatus(
+                                formValue.id,
+                                this.status.value,
+                                reason,
+                                services
+                            )
+                            .subscribe({
+                                next: (resp: any) => {
+                                    this.multiItems = [];
+                                    this.isChecked1 = [];
+                                    this.isChecked2 = [];
+                                    const data = {
+                                        users: this.employeeDep.filter(
+                                            (e) => e.isSelected
+                                        ),
+                                    };
+                                    this.task = [];
+                                    this.task = [
+                                        {
+                                            id: 1,
+                                            name: 'งานใหม่ / Todo',
+                                            detail: 'งานใหม่รอรับ',
+                                            status: 'Process',
+                                            task: [],
                                         },
-                                        "cancel": {
-                                            "show": false,
-                                            "label": "ยกเลิก",
+                                        {
+                                            id: 2,
+                                            name: 'กำลังดำเนินงาน',
+                                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                                            status: 'Waiting',
+                                            task: [],
+                                        },
+                                        {
+                                            id: 3,
+                                            name: 'รอเข้ารับบริการ',
+                                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                                            status: 'Finish',
+                                            task: [],
+                                        },
+                                        {
+                                            id: 4,
+                                            name: 'เสร็จสิ้น',
+                                            detail: '-',
+                                            status: 'Cancel',
+                                            task: [],
+                                        },
+                                    ];
 
-                                        }
-                                    },
-                                    "dismissible": true
-                                });
-                            }
-                        })
-                    })
+                                    this._service
+                                        .getBookingByDep(
+                                            this.user.department_id,
+                                            data
+                                        )
+                                        .subscribe((resp: any) => {
+                                            const news = resp.data.news;
+                                            const all = resp.data.all;
+                                            // console.log(resp.data.all)
+                                         
+                                            for (const item of news) {
+                                                if (item.status === 'New') {
+                                                    this.task[0].task.push(
+                                                        item
+                                                    );
+                                                }
+                                            }
+                        
+                                            for (const item of all) {
+                                                if (item.status === 'Process') {
+                                                    this.task[1].task.push(
+                                                        item
+                                                    );
+                                                } else if (
+                                                    item.status === 'Waiting'
+                                                ) {
+                                                    this.task[2].task.push(
+                                                        item
+                                                    );
+                                                } else if (
+                                                    item.status === 'Finish'
+                                                ) {
+                                                    // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                                                    let today: Date =
+                                                        new Date();
+                                                    today.setHours(0, 0, 0, 0);
 
+                                                    // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                                                    let updatedAtDate: Date =
+                                                        new Date(
+                                                            item.updated_at.substring(
+                                                                0,
+                                                                10
+                                                            )
+                                                        );
+
+                                                    // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                                                    if (
+                                                        updatedAtDate >= today
+                                                    ) {
+                                                        this.task[3].task.push(
+                                                            item
+                                                        );
+                                                    }
+                                                } else if (
+                                                    item.status === 'Cancel'
+                                                ) {
+                                                    this.task[0].task.push(
+                                                        item
+                                                    );
+                                                }
+                                            }
+                                            this._changeDetectorRef.markForCheck();
+                                            return;
+                                        });
+                                },
+                                error: (err: any) => {
+                                    this._fuseConfirmationService.open({
+                                        title: 'กรุณาระบุข้อมูล',
+                                        message: err.error.message,
+                                        icon: {
+                                            show: true,
+                                            name: 'heroicons_outline:exclamation',
+                                            color: 'warning',
+                                        },
+                                        actions: {
+                                            confirm: {
+                                                show: false,
+                                                label: 'ยืนยัน',
+                                                color: 'primary',
+                                            },
+                                            cancel: {
+                                                show: false,
+                                                label: 'ยกเลิก',
+                                            },
+                                        },
+                                        dismissible: true,
+                                    });
+                                },
+                            });
+                    });
                 }
-            })
+            });
         }
-
     }
 
     CancelStatus() {
@@ -843,145 +876,190 @@ export class ListComponent implements OnInit, AfterViewInit {
                 position: this.positions,
             }, // ส่งข้อมูลเริ่มต้นไปยัง Dialog
         });
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const confirmation = this._fuseConfirmationService.open({
-                    "title": "เปลี่ยนสถานะ",
-                    "message": "คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ",
-                    "icon": {
-                        "show": false,
-                        "name": "heroicons_outline:exclamation",
-                        "color": "warning"
+                    title: 'เปลี่ยนสถานะ',
+                    message: 'คุณต้องการเปลี่ยนสถานะใช่หรือไม่ ',
+                    icon: {
+                        show: false,
+                        name: 'heroicons_outline:exclamation',
+                        color: 'warning',
                     },
-                    "actions": {
-                        "confirm": {
-                            "show": true,
-                            "label": "ยืนยัน",
-                            "color": "primary"
+                    actions: {
+                        confirm: {
+                            show: true,
+                            label: 'ยืนยัน',
+                            color: 'primary',
                         },
-                        "cancel": {
-                            "show": true,
-                            "label": "ยกเลิก"
-                        }
+                        cancel: {
+                            show: true,
+                            label: 'ยกเลิก',
+                        },
                     },
-                    "dismissible": true
+                    dismissible: true,
                 });
 
                 // Subscribe to the confirmation dialog closed action
                 confirmation.afterClosed().subscribe((result) => {
                     if (result === 'confirmed') {
                         this.multiItems.map((item: any) => {
-                            const reason = result
-                            const formValue = item
-                            const services = item.services.map(data => ({ service_id: data.service_id }));
+                            const reason = result;
+                            const formValue = item;
+                            const services = item.services.map((data) => ({
+                                service_id: data.service_id,
+                            }));
 
-                            this._service.updateStatus(formValue.id, this.status.value, reason, services).subscribe({
-
-                                next: (resp: any) => {
-                                    this.multiItems = [];
-                                    this.isChecked1 = [];
-                                    this.isChecked2 = [];
-                                    const data = {
-                                        users: this.employeeDep.filter(e => e.isSelected)
-                                    }
-                                    this.task = [
-                                        {
-                                            id: 1,
-                                            name: 'งานใหม่ / Todo',
-                                            detail: 'งานใหม่รอรับ',
-                                            status: 'Process',
-                                            task: []
-                                        },
-                                        {
-                                            id: 2,
-                                            name: 'กำลังดำเนินงาน',
-                                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                                            status: 'Waiting',
-                                            task: []
-                                        },
-                                        {
-                                            id: 3,
-                                            name: 'รอเข้ารับบริการ',
-                                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                                            status: 'Finish',
-                                            task: []
-                                        },
-                                        {
-                                            id: 4,
-                                            name: 'เสร็จสิ้น',
-                                            detail: '-',
-                                            status: 'Cancel',
-                                            task: []
-                                        },
-                                    ]
-                                    this._service.getBookingByDep(this.user.department_id, data).subscribe((resp: any) => {
-                                        const news = resp.data.news;
-                                        const all = resp.data.all;
-                                        // console.log(resp.data.all)
-
-                                        for (const item of news) {
-                                            if (item.status === 'New') {
-                                                this.task[0].task.push(item)
-                                            }
-                                        }
-                                        for (const item of all) {
-                                            if (item.status === 'Process') {
-                                                this.task[1].task.push(item)
-                                            }
-                                            else if (item.status === 'Waiting') {
-                                                this.task[2].task.push(item)
-                                            }
-                                            else if (item.status === 'Finish') {
-                                                 // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                        let today: Date = new Date();
-                        today.setHours(0, 0, 0, 0);
-
-                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                        let updatedAtDate: Date = new Date(item.updated_at.substring(0, 10));
-
-                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                        if (updatedAtDate >= today) {
-                            this.task[3].task.push(item);
-                        }
-                                            }
-                                            else if (item.status === 'Cancel') {
-                                                this.task[0].task.push(item)
-                                            }
-                                        }
-                                        this._changeDetectorRef.detectChanges();
-                                    })
-                                },
-                                error: (err: any) => {
-                                    this._fuseConfirmationService.open({
-                                        "title": "กรุณาระบุข้อมูล",
-                                        "message": err.error.message,
-                                        "icon": {
-                                            "show": true,
-                                            "name": "heroicons_outline:exclamation",
-                                            "color": "warning"
-                                        },
-                                        "actions": {
-                                            "confirm": {
-                                                "show": false,
-                                                "label": "ยืนยัน",
-                                                "color": "primary"
+                            this._service
+                                .updateStatus(
+                                    formValue.id,
+                                    this.status.value,
+                                    reason,
+                                    services
+                                )
+                                .subscribe({
+                                    next: (resp: any) => {
+                                        this.multiItems = [];
+                                        this.isChecked1 = [];
+                                        this.isChecked2 = [];
+                                        const data = {
+                                            users: this.employeeDep.filter(
+                                                (e) => e.isSelected
+                                            ),
+                                        };
+                                        this.task = [
+                                            {
+                                                id: 1,
+                                                name: 'งานใหม่ / Todo',
+                                                detail: 'งานใหม่รอรับ',
+                                                status: 'Process',
+                                                task: [],
                                             },
-                                            "cancel": {
-                                                "show": false,
-                                                "label": "ยกเลิก",
+                                            {
+                                                id: 2,
+                                                name: 'กำลังดำเนินงาน',
+                                                detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                                                status: 'Waiting',
+                                                task: [],
+                                            },
+                                            {
+                                                id: 3,
+                                                name: 'รอเข้ารับบริการ',
+                                                detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                                                status: 'Finish',
+                                                task: [],
+                                            },
+                                            {
+                                                id: 4,
+                                                name: 'เสร็จสิ้น',
+                                                detail: '-',
+                                                status: 'Cancel',
+                                                task: [],
+                                            },
+                                        ];
+                                        this._service
+                                            .getBookingByDep(
+                                                this.user.department_id,
+                                                data
+                                            )
+                                            .subscribe((resp: any) => {
+                                                const news = resp.data.news;
+                                                const all = resp.data.all;
+                                                // console.log(resp.data.all)
 
-                                            }
-                                        },
-                                        "dismissible": true
-                                    });
-                                }
-                            })
-                        })
+                                                for (const item of news) {
+                                                    if (item.status === 'New') {
+                                                        this.task[0].task.push(
+                                                            item
+                                                        );
+                                                    }
+                                                }
+                                                for (const item of all) {
+                                                    if (
+                                                        item.status ===
+                                                        'Process'
+                                                    ) {
+                                                        this.task[1].task.push(
+                                                            item
+                                                        );
+                                                    } else if (
+                                                        item.status ===
+                                                        'Waiting'
+                                                    ) {
+                                                        this.task[2].task.push(
+                                                            item
+                                                        );
+                                                    } else if (
+                                                        item.status === 'Finish'
+                                                    ) {
+                                                        // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                                                        let today: Date =
+                                                            new Date();
+                                                        today.setHours(
+                                                            0,
+                                                            0,
+                                                            0,
+                                                            0
+                                                        );
 
+                                                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                                                        let updatedAtDate: Date =
+                                                            new Date(
+                                                                item.updated_at.substring(
+                                                                    0,
+                                                                    10
+                                                                )
+                                                            );
+
+                                                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                                                        if (
+                                                            updatedAtDate >=
+                                                            today
+                                                        ) {
+                                                            this.task[3].task.push(
+                                                                item
+                                                            );
+                                                        }
+                                                    } else if (
+                                                        item.status === 'Cancel'
+                                                    ) {
+                                                        this.task[0].task.push(
+                                                            item
+                                                        );
+                                                    }
+                                                }
+                                                this._changeDetectorRef.detectChanges();
+                                            });
+                                    },
+                                    error: (err: any) => {
+                                        this._fuseConfirmationService.open({
+                                            title: 'กรุณาระบุข้อมูล',
+                                            message: err.error.message,
+                                            icon: {
+                                                show: true,
+                                                name: 'heroicons_outline:exclamation',
+                                                color: 'warning',
+                                            },
+                                            actions: {
+                                                confirm: {
+                                                    show: false,
+                                                    label: 'ยืนยัน',
+                                                    color: 'primary',
+                                                },
+                                                cancel: {
+                                                    show: false,
+                                                    label: 'ยกเลิก',
+                                                },
+                                            },
+                                            dismissible: true,
+                                        });
+                                    },
+                                });
+                        });
                     }
-                })
+                });
             }
-        })
+        });
     }
 
     uncheckAll() {
@@ -991,19 +1069,19 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     onUncheckAllClick(): void {
-        this.uncheckAll()
+        this.uncheckAll();
         const checkboxes = document.querySelectorAll('input[type=checkbox]');
         checkboxes.forEach((checkbox: any) => {
             checkbox.checked = false;
         });
 
-        this.isChecked1 = []
-        this.isChecked2 = []
-        this.status.setValue('')
+        this.isChecked1 = [];
+        this.isChecked2 = [];
+        this.status.setValue('');
     }
 
     checkAndFormatDateTime(inputDateTimeRaw: Date): string {
-        const inputDateTime = new Date(inputDateTimeRaw)
+        const inputDateTime = new Date(inputDateTimeRaw);
         const today = new Date();
         const yesterday = new Date();
         yesterday.setDate(today.getDate() - 1);
@@ -1019,7 +1097,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // Function to check if two dates are the same day
     private isSameDate(date1: Date, date2: Date): boolean {
-
         return (
             date1.getDate() === date2.getDate() &&
             date1.getMonth() === date2.getMonth() &&
@@ -1046,7 +1123,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     searchNameByCharacter(character, array) {
         const results = [];
         for (let i = 0; i < array.length; i++) {
-            if (array[i].car.license.toLowerCase().includes(character.toLowerCase())) {
+            if (
+                array[i].car.license
+                    .toLowerCase()
+                    .includes(character.toLowerCase())
+            ) {
                 results.push(array[i]);
             }
         }
