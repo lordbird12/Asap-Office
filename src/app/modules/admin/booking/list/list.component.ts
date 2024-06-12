@@ -716,7 +716,9 @@ export class ListComponent implements OnInit, AfterViewInit {
             // Subscribe to the confirmation dialog closed action
             confirmation.afterClosed().subscribe((result) => {
                 if (result === 'confirmed') {
+                    let n = 0;
                     this.multiItems.map((item: any) => {
+                        n++;
                         const reason = '';
                         const services = item.services.map((data) => ({
                             service_id: data.service_id,
@@ -732,111 +734,123 @@ export class ListComponent implements OnInit, AfterViewInit {
                             )
                             .subscribe({
                                 next: (resp: any) => {
-                                    this.multiItems = [];
-                                    this.isChecked1 = [];
-                                    this.isChecked2 = [];
-                                    const data = {
-                                        users: this.employeeDep.filter(
-                                            (e) => e.isSelected
-                                        ),
-                                    };
-                                    this.task = [];
-                                    this.task = [
-                                        {
-                                            id: 1,
-                                            name: 'งานใหม่ / Todo',
-                                            detail: 'งานใหม่รอรับ',
-                                            status: 'Process',
-                                            task: [],
-                                        },
-                                        {
-                                            id: 2,
-                                            name: 'กำลังดำเนินงาน',
-                                            detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
-                                            status: 'Waiting',
-                                            task: [],
-                                        },
-                                        {
-                                            id: 3,
-                                            name: 'รอเข้ารับบริการ',
-                                            detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
-                                            status: 'Finish',
-                                            task: [],
-                                        },
-                                        {
-                                            id: 4,
-                                            name: 'เสร็จสิ้น',
-                                            detail: '-',
-                                            status: 'Cancel',
-                                            task: [],
-                                        },
-                                    ];
+                                    if (this.multiItems.length == n) {
+                                        this.multiItems = [];
+                                        this.isChecked1 = [];
+                                        this.isChecked2 = [];
 
-                                    this._service
-                                        .getBookingByDep(
-                                            this.user.department_id,
-                                            data
-                                        )
-                                        .subscribe((resp: any) => {
-                                            const news = resp.data.news;
-                                            const all = resp.data.all;
-                                            // console.log(resp.data.all)
-                                         
-                                            for (const item of news) {
-                                                if (item.status === 'New') {
-                                                    this.task[0].task.push(
-                                                        item
-                                                    );
-                                                }
-                                            }
-                        
-                                            for (const item of all) {
-                                                if (item.status === 'Process') {
-                                                    this.task[1].task.push(
-                                                        item
-                                                    );
-                                                } else if (
-                                                    item.status === 'Waiting'
-                                                ) {
-                                                    this.task[2].task.push(
-                                                        item
-                                                    );
-                                                } else if (
-                                                    item.status === 'Finish'
-                                                ) {
-                                                    // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
-                                                    let today: Date =
-                                                        new Date();
-                                                    today.setHours(0, 0, 0, 0);
+                                        const data = {
+                                            users: this.employeeDep.filter(
+                                                (e) => e.isSelected
+                                            ),
+                                        };
+                                        this.task = [];
+                                        this.task = [
+                                            {
+                                                id: 1,
+                                                name: 'งานใหม่ / Todo',
+                                                detail: 'งานใหม่รอรับ',
+                                                status: 'Process',
+                                                task: [],
+                                            },
+                                            {
+                                                id: 2,
+                                                name: 'กำลังดำเนินงาน',
+                                                detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
+                                                status: 'Waiting',
+                                                task: [],
+                                            },
+                                            {
+                                                id: 3,
+                                                name: 'รอเข้ารับบริการ',
+                                                detail: 'โทรยืนยันการเข้ารับบริการกับทางศูนย์',
+                                                status: 'Finish',
+                                                task: [],
+                                            },
+                                            {
+                                                id: 4,
+                                                name: 'เสร็จสิ้น',
+                                                detail: '-',
+                                                status: 'Cancel',
+                                                task: [],
+                                            },
+                                        ];
 
-                                                    // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
-                                                    let updatedAtDate: Date =
-                                                        new Date(
-                                                            item.updated_at.substring(
-                                                                0,
-                                                                10
-                                                            )
-                                                        );
+                                        this._service
+                                            .getBookingByDep(
+                                                this.user.department_id,
+                                                data
+                                            )
+                                            .subscribe((resp: any) => {
+                                                const news = resp.data.news;
+                                                const all = resp.data.all;
 
-                                                    // เปรียบเทียบวันที่โดยไม่สนใจเวลา
-                                                    if (
-                                                        updatedAtDate >= today
-                                                    ) {
-                                                        this.task[3].task.push(
+                                                for (const item of news) {
+                                                    if (item.status === 'New') {
+                                                        this.task[0].task.push(
                                                             item
                                                         );
                                                     }
-                                                } else if (
-                                                    item.status === 'Cancel'
-                                                ) {
-                                                    this.task[0].task.push(
-                                                        item
-                                                    );
                                                 }
-                                            }
-                                            this._changeDetectorRef.markForCheck();
-                                            return;
-                                        });
+
+                                                for (const item of all) {
+                                                    if (
+                                                        item.status ===
+                                                        'Process'
+                                                    ) {
+                                                        this.task[1].task.push(
+                                                            item
+                                                        );
+                                                    } else if (
+                                                        item.status ===
+                                                        'Waiting'
+                                                    ) {
+                                                        this.task[2].task.push(
+                                                            item
+                                                        );
+                                                    } else if (
+                                                        item.status === 'Finish'
+                                                    ) {
+                                                        // สร้างวันที่ใหม่โดยกำหนดเวลาเป็น 00:00:00
+                                                        let today: Date =
+                                                            new Date();
+                                                        today.setHours(
+                                                            0,
+                                                            0,
+                                                            0,
+                                                            0
+                                                        );
+
+                                                        // แปลงวันที่อัพเดตเป็นวันที่เท่านั้นโดยตัดเอาเฉพาะส่วนที่เป็นวันที่
+                                                        let updatedAtDate: Date =
+                                                            new Date(
+                                                                item.updated_at.substring(
+                                                                    0,
+                                                                    10
+                                                                )
+                                                            );
+
+                                                        // เปรียบเทียบวันที่โดยไม่สนใจเวลา
+                                                        if (
+                                                            updatedAtDate >=
+                                                            today
+                                                        ) {
+                                                            this.task[3].task.push(
+                                                                item
+                                                            );
+                                                        }
+                                                    } else if (
+                                                        item.status === 'Cancel'
+                                                    ) {
+                                                        this.task[0].task.push(
+                                                            item
+                                                        );
+                                                    }
+                                                }
+                                                this._changeDetectorRef.markForCheck();
+                                                return;
+                                            });
+                                    }
                                 },
                                 error: (err: any) => {
                                     this._fuseConfirmationService.open({
