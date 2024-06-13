@@ -1,7 +1,14 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { CommonModule, NgClass } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ViewEncapsulation, } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -28,7 +35,12 @@ import { LastUserImagePipe } from 'app/shared/image-last/last-user-image.pipe';
 import { TimeDifferencePipe } from 'app/shared/time-difference.pipe';
 import { OrderByCreatedAtPipe } from 'app/shared/order-by-created-at.pipe';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+    ActivatedRoute,
+    Router,
+    RouterLink,
+    RouterLinkActive,
+} from '@angular/router';
 
 @Component({
     selector: 'car-list',
@@ -58,11 +70,12 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/r
         TimeDifferencePipe,
         OrderByCreatedAtPipe,
         MatCheckboxModule,
-        RouterLink
+        RouterLink,
     ],
-    providers: [UserImageService]
+    providers: [UserImageService],
 })
 export class ListComponent implements OnInit, AfterViewInit {
+    searchQuery: string = '';
     status: string = null;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     car: FormControl = new FormControl('');
@@ -77,27 +90,27 @@ export class ListComponent implements OnInit, AfterViewInit {
             name: 'งานใหม่ / Todo',
             detail: 'งานใหม่รอรับ',
             status: 'New',
-            task: []
+            task: [],
         },
         {
             id: 2,
             name: 'กำลังดำเนินงาน',
             detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
             status: 'Process',
-            task: []
+            task: [],
         },
         {
             id: 4,
             name: 'เสร็จสิ้น',
             detail: '-',
             status: 'Finish',
-            task: []
+            task: [],
         },
-    ]
+    ];
     itemData: any[];
     employeeDep: any[] = [];
-    department: any[] = []
-    departmentData: any[] = []
+    department: any[] = [];
+    departmentData: any[] = [];
     flashMessage: 'success' | 'error' | null = null;
     @ViewChild(DataTableDirective)
     dtElement: DataTableDirective;
@@ -109,7 +122,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private _service: PageService,
         private _router: Router,
         private userImageService: UserImageService,
-        private activatedRoute: ActivatedRoute,
+        private activatedRoute: ActivatedRoute
     ) {
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
@@ -120,87 +133,86 @@ export class ListComponent implements OnInit, AfterViewInit {
                     image: resp.data[index].image,
                     code: resp.data[index].code,
                     isSelected: resp.data[index].code === this.user.code,
-                }
-                this.employeeDep.push(element)
+                };
+                this.employeeDep.push(element);
             }
-        })
+        });
         this._service.getDepartment().subscribe((resp: any) => {
             this.departmentData = resp.data;
-        })
+        });
         this.status = this.activatedRoute.snapshot.data.status;
     }
 
     orderBy(array: any[]): any[] {
-        console.log('aray',array)
+        console.log('aray', array);
         if (!Array.isArray(array) || array.length <= 1) {
-          return array;
+            return array;
         }
-        return array.sort((a, b) => {
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        }).reverse();
-      }
+        return array
+            .sort((a, b) => {
+                return (
+                    new Date(b.created_at).getTime() -
+                    new Date(a.created_at).getTime()
+                );
+            })
+            .reverse();
+    }
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user'));
-        this.loadTable()
+        this.loadTable();
         const data = {
             deps: [+this.user.department_id],
-            users: [{
-                code: this.user.code
-            }]
-        }
+            users: [
+                {
+                    code: this.user.code,
+                },
+            ],
+        };
         this._service.getTicketByDep(data).subscribe((resp: any) => {
             this.itemData = resp.data;
             for (const item of this.orderBy(this.itemData)) {
                 if (item.status === 'New') {
-                    this.task[0].task.push(item)
-                }
-                else if (item.status === 'Process') {
-                    this.task[1].task.push(item)
-                }
-                else if (item.status === 'Finish') {
-                    this.task[2].task.push(item)
+                    this.task[0].task.push(item);
+                } else if (item.status === 'Process') {
+                    this.task[1].task.push(item);
+                } else if (item.status === 'Finish') {
+                    this.task[2].task.push(item);
                 }
             }
             this._changeDetectorRef.markForCheck();
-        })
+        });
 
-        this.car.valueChanges.subscribe(
-            (result) => {
-                if (!!result) {
-                    const data = this.searchNameByCharacter(result, this.itemData);
-                    this.task[0].task = []
-                    this.task[1].task = []
-                    this.task[2].task = []
-                    for (const item of data) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[2].task.push(item)
-                        }
-                    }
-                } else {
-                    this.task[0].task = []
-                    this.task[1].task = []
-                    this.task[2].task = []
-                    for (const item of this.itemData) {
-                        if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[2].task.push(item)
-                        }
+        this.car.valueChanges.subscribe((result) => {
+            if (!!result) {
+                const data = this.searchNameByCharacter(result, this.itemData);
+                this.task[0].task = [];
+                this.task[1].task = [];
+                this.task[2].task = [];
+                for (const item of data) {
+                    if (item.status === 'New') {
+                        this.task[0].task.push(item);
+                    } else if (item.status === 'Process') {
+                        this.task[1].task.push(item);
+                    } else if (item.status === 'Finish') {
+                        this.task[2].task.push(item);
                     }
                 }
-                this._changeDetectorRef.markForCheck();
+            } else {
+                this.task[0].task = [];
+                this.task[1].task = [];
+                this.task[2].task = [];
+                for (const item of this.itemData) {
+                    if (item.status === 'New') {
+                        this.task[0].task.push(item);
+                    } else if (item.status === 'Process') {
+                        this.task[1].task.push(item);
+                    } else if (item.status === 'Finish') {
+                        this.task[2].task.push(item);
+                    }
+                }
             }
-        )
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     // searchCar() {
@@ -222,8 +234,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         this._changeDetectorRef.detectChanges();
     }
     empFilter(data: any) {
-
-        return data.filter(e => e.isSelected)
+        return data.filter((e) => e.isSelected);
     }
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     editElement(element: any) {
@@ -277,12 +288,12 @@ export class ListComponent implements OnInit, AfterViewInit {
                 } else if (this.status == 'finish') {
                     dataTablesParameters.status = 'Finish';
                 }
+                dataTablesParameters.search = { value: this.searchQuery }; // Include search query
                 that._service
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
-                        console.log('1',resp.data);
-                       
+
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
@@ -308,7 +319,6 @@ export class ListComponent implements OnInit, AfterViewInit {
                 { data: 'phone' },
                 { data: 'event' },
                 { data: 'action', orderable: false },
-
             ],
         };
     }
@@ -321,45 +331,44 @@ export class ListComponent implements OnInit, AfterViewInit {
     //     this.loadData(event.pageIndex + 1, event.pageSize);
     // }
     createTicket() {
-        const dialogRef = this.dialog.open(CreateComponent,
-            { minWidth: '50%' }
-        );
-        dialogRef.afterClosed().subscribe(result => {
+        const dialogRef = this.dialog.open(CreateComponent, {
+            minWidth: '50%',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                let dep = []
+                let dep = [];
                 if (this.department.length > 0) {
-                    dep = this.department.map(item => item)
+                    dep = this.department.map((item) => item);
+                } else {
+                    dep = [+this.user.department_id];
                 }
-                else {
-                    dep = [+this.user.department_id]
-                }
-                const emp = this.employeeDep.filter(item => item.isSelected)
+                const emp = this.employeeDep.filter((item) => item.isSelected);
 
                 const data = {
                     deps: dep,
-                    users: emp.map(item => ({ code: item.code }))
-                }
+                    users: emp.map((item) => ({ code: item.code })),
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'New',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                 ];
 
@@ -367,70 +376,64 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this.itemData = resp.data;
                     for (const item of this.itemData) {
                         if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[2].task.push(item)
+                            this.task[0].task.push(item);
+                        } else if (item.status === 'Process') {
+                            this.task[1].task.push(item);
+                        } else if (item.status === 'Finish') {
+                            this.task[2].task.push(item);
                         }
                     }
-                  
+
                     this._changeDetectorRef.markForCheck();
-                })
+                });
 
                 this.showFlashMessage('success');
                 this.rerender();
             }
-        })
+        });
     }
     detailTicket(value: any) {
-        const dialogRef = this.dialog.open(DetailTicketComponent,
-            {
-                minWidth: '50%',
-                width: '676px',
-                data: value
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
-
+        const dialogRef = this.dialog.open(DetailTicketComponent, {
+            minWidth: '50%',
+            width: '676px',
+            data: value,
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.rerender();
-                let dep = []
+                let dep = [];
                 if (this.department.length > 0) {
-                    dep = this.department.map(item => item)
+                    dep = this.department.map((item) => item);
+                } else {
+                    dep = [+this.user.department_id];
                 }
-                else {
-                    dep = [+this.user.department_id]
-                }
-                const emp = this.employeeDep.filter(item => item.isSelected)
+                const emp = this.employeeDep.filter((item) => item.isSelected);
                 // const dep = this.department.map(item => item)
                 const data = {
                     deps: dep,
-                    users: emp.map(item => ({ code: item.code }))
-                }
+                    users: emp.map((item) => ({ code: item.code })),
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'New',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                 ];
 
@@ -438,158 +441,145 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this.itemData = resp.data;
                     for (const item of this.itemData) {
                         if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[2].task.push(item)
+                            this.task[0].task.push(item);
+                        } else if (item.status === 'Process') {
+                            this.task[1].task.push(item);
+                        } else if (item.status === 'Finish') {
+                            this.task[2].task.push(item);
                         }
                     }
                     this._changeDetectorRef.markForCheck();
-                })
+                });
             }
-        })
-
-
+        });
     }
 
     exportExcel() {
-        window.open(environment.baseURL + '/api/export_ticket')
+        window.open(environment.baseURL + '/api/export_ticket');
     }
 
     employeeDialog(value) {
-        console.log(this.employeeDep)
-        const dialogRef = this.dialog.open(EmployeeDialogComponent,
-            {
-                minWidth: '30%',
-                data: {
-                    status: 'Edit',
-                    value: this.employeeDep,
-                },
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
+        console.log(this.employeeDep);
+        const dialogRef = this.dialog.open(EmployeeDialogComponent, {
+            minWidth: '30%',
+            data: {
+                status: 'Edit',
+                value: this.employeeDep,
+            },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                const deps = this.department.map(item => item)
+                const deps = this.department.map((item) => item);
                 const data = {
                     deps: deps,
-                    users: result.map(item => ({ code: item.code }))
-                }
+                    users: result.map((item) => ({ code: item.code })),
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'New',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                 ];
                 this._service.getTicketByDep(data).subscribe((resp: any) => {
                     this.itemData = resp.data;
-                    console.log(this.itemData)
+                    console.log(this.itemData);
                     for (const item of this.itemData) {
                         if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[2].task.push(item)
+                            this.task[0].task.push(item);
+                        } else if (item.status === 'Process') {
+                            this.task[1].task.push(item);
+                        } else if (item.status === 'Finish') {
+                            this.task[2].task.push(item);
                         }
                     }
                     this._changeDetectorRef.markForCheck();
-                })
+                });
             }
-        })
+        });
     }
 
     departmentDailog() {
-
-        const dialogRef = this.dialog.open(DepartmentDialogComponent,
-            {
-                minWidth: '30%',
-                data: {
-                    status: 'Edit',
-                    value: this.departmentData,
-                },
-            }
-        );
-        dialogRef.afterClosed().subscribe(result => {
+        const dialogRef = this.dialog.open(DepartmentDialogComponent, {
+            minWidth: '30%',
+            data: {
+                status: 'Edit',
+                value: this.departmentData,
+            },
+        });
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                this.department = result.map(item => item.id)
-                const emp = this.employeeDep.filter(item => item.isSelected)
+                this.department = result.map((item) => item.id);
+                const emp = this.employeeDep.filter((item) => item.isSelected);
                 const data = {
                     deps: this.department,
-                    users: emp.map(item => ({ code: item.code }))
-                }
+                    users: emp.map((item) => ({ code: item.code })),
+                };
                 this.task = [
                     {
                         id: 1,
                         name: 'งานใหม่ / Todo',
                         detail: 'งานใหม่รอรับ',
                         status: 'New',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 2,
                         name: 'กำลังดำเนินงาน',
                         detail: 'โทรจองศูนย์ซ่อมและโทรยืนยันลูกค้า',
                         status: 'Process',
-                        task: []
+                        task: [],
                     },
                     {
                         id: 4,
                         name: 'เสร็จสิ้น',
                         detail: '-',
                         status: 'Finish',
-                        task: []
+                        task: [],
                     },
                 ];
                 this._service.getTicketByDep(data).subscribe((resp: any) => {
                     this.itemData = resp.data;
-                    console.log(this.itemData)
+                    console.log(this.itemData);
                     for (const item of this.itemData) {
                         if (item.status === 'New') {
-                            this.task[0].task.push(item)
-                        }
-                        else if (item.status === 'Process') {
-                            this.task[1].task.push(item)
-                        }
-                        else if (item.status === 'Finish') {
-                            this.task[2].task.push(item)
+                            this.task[0].task.push(item);
+                        } else if (item.status === 'Process') {
+                            this.task[1].task.push(item);
+                        } else if (item.status === 'Finish') {
+                            this.task[2].task.push(item);
                         }
                     }
                     this._changeDetectorRef.markForCheck();
-                })
+                });
             }
-        })
+        });
     }
 
     getLastElement(data: any): any {
         const created_at = data.activitys[data.activitys.length - 1];
         // return created_at.updated_at
-        return this.checkAndFormatDateTime(created_at.updated_at)
+        return this.checkAndFormatDateTime(created_at.updated_at);
     }
 
     checkAndFormatDateTime(inputDateTimeRaw: Date): string {
-        const inputDateTime = new Date(inputDateTimeRaw)
+        const inputDateTime = new Date(inputDateTimeRaw);
         const today = new Date();
         const yesterday = new Date();
         yesterday.setDate(today.getDate() - 1);
@@ -605,7 +595,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     // Function to check if two dates are the same day
     private isSameDate(date1: Date, date2: Date): boolean {
-
         return (
             date1.getDate() === date2.getDate() &&
             date1.getMonth() === date2.getMonth() &&
@@ -632,7 +621,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     searchNameByCharacter(character, array) {
         const results = [];
         for (let i = 0; i < array.length; i++) {
-            if (array[i].car.license.toLowerCase().includes(character.toLowerCase())) {
+            if (
+                array[i].car.license
+                    .toLowerCase()
+                    .includes(character.toLowerCase())
+            ) {
                 results.push(array[i]);
             }
         }
@@ -683,5 +676,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             dtInstance.ajax.reload();
         });
+    }
+
+    applySearch() {
+        // You may need to modify this based on your DataTables structure
+        this.rerender();
     }
 }
