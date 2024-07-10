@@ -97,7 +97,7 @@ export class TicketCardComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog
     ) {
-        // console.log(this.data.value);
+        console.log(this.data.value);
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
@@ -115,7 +115,7 @@ export class TicketCardComponent implements OnInit {
 
         this._service.getCar().subscribe((resp: any) => {
             this.productData = resp.data;
-            console.log(this.productData);
+            // console.log(this.productData);
         });
         this._service.getServiceCenter().subscribe((resp: any) => {
             this.serviceCenterData = resp.data;

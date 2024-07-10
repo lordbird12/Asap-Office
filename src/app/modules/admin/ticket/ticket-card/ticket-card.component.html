@@ -29,18 +29,31 @@
         </div>
 
         <form [formGroup]="form">
-            <div class="flex flex-col mt-5" *ngIf="this.data.status === 'Edit'">
-                <mat-label class="font-bold">ข้อมูลรถ</mat-label>
-                <div class="flex flex-row">
-                    <div class="flex">
-                        <img class="h-15 w-auto" src="{{this.data.value.car?.image}}" alt="image description">
+            <div class="grid grid-cols-2">
+                <div class="flex flex-col mt-5" *ngIf="this.data.status === 'Edit'">
+                    <mat-label class="font-bold">ข้อมูลรถ</mat-label>
+                    <div class="flex flex-row">
+                        <div class="flex">
+                            <img class="h-15 w-auto" src="{{this.data.value.car?.image}}" alt="image description">
+                        </div>
+                        <div class="flex p-4 mt-2">
+                            <div>
+                                <span class="text-lg font-bold">{{this.data.value.car?.license ?? ''}}</span>
+                                <br>
+                                <span class="text-md font-light text-slate-400">{{this.data.value.car?.brand_model?.name??
+                                    ''}}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex p-4 mt-2">
-                        <div>
-                            <span class="text-lg font-bold">{{this.data.value.car?.license ?? ''}}</span>
-                            <br>
-                            <span class="text-md font-light text-slate-400">{{this.data.value.car?.brand_model?.name??
-                                ''}}</span>
+                </div>  
+                <div class="flex flex-col mt-5" *ngIf="this.data.status === 'Edit'">
+                    <mat-label class="font-bold">เลขไมล์</mat-label>
+                    <div class="flex flex-row">
+                        <div class="flex p-4 mt-2">
+                            <div>
+                                <span class="text-md font-light text-slate-400">{{this.data.value.car?.mile ??
+                                    '-'}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
