@@ -61,7 +61,7 @@ export class SummaryServiceComponent implements OnInit {
     @ViewChild('chart') chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
 
-    department: number = 1;
+    department: number = 0;
 
     typeScore = [];
     form: FormGroup;
@@ -152,8 +152,11 @@ export class SummaryServiceComponent implements OnInit {
         const total: number = this.typeScore.reduce((acc, val) => acc + val, 0);
 
         const percentages: number = (this.typeScore[index] / total) * 100;
-
-        return percentages;
+        if (isNaN(percentages)) {
+            return 0;
+        } else {
+            return percentages;
+        }
     }
 
     top_services(data: string): number {
@@ -168,6 +171,17 @@ export class SummaryServiceComponent implements OnInit {
         this.service.getData(item.id).subscribe({
             next: (resp) => {
                 this.data = resp;
+
+                this.typeScore = [
+                    this.top_services('เปลี่ยนยาง'),
+                    this.top_services('เปลี่ยนแบตเตอรี่'),
+                    this.top_services('เช็คระยะ'),
+                    this.top_services('เช็คระบบแอร์'),
+                    this.top_services('เช็คระบบเบรค'),
+                    this.top_services('เช็คระบบไฟ'),
+                    this.top_services('เช็คช่วงล่าง'),
+                    this.top_services('อื่น (โปรดระบุ)'),
+                ];
 
                 this.chartOptions = {
                     series: [

@@ -45,14 +45,14 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
                 <div class="flex flex-col mt-5" *ngIf="this.data.status === 'Edit'">
                     <mat-label class="font-bold">เลขไมล์</mat-label>
                     <div class="flex flex-row">
-                        <div class="flex p-4 mt-2">
+                        <div class="flex">
                             <div>
                                 <span class="text-md font-light text-slate-400">{{this.data.value.car?.mile ??
-                                    '-'}}</span>
+                                    '-'}} Km.</span>
                             </div>
                         </div>
                     </div>
