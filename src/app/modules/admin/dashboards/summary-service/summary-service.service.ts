@@ -4,19 +4,16 @@ import { environment } from 'environments/environment.development';
 import { map } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class SummaryServiceService {
+    constructor(private http: HttpClient) {}
 
-    constructor(
-        private http: HttpClient,
-    ) { }
-
-    getData() {
-        return this.http.post(environment.baseURL + '/api/get_dashboard_summary_service', {})
-            .pipe(
-                map((resp: any) => resp.data)
-            );
+    getData(id: number) {
+        return this.http
+            .post(environment.baseURL + '/api/get_dashboard_summary_service', {
+                dep_id: id,
+            })
+            .pipe(map((resp: any) => resp.data));
     }
-
 }

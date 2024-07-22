@@ -13,7 +13,7 @@ export default [
         path: '',
         component: SummaryServiceComponent,
         resolve: {
-            data: () => inject(SummaryServiceService).getData(),
+            data: () => inject(SummaryServiceService).getData(0),
         }
     },
     {

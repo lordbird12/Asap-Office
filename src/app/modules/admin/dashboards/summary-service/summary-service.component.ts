@@ -1,6 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexPlotOptions, ApexXAxis, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
+import {
+    ApexAxisChartSeries,
+    ApexChart,
+    ApexDataLabels,
+    ApexPlotOptions,
+    ApexXAxis,
+    ChartComponent,
+    NgApexchartsModule,
+} from 'ng-apexcharts';
 import { SemiCircleComponent } from './semi-circle/semi-circle.component';
 import { CenterChartComponent } from './center-chart/center-chart.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +17,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    NgModel,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { SummaryServiceService } from './summary-service.service';
 
 export type ChartOptions = {
@@ -23,15 +38,27 @@ export type ChartOptions = {
 @Component({
     selector: 'app-summary-service',
     standalone: true,
-    imports: [CommonModule, NgApexchartsModule, SemiCircleComponent, CenterChartComponent, MatIconModule, MatButtonModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, RouterLink, ReactiveFormsModule, FormsModule],
+    imports: [
+        CommonModule,
+        NgApexchartsModule,
+        SemiCircleComponent,
+        CenterChartComponent,
+        MatIconModule,
+        MatButtonModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        RouterLink,
+        ReactiveFormsModule,
+        FormsModule,
+    ],
     templateUrl: './summary-service.component.html',
     styleUrls: ['./summary-service.component.scss'],
     // providers: [NgModel]
 })
 export class SummaryServiceComponent implements OnInit {
-
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    @ViewChild("chart") chart: ChartComponent;
+    @ViewChild('chart') chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
 
     department: number = 1;
@@ -39,9 +66,9 @@ export class SummaryServiceComponent implements OnInit {
     typeScore = [];
     form: FormGroup;
     lists = [
-        { province: "กรุงเทพมหานคร", quantity: 450, top: "เปลี่ยนแบตเตอรี่" },
-        { province: "นครราชสีมา", quantity: 250, top: "เปลี่ยนยาง" },
-        { province: "นนทบุรี", quantity: 150, top: "เช็คระยะ" },
+        { province: 'กรุงเทพมหานคร', quantity: 450, top: 'เปลี่ยนแบตเตอรี่' },
+        { province: 'นครราชสีมา', quantity: 250, top: 'เปลี่ยนยาง' },
+        { province: 'นนทบุรี', quantity: 150, top: 'เช็คระยะ' },
     ];
 
     data = null;
@@ -49,15 +76,15 @@ export class SummaryServiceComponent implements OnInit {
     constructor(
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder,
-        private service: SummaryServiceService,
-    ) { }
+        private service: SummaryServiceService
+    ) {}
 
     ngOnInit(): void {
         this.data = this.activatedRoute.snapshot.data.data;
 
         this.form = this.fb.group({
             startDate: [],
-            endDate: []
+            endDate: [],
         });
 
         this.typeScore = [
@@ -71,17 +98,25 @@ export class SummaryServiceComponent implements OnInit {
             this.top_services('อื่น (โปรดระบุ)'),
         ];
 
-        this.data.most_booking.map(e => ({x: e.company, y: +e.total, fillColor: '#FF4849'}));
+        this.data.most_booking.map((e) => ({
+            x: e.company,
+            y: +e.total,
+            fillColor: '#FF4849',
+        }));
 
         this.chartOptions = {
             series: [
                 {
-                    name: "จำนวนการใช้บริการ",
-                    data: this.data.most_booking.map(e => ({x: e.company, y: +e.total, fillColor: '#FF4849'}))
-                }
+                    name: 'จำนวนการใช้บริการ',
+                    data: this.data.most_booking.map((e) => ({
+                        x: e.company,
+                        y: +e.total,
+                        fillColor: '#FF4849',
+                    })),
+                },
             ],
             chart: {
-                type: "bar",
+                type: 'bar',
                 height: 350,
             },
             plotOptions: {
@@ -98,19 +133,19 @@ export class SummaryServiceComponent implements OnInit {
         this.form.valueChanges.subscribe({
             next: (data) => {
                 if (data.startDate && data.endDate) {
-                    this.service.getData().subscribe({
+                    this.service.getData(0).subscribe({
                         next: (resp) => {
                             this.data = resp;
-                        }
+                        },
                     });
                 }
-            }
-        })
+            },
+        });
     }
 
     calPerStyly(score: number) {
         let txt = Math.floor(score);
-        return txt > 0 ? txt + '%' : ""
+        return txt > 0 ? txt + '%' : '';
     }
 
     calPers(index: number): number {
@@ -122,18 +157,44 @@ export class SummaryServiceComponent implements OnInit {
     }
 
     top_services(data: string): number {
-        return +this.data.top_services.find(e => e.name == data).total;
+        return +this.data.top_services.find((e) => e.name == data).total;
     }
 
     get getDepartment() {
-        return this.data.deps_totals.find(e => e.id == this.department)
+        return this.data.deps_totals.find((e) => e.id == this.department);
     }
 
     departmentClick(item) {
-        this.service.getData().subscribe({
+        this.service.getData(item.id).subscribe({
             next: (resp) => {
                 this.data = resp;
-            }
+
+                this.chartOptions = {
+                    series: [
+                        {
+                            name: 'จำนวนการใช้บริการ',
+                            data: this.data.most_booking.map((e) => ({
+                                x: e.company,
+                                y: +e.total,
+                                fillColor: '#FF4849',
+                            })),
+                        },
+                    ],
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            borderRadius: 8,
+                        },
+                    },
+                    dataLabels: {
+                        enabled: true,
+                    },
+                };
+            },
         });
     }
 }
