@@ -12,12 +12,16 @@ import {
     MatDialog,
     MatDialogRef,
 } from '@angular/material/dialog';
+
 import {
     FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
     FormsModule,
+    Validators,
+    AbstractControl,
+    ValidationErrors,
     NgControl,
     ReactiveFormsModule,
 } from '@angular/forms';
@@ -97,16 +101,17 @@ export class TicketCardComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private dialog: MatDialog
     ) {
-        console.log(this.data.value);
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
+            phone1: '',
+            name1: '',
             phone: '',
             name: '',
             service_center_id: '',
             reason: '',
-            date: '',
-            time: '',
+            date: ['', [Validators.required, this.dateValidator]],
+            time: ['', [Validators.required, this.dateValidator]],
             company: '',
             image: '',
             note: '',
@@ -139,6 +144,12 @@ export class TicketCardComponent implements OnInit {
         });
         this._changeDetectorRef.markForCheck();
     }
+
+    dateValidator(control: AbstractControl): ValidationErrors | null {
+        const datePattern = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
+        return datePattern.test(control.value) ? null : { dateInvalid: true };
+    }
+
     onChangeServiceCenter(event: any) {
         const selectedOption = event.option.value;
         // console.log(selectedOption);
@@ -462,6 +473,30 @@ export class TicketCardComponent implements OnInit {
         this.statusData.setValue(event.value);
     }
     onSaveClick(): void {
+        if (this.data.valid) {
+            this._fuseConfirmationService.open({
+                title: 'ข้อมูลไม่ถูกต้อง',
+                message: "กรุณาระบุข้อมูลให้เรียบร้อย",
+                icon: {
+                    show: true,
+                    name: 'heroicons_outline:exclamation',
+                    color: 'warning',
+                },
+                actions: {
+                    confirm: {
+                        show: false,
+                        label: 'ยืนยัน',
+                        color: 'primary',
+                    },
+                    cancel: {
+                        show: false,
+                        label: 'ยกเลิก',
+                    },
+                },
+                dismissible: true,
+            });
+            return;
+        }
         if (this.data.value) {
             if (this.statusData.value === 'Cancel') {
                 this.CancelStatus();
@@ -524,7 +559,6 @@ export class TicketCardComponent implements OnInit {
                         } else {
                             formValue.service_center_id = ''; // ถ้าเลือกค่าเดิมอีกครั้ง ให้ตัวแปร date เป็นค่าว่าง
                         }
-
 
                         if (this.yourArray1) {
                             this.yourArray1.forEach((item) => {
