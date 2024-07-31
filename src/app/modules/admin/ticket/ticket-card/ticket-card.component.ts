@@ -232,7 +232,9 @@ export class TicketCardComponent implements OnInit {
                 time: this.convertTime(this.data.value.time ?? '00:00:00'),
             });
             this.myControl1.patchValue(this.data.value.service_center);
-
+            this.form.patchValue({
+                note: this.data.value?.note,
+            });
             this.checknote(this.data.value.services);
         } else {
             this.statusData.setValue('New');
@@ -476,7 +478,7 @@ export class TicketCardComponent implements OnInit {
         if (this.data.valid) {
             this._fuseConfirmationService.open({
                 title: 'ข้อมูลไม่ถูกต้อง',
-                message: "กรุณาระบุข้อมูลให้เรียบร้อย",
+                message: 'กรุณาระบุข้อมูลให้เรียบร้อย',
                 icon: {
                     show: true,
                     name: 'heroicons_outline:exclamation',
@@ -659,9 +661,11 @@ export class TicketCardComponent implements OnInit {
                         }
                     }
 
-                    updatedData.date = moment(updatedData.date).format(
-                        'YYYY-MM-DD'
-                    );
+                    // updatedData.date = moment(updatedData.date).format(
+                    //     'YYYY-MM-DD'
+                    // );
+
+                    updatedData.date = this.formatDate(updatedData.date);
                     this._service.create(updatedData).subscribe({
                         next: (resp: any) => {
                             this.dialogRef.close(resp);
@@ -694,6 +698,14 @@ export class TicketCardComponent implements OnInit {
                 }
             });
         }
+    }
+
+    formatDate(date: any): string {
+        const year = date.c.year;
+        const month = date.c.month;
+        const day = date.c.day;
+        
+        return `${year}-${month}-${day}`;
     }
 
     getDaysAgo(created_at: string): string {
@@ -735,7 +747,7 @@ export class TicketCardComponent implements OnInit {
         // console.log('Arary', service_other);
         if (service_other) {
             this.form.patchValue({
-                note: service_other?.note ?? '',
+                note: service_other?.note,
             });
         } else {
             return;
