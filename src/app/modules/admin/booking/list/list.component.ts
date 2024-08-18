@@ -86,7 +86,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     task: any[] = [
         {
             id: 1,
-            name: 'งานใหม่ / Todo',
+            name: 'งานใหม่ / To do',
             detail: 'งานใหม่รอรับ',
             status: 'Process',
             task: [],
@@ -437,7 +437,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.task = [
                     {
                         id: 1,
-                        name: 'งานใหม่ / Todo',
+                        name: 'งานใหม่ / To do',
                         detail: 'งานใหม่รอรับ',
                         status: 'Process',
                         task: [],
@@ -522,7 +522,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.task = [
                     {
                         id: 1,
-                        name: 'งานใหม่ / Todo',
+                        name: 'งานใหม่ / To do',
                         detail: 'งานใหม่รอรับ',
                         status: 'Process',
                         task: [],
@@ -607,7 +607,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.task = [
                     {
                         id: 1,
-                        name: 'งานใหม่ / Todo',
+                        name: 'งานใหม่ / To do',
                         detail: 'งานใหม่รอรับ',
                         status: 'Process',
                         task: [],
@@ -748,7 +748,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                         this.task = [
                                             {
                                                 id: 1,
-                                                name: 'งานใหม่ / Todo',
+                                                name: 'งานใหม่ / To do',
                                                 detail: 'งานใหม่รอรับ',
                                                 status: 'Process',
                                                 task: [],
@@ -944,7 +944,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                                         this.task = [
                                             {
                                                 id: 1,
-                                                name: 'งานใหม่ / Todo',
+                                                name: 'งานใหม่ / To do',
                                                 detail: 'งานใหม่รอรับ',
                                                 status: 'Process',
                                                 task: [],
