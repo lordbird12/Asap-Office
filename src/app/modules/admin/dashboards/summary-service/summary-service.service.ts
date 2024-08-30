@@ -16,4 +16,14 @@ export class SummaryServiceService {
             })
             .pipe(map((resp: any) => resp.data));
     }
+
+    getDataDate(id: number, start: any, end: any) {
+        return this.http
+            .post(environment.baseURL + '/api/get_dashboard_summary_service', {
+                dep_id: id,
+                start: start,
+                end: end,
+            })
+            .pipe(map((resp: any) => resp.data));
+    }
 }

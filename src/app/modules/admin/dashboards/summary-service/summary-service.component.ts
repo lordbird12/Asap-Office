@@ -63,6 +63,10 @@ export class SummaryServiceComponent implements OnInit {
 
     department: number = 0;
 
+    dep_id: number;
+    startDate: any;
+    endDate: any;
+
     typeScore = [];
     form: FormGroup;
     lists = [
@@ -132,12 +136,16 @@ export class SummaryServiceComponent implements OnInit {
 
         this.form.valueChanges.subscribe({
             next: (data) => {
+                this.startDate = data.startDate;
+                this.endDate = data.endDate;
                 if (data.startDate && data.endDate) {
-                    this.service.getData(0).subscribe({
-                        next: (resp) => {
-                            this.data = resp;
-                        },
-                    });
+                    this.service
+                        .getDataDate(this.dep_id, this.startDate, this.endDate)
+                        .subscribe({
+                            next: (resp) => {
+                                this.data = resp;
+                            },
+                        });
                 }
             },
         });
@@ -168,47 +176,50 @@ export class SummaryServiceComponent implements OnInit {
     }
 
     departmentClick(item) {
-        this.service.getData(item.id).subscribe({
-            next: (resp) => {
-                this.data = resp;
+        this.dep_id = item.id;
+        this.service
+            .getDataDate(item.id, this.startDate, this.endDate)
+            .subscribe({
+                next: (resp) => {
+                    this.data = resp;
 
-                this.typeScore = [
-                    this.top_services('เปลี่ยนยาง'),
-                    this.top_services('เปลี่ยนแบตเตอรี่'),
-                    this.top_services('เช็คระยะ'),
-                    this.top_services('เช็คระบบแอร์'),
-                    this.top_services('เช็คระบบเบรค'),
-                    this.top_services('เช็คระบบไฟ'),
-                    this.top_services('เช็คช่วงล่าง'),
-                    this.top_services('อื่น (โปรดระบุ)'),
-                ];
+                    this.typeScore = [
+                        this.top_services('เปลี่ยนยาง'),
+                        this.top_services('เปลี่ยนแบตเตอรี่'),
+                        this.top_services('เช็คระยะ'),
+                        this.top_services('เช็คระบบแอร์'),
+                        this.top_services('เช็คระบบเบรค'),
+                        this.top_services('เช็คระบบไฟ'),
+                        this.top_services('เช็คช่วงล่าง'),
+                        this.top_services('อื่น (โปรดระบุ)'),
+                    ];
 
-                this.chartOptions = {
-                    series: [
-                        {
-                            name: 'จำนวนการใช้บริการ',
-                            data: this.data.most_booking.map((e) => ({
-                                x: e.company,
-                                y: +e.total,
-                                fillColor: '#FF4849',
-                            })),
+                    this.chartOptions = {
+                        series: [
+                            {
+                                name: 'จำนวนการใช้บริการ',
+                                data: this.data.most_booking.map((e) => ({
+                                    x: e.company,
+                                    y: +e.total,
+                                    fillColor: '#FF4849',
+                                })),
+                            },
+                        ],
+                        chart: {
+                            type: 'bar',
+                            height: 350,
                         },
-                    ],
-                    chart: {
-                        type: 'bar',
-                        height: 350,
-                    },
-                    plotOptions: {
-                        bar: {
-                            horizontal: true,
-                            borderRadius: 8,
+                        plotOptions: {
+                            bar: {
+                                horizontal: true,
+                                borderRadius: 8,
+                            },
                         },
-                    },
-                    dataLabels: {
-                        enabled: true,
-                    },
-                };
-            },
-        });
+                        dataLabels: {
+                            enabled: true,
+                        },
+                    };
+                },
+            });
     }
 }
