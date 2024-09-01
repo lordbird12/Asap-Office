@@ -2,7 +2,12 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -54,6 +59,9 @@ export class CompanyListComponent implements OnInit {
     searchQuery: string = '';
     department: string = '';
     id: number;
+    form: FormGroup;
+    startDate: any;
+    endDate: any;
     search: any;
     departmentName: string = '';
     @ViewChild(DataTableDirective)
@@ -64,6 +72,7 @@ export class CompanyListComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _service: CompanyListService,
         private _router: Router,
+        private fb: FormBuilder,
         private activatedRoute: ActivatedRoute
     ) {
         this.id = this.activatedRoute.snapshot.params.id;
@@ -71,7 +80,22 @@ export class CompanyListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.form = this.fb.group({
+            startDate: [],
+            endDate: [],
+        });
+
         this.loadTable();
+
+        this.form.valueChanges.subscribe({
+            next: (data) => {
+                this.startDate = data.startDate;
+                this.endDate = data.endDate;
+                if (data.startDate && data.endDate) {
+                    this.rerender();
+                }
+            },
+        });
     }
 
     loadTable(): void {
@@ -90,6 +114,8 @@ export class CompanyListComponent implements OnInit {
                 dataTablesParameters.search_text = this.search;
                 dataTablesParameters.department_id = this.id;
                 dataTablesParameters.ex_status = this.department;
+                dataTablesParameters.start_date = this.startDate;
+                dataTablesParameters.end_date = this.endDate;
                 that._service
                     .dashboardBookingPage(dataTablesParameters)
                     .subscribe((resp: any) => {
@@ -115,9 +141,24 @@ export class CompanyListComponent implements OnInit {
     }
 
     exportExcel() {
-        window.open(
-            environment.baseURL + '/api/export_dashboard_services_group/' + this.id
-        );
+        if (this.startDate && this.endDate) {
+            console.log(this.startDate);
+            window.open(
+                environment.baseURL +
+                    '/api/export_dashboard_services_group2/' +
+                    this.id +
+                    '/' +
+                    this.startDate +
+                    '/' +
+                    this.endDate
+            );
+        } else {
+            window.open(
+                environment.baseURL +
+                    '/api/export_dashboard_services_group/' +
+                    this.id
+            );
+        }
     }
 
     uploadfile() {}

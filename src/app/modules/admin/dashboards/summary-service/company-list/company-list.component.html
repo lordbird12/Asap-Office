@@ -6,7 +6,7 @@
     </div>
     <div class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
         <div class="flex flex-row gap-4 items-center justify-between">
-            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ > {{departmentName}}</h2>
+            <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวมการเข้ารับบริการ1 > {{departmentName}}</h2>
         </div>
 
         <div class="flex flex-row gap-4">
@@ -15,9 +15,9 @@
             </button>
 
             <mat-form-field class="flex w-80" [ngClass]="formFieldHelpers" style="margin-bottom: -1.25em">
-                <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
-                    <input matStartDate placeholder="วันที่เริ่ม">
-                    <input matEndDate placeholder="วันที่สิ้นสุด">
+                <mat-date-range-input [formGroup]="form" [rangePicker]="picker" (click)="picker.open()">
+                    <input matStartDate placeholder="วันที่เริ่ม" formControlName="startDate">
+                    <input matEndDate placeholder="วันที่สิ้นสุด" formControlName="endDate">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
