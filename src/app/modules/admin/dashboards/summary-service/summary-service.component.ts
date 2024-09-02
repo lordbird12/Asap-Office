@@ -138,6 +138,7 @@ export class SummaryServiceComponent implements OnInit {
             next: (data) => {
                 this.startDate = data.startDate;
                 this.endDate = data.endDate;
+            
                 if (data.startDate && data.endDate) {
                     this.service
                         .getDataDate(this.dep_id, this.startDate, this.endDate)

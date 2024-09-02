@@ -91,7 +91,8 @@ export class CompanyListComponent implements OnInit {
             next: (data) => {
                 this.startDate = data.startDate;
                 this.endDate = data.endDate;
-                if (data.startDate && data.endDate) {
+                console.log(this.endDate);
+                if (this.startDate && this.endDate) {
                     this.rerender();
                 }
             },
