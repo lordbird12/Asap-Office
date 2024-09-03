@@ -37,7 +37,8 @@ export class GeneralManagerComponent implements OnInit {
         { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
         { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
     ];
-
+    startDate: any;
+    endDate: any;
     data = null;
     form: FormGroup;
     constructor(
@@ -59,8 +60,10 @@ export class GeneralManagerComponent implements OnInit {
 
         this.form.valueChanges.subscribe({
             next: (data: any) => {
+                this.startDate = data.startDate;
+                this.endDate = data.endDate;
                 if (data.startDate && data.endDate) {
-                    this.service.getSummary().subscribe({
+                    this.service.getSummary2(this.startDate,this.endDate).subscribe({
                         next: (resp: any) => {
                             this.data = resp;
                         }
