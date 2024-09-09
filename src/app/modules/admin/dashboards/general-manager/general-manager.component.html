@@ -179,15 +179,19 @@
                             <td class="py-4">{{person.period_open}}</td>
                             <td class="py-4">{{person.period_finish}}</td>
                             <td class="py-4">
+                                <ng-container *ngIf="person.point == 0">
+                                    <span class="text-[#ccc]" style="background: #6b696821;padding: 2px 8px 4px 8px;">ไม่พบข้อมูล</span> {{person.point}}
+                                </ng-container>
                                 <ng-container *ngIf="person.point > 4.5">
                                     <span class="text-[#2EB47B]" style="background: #36B37E21;padding: 2px 8px 4px 8px;">พึงพอใจมาก</span> {{person.point}}
                                 </ng-container>
                                 <ng-container *ngIf="person.point > 4 && person.point <= 4.4">
-                                    <span *ngIf="person.point > 4 && person.point <= 4.4" class="text-[#e5c35b]" style="background: #d3d02f21;padding: 2px 8px 4px 8px;">ปานกลาง</span> {{person.point}}
+                                    <span class="text-[#e5c35b]" style="background: #d3d02f21;padding: 2px 8px 4px 8px;">ปานกลาง</span> {{person.point}}
                                 </ng-container>
-                                <ng-container *ngIf="person.point < 3.9">
-                                    <span *ngIf="person.point < 3.9" class="text-[#d02f21]" style="background: #ce4c2c21;padding: 2px 8px 4px 8px;">ควรปรับปรุง</span> {{person.point}}
+                                <ng-container *ngIf="person.point < 3.9 && person.point != 0">
+                                    <span class="text-[#d02f21]" style="background: #ce4c2c21;padding: 2px 8px 4px 8px;">ควรปรับปรุง</span> {{person.point}}
                                 </ng-container>
+
                             </td>
                         </tr>
                     </tbody>

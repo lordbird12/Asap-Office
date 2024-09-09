@@ -183,10 +183,10 @@ export class GeneralManagerComponent implements OnInit {
         this.userId = userId;
         this.service
             .getSummary2(
-                this.startDate,
-                this.endDate,
-                this.departmentId,
-                this.userId
+                this.startDate ?? null,
+                this.endDate ?? null,
+                this.departmentId ?? null,
+                this.userId ?? null
             )
             .subscribe({
                 next: (resp: any) => {
@@ -199,10 +199,10 @@ export class GeneralManagerComponent implements OnInit {
         this.departmentId = depId;
         this.service
             .getSummary2(
-                this.startDate,
-                this.endDate,
-                this.departmentId,
-                this.userId
+                this.startDate ?? null,
+                this.endDate ?? null,
+                this.departmentId ?? null,
+                this.userId ?? null
             )
             .subscribe({
                 next: (resp: any) => {
