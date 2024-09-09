@@ -87,7 +87,8 @@
                             <div class="text-medium">กำลังดำเนินการ</div>
                             <div class="font-bold">{{data.summary_ticket.process.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
-                                <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.process.percent}}%</div>
+                                <div class="text-xs bg-gray-200 rounded-full p-1">
+                                    {{data.summary_ticket.process.percent}}%</div>
                                 <div class="text-medium">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
@@ -102,7 +103,8 @@
                             <div class="text-medium">รอเข้ารับบริการ</div>
                             <div class="font-bold">{{data.summary_ticket.waiting.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
-                                <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.waiting.percent}}%</div>
+                                <div class="text-xs bg-gray-200 rounded-full p-1">
+                                    {{data.summary_ticket.waiting.percent}}%</div>
                                 <div class="text-medium">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
@@ -117,7 +119,8 @@
                             <div class="text-medium">เสร็จสิ้น</div>
                             <div class="font-bold">{{data.summary_ticket.finish.total | number}}</div>
                             <div class="flex flex-row gap-1 items-center">
-                                <div class="text-xs bg-gray-200 rounded-full p-1">{{data.summary_ticket.finish.percent}}%</div>
+                                <div class="text-xs bg-gray-200 rounded-full p-1">
+                                    {{data.summary_ticket.finish.percent}}%</div>
                                 <div class="text-medium">จาก 7 วันที่แล้ว</div>
                             </div>
                         </div>
@@ -176,7 +179,15 @@
                             <td class="py-4">{{person.period_open}}</td>
                             <td class="py-4">{{person.period_finish}}</td>
                             <td class="py-4">
-                                <span class="text-[#2EB47B]" style="background: #36B37E21;padding: 2px 8px 4px 8px;">พึงพอใจมาก</span> {{person.point}}
+                                <ng-container *ngIf="person.point > 4.5">
+                                    <span class="text-[#2EB47B]" style="background: #36B37E21;padding: 2px 8px 4px 8px;">พึงพอใจมาก</span> {{person.point}}
+                                </ng-container>
+                                <ng-container *ngIf="person.point > 4 && person.point <= 4.4">
+                                    <span *ngIf="person.point > 4 && person.point <= 4.4" class="text-[#e5c35b]" style="background: #d3d02f21;padding: 2px 8px 4px 8px;">ปานกลาง</span> {{person.point}}
+                                </ng-container>
+                                <ng-container *ngIf="person.point < 3.9">
+                                    <span *ngIf="person.point < 3.9" class="text-[#d02f21]" style="background: #ce4c2c21;padding: 2px 8px 4px 8px;">ควรปรับปรุง</span> {{person.point}}
+                                </ng-container>
                             </td>
                         </tr>
                     </tbody>
