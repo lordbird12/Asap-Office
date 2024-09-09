@@ -15,14 +15,23 @@ export class GeneralManagerService {
             .pipe(map((resp: any) => resp.data));
     }
 
-    getSummary2(start_date: any, end_date: any) {
+    getSummary2(
+        start_date: any,
+        end_date: any,
+        department_id: any,
+        user_id: any
+    ) {
         return this.http
             .post(
                 environment.baseURL +
                     '/api/get_dashboard_summary2/' +
                     start_date +
                     '/' +
-                    end_date,
+                    end_date +
+                    '/' +
+                    department_id +
+                    '/' +
+                    user_id,
                 {}
             )
             .pipe(map((resp: any) => resp.data));

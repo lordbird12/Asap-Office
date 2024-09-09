@@ -4,8 +4,8 @@
             <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> สรุปภาพรวม </h2>
 
             <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
-                <mat-select formControlName="department_id">
-                    <mat-option value="">ทุกแผนก</mat-option>
+                <mat-select formControlName="department_id" (ngModelChange)="onDepChange($event)">
+                    <mat-option value="0">ทุกแผนก</mat-option>
                     <mat-option *ngFor="let item of departmests;" value="{{item.id}}">
                         {{item.name}}
                     </mat-option>
@@ -13,8 +13,8 @@
             </mat-form-field>
 
             <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
-                <mat-select formControlName="user_id">
-                    <mat-option value="">พนักงานทุกคน</mat-option>
+                <mat-select formControlName="user_id" (ngModelChange)="onUserChange($event)">
+                    <mat-option value="0">พนักงานทุกคน</mat-option>
                     <mat-option *ngFor="let item of employees;" value="{{item.id}}">
                         {{item.fname}} {{item.lname}}
                     </mat-option>
@@ -22,7 +22,7 @@
             </mat-form-field>
         </div>
 
-        <div class="flex flex-row mt-4 md:gap-4">
+        <div class="flex flex-row md:gap-4">
             <!-- <button class="px-6 rounded-md border border-gray-500 " mat-stroked-button color="accent">
                 <mat-icon svgIcon="heroicons_outline:document-arrow-down"></mat-icon>&nbsp; Export Excel
             </button> -->

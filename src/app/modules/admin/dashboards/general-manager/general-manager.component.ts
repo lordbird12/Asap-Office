@@ -15,45 +15,128 @@ import { GeneralManagerService } from './general-manager.service';
 @Component({
     selector: 'app-general-manager',
     standalone: true,
-    imports: [CommonModule, MatSelectModule, MatFormFieldModule, MatInputModule, MatDatepickerModule,
+    imports: [
+        CommonModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
         RouterLink,
-        MatIconModule, MatButtonModule, KpiChartComponent, ComplacenceChartComponent, ReactiveFormsModule],
+        MatIconModule,
+        MatButtonModule,
+        KpiChartComponent,
+        ComplacenceChartComponent,
+        ReactiveFormsModule,
+    ],
     templateUrl: './general-manager.component.html',
-    styleUrls: ['./general-manager.component.scss']
+    styleUrls: ['./general-manager.component.scss'],
 })
 export class GeneralManagerComponent implements OnInit {
-
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     departmests = [];
     employees = [];
     persons = [
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'พึงพอใจมาก', rate: 4.9 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
-        { name: 'Daffa Naufal', team: 'Team A', case: '23,000', avgopen: '3:00m', avgclose: '3:00m', status: 'ปานกลาง', rate: 4.4 },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'พึงพอใจมาก',
+            rate: 4.9,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
+        {
+            name: 'Daffa Naufal',
+            team: 'Team A',
+            case: '23,000',
+            avgopen: '3:00m',
+            avgclose: '3:00m',
+            status: 'ปานกลาง',
+            rate: 4.4,
+        },
     ];
     startDate: any;
     endDate: any;
+    departmentId: any;
+    userId: any;
     data = null;
     form: FormGroup;
     constructor(
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder,
-        private service: GeneralManagerService,
-    ) { }
+        private service: GeneralManagerService
+    ) {}
 
     ngOnInit(): void {
         this.data = this.activatedRoute.snapshot.data.data;
         this.departmests = this.activatedRoute.snapshot.data.department;
 
         this.form = this.fb.group({
-            department_id: [""],
-            user_id: [""],
+            department_id: ['0'],
+            user_id: ['0'],
             startDate: [],
             endDate: [],
         });
@@ -63,18 +146,25 @@ export class GeneralManagerComponent implements OnInit {
                 this.startDate = data.startDate;
                 this.endDate = data.endDate;
                 if (data.startDate && data.endDate) {
-                    this.service.getSummary2(this.startDate,this.endDate).subscribe({
-                        next: (resp: any) => {
-                            this.data = resp;
-                        }
-                    });
+                    this.service
+                        .getSummary2(
+                            this.startDate,
+                            this.endDate,
+                            this.departmentId,
+                            this.userId
+                        )
+                        .subscribe({
+                            next: (resp: any) => {
+                                this.data = resp;
+                            },
+                        });
                 }
-            }
-        })
+            },
+        });
 
-        this.service.getEmployee().subscribe((resp:any)=>{
-            this.employees = resp
-        })
+        this.service.getEmployee().subscribe((resp: any) => {
+            this.employees = resp;
+        });
     }
 
     minutesToMMSS(minutes: number) {
@@ -87,5 +177,37 @@ export class GeneralManagerComponent implements OnInit {
         let ssStr = String(ss).padStart(2, '0');
 
         return mmStr + ':' + ssStr;
+    }
+
+    onUserChange(userId: string) {
+        this.userId = userId;
+        this.service
+            .getSummary2(
+                this.startDate,
+                this.endDate,
+                this.departmentId,
+                this.userId
+            )
+            .subscribe({
+                next: (resp: any) => {
+                    this.data = resp;
+                },
+            });
+    }
+
+    onDepChange(depId: string) {
+        this.departmentId = depId;
+        this.service
+            .getSummary2(
+                this.startDate,
+                this.endDate,
+                this.departmentId,
+                this.userId
+            )
+            .subscribe({
+                next: (resp: any) => {
+                    this.data = resp;
+                },
+            });
     }
 }
