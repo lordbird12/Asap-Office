@@ -185,7 +185,7 @@
                                 <ng-container *ngIf="person.point > 4.5">
                                     <span class="text-[#2EB47B]" style="background: #36B37E21;padding: 2px 8px 4px 8px;">พึงพอใจมาก</span> {{person.point}}
                                 </ng-container>
-                                <ng-container *ngIf="person.point > 4 && person.point <= 4.4">
+                                <ng-container *ngIf="person.point >= 4 && person.point <= 4.4">
                                     <span class="text-[#e5c35b]" style="background: #d3d02f21;padding: 2px 8px 4px 8px;">ปานกลาง</span> {{person.point}}
                                 </ng-container>
                                 <ng-container *ngIf="person.point < 3.9 && person.point != 0">
