@@ -5,7 +5,7 @@
 
             <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
                 <mat-select formControlName="department_id" (ngModelChange)="onDepChange($event)">
-                    <mat-option value="0">ทุกแผนก</mat-option>
+                    <mat-option value="null">ทุกแผนก</mat-option>
                     <mat-option *ngFor="let item of departmests;" value="{{item.id}}">
                         {{item.name}}
                     </mat-option>
@@ -14,7 +14,7 @@
 
             <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
                 <mat-select formControlName="user_id" (ngModelChange)="onUserChange($event)">
-                    <mat-option value="0">พนักงานทุกคน</mat-option>
+                    <mat-option value="null">พนักงานทุกคน</mat-option>
                     <mat-option *ngFor="let item of employees;" value="{{item.id}}">
                         {{item.fname}} {{item.lname}}
                     </mat-option>
