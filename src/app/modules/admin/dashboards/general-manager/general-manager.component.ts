@@ -135,8 +135,8 @@ export class GeneralManagerComponent implements OnInit {
         this.departmests = this.activatedRoute.snapshot.data.department;
 
         this.form = this.fb.group({
-            department_id: ['0'],
-            user_id: ['0'],
+            department_id: ['null'],
+            user_id: ['null'],
             startDate: [],
             endDate: [],
         });
