@@ -200,13 +200,13 @@ export class ListComponent implements OnInit, AfterViewInit {
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
-                        this.dataRow;
-                        this.dataRow.forEach((element) => {
-                            if (!this.imageExists(element) == false) {
-                                element.image =
-                                    'https://asha-tech.co.th/asap/public/images/default.jpg'; // Set your default image path here
-                            }
-                        });
+                        // this.dataRow;
+                        // this.dataRow.forEach((element) => {
+                        //     if (!this.imageExists(element) == false) {
+                        //         element.image =
+                        //             'https://asha-tech.co.th/asap/public/images/default.jpg'; // Set your default image path here
+                        //     }
+                        // });
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
@@ -348,5 +348,10 @@ export class ListComponent implements OnInit, AfterViewInit {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         }, 3000);
+    }
+
+    onImageError(event: Event) {
+        const target = event.target as HTMLImageElement;
+        target.src = "https://asha-tech.co.th/asap/public/images/not_car.jpg"; // Set your default image path here
     }
 }

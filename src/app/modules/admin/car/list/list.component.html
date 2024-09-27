@@ -80,7 +80,7 @@
                             </td>
                             <td style="text-align: center;">
                                 <div style="width: 70px; height: auto; overflow: hidden; display: inline-block; position: relative;">
-                                    <img src="{{item?.image}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img src="{{item?.image}}" (error)="onImageError($event)" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                             </td>
                             <td class="font-light">{{item.brand_model?.name}}</td>
