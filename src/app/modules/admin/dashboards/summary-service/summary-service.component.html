@@ -66,28 +66,28 @@
                     <div class="text-base font-semibold">
 
                         <div class="flex flex-row w-full h-10 my-5 rounded-lg text-base font-semibold text-white">
-                            <div class="flex bg-[#FF4849] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(0)) ? 'pl-4' : ''" [style.width]="calPers(0) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(0))}" [ngClass]="calPerStyly(calPers(0)) ? 'pl-4' : ''" [style.width]="calPers(0) + '%'">
                                 {{calPerStyly(calPers(0))}}
                             </div>
-                            <div class="flex bg-[#2B4D66] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(1)) ? 'pl-4' : ''" [style.width]="calPers(1) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(1))}" [ngClass]="calPerStyly(calPers(1)) ? 'pl-4' : ''" [style.width]="calPers(1) + '%'">
                                 {{calPerStyly(calPers(1))}}
                             </div>
-                            <div class="flex bg-[#33C455] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(2)) ? 'pl-4' : ''" [style.width]="calPers(2) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(2))}" [ngClass]="calPerStyly(calPers(2)) ? 'pl-4' : ''" [style.width]="calPers(2) + '%'">
                                 {{calPerStyly(calPers(2))}}
                             </div>
-                            <div class="flex bg-[#FFB600] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(3)) ? 'pl-4' : ''" [style.width]="calPers(3) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(3))}" [ngClass]="calPerStyly(calPers(3)) ? 'pl-4' : ''" [style.width]="calPers(3) + '%'">
                                 {{calPerStyly(calPers(3))}}
                             </div>
-                            <div class="flex bg-[#6692FB] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(4)) ? 'pl-4' : ''" [style.width]="calPers(4) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(4))}" [ngClass]="calPerStyly(calPers(4)) ? 'pl-4' : ''" [style.width]="calPers(4) + '%'">
                                 {{calPerStyly(calPers(4))}}
                             </div>
-                            <div class="flex bg-[#00B8D9] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(5)) ? 'pl-4' : ''" [style.width]="calPers(5) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(5))}" [ngClass]="calPerStyly(calPers(5)) ? 'pl-4' : ''" [style.width]="calPers(5) + '%'">
                                 {{calPerStyly(calPers(5))}}
                             </div>
-                            <div class="flex bg-[#B76E00] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(6)) ? 'pl-4' : ''" [style.width]="calPers(6) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(6))}" [ngClass]="calPerStyly(calPers(6)) ? 'pl-4' : ''" [style.width]="calPers(6) + '%'">
                                 {{calPerStyly(calPers(6))}}
                             </div>
-                            <div class="flex bg-[#BBBACE] h-10 text-center items-center" [ngClass]="calPerStyly(calPers(7)) ? 'pl-4' : ''" [style.width]="calPers(7) + '%'">
+                            <div class="flex h-10 text-center items-center" [ngStyle]="{'background-color': getServiceColor(calName(7))}" [ngClass]="calPerStyly(calPers(7)) ? 'pl-4' : ''" [style.width]="calPers(7) + '%'">
                                 {{calPerStyly(calPers(7))}}
                             </div>
                         </div>
@@ -96,9 +96,12 @@
                             <li *ngFor="let service of top_services2; let i = index" class="h-7">
                                 <div class="flex flex-row items-center justify-between">
                                     <div class="flex gap-3 items-center">
-                                        <div class="flex items-center justify-center w-4 h-4" [ngStyle]="{'background-color': getServiceColor(service.name), 'opacity': 0.3}" class="rounded-full">
-                                            <div class="flex w-2 h-2" [ngStyle]="{'background-color': getServiceColor(service.name)}" class="rounded-full"></div>
+                                        <div class="flex items-center justify-center w-4 h-4 rounded-full" [ngStyle]="{'background-color': getServiceColor(service.name)}">
+                                            <div class="flex w-2 h-2 rounded-full" [ngStyle]="{'background-color': getServiceColor(service.name)}"></div>
                                         </div>
+                                        <!-- <div class="flex items-center justify-center w-4 h-4 bg-[#FFB600] bg-opacity-30 rounded-full">
+                                            <div class="flex w-2 h-2 bg-[#FFB600] rounded-full"></div>
+                                        </div> -->
                                         <div class="flex">{{ service.name }}</div>
                                     </div>
                                     <div class="flex">{{ service.total | number }}</div>

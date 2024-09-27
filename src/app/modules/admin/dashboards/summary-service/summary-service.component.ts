@@ -164,7 +164,11 @@ export class SummaryServiceComponent implements OnInit {
     calPers(index: number): number {
         const total: number = this.typeScore.reduce((acc, val) => acc + val, 0);
 
-        const percentages: number = (this.typeScore[index] / total) * 100;
+        console.log(this.typeScore);
+        console.log(this.top_services2);
+
+        const percentages: number =
+            (this.top_services2[index].total / total) * 100;
         if (isNaN(percentages)) {
             return 0;
         } else {
@@ -189,7 +193,6 @@ export class SummaryServiceComponent implements OnInit {
                     this.data = resp;
 
                     this.top_services2 = this.data.top_services;
-
 
                     this.typeScore = [
                         this.top_services('เปลี่ยนยาง'),
@@ -243,5 +246,9 @@ export class SummaryServiceComponent implements OnInit {
             อื่นๆ: '#BBBACE',
         };
         return colors[serviceName] || '#000'; // Default color if not found
+    }
+
+    calName(index: number): string {
+        return this.top_services2[index].name;
     }
 }
