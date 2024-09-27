@@ -1,73 +1,64 @@
-<apx-chart
-  [series]="chartOptions.series"
-  [chart]="chartOptions.chart"
-  [grid]="chartOptions.grid"
-  [labels]="chartOptions.labels"
-  [plotOptions]="chartOptions.plotOptions"
-  [responsive]="chartOptions.responsive"
-  [colors]="chartOptions.colors"
-  [legend]="{show: false}"
-></apx-chart>
+<apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [grid]="chartOptions.grid" [labels]="chartOptions.labels" [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive" [colors]="chartOptions.colors" [legend]="{show: false}"></apx-chart>
 
 <ul class="list-none">
-  <li class="h-7">
-    <div class="flex flex-row items-center justify-between">
-      <div class="flex gap-3 items-center">
-        <div class="flex items-center justify-center w-4 h-4 bg-[#FF4849] bg-opacity-30 rounded-full">
-          <div class="flex w-2 h-2 bg-[#FF4849] rounded-full"></div>
+    <li class="h-7">
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex gap-3 items-center">
+                <div class="flex items-center justify-center w-4 h-4 bg-[#FF4849] bg-opacity-30 rounded-full">
+                    <div class="flex w-2 h-2 bg-[#FF4849] rounded-full"></div>
+                </div>
+                <div class="flex">{{labels[0]}}</div>
+            </div>
+            <div class="flex">{{series[0] | number}}</div>
         </div>
-        <div class="flex">Bank</div>
-      </div>
-      <div class="flex">{{series[0] | number}}</div>
-    </div>
-  </li>
+    </li>
 
-  <li class="h-7">
-    <div class="flex flex-row items-center justify-between">
-      <div class="flex gap-3 items-center">
-        <div class="flex items-center justify-center w-4 h-4 bg-[#2b4d66] bg-opacity-30 rounded-full">
-          <div class="flex w-2 h-2 bg-[#2B4D66] rounded-full"></div>
+    <li class="h-7">
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex gap-3 items-center">
+                <div class="flex items-center justify-center w-4 h-4 bg-[#2b4d66] bg-opacity-30 rounded-full">
+                    <div class="flex w-2 h-2 bg-[#2B4D66] rounded-full"></div>
+                </div>
+                <div class="flex">{{labels[1]}}</div>
+            </div>
+            <div class="flex">{{series[1] | number}}</div>
         </div>
-        <div class="flex">Government / Hospital</div>
-      </div>
-      <div class="flex">{{series[1] | number}}</div>
-    </div>
-  </li>
+    </li>
 
-  <li class="h-7">
-    <div class="flex flex-row items-center justify-between">
-      <div class="flex gap-3 items-center">
-        <div class="flex items-center justify-center w-4 h-4 bg-[#33C455] bg-opacity-30 rounded-full">
-          <div class="flex w-2 h-2 bg-[#33C455] rounded-full"></div>
+    <li class="h-7">
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex gap-3 items-center">
+                <div class="flex items-center justify-center w-4 h-4 bg-[#33C455] bg-opacity-30 rounded-full">
+                    <div class="flex w-2 h-2 bg-[#33C455] rounded-full"></div>
+                </div>
+                <div class="flex">{{labels[2]}}</div>
+            </div>
+            <div class="flex">{{series[2] | number}}</div>
         </div>
-        <div class="flex">Logistic</div>
-      </div>
-      <div class="flex">{{series[2] | number}}</div>
-    </div>
-  </li>
+    </li>
 
-  <li class="h-7">
-    <div class="flex flex-row items-center justify-between">
-      <div class="flex gap-3 items-center">
-        <div class="flex items-center justify-center w-4 h-4 bg-[#FFB600] bg-opacity-30 rounded-full">
-          <div class="flex w-2 h-2 bg-[#FFB600] rounded-full"></div>
+    <li class="h-7">
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex gap-3 items-center">
+                <div class="flex items-center justify-center w-4 h-4 bg-[#FFB600] bg-opacity-30 rounded-full">
+                    <div class="flex w-2 h-2 bg-[#FFB600] rounded-full"></div>
+                </div>
+                <div class="flex">{{labels[3]}}</div>
+            </div>
+            <div class="flex">{{series[3] | number}}</div>
         </div>
-        <div class="flex">General</div>
-      </div>
-      <div class="flex">{{series[3] | number}}</div>
-    </div>
-  </li>
+    </li>
 
-  <li class="h-7">
-    <div class="flex flex-row items-center justify-between">
-      <div class="flex gap-3 items-center">
-        <div class="flex items-center justify-center w-4 h-4 bg-[#6692FB] bg-opacity-30 rounded-full">
-          <div class="flex w-2 h-2 bg-[#6692FB] rounded-full"></div>
+    <li class="h-7">
+        <div class="flex flex-row items-center justify-between">
+            <div class="flex gap-3 items-center">
+                <div class="flex items-center justify-center w-4 h-4 bg-[#6692FB] bg-opacity-30 rounded-full">
+                    <div class="flex w-2 h-2 bg-[#6692FB] rounded-full"></div>
+                </div>
+                <div class="flex">{{labels[4]}}</div>
+            </div>
+            <div class="flex">{{series[4] | number}}</div>
         </div>
-        <div class="flex">Short term / Replacment</div>
-      </div>
-      <div class="flex">{{series[4] | number}}</div>
-    </div>
-  </li>
+    </li>
 
 </ul>

@@ -164,9 +164,6 @@ export class SummaryServiceComponent implements OnInit {
     calPers(index: number): number {
         const total: number = this.typeScore.reduce((acc, val) => acc + val, 0);
 
-        console.log(this.typeScore);
-        console.log(this.top_services2);
-
         const percentages: number =
             (this.top_services2[index].total / total) * 100;
         if (isNaN(percentages)) {

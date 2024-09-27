@@ -42,14 +42,15 @@ export class SemiCircleComponent implements OnInit {
             total: +department.total,
             label: department.name,
         }));
-
+        console.log(totals);
         // Sort totals in descending order
         totals.sort((a, b) => b.total - a.total);
-
+        console.log(totals);
         // Extract sorted series and labels
         this.series = totals.map((item) => item.total);
         this.labels = totals.map((item) => item.label);
-
+        console.log(this.series);
+        console.log(this.labels);
         this.chartOptions = {
             colors: ['#FF4849', '#2B4D66', '#33C455', '#FFB600', '#6692FB'],
             series: this.series,
