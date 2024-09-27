@@ -1,6 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexPlotOptions, ApexStroke, ApexTooltip, ApexXAxis, ApexYAxis, NgApexchartsModule } from 'ng-apexcharts';
+import {
+    ApexAxisChartSeries,
+    ApexChart,
+    ApexDataLabels,
+    ApexFill,
+    ApexLegend,
+    ApexPlotOptions,
+    ApexStroke,
+    ApexTooltip,
+    ApexXAxis,
+    ApexYAxis,
+    NgApexchartsModule,
+} from 'ng-apexcharts';
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -18,7 +30,7 @@ export type ChartOptions = {
     standalone: true,
     imports: [CommonModule, NgApexchartsModule],
     templateUrl: './center-chart.component.html',
-    styleUrls: ['./center-chart.component.scss']
+    styleUrls: ['./center-chart.component.scss'],
 })
 export class CenterChartComponent implements OnInit {
     @Input()
@@ -27,35 +39,44 @@ export class CenterChartComponent implements OnInit {
     public chartOptions: Partial<ChartOptions>;
 
     ngOnInit(): void {
+        const sortedServiceCenters = this.data.most_service_centers.sort(
+            (a, b) => b.total - a.total
+        );
+
+        console.log(sortedServiceCenters);
 
         this.chartOptions = {
             series: [
                 {
-                    name: "จำนวนครั้ง",
-                    data: this.data.most_service_centers.map(e => ({ x: e.name, y: +e.total, fillColor: '#FF4849' }))
-                }
+                    name: 'จำนวนครั้ง',
+                    data: sortedServiceCenters.map((e) => ({
+                        x: e.name,
+                        y: +e.total,
+                        fillColor: '#FF4849',
+                    })),
+                },
             ],
             chart: {
-                type: "bar",
+                type: 'bar',
             },
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: "40%",
-                    borderRadius: 6
+                    columnWidth: '40%',
+                    borderRadius: 6,
                     // endingShape: "rounded"
-                }
+                },
             },
             dataLabels: {
-                enabled: false
+                enabled: false,
             },
             stroke: {
                 show: true,
                 width: 2,
-                colors: ["transparent"]
+                colors: ['transparent'],
             },
             fill: {
-                opacity: 1
+                opacity: 1,
             },
             // tooltip: {
             //   y: {
@@ -68,6 +89,9 @@ export class CenterChartComponent implements OnInit {
     }
 
     mostCenter() {
-        return this.data?.most_service_centers.reduce((max, obj) => +obj.total > +max.total ? obj : max, this.data?.most_service_centers[0]);
+        return this.data?.most_service_centers.reduce(
+            (max, obj) => (+obj.total > +max.total ? obj : max),
+            this.data?.most_service_centers[0]
+        );
     }
 }
