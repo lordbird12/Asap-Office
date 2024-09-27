@@ -68,6 +68,8 @@ export class SummaryServiceComponent implements OnInit {
     endDate: any;
 
     typeScore = [];
+    top_services2 = [];
+
     form: FormGroup;
     lists = [
         { province: 'กรุงเทพมหานคร', quantity: 450, top: 'เปลี่ยนแบตเตอรี่' },
@@ -85,6 +87,8 @@ export class SummaryServiceComponent implements OnInit {
 
     ngOnInit(): void {
         this.data = this.activatedRoute.snapshot.data.data;
+
+        this.top_services2 = this.data.top_services;
 
         this.form = this.fb.group({
             startDate: [],
@@ -138,7 +142,7 @@ export class SummaryServiceComponent implements OnInit {
             next: (data) => {
                 this.startDate = data.startDate;
                 this.endDate = data.endDate;
-            
+
                 if (data.startDate && data.endDate) {
                     this.service
                         .getDataDate(this.dep_id, this.startDate, this.endDate)
@@ -184,6 +188,9 @@ export class SummaryServiceComponent implements OnInit {
                 next: (resp) => {
                     this.data = resp;
 
+                    this.top_services2 = this.data.top_services;
+
+
                     this.typeScore = [
                         this.top_services('เปลี่ยนยาง'),
                         this.top_services('เปลี่ยนแบตเตอรี่'),
@@ -222,5 +229,19 @@ export class SummaryServiceComponent implements OnInit {
                     };
                 },
             });
+    }
+
+    getServiceColor(serviceName: string): string {
+        const colors = {
+            เปลี่ยนยาง: '#FF4849',
+            เปลี่ยนแบตเตอรี่: '#2B4D66',
+            เช็คระยะ: '#33C455',
+            เช็คระบบแอร์: '#FFB600',
+            เช็คระบบเบรค: '#6692FB',
+            เช็คระบบไฟ: '#00B8D9',
+            เช็คช่วงล่าง: '#B76E00',
+            อื่นๆ: '#BBBACE',
+        };
+        return colors[serviceName] || '#000'; // Default color if not found
     }
 }
