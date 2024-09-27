@@ -99,6 +99,21 @@ export class ListComponent implements OnInit, AfterViewInit {
         this._changeDetectorRef.detectChanges();
     }
 
+    imageExists(imageUrl: string): boolean {
+        const http = new XMLHttpRequest();
+        http.open('HEAD', imageUrl, false);
+        http.send();
+
+        return http.status !== 404;
+    }
+
+    checkImage(imageSrc, good, bad) {
+        var img = new Image();
+        img.onload = good;
+        img.onerror = bad;
+        img.src = imageSrc;
+    }
+
     // เพิ่มเมธอด editElement(element) และ deleteElement(element)
     edit(Id: any) {
         this._router.navigate(['admin/car/edit/' + Id]);
@@ -149,7 +164,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-          
             if (result) {
                 this.companyList = result.map((item) => item.id);
                 this.rerender();
@@ -186,6 +200,13 @@ export class ListComponent implements OnInit, AfterViewInit {
                     .getPage(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
+                        this.dataRow;
+                        this.dataRow.forEach((element) => {
+                            if (!this.imageExists(element) == false) {
+                                element.image =
+                                    'https://asha-tech.co.th/asap/public/images/default.jpg'; // Set your default image path here
+                            }
+                        });
                         this.pages.current_page = resp.current_page;
                         this.pages.last_page = resp.last_page;
                         this.pages.per_page = resp.per_page;
