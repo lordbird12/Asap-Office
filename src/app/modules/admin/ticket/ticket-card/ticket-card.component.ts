@@ -104,6 +104,7 @@ export class TicketCardComponent implements OnInit {
         this.form = this._fb.group({
             client_id: '',
             car_id: '',
+            mile: '',
             phone1: '',
             name1: '',
             phone: '',
@@ -168,7 +169,6 @@ export class TicketCardComponent implements OnInit {
 
     private _filter(name: string): any[] {
         const filterValue = name;
-        console.log(this.productData);
 
         return this.productData.filter((option) =>
             option.license_plate.toLowerCase().includes(filterValue)

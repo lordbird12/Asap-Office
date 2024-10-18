@@ -74,6 +74,12 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
+
+                <mat-form-field class="flex-auto w-full">
+                    <mat-label class="font-bold">เลขไมล์</mat-label>
+                    <input matInput [placeholder]="'กรอกเลขไมล์'" formControlName="mile">
+                    <!-- <mat-hint>This is a hint text</mat-hint> -->
+                </mat-form-field>
             </div>
 
             <div class="flex flex-col" *ngIf="this.data.status === 'New'">
@@ -221,7 +227,7 @@
                     </div>
                     <div class="flex p-4 mt-2">
                         <div>
-                            <span class="text-lg font-bold">{{this.data.value.name ?? ''}}</span>
+                            <span class="text-lg font-bold">{{this.data.value.client?.company ?? ''}}</span>
                             <br>
                             <span class="text-md font-light text-slate-400">{{this.form.value?.name ?? ''}}</span>
                         </div>
