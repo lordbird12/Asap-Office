@@ -137,9 +137,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
                 const selected = true;
-                if(this.user.position_id == "3"){
+                if (this.user.position_id == "3") {
                     selected == true;
-                }else{
+                } else {
                     selected == resp.data[index].code === this.user.code;
                 }
                 const element = {
@@ -162,7 +162,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
         if (this.user) {
             const data = {
-                role:'GM',
+                role: 'GM',
                 users: [
                     {
                         code: this.user.code,
@@ -188,6 +188,15 @@ export class ListComponent implements OnInit, AfterViewInit {
                             this.task[2].task.push(item);
                         } else if (item.status === 'Cancel') {
                             this.task[0].task.push(item);
+                        } else if (item.status === 'Finish') {
+                            const currentDate = new Date();
+                            const sevenDaysFromNow = new Date(currentDate);
+                            sevenDaysFromNow.setDate(currentDate.getDate() - 7);
+                        
+                            const endDate = new Date(item.end_at); // Ensure item.end_at is a Date object
+                            if (endDate > sevenDaysFromNow) {
+                                this.task[3].task.push(item);
+                            }
                         }
                     }
                     this._changeDetectorRef.detectChanges();
@@ -505,7 +514,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
     }
     employeeDialog() {
-       
+
         const dialogRef = this.dialog.open(EmployeeDialogComponent, {
             minWidth: '30%',
             data: {
@@ -1045,7 +1054,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         return this.isChecked1.includes(true);
     }
 
-    exportFile() {}
+    exportFile() { }
 
     // applySearch() {
     //     alert(this.department);
