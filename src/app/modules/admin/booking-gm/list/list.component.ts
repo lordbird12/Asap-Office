@@ -157,6 +157,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
         if (this.user) {
             const data = {
+                role:'GM',
                 users: [
                     {
                         code: this.user.code,
