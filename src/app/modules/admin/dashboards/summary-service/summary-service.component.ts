@@ -149,11 +149,48 @@ export class SummaryServiceComponent implements OnInit {
                         .subscribe({
                             next: (resp) => {
                                 this.data = resp;
+                                this.updateChartOptions();
                             },
                         });
                 }
             },
         });
+    }
+
+    updateChartOptions() {
+        this.top_services2 = this.data.top_services;
+
+        this.data.most_booking.map((e) => ({
+            x: e.company,
+            y: +e.total,
+            fillColor: '#FF4849',
+        }));
+        
+        this.chartOptions = {
+            series: [
+                {
+                    name: 'จำนวนการใช้บริการ',
+                    data: this.data.most_booking.map((e) => ({
+                        x: e.company,
+                        y: +e.total,
+                        fillColor: '#FF4849',
+                    })),
+                },
+            ],
+            chart: {
+                type: 'bar',
+                height: 350,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    borderRadius: 8,
+                },
+            },
+            dataLabels: {
+                enabled: true,
+            },
+        };
     }
 
     calPerStyly(score: number) {

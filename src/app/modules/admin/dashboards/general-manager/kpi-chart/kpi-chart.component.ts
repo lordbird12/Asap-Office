@@ -30,7 +30,6 @@ export class KpiChartComponent implements OnInit {
     data2 = [];
 
     ngOnInit(): void {
-        console.log(this.data.graph_weeks);
 
         this.data1 = [
             this.data.graph_weeks.mon.new,
