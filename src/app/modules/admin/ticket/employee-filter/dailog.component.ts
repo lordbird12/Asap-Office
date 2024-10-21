@@ -45,23 +45,6 @@ export class EmployeeDialogComponent implements OnInit {
         private _fuseConfirmationService: FuseConfirmationService,
     ) {
 
-        console.log('dta', this.data.value);
-        
-        // this._service.getEmployeeBydepartment().subscribe((resp: any) => {
-        //     for (let index = 0; index < resp.data.length; index++) {
-        //         const element = {
-        //             id: resp.data[index].id,
-        //             fname: resp.data[index].fname,
-        //             lname: resp.data[index].lname,
-        //             image: resp.data[index].image,
-        //             code: resp.data[index].code,
-        //             isSelected: false,
-        //         }
-        //         this.items.push(element)
-        //     }
-        //     console.log('item', this.items)
-        // })
-
     }
 
     ngOnInit(): void {

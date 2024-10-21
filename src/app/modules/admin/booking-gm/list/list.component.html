@@ -48,7 +48,7 @@
             </div>
             <div class="flex md:w-1/2 mb-6 md:mb-0 justify-end items-center">
                 <div>
-                    <div class="flex items-center" (click)="employeeDialog('test')">
+                    <div class="flex items-center" (click)="employeeDialog()">
                         <div class="flex flex-row items-center -space-x-2 relative">
                             <div *ngFor="let emp of empFilter(employeeDep).slice(0,3);let i = index">
                                 <img class="flex-0 w-15 h-15 rounded-full object-cover border-4 border-white relative z-[4]" src="{{emp.image}}" (error)="onImageError($event)">

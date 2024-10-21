@@ -136,19 +136,24 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
+                const selected = true;
+                if(this.user.position_id == "3"){
+                    selected == true;
+                }else{
+                    selected == resp.data[index].code === this.user.code;
+                }
                 const element = {
                     id: resp.data[index].id,
                     fname: resp.data[index].fname,
                     lname: resp.data[index].lname,
                     image: resp.data[index].image,
                     code: resp.data[index].code,
-                    isSelected: resp.data[index].code === this.user.code,
+                    isSelected: selected,
                 };
                 this.employeeDep.push(element);
             }
         });
         this.user = JSON.parse(localStorage.getItem('user'));
-        //    console.log(this.user)
     }
 
     ngOnInit() {
@@ -499,8 +504,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         });
     }
-    employeeDialog(value) {
-        console.log(this.employeeDep);
+    employeeDialog() {
+       
         const dialogRef = this.dialog.open(EmployeeDialogComponent, {
             minWidth: '30%',
             data: {
@@ -510,7 +515,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         });
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                // this.employeeDep = result
                 const data = {
                     users: result,
                 };
