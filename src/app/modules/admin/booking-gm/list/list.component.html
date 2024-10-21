@@ -9,26 +9,26 @@
                 </h2>
                 <form [formGroup]="formGroup">
                     <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate">
-                        <!-- <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
-                            <mat-select formControlName="department_id">
-                                <mat-option value="">ทุกแผนก</mat-option>
+                        <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
+                            <mat-select formControlName="department_id" (selectionChange)="applySearch($event)">
+                                <mat-option value="All">ทุกแผนก</mat-option>
                                 <mat-option *ngFor="let item of departmests;" value="{{item.id}}">
                                     {{item.name}}
                                 </mat-option>
                             </mat-select>
-                        </mat-form-field> -->
+                        </mat-form-field>
 
-                        <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
+                        <!-- <mat-form-field [ngClass]="formFieldHelpers" class="flex w-full md:w-60" style="margin-bottom: -1.25em">
                             <mat-select [(ngModel)]="department" (selectionChange)="applySearch($event)">
 
-                                <mat-option value=""> ทุกแผนก</mat-option>
+                                <mat-option value="All"> ทุกแผนก</mat-option>
                                 <mat-option value="1"> Bank</mat-option>
                                 <mat-option value="2"> Government / Hospital</mat-option>
                                 <mat-option value="3"> Logistic</mat-option>
                                 <mat-option value="4"> General</mat-option>
                                 <mat-option value="5"> Short Term/Replacement</mat-option>
                             </mat-select>
-                        </mat-form-field>
+                        </mat-form-field> -->
                     </h2>
                 </form>
             </div>

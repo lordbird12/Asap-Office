@@ -132,7 +132,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         private fb: FormBuilder
     ) {
         this.formGroup = this.fb.group({
-            department_id: '',
+            department_id: 'All',
         });
         this._service.getEmployeeBydepartment().subscribe((resp: any) => {
             for (let index = 0; index < resp.data.length; index++) {
