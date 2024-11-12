@@ -1131,6 +1131,27 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
             this._changeDetectorRef.detectChanges();
         });
+
+        this._service.getEmployeeBydepartmentId(depid).subscribe((resp: any) => {
+            this.employeeDep = [];
+            for (let index = 0; index < resp.data.length; index++) {
+                const selected = true;
+                if (this.user.position_id == "3") {
+                    selected == true;
+                } else {
+                    selected == resp.data[index].code === this.user.code;
+                }
+                const element = {
+                    id: resp.data[index].id,
+                    fname: resp.data[index].fname,
+                    lname: resp.data[index].lname,
+                    image: resp.data[index].image,
+                    code: resp.data[index].code,
+                    isSelected: selected,
+                };
+                this.employeeDep.push(element);
+            }
+        });
     }
 
     rerender(): void {

@@ -164,6 +164,16 @@ export class PageService {
             );
     }
 
+    getEmployeeBydepartmentId(id:any): Observable<any> {
+        return this._httpClient
+            .get<any>(environment.baseURL + '/api/get_user_by_department/'+id)
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
+
     updateStatus(id: any, status: any, reason: any, services: any): Observable<any> {
         return this._httpClient
             .post<any>(environment.baseURL + '/api/update_booking_status', {booking_id: id , status: status, reason: reason, services: services})
