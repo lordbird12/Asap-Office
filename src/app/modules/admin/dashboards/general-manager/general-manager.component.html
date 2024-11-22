@@ -150,9 +150,9 @@
                     <thead>
                         <tr>
                             <th class="text-start w-1/12">พนักงาน</th>
-                            <th class="text-start w-2/12"></th>
                             <th class="text-start w-1/12">Team</th>
-                            <th class="text-start w-1/12">จำนวนเคส</th>
+                            <th class="text-start w-1/12">เคสทั้งหมด</th>
+                            <th class="text-start w-1/12">เคสประเมิน</th>
                             <th class="text-start w-1/12">ระยะเวลาเฉลี่ย ในการรับเคส</th>
                             <th class="text-start w-1/12">ระยะเวลาเฉลี่ย ในการปิดงาน</th>
                             <th class="text-start w-2/12">
@@ -176,6 +176,7 @@
                             </td>
                             <td class="py-4">{{person.team}}</td>
                             <td class="py-4">{{person.case | number}}</td>
+                            <td class="py-4">{{person.total_eves | number}}</td>
                             <td class="py-4">{{person.period_open}}</td>
                             <td class="py-4">{{person.period_finish}}</td>
                             <td class="py-4">
