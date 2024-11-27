@@ -222,7 +222,7 @@ export class TicketCardComponent implements OnInit {
                 (item) => item.service
             );
             this.yourArray1 = this.serviceData1;
-            // console.log('Array2', this.Array2)
+            console.log('Array2', this.Array2)
             this.statusData.setValue(this.data.value.status);
             this.form.patchValue({
                 ...this.data.value,
