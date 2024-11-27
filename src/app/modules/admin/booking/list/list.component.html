@@ -54,7 +54,7 @@
                     <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5 hover:scale-100" *ngIf="card.status === 'New' || card.status === 'Cancel'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
+                                <img class="h-15 w-auto" src="{{card.car?.image}}" (error)="onImageError($event)" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
@@ -105,7 +105,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-row" (click)="editTicket(card)">
                                 <div class="flex p-4">
-                                    <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
+                                    <img class="h-15 w-auto" src="{{card.car?.image}}" (error)="onImageError($event)" alt="image description">
                                 </div>
                                 <div class="flex p-4 mt-2">
                                     <div>
@@ -208,7 +208,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="flex flex-row" (click)="editTicket(card)">
                                 <div class="flex p-4">
-                                    <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
+                                    <img class="h-15 w-auto" src="{{card.car?.image}}" (error)="onImageError($event)" alt="image description">
                                 </div>
                                 <div class="flex p-4 mt-2">
                                     <div>
@@ -278,7 +278,7 @@
                     <div class="flex flex-col mx-5 bg-white shadow-xl rounded-xl mb-5" *ngIf="card.status === 'Finish'">
                         <div class="flex flex-row">
                             <div class="flex p-4">
-                                <img class="h-15 w-auto" src="{{card.car?.image}}" alt="image description">
+                                <img class="h-15 w-auto" src="{{card.car?.image}}" (error)="onImageError($event)" alt="image description">
                             </div>
                             <div class="flex p-4 mt-2">
                                 <div>
